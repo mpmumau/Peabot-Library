@@ -49,6 +49,8 @@ void *prompt_tick(void *arg)
 
         prompt_handle_cmd(stdin_buffer);
     }
+
+    return (void *) NULL;
 }
 
 void prompt_halt()

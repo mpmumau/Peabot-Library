@@ -92,7 +92,7 @@ void *robot_tick(void *arg)
             ((float) current_time.tv_nsec - (float) last_time.tv_nsec) / 1000000000.0f;
         last_time = current_time;
         tick = tick - diff;
-        
+
         if (tick > 0.0f)
             continue;
 
@@ -103,6 +103,8 @@ void *robot_tick(void *arg)
            robot_mvjoint(i, servo[i]); 
         }
     }
+
+    return (void *) NULL;
 }
 
 int robot_mapsrv(float val, int min, int max)
