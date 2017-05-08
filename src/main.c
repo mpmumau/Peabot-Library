@@ -30,7 +30,8 @@
 #include "robot.h"
 
 /* Application config */
-bool is_running = true;
+bool running = true;
+int exit_val = 0;
 
 /* Forward decs */
 void signal_handler(int signum);
@@ -64,7 +65,8 @@ void app_exit(char *message, int retval)
 
     log_close();
 
-    exit(retval);    
+    exit_val = retval;
+    running = false;  
 }
 
 /* Application main */
@@ -87,10 +89,10 @@ int main(int argc, char *argv[])
 
     robot_init();
 
-    while (is_running)
+    while (running)
     {
     }
 
-    return 1;
+    return exit_val;
 }
 #endif
