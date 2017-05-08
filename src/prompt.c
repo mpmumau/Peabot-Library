@@ -114,7 +114,11 @@ void prompt_handle_cmd(char *stdin_str)
 
     if (str_equals(args[0], "test_event"))
     {
-        event_add(EVENT_DANCE);
+        event_add(0);
+        event_add(1);
+        event_add(2);
+        event_add(3);
+        event_add(4);
     }
 }
 
