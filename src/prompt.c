@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <pthread.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /* Application includes */
 #include "config.h"
@@ -31,6 +32,7 @@ void prompt_handle_cmd(char *stdin);
 
 pthread_t prompt_thread;
 char stdin_buffer[64];
+bool running;
 
 void prompt_init()
 {
@@ -39,7 +41,7 @@ void prompt_init()
 
 void *prompt_tick(void *arg)
 {
-    while (1)
+    while (running)
     {
         prompt_do();
     }
@@ -47,6 +49,7 @@ void *prompt_tick(void *arg)
 
 void prompt_halt()
 {
+    running = false;
     pthread_cancel(prompt_thread);
 }
 
