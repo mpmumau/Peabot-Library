@@ -1,0 +1,11 @@
+#!/bin/bash
+
+if [ "$EUID" -ne 0 ]; then 
+    echo "Peabot rebuild must be run as root."
+    exit
+fi
+
+make full_uninstall
+make clean
+make
+make install

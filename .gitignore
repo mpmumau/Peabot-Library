@@ -1,0 +1,7 @@
+bin/*
+!bin/.empty
+obj/*
+!obj/.empty
+etc/*
+!etc/.empty
+!etc/peabot.conf.org

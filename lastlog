@@ -1,0 +1,10 @@
+#!/bin/bash
+
+CURRENT_DIR=$(pwd);
+
+cd /var/log/peabot
+LATEST_LOG=$(ls -t1 |  head -n 1)
+
+cat $LATEST_LOG
+
+cd $CURRENT_DIR
