@@ -84,8 +84,6 @@ int main(int argc, char *argv[])
     log_h("Peabot Server Logs");
     log_event("Server started.");
 
-    printf(log_filename);
-
     signal(SIGINT, signal_handler);
 
     console_h("Peabot Server Console"); 
