@@ -25,7 +25,7 @@ void event_tick()
     struct event *evt_data;
     while (event)
     {
-        evt_data = (struct event *) list_pop(event);
+        evt_data = (struct event *) list_pop(&event);
         printf("Event type is: %d\n", evt_data->type);
     }
 }
