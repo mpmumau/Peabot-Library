@@ -93,6 +93,7 @@ int main(int argc, char *argv[])
     {
     }
 
+    console_event("Bye!");
     return exit_val;
 }
 #endif
