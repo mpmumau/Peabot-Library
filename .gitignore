@@ -4,4 +4,4 @@ obj/*
 !obj/.empty
 etc/*
 !etc/.empty
-!etc/peabot.conf.org
+!etc/peabot.conf.orig
