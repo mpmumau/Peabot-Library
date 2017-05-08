@@ -36,7 +36,7 @@ void event_add(int event_type)
     struct event *evt = malloc(sizeof(evt));
     evt->type = event_type;
 
-    list_push(events, (void *) evt);
+    list_push(&events, (void *) evt);
 }
 
 #endif
