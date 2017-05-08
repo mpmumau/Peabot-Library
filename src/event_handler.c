@@ -25,7 +25,7 @@ void event_tick()
     while (event)
     {
         evt_data = (struct event *) event->data;
-        printf("Event type is: %d\n", evt_data->type)
+        printf("Event type is: %d\n", evt_data->type);
         event = event->next;
     }
 }
