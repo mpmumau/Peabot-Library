@@ -25,10 +25,9 @@
 #include "main.h"
 
 /* Forward decs */
-int prompt_count_args(char *arg_str);
-void prompt_do();
 void *prompt_tick(void *arg);
 void prompt_handle_cmd(char *stdin);
+int prompt_count_args(char *arg_str);
 
 pthread_t prompt_thread;
 char stdin_buffer[64];
@@ -43,7 +42,12 @@ void *prompt_tick(void *arg)
 {
     while (running)
     {
-        prompt_do();
+        printf("peabot > ");
+
+        fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
+        str_removenl(stdin_buffer);
+
+        prompt_handle_cmd(stdin_buffer);
     }
 }
 
@@ -51,16 +55,6 @@ void prompt_halt()
 {
     running = false;
     pthread_cancel(prompt_thread);
-}
-
-void prompt_do()
-{
-    printf("peabot > ");
-
-    fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
-    str_removenl(stdin_buffer);
-
-    prompt_handle_cmd(stdin_buffer);
 }
 
 void prompt_handle_cmd(char *stdin_str)

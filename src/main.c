@@ -50,12 +50,12 @@ void signal_handler(int signum)
 
 void app_exit(char *message, int retval)
 {
-    robot_halt();
-    prompt_halt();
-
     printf("\n");
     console_br();
     console_print(message);
+
+    robot_halt();
+    prompt_halt();
 
     log_event(message);
     log_close();
