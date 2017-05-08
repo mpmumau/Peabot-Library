@@ -28,6 +28,7 @@
 #include "utils.h"
 #include "string_utils.h"
 #include "robot.h"
+#include "event_handler.h"
 
 /* Application config */
 bool app_running = true;
@@ -95,6 +96,7 @@ int main(int argc, char *argv[])
 
     while (app_running)
     {
+        event_tick();
     }
 
     return exit_val;

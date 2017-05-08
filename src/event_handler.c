@@ -8,6 +8,31 @@
  Author:        Matt Mumau
  */
 
+/* Application includes */
+#include "list.h"
+
 #include "event_handler.h"
+
+List *events;
+
+void event_tick()
+{
+    List *event = events;
+    struct event evt_data;
+    while (event)
+    {
+        evt_data = (struct evt) event->data;
+        printf("Event type is: %d\n", evt_data->type)
+        event = event->next;
+    }
+}
+
+void event_add(int event_type)
+{
+    struct event *evt = malloc(sizeof(evt));
+    evt->event_type = event_type;
+
+    list_push(events, (void *) evt);
+}
 
 #endif

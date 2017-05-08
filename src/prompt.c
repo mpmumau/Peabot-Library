@@ -23,6 +23,7 @@
 #include "string_utils.h"
 #include "log.h"
 #include "main.h"
+#include "event_handler.h"
 
 /* Forward decs */
 void *prompt_tick(void *arg);
@@ -109,6 +110,11 @@ void prompt_handle_cmd(char *stdin_str)
     if (str_equals(args[0], "quit"))
     {
         app_exit("User requested application shutdown.", 0);
+    }
+
+    if (str_equals(args[0], "test_event"))
+    {
+        event_add(EVENT_DANCE);
     }
 }
 
