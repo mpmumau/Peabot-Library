@@ -57,9 +57,6 @@ install:
 	    cp etc/peabot.conf.orig etc/peabot.conf; \
 	fi; \
 	
-	chown -R peabot:peabot .;
-	chmod -R 770 .;
-	
 .PHONY: full_uninstall
 full_uninstall:
 	if [ -e etc/peabot.conf ]; \
