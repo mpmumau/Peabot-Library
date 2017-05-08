@@ -23,22 +23,22 @@ CFLAGS=-Wall -I$(INC_DIR) -std=c11
 LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread
 
 # Project DEPS
-_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h
+_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h easing_handler.h event_handler.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o 
+_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o easing_handler.o event_handler.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS) $(LIBS)
 
-peabot_server: $(OBJ)
+peabot: $(OBJ)
 	$(CC) -o $(BIN_DIR)/$@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/peabot_server
+	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/peabot
 
 .PHONY: install
 install:
@@ -49,8 +49,8 @@ install:
 	chown -R peabot:peabot /var/log/peabot; \
 	chmod -R 770 /var/log/peabot; \
 
-	mv bin/peabot_server /bin/peabot_server; \
-	chown root:root /bin/peabot_server; \
+	mv bin/peabot /bin/peabot; \
+	chown root:root /bin/peabot; \
 	
 	if [ ! -e etc/peabot.conf ]; \
 	then \
