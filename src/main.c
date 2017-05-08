@@ -45,6 +45,9 @@ void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
+        log_event("POSIX SIGNIT received. Exiting...");
+        log_close();
+
         exit(0);
     }
 }
