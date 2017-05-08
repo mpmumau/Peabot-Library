@@ -54,7 +54,7 @@ void *prompt_tick(void *arg)
 void prompt_halt()
 {
     running = false;
-    pthread_cancel(prompt_thread);
+    pthread_join(prompt_thread, NULL);
 }
 
 void prompt_handle_cmd(char *stdin_str)

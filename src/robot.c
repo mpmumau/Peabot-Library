@@ -28,6 +28,7 @@
 
 /* Internal thread */
 pthread_t robot_thread;
+bool running = true;
 struct timespec current_time;
 struct timespec last_time;
 
@@ -69,7 +70,8 @@ void robot_set_servo_limit(int pin, int min, int max)
 void robot_halt()
 {   
     robot_reset();
-    pthread_cancel(robot_thread);
+    running = false;
+    pthread_join(robot_thread, NULL);
     pca9685PWMReset(pca_9685_fd);
 }
 
@@ -82,15 +84,15 @@ void *robot_tick(void *arg)
 {
     float tick = ROBOT_TICK;
     clock_gettime(CLOCK_MONOTONIC, &last_time);
-    while (true)
+
+    while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &current_time);
         float diff = ((float) current_time.tv_sec - (float) last_time.tv_sec) +
             ((float) current_time.tv_nsec - (float) last_time.tv_nsec) / 1000000000.0f;
-
         last_time = current_time;
-
         tick = tick - diff;
+        
         if (tick > 0.0f)
             continue;
 
