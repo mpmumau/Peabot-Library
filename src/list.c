@@ -1,4 +1,4 @@
-0p#ifndef LIST_DEF
+#ifndef LIST_DEF
 #define LIST_DEF 1
 
 /*
