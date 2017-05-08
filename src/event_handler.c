@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+
 /* Application includes */
 #include "list.h"
 
@@ -18,10 +21,10 @@ List *events;
 void event_tick()
 {
     List *event = events;
-    struct event evt_data;
+    struct event *evt_data;
     while (event)
     {
-        evt_data = (struct evt) event->data;
+        evt_data = (struct event *) event->data;
         printf("Event type is: %d\n", evt_data->type)
         event = event->next;
     }
