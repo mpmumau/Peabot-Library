@@ -31,7 +31,7 @@ int prompt_count_args(char *arg_str);
 
 pthread_t prompt_thread;
 char stdin_buffer[64];
-bool running = true;
+bool prompt_running = true;
 
 void prompt_init()
 {
@@ -40,7 +40,7 @@ void prompt_init()
 
 void *prompt_tick(void *arg)
 {
-    while (running)
+    while (prompt_running)
     {
         printf("peabot > ");
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
@@ -53,7 +53,7 @@ void *prompt_tick(void *arg)
 
 void prompt_halt()
 {
-    running = false;
+    prompt_running = false;
     pthread_join(prompt_thread, NULL);
 }
 
