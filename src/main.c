@@ -45,7 +45,9 @@ void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
-        app_exit("POSIX int signal received. Shutting down.", 0);
+        robot_halt();
+        prompt_halt();
+        exit(0);
     }
 }
 
