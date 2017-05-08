@@ -109,7 +109,7 @@ void prompt_handle_cmd(char *stdin_str)
 
     if (str_equals(args[0], "quit"))
     {
-        app_exit();
+        app_exit("User requested application shutdown.", 0);
     }
 }
 
