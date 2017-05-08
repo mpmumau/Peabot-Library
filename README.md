@@ -173,5 +173,9 @@ fully extended or fully retracted.
 
 Reset all servos to their middle position.
 
+### quit
+
+Quit the application and shut down the robot.
+
 
 

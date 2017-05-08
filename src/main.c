@@ -29,8 +29,6 @@
 #include "string_utils.h"
 #include "robot.h"
 
-#define LOG_FILENAME_MAXLEN 64
-
 /* Application config */
 bool is_running = true;
 

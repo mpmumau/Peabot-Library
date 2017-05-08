@@ -21,6 +21,7 @@
 #include "console.h"
 #include "string_utils.h"
 #include "log.h"
+#include "main.h"
 
 /* Forward decs */
 int prompt_count_args(char *arg_str);
@@ -104,6 +105,11 @@ void prompt_handle_cmd(char *stdin_str)
     if (str_equals(args[0], "reset"))
     {
         robot_reset();
+    }
+
+    if (str_equals(args[0], "quit"))
+    {
+        app_exit();
     }
 }
 
