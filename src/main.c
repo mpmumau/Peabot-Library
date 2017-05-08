@@ -63,6 +63,7 @@ void app_exit(char *message, int retval)
     prompt_halt();
     log_event("Prompt shutdown.");
 
+    log_event("Bye!");
     log_close();
 
     exit_val = retval;
@@ -93,7 +94,6 @@ int main(int argc, char *argv[])
     {
     }
 
-    console_event("Bye!");
     return exit_val;
 }
 #endif
