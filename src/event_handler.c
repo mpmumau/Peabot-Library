@@ -8,6 +8,6 @@
  Author:        Matt Mumau
  */
 
-#include "event_hander.h"
+#include "event_handler.h"
 
 #endif
