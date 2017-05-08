@@ -44,7 +44,7 @@ void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
-        app_exit("POSIX int signal received. Shutting down.", 1);
+        app_exit("POSIX int signal received. Shutting down.", 0);
     }
 }
 

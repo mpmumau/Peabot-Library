@@ -52,7 +52,7 @@ void robot_init()
     pca_9685_fd = pca9685Setup(PCA_9685_PIN_BASE, 0x40, PCA_9685_HERTZ);
     if (pca_9685_fd < 0)
     {
-        app_exit("[ERROR!] Could not create PCA-9685 file descriptor.", 0);
+        app_exit("[ERROR!] Could not create PCA-9685 file descriptor.", 1);
     }
 
     pca9685PWMReset(pca_9685_fd);
