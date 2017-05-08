@@ -54,10 +54,14 @@ void app_exit(char *message, int retval)
     console_br();
     console_print(message);
 
-    robot_halt();
-    prompt_halt();
-
     log_event(message);
+
+    robot_halt();
+    log_event("Robot shutdown.");
+
+    prompt_halt();
+    log_event("Prompt shutdown.");
+
     log_close();
 
     exit(retval);    
