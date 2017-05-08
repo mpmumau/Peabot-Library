@@ -108,7 +108,7 @@ void list_remove(List **head, unsigned int index)
         head = &(*head)->next;
     }
 
-    precursor->next = (*head)->next;
+    (*precursor)->next = (*head)->next;
 
     free(*head);
 }
