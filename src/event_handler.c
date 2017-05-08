@@ -34,7 +34,7 @@ void event_tick()
 void event_add(int event_type)
 {
     struct event *evt = malloc(sizeof(evt));
-    evt->event_type = event_type;
+    evt->type = event_type;
 
     list_push(events, (void *) evt);
 }
