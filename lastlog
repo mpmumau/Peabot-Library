@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# File: lastlog
+# Description: Quickly output the latest Peabot log file to the console.
+# Created: May 6, 2017
+# Author: Matt Mumau
+
 CURRENT_DIR=$(pwd);
 
 cd /var/log/peabot

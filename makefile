@@ -56,10 +56,10 @@ install:
 	then \
 	    cp etc/peabot.conf.orig etc/peabot.conf; \
 	fi; \
-	chmod 750 etc/peabot.conf; \
-
+	
 	chown -R peabot:peabot .;
-
+	chmod -R 770 .;
+	
 .PHONY: full_uninstall
 full_uninstall:
 	if [ -e etc/peabot.conf ]; \

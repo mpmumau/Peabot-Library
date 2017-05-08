@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# File: rebuild
+# Description: Shell script for completely rebuilding and reinstalling Peabot.
+# Created: May 6, 2017
+# Author: Matt Mumau
+
 if [ "$EUID" -ne 0 ]; then 
     echo "Peabot rebuild must be run as root."
     exit

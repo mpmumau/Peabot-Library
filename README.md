@@ -151,5 +151,27 @@ This software requires that two packages are installed:
 
 Instructions for installing those packages (namely in Raspbian) are available via their respective links.
 
+## Installation
+
+To install Peabot, clone this repository to your Raspberry Pi to any directory 
+(i.e. /opt/peabot). Then run `make` then `make install` from the command line.
+
+## Command Prompt
+
+If you run Peabot manually from the command line (by typing `peabot_server`) you
+will see a command prompt, from which you may send commands directly to the 
+robot. 
+
+The following commands are available:
+
+### srv [pin] [val]
+
+Set the servo at pin to val, which is a number between -1.0 and 1.0, indicating
+fully extended or fully retracted.
+
+### reset
+
+Reset all servos to their middle position.
+
 
 
