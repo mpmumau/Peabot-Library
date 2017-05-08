@@ -47,11 +47,13 @@ void *list_pop(List **head)
         return data;
     }
 
+    List *next = NULL;
+    next = (*head)->next;
+
     data = (*head)->data;
 
-    List **item = head;
-    *head = (*head)->next;
-    free(*item);
+    free(*head);
+    *head = next;
 
     return data;
 }

@@ -21,11 +21,10 @@ List *events;
 
 void event_tick()
 {
-    List *event = events;
     struct event *evt_data;
-    while (event)
+    while (events)
     {
-        evt_data = (struct event *) list_pop(&event);
+        evt_data = (struct event *) list_pop(&events);
         printf("Event type is: %d\n", evt_data->type);
     }
 }
