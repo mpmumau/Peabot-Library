@@ -45,8 +45,6 @@ void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
-        robot_halt();
-        prompt_halt();
         exit(0);
     }
 }
