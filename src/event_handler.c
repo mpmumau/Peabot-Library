@@ -18,28 +18,27 @@
 
 /* Application includes */
 #include "list.h"
+#include "utils.h"
 
 #include "event_handler.h"
 
-List *events;
+static List *events;
 
 /* Forward decs */
 bool event_checkdone(List *event, float secs);
 
 void event_tick()
 {
-    if (events == NULL)
-        return;
-
     static struct timespec evt_time;
     static struct timespec evt_ltime;
     static float evt_tick = 0.0f;
 
+    if (events == NULL)
+        return;
+
     clock_gettime(CLOCK_MONOTONIC, &evt_time);
 
-    float diff = ((float) evt_time.tv_sec - (float) evt_ltime.tv_sec) +
-        ((float) evt_time.tv_nsec - (float) evt_ltime.tv_nsec) / 1000000000.0f;
-    evt_ltime = evt_time;
+    float diff = utils_timediff(evt_time, evt_ltime);
     
     evt_tick += diff;
 

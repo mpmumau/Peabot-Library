@@ -24,9 +24,11 @@ void utils_mktime(time_t time, char *string)
     strftime(string, UTILS_DATETIME_MAXLEN, "%b %d, %Y %H:%M:%S", ltime);
 }
 
-float utils_nano_to_milli(long nsecs)
+float utils_timediff(struct timespec end_time, struct timespec start_time)
 {
-    return (float) ((float) nsecs / 100000.0f);
+    float diff = ((float) end_time.tv_sec - (float) start_time.tv_sec) +
+        ((float) end_time.tv_nsec - (float) start_time.tv_nsec) / 1000000000.0f;
+    return diff;
 }
 
 #endif

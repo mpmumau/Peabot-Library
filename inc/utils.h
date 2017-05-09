@@ -17,6 +17,7 @@
  */
 void utils_mktime(time_t time, char *string);
 
-float utils_nano_to_milli(long nsecs);
+/* Get the difference in seconds between the timespecs; nano-second precision) */
+float utils_timediff(struct timespec end_time, struct timespec start_time);
 
 #endif
