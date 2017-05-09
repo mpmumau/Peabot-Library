@@ -29,27 +29,27 @@ bool event_checkdone(List *event, float secs);
 
 void event_tick()
 {
-    static struct timespec evt_time;
-    static struct timespec evt_ltime;
-    static float evt_tick = 0.0f;
-
     if (events == NULL)
         return;
 
-    clock_gettime(CLOCK_MONOTONIC, &evt_time);
+    static struct timespec time;
+    static struct timespec last_time;
+    static float next = 0.0f;
+    static struct event *evt_data;
 
-    float diff = utils_timediff(evt_time, evt_ltime);
-    
-    evt_tick += diff;
+    clock_gettime(CLOCK_MONOTONIC, &time);
 
-    if (event_checkdone(events, evt_tick))
+    next += utils_timediff(time, last_time);
+
+    if (event_checkdone(events, next))
     {
-        struct event *evt_data;
-        evt_data = (struct event *) list_pop(&events);
-        printf("Event type is: %d\n", evt_data->type);
-        free(evt_data);
-        evt_tick = 0.0f;       
+        struct event *tmp_data = list_pop(&events);
+        free(tmp_data);
+        evt_data = (struct event *) events->data;
+        next = 0.0f;       
     }
+
+    printf("Event type is: %d\n", evt_data->type);
 }
 
 void event_add(int event_type, float duration)
