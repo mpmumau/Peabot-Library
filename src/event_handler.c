@@ -44,6 +44,7 @@ void event_tick()
     if (event_checkdone(events, next))
     {
         struct event *tmp_data = list_pop(&events);
+        printf("Event ended; type was: %d\n", tmp_data->type);
         free(tmp_data);
         if (events && events->data)
             evt_data = (struct event *) events->data;
@@ -51,8 +52,7 @@ void event_tick()
     }
     else
     {
-        if (evt_data && evt_data->type)
-        printf("Event type is: %d\n", evt_data->type);
+        // do stuff
     }
 }
 
