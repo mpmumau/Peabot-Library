@@ -24,7 +24,7 @@ static struct timespec evt_time;
 static struct timespec evt_ltime;
 static float evt_tick = 0.0f;
 
-void evt_tick()
+void event_tick()
 {
     if (evt_ltime == NULL)
         clock_gettime(CLOCK_MONOTONIC, &evt_ltime);
