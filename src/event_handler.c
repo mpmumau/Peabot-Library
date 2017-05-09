@@ -66,7 +66,6 @@ void event_tick()
     float complete = next / evt_data->duration;
     printf("Perc complete: %f\n", complete);
 
-    struct servo_mvmt *mvmts = evt_data->mvmts;
     for (int i = 0; i < SERVOS_NUM; i++)
     {
         float diff = mvmts->end_pos - mvmts->start_pos;
@@ -74,7 +73,7 @@ void event_tick()
         float final = mvmts->start_pos + diff_mod;
 
         robot_setservo(i, final);
-        
+
         mvmts++;
     }
     
