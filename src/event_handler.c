@@ -41,7 +41,6 @@ void event_tick()
 
     next += utils_timediff(time, last_time);
     last_time = time;
-    printf("Next is: %f\n", next);
 
     if (event_checkdone(events, next))
     {
