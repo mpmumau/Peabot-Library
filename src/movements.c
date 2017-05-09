@@ -29,7 +29,7 @@ struct servo_mvmt *mvmt_walk_a()
         mvmt++; 
     }
 
-    return mvmt[0];
+    return &mvmt[0];
 }
 
 #endif
