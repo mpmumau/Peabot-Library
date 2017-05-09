@@ -94,7 +94,7 @@ void event_add(int event_type, float duration)
         case EVENT_RESET:
             break;
         case EVENT_WALK_A:
-            evt->mvmts = (struct servo_mvmt) &mvmt_walk_a;
+            evt->mvmts = (struct servo_mvmt *) &mvmt_walk_a;
             break;
     }
 
