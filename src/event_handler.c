@@ -50,6 +50,7 @@ void event_tick()
     {
         Event *tmp_data = list_pop(&events);
         free(tmp_data);
+        
         next = 0.0f; 
         return;      
     }

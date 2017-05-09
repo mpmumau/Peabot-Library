@@ -176,13 +176,12 @@ void prompt_handle_cmd(char *stdin_str)
         if (arg_count != 2)
         {
             console_print("[ERROR] Incorrect number of params. Usage: delay [seconds]");
+        }
 
-            const char *seconds_string = args[2];
+        const char *seconds_string = args[2];
+        float seconds = (float) atof(seconds_string);
 
-            float seconds = (float) atof(seconds_string);
-
-            event_add(EVENT_DELAY, seconds);
-        }        
+        event_add(EVENT_DELAY, seconds);
     }        
 }
 
