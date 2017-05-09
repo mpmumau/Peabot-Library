@@ -29,13 +29,13 @@ struct servo_mvmt mvmt_walk_a[SERVOS_NUM] = {
 
 struct servo_mvmt mvmt_up[SERVOS_NUM] = {
     { -1.0, 1.0, 0.0f },
-    NULL,
-    NULL,
+    {},
+    {},
     { -1.0, 1.0, 0.0f },
     { -1.0, 1.0, 0.0f },
-    NULL,
+    {},
     { -1.0, 1.0, 0.0f },
-    NULL
+    {}
 }
 
 #endif
