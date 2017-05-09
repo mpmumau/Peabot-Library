@@ -18,7 +18,7 @@
 typedef struct Event {
     int type;
     float duration;
-    struct servo_mvmt *mvmts;
+    Keyframe *mvmts;
 } Event;
 
 void event_tick();
