@@ -26,6 +26,9 @@ static struct timespec *evt_time;
 static struct timespec *evt_ltime;
 static float evt_tick = 0.0f;
 
+/* Forward decs */
+bool event_checkdone(List *event, float secs);
+
 void event_tick()
 {
     if (evt_ltime == NULL)
