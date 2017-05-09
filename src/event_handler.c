@@ -57,8 +57,10 @@ void event_tick()
     }
     else
     {
-        if (!evt_data)
+        if (!events->data)
             return;
+
+        evt_data = events->data;
 
         float perc_complete = (next * 100.0f) / evt_data->duration;
         printf("Perc complete: %f\n", perc_complete);
