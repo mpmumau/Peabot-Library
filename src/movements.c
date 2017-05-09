@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes*/
+#include <stdlib.h>
+
 /* Application includes */
 #include "config.h"
 
