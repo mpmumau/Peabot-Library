@@ -21,10 +21,10 @@
 
 #include "event_handler.h"
 
-static List *events;
-static struct timespec *evt_time;
-static struct timespec *evt_ltime;
-static float evt_tick = 0.0f;
+List *events;
+struct timespec *evt_time;
+struct timespec *evt_ltime;
+float evt_tick = 0.0f;
 
 /* Forward decs */
 bool event_checkdone(List *event, float secs);
