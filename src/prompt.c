@@ -100,28 +100,28 @@ void prompt_handle_cmd(char *stdin_str)
 
     char *cmd = args[0];
 
-    if (cmd, "srv")
+    if (str_equals(cmd, "srv"))
         cmd_callback = promptcmd_srv;
 
-    if (cmd, "reset")
+    if (str_equals(cmd, "reset"))
         cmd_callback = promptcmd_reset;
 
-    if (cmd, "quit")
+    if (str_equals(cmd, "quit"))
         cmd_callback = promptcmd_quit;
 
-    if (cmd, "up")
+    if (str_equals(cmd, "up"))
         cmd_callback = promptcmd_up;
 
-    if (cmd, "walka")
+    if (str_equals(cmd, "walka"))
         cmd_callback = promptcmd_walka;
 
-    if (cmd, "walkb")
+    if (str_equals(cmd, "walkb"))
         cmd_callback = promptcmd_walkb;   
 
-    if (cmd, "walk")
+    if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
 
-    if (cmd, "delay")
+    if (str_equals(cmd, "delay"))
         cmd_callback = promptcmd_delay;     
 
     (*cmd_callback)(args[1], arg_count);
