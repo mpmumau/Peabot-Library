@@ -16,6 +16,15 @@
 
 #include "movements.h"
 
-
+struct servo_mvmt mvmt_walk_a[SERVOS_NUM] = {
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },    
+    { -0.2f, 0.2f, 0.0f }
+};
 
 #endif

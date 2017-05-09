@@ -16,15 +16,6 @@ struct servo_mvmt {
     float delay;
 };
 
-struct servo_mvmt mvmt_walk_a[SERVOS_NUM] = {
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },    
-    { -0.2f, 0.2f, 0.0f }
-};
+struct servo_mvmt mvmt_walk_a[SERVOS_NUM];
 
 #endif
