@@ -64,13 +64,14 @@ void event_tick()
         return;
 
     float complete = next / evt_data->duration;
-    printf("Perc complete: %f\n", complete);
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
         float diff = mvmts->end_pos - mvmts->start_pos;
         float diff_mod = diff * complete;
         float final = mvmts->start_pos + diff_mod;
+
+        printf("Servo: %d | start pos: %f | end pos: %f | setto: %f\n", i, mvmts->start_pos, mvmts->end_pos, final);
 
         robot_setservo(i, final);
 
