@@ -14,7 +14,4 @@ struct servo_mvmt {
     float delay;
 };
 
-/* Get the set of movements for the first walking motion. */
-struct servo_mvmt *mvmt_walk_a();
-
 #endif
