@@ -82,6 +82,7 @@ int main(int argc, char *argv[])
     config_pipe(argc, argv);
 
     char *log_filename = config_logfile();
+    
     log_init(log_filename);
     log_h("Peabot Server Logs");
     log_event("Server started.");

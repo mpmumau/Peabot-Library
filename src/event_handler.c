@@ -34,7 +34,7 @@ void event_tick()
     static struct timespec time;
     static struct timespec last_time;
     static float next = 0.0f;
-    static struct event *evt_data;
+    static Event *evt_data;
 
     clock_gettime(CLOCK_MONOTONIC, &time);
     next += utils_timediff(time, last_time);
@@ -48,7 +48,7 @@ void event_tick()
 
     if (event_checkdone(events, next))
     {
-        struct event *tmp_data = list_pop(&events);
+        Event *tmp_data = list_pop(&events);
         free(tmp_data);
         next = 0.0f; 
         return;      
@@ -79,7 +79,7 @@ void event_tick()
 
 void event_add(int event_type, float duration)
 {
-    struct event *evt = malloc(sizeof(evt));
+    Event *evt = malloc(sizeof(Event));
     
     evt->type = event_type;
     evt->duration = duration;
@@ -100,10 +100,10 @@ void event_add(int event_type, float duration)
 
 bool event_checkdone(List *event, float secs)
 {
-    struct event *data;
-    data = (struct event *) event->data;
+    Event *event;
+    event = (Event *) event->data;
 
-    if (secs > data->duration)
+    if (secs > event->duration)
         return true;
 
     return false;
