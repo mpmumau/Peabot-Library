@@ -24,12 +24,12 @@ struct servo_mvmt *mvmt_walk_a()
     {
         mvmt->start_pos = -0.2f;
         mvmt->end_pos = 0.2f;
-        mvmt->delay = 0.0f;
+        mvmt->delay = 1.1f;
 
         mvmt++; 
     }
 
-    return mvmt;
+    return mvmt[0];
 }
 
 #endif
