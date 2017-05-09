@@ -97,6 +97,7 @@ void prompt_handle_cmd(char *stdin_str)
 
     if (arg_count < 1)
         return;
+    arg_count--;
 
     char *cmd = args[0];
 
@@ -161,13 +162,13 @@ void promptcmd_quit(char *args[], int arg_num)
 
 void promptcmd_delay(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 1)
     {
         console_print("[ERROR] Incorrect number of params. Usage: delay [seconds]");
         return;
     }
 
-    const char *seconds_string = args[1];
+    const char *seconds_string = args[0];
     float seconds = (float) atof(seconds_string);
 
     event_add(EVENT_DELAY, seconds);    
@@ -176,7 +177,7 @@ void promptcmd_delay(char *args[], int arg_num)
 
 void promptcmd_srv(char *args[], int arg_num)
 {
-    if (arg_num != 3)
+    if (arg_num != 2)
     {
         console_print("ERROR] Incorrect number of params. Usage: srv [pin] [pwm_val]");
         return;
@@ -193,13 +194,13 @@ void promptcmd_srv(char *args[], int arg_num)
 
 void promptcmd_up(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 1)
     {
         console_print("[ERROR] Incorrect number of params. Usage: up [seconds]");
         return;
     }
 
-    const char *seconds_string = args[1];
+    const char *seconds_string = args[0];
     float seconds = (float) atof(seconds_string);
 
     event_add(EVENT_UP, seconds);    
@@ -207,12 +208,13 @@ void promptcmd_up(char *args[], int arg_num)
 
 void promptcmd_walka(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 1)
     {
         console_print("[ERROR] Incorrect number of params. Usage: walka [seconds]");
+        return;
     }
 
-    const char *seconds_string = args[1];
+    const char *seconds_string = args[0];
     float seconds = (float) atof(seconds_string);
 
     event_add(EVENT_WALK_A, seconds);    
@@ -220,12 +222,13 @@ void promptcmd_walka(char *args[], int arg_num)
 
 void promptcmd_walkb(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 1)
     {
         console_print("[ERROR] Incorrect number of params. Usage: walkb [seconds]");
+        return;
     }
 
-    const char *seconds_string = args[1];
+    const char *seconds_string = args[0];
     float seconds = (float) atof(seconds_string);
 
     event_add(EVENT_WALK_B, seconds);    
@@ -233,13 +236,14 @@ void promptcmd_walkb(char *args[], int arg_num)
 
 void promptcmd_walk(char *args[], int arg_num)
 {
-    if (arg_num != 3)
+    if (arg_num != 2)
     {
         console_print("[ERROR] Incorrect number of params. Usage: walk [cycles] [cycle_secs/2]");
+        return;
     }
 
-    const char *cycles_string = args[1];
-    const char *seconds_string = args[2];
+    const char *cycles_string = args[0];
+    const char *seconds_string = args[1];
 
     int cycles = (int) atoi(cycles_string);
     float seconds = (float) atof(seconds_string);
