@@ -29,13 +29,16 @@ bool event_checkdone(List *event, float secs);
 
 void event_tick()
 {
-    if (!events)
-        return;
-
     static struct timespec time;
     static struct timespec last_time;
     static float next = 0.0f;
     static struct event *evt_data;
+
+    if (!events)
+    {
+        next = 0.0f;
+        return;
+    }
 
     clock_gettime(CLOCK_MONOTONIC, &time);
     next += utils_timediff(time, last_time);
