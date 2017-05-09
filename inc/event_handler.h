@@ -16,6 +16,7 @@
 #define EVENT_TURN 3
 #define EVENT_DANCE 4
 #define EVENT_UP 5
+#define EVENT_DELAY 6
 
 typedef struct Event {
     int type;

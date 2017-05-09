@@ -58,9 +58,11 @@ void event_tick()
         return;
 
     evt_data = (Event *) events->data;
+
+    int evt_type = evt_data->type;
     Keyframe *mvmts = evt_data->mvmts;
 
-    if (!mvmts)
+    if (!mvmts || evt_type = EVENT_DELAY)
         return;
 
     float complete = next / evt_data->duration;
