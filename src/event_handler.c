@@ -65,7 +65,7 @@ bool event_checkdone(List *event, float secs)
     struct event *data;
     data = (struct event *) event->data;
 
-    if (secs > event->duration)
+    if (secs > data->duration)
         return true;
 
     return false;
