@@ -13,6 +13,7 @@
 #define EVENT_WALK_B 2
 #define EVENT_TURN 3
 #define EVENT_DANCE 4
+#define EVENT_UP 5
 
 #ifndef SERVOS_NUM
 #define SERVOS_NUM 8

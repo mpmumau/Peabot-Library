@@ -17,5 +17,6 @@ struct servo_mvmt {
 };
 
 struct servo_mvmt mvmt_walk_a[SERVOS_NUM];
+struct servo_mvmt mvmt_up[SERVOS_NUM];
 
 #endif

@@ -71,11 +71,7 @@ void event_tick()
         float diff_mod = diff * complete;
         float final = mvmts->start_pos + diff_mod;
 
-        printf("Servo: %d | start pos: %f | end pos: %f | setto: %f\n", i, mvmts->start_pos, mvmts->end_pos, final);
-
         robot_setservo(i, final);
-
-        //printf("Servo: %d | start pos: %f | end pos: %f\n", i, mvmts->start_pos, mvmts->end_pos);
 
         mvmts++;
     }
@@ -96,6 +92,8 @@ void event_add(int event_type, float duration)
         case EVENT_WALK_A:
             evt->mvmts = (struct servo_mvmt *) &mvmt_walk_a;
             break;
+        case EVENT_UP:
+            evt->mvmts = (struct servo_mvmt *) &mvmt_up;
     }
 
     list_push(&events, (void *) evt);
