@@ -51,8 +51,6 @@ void event_tick()
         struct event *tmp_data = list_pop(&events);
         printf("Event ended; type was: %d\n", tmp_data->type);
         free(tmp_data);
-        if (events && events->data)
-            evt_data = (struct event *) events->data;
         next = 0.0f;       
     }
     else
@@ -60,19 +58,22 @@ void event_tick()
         if (!events->data)
             return;
 
-        evt_data = events->data;
+        evt_data = (struct servo_mvmt *) events->data;
+
+        if (!evt_data->mvmts)
+            return;
 
         float complete = next / evt_data->duration;
-        printf("Perc complete: %f\n", complete);
-        // struct servo_mvmt *mvmts = evt_data->mvmts;
-        // for (int i = 0; i < SERVOS_NUM; i++)
-        // {
-        //     float diff = mvmts->end_pos - mvmts->start_pos;
-        //     float diff_mod = diff * perc_complete;
-        //     float final = mvmts->start_pos + diff_mod;
-        //     robot_setservo(i, final);
-        //     mvmts++;
-        // }
+
+        struct servo_mvmt *mvmts = evt_data->mvmts;
+        for (int i = 0; i < SERVOS_NUM; i++)
+        {
+            float diff = mvmts->end_pos - mvmts->start_pos;
+            float diff_mod = diff * perc_complete;
+            float final = mvmts->start_pos + diff_mod;
+            robot_setservo(i, final);
+            mvmts++;
+        }
     }
 }
 
