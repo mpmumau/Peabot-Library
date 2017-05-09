@@ -67,13 +67,15 @@ void event_tick()
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
-        float diff = mvmts->end_pos - mvmts->start_pos;
-        float diff_mod = diff * complete;
-        float final = mvmts->start_pos + diff_mod;
+        // float diff = mvmts->end_pos - mvmts->start_pos;
+        // float diff_mod = diff * complete;
+        // float final = mvmts->start_pos + diff_mod;
 
-        printf("Servo: %d | start pos: %f | end pos: %f | setto: %f\n", i, mvmts->start_pos, mvmts->end_pos, final);
+        // printf("Servo: %d | start pos: %f | end pos: %f | setto: %f\n", i, mvmts->start_pos, mvmts->end_pos, final);
 
-        robot_setservo(i, final);
+        // robot_setservo(i, final);
+
+        printf("Servo: %d | start pos: %f | end pos: %f\n", i, mvmts->start_pos, mvmts->end_pos);
 
         mvmts++;
     }
