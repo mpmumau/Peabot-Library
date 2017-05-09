@@ -34,15 +34,15 @@ void event_tick()
     static float next = 0.0f;
     static struct event *evt_data;
 
+    clock_gettime(CLOCK_MONOTONIC, &time);
+    next += utils_timediff(time, last_time);
+    last_time = time;
+
     if (!events)
     {
         next = 0.0f;
         return;
     }
-
-    clock_gettime(CLOCK_MONOTONIC, &time);
-    next += utils_timediff(time, last_time);
-    last_time = time;
 
     if (event_checkdone(events, next))
     {
