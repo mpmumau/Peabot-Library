@@ -29,10 +29,14 @@
 void *prompt_tick(void *arg);
 void prompt_handle_cmd(char *stdin);
 int prompt_count_args(char *arg_str);
+void prompt_cmd_srv(char *args[]);
 
 pthread_t prompt_thread;
 char stdin_buffer[64];
 bool prompt_running = true;
+
+/* Event Callbacks */
+static void (*_cmd_srv)(char *args[]) = prompt_cmd_srv;
 
 void prompt_init()
 {
@@ -87,20 +91,7 @@ void prompt_handle_cmd(char *stdin_str)
         return;
 
     if (str_equals(args[0], "srv"))
-    {
-        if (arg_count != 3)
-        {
-            console_print("[ERROR] Incorrect number of params. Usage: srv [pin_num] [pwm_val]");
-        }
-            
-        const char *servo_pin_string = args[1];
-        const char *servo_val_string = args[2];
-
-        int servo_pin = (int) atoi(servo_pin_string);
-        float pwm_val = (float) atof(servo_val_string);
-
-        robot_setservo(servo_pin, pwm_val);
-    }
+        (*_cmd_srv)(args[1]);
 
     if (str_equals(args[0], "reset"))
     {
@@ -183,6 +174,17 @@ void prompt_handle_cmd(char *stdin_str)
 
         event_add(EVENT_DELAY, seconds);
     }        
+}
+
+void prompt_cmd_srv(char *args[])
+{
+    const char *s_pin = args[0];
+    const char *s_val = args[1];
+
+    int pin = (int) atoi(s_pin);
+    float val = (float) atof(s_val);
+
+    robot_setservo(pin, val);
 }
 
 int prompt_count_args(char *arg_str)
