@@ -27,7 +27,7 @@ Keyframe mvmt_walk_a[SERVOS_NUM] = {
     { -0.2f, 0.2f, 0.0f }
 };
 
-Keyframe_mvmt mvmt_up[SERVOS_NUM] = {
+Keyframe mvmt mvmt_up[SERVOS_NUM] = {
     { -1.0, 1.0, 0.0f },
     {},
     {},
