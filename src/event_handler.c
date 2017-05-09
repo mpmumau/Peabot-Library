@@ -20,18 +20,18 @@
 #include "event_handler.h"
 
 static List *events;
-static struct timespec evt_time;
-static struct timespec evt_ltime;
+static struct timespec *evt_time;
+static struct timespec *evt_ltime;
 static float evt_tick = 0.0f;
 
 void event_tick()
 {
     if (evt_ltime == NULL)
-        clock_gettime(CLOCK_MONOTONIC, &evt_ltime);
-    clock_gettime(CLOCK_MONOTONIC, &evt_time);
+        clock_gettime(CLOCK_MONOTONIC, evt_ltime);
+    clock_gettime(CLOCK_MONOTONIC, evt_time);
 
-    float diff = ((float) evt_time.tv_sec - (float) evt_ltime.tv_sec) +
-        ((float) evt_time.tv_nsec - (float) evt_ltime.tv_nsec) / 1000000000.0f;
+    float diff = ((float) evt_time->tv_sec - (float) evt_ltime->tv_sec) +
+        ((float) evt_time->tv_nsec - (float) evt_ltime->tv_nsec) / 1000000000.0f;
     evt_ltime = evt_time;
     
     evt_tick += diff;
