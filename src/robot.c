@@ -29,8 +29,8 @@
 /* Internal thread */
 pthread_t robot_thread;
 bool robot_running = true;
-struct timespec current_time;
-struct timespec last_time;
+struct timespec robot_current_time;
+struct timespec robot_last_time;
 
 /* Device globals */
 int pca_9685_fd;
@@ -83,14 +83,14 @@ void robot_setservo(int pin, float val)
 void *robot_tick(void *arg)
 {
     float tick = ROBOT_TICK;
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
+    clock_gettime(CLOCK_MONOTONIC, &robot_last_time);
 
     while (robot_running)
     {
-        clock_gettime(CLOCK_MONOTONIC, &current_time);
-        float diff = ((float) current_time.tv_sec - (float) last_time.tv_sec) +
-            ((float) current_time.tv_nsec - (float) last_time.tv_nsec) / 1000000000.0f;
-        last_time = current_time;
+        clock_gettime(CLOCK_MONOTONIC, &robot_current_time);
+        float diff = ((float) robot_current_time.tv_sec - (float) robot_last_time.tv_sec) +
+            ((float) robot_current_time.tv_nsec - (float) robot_last_time.tv_nsec) / 1000000000.0f;
+        robot_last_time = robot_current_time;
         tick = tick - diff;
 
         if (tick > 0.0f)

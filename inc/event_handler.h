@@ -15,10 +15,11 @@
 
 struct event {
     int type;
+    float duration;
 };
 
 void event_tick();
 
-void event_add(int event_type);
+void event_add(int event_type, float duration);
 
 #endif
