@@ -91,7 +91,7 @@ void prompt_handle_cmd(char *stdin_str)
         return;
 
     if (str_equals(args[0], "srv"))
-        (*_cmd_srv)(args[1]);
+        (*_cmd_srv)(&args[1]);
 
     if (str_equals(args[0], "reset"))
     {
