@@ -120,7 +120,7 @@ void prompt_handle_cmd(char *stdin_str)
         }
 
         const char *seconds_string = args[1];
-        float seconds = (float) atoi(seconds_string);
+        float seconds = (float) atof(seconds_string);
 
         event_add(EVENT_UP, seconds);
     }
