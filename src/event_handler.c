@@ -57,16 +57,16 @@ void event_tick()
     }
     else
     {
-        float perc_complete = (next * 100) / evt_data->duration;
-        struct servo_mvmt *mvmts = evt_data->mvmts;
-        for (int i = 0; i < SERVOS_NUM; i++)
-        {
-            float diff = mvmts->end_pos - mvmts->start_pos;
-            float diff_mod = diff * perc_complete;
-            float final = mvmts->start_pos + diff_mod;
-            robot_setservo(i, final);
-            mvmts++;
-        }
+        // float perc_complete = (next * 100) / evt_data->duration;
+        // struct servo_mvmt *mvmts = evt_data->mvmts;
+        // for (int i = 0; i < SERVOS_NUM; i++)
+        // {
+        //     float diff = mvmts->end_pos - mvmts->start_pos;
+        //     float diff_mod = diff * perc_complete;
+        //     float final = mvmts->start_pos + diff_mod;
+        //     robot_setservo(i, final);
+        //     mvmts++;
+        // }
     }
 }
 

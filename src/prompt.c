@@ -112,9 +112,17 @@ void prompt_handle_cmd(char *stdin_str)
         app_exit("User requested application shutdown.", 0);
     }
 
+    // if (str_equals(args[0], "test_event"))
+    // {
+    //     event_add(EVENT_WALK_A, 10.0f);
+    // }
+
     if (str_equals(args[0], "test_event"))
     {
-        event_add(EVENT_WALK_A, 10.0f);
+        event_add(EVENT_RESET, 2.0f);
+        event_add(EVENT_RESET, 4.0f);
+        event_add(EVENT_RESET, 8.0f);
+        event_add(EVENT_RESET, 16.0f);
     }
 }
 
