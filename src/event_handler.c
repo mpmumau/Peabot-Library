@@ -50,7 +50,8 @@ void event_tick()
         next = 0.0f;       
     }
 
-    printf("Event type is: %d\n", evt_data->type);
+    if (evt_data)
+        printf("Event type is: %d\n", evt_data->type);
 }
 
 void event_add(int event_type, float duration)
