@@ -15,14 +15,14 @@ struct servo_mvmt {
 };
 
 struct servo_mvmt mvmt_walk_a[SERVOS_NUM] = {
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
-    { .start_pos = -0.2f, .end_pos = 0.2f, .delay = 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },
+    { -0.2f, 0.2f, 0.0f },    
+    { -0.2f, 0.2f, 0.0f }
 };
 
 #endif
