@@ -124,7 +124,7 @@ void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "delay"))
         cmd_callback = promptcmd_delay;     
 
-    (*cmd_callback)(args[1], arg_count);
+    (*cmd_callback)(&args[1], arg_count);
 }
 
 int prompt_count_args(char *arg_str)
