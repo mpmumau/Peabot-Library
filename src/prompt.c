@@ -159,7 +159,7 @@ void promptcmd_quit(char *args[], int arg_num)
     app_exit("User requested application shutdown.", 0);
 }
 
-void promptcmd_delay(char *args[], arg_num)
+void promptcmd_delay(char *args[], int arg_num)
 {
     if (arg_num != 2)
     {
