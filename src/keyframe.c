@@ -17,6 +17,17 @@
 #include "keyframe.h"
 
 Keyframe keyfr_walka[SERVOS_NUM] = {
+    {},
+    { -0.6f, 0.6f, 0.0f },
+    {  0.6f, -0.6f, 0.0f },
+    {},
+    {},
+    { 0.6f, -0.6f, 0.0f },
+    {},    
+    { -0.6f, 0.6f, 0.0f }
+};
+
+Keyframe keyfr_walkb[SERVOS_NUM] = {
     { -0.7f, 0.7f, 0.0f },
     { -0.7f, 0.7f, 0.0f },
     {  0.7f, -0.7f, 0.0f },
