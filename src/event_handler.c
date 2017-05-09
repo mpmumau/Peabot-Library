@@ -29,7 +29,7 @@ bool event_checkdone(List *event, float secs);
 
 void event_tick()
 {
-    if (events == NULL)
+    if (!events)
         return;
 
     static struct timespec time;
