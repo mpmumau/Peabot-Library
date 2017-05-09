@@ -178,6 +178,8 @@ void prompt_handle_cmd(char *stdin_str)
 
 void prompt_cmd_srv(char *args[])
 {
+    printf("Sizeof args: %d\n", sizeof(args));
+
     const char *s_pin = args[0];
     const char *s_val = args[1];
 
