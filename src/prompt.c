@@ -33,7 +33,7 @@ int prompt_count_args(char *arg_str);
 /* Command callbacks */
 void promptcmd_reset(char *args[], int arg_num);
 void promptcmd_quit(char *args[], int arg_num);
-void promptcmd_delay(char *args[], arg_num);
+void promptcmd_delay(char *args[], int arg_num);
 void promptcmd_srv(char *args[], int arg_num);
 void promptcmd_up(char *args[], int arg_num);
 void promptcmd_walka(char *args[], int arg_num);
