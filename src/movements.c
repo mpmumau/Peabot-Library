@@ -36,6 +36,6 @@ struct servo_mvmt mvmt_up[SERVOS_NUM] = {
     {},
     { -1.0, 1.0, 0.0f },
     {}
-}
+};
 
 #endif
