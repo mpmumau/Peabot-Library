@@ -102,6 +102,8 @@ bool event_checkdone(List *events, float secs)
 {
     Event *event = (Event *) events->data;
 
+    printf("Checkdone | secs: %f | duration: %f\n", secs, event->duration);
+
     if (secs > event->duration)
         return true;
 
