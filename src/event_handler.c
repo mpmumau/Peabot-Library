@@ -40,7 +40,7 @@ void event_tick()
     clock_gettime(CLOCK_MONOTONIC, &time);
 
     next += utils_timediff(time, last_time);
-    printf("Next is: &f\n", next);
+    printf("Next is: %f\n", next);
 
     if (event_checkdone(events, next))
     {
