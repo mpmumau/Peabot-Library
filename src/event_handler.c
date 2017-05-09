@@ -98,10 +98,9 @@ void event_add(int event_type, float duration)
     list_push(&events, (void *) evt);
 }
 
-bool event_checkdone(List *event, float secs)
+bool event_checkdone(List *events, float secs)
 {
-    Event *event;
-    event = (Event *) event->data;
+    Event *event = (Event *) events->data;
 
     if (secs > event->duration)
         return true;
