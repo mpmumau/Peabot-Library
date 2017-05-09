@@ -57,7 +57,11 @@ void event_tick()
     }
     else
     {
-        // float perc_complete = (next * 100) / evt_data->duration;
+        if (!evt_data)
+            return;
+
+        float perc_complete = (next * 100.0f) / evt_data->duration;
+        printf("Perc complete: %f\n", perc_complete);
         // struct servo_mvmt *mvmts = evt_data->mvmts;
         // for (int i = 0; i < SERVOS_NUM; i++)
         // {
