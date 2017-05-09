@@ -114,11 +114,7 @@ void prompt_handle_cmd(char *stdin_str)
 
     if (str_equals(args[0], "test_event"))
     {
-        event_add(0, 10.0f);
-        event_add(1, 1.0f);
-        event_add(2, 2.0f);
-        event_add(3, 4.0f);
-        event_add(4, 8.0f);
+        event_add(EVENT_WALK_A, 10.0f);
     }
 }
 

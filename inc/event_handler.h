@@ -21,7 +21,7 @@
 struct event {
     int type;
     float duration;
-    struct servo_mvmt mvmts[SERVOS_NUM];
+    struct servo_mvmt *mvmts;
 };
 
 void event_tick();
