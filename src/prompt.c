@@ -218,7 +218,7 @@ void promptcmd_walka(char *args[], int arg_num)
     event_add(EVENT_WALK_A, seconds);    
 }
 
-void promptcmd_walkb(char *args[], arg_num)
+void promptcmd_walkb(char *args[], int arg_num)
 {
     if (arg_num != 2)
     {
@@ -231,7 +231,7 @@ void promptcmd_walkb(char *args[], arg_num)
     event_add(EVENT_WALK_B, seconds);    
 }
 
-void promptcmd_walk(char *args[], arg_num)
+void promptcmd_walk(char *args[], int arg_num)
 {
     if (arg_num != 3)
     {
