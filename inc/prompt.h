@@ -1,5 +1,5 @@
-#ifndef PROMPT_H
-#define PROMPT_H
+#ifndef PROMPT_H_DEF
+#define PROMPT_H_DEF
 
 /*
  File:          prompt.h

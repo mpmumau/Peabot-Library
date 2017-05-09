@@ -4,7 +4,7 @@
 /*
  File:          main.c
  Description:   Main application source for the Peabo application.
- Created:       April 2, 2017
+ Created:       May 5, 2017
  Author:        Matt Mumau
  */
 
@@ -17,9 +17,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-/* Header */
-#include "main.h"
-
 /* Application includes */
 #include "config.h"
 #include "log.h"
@@ -30,14 +27,16 @@
 #include "robot.h"
 #include "event_handler.h"
 
+/* Header */
+#include "main.h"
+
 /* Application config */
-bool app_running = true;
-int exit_val = 0;
+static bool app_running = true;
+static int exit_val = 0; // suspect?
 
 /* Forward decs */
 void signal_handler(int signum);
-void parse_args(int argc, char * argv[]);
-void handle_command(char *stdin);
+void app_exit(char *message, int retval);
 
 /*
  Handles all posix signals.
@@ -48,6 +47,8 @@ void signal_handler(int signum)
     {
         log_event("POSIX SIGNIT received. Exiting...");
         log_close();
+
+        robot_halt();
 
         exit(0);
     }

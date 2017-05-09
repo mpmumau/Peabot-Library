@@ -1,5 +1,5 @@
-#ifndef ROBOT_H
-#define ROBOT_H
+#ifndef ROBOT_H_DEF
+#define ROBOT_H_DEF
 
 /*
  File:          robot.h

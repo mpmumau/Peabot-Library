@@ -1,5 +1,5 @@
 #ifndef LIST_DEF
-#define LIST_DEF 1
+#define LIST_DEF
 
 /*
  File:          list.c

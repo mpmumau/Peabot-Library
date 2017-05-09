@@ -1,5 +1,5 @@
 #ifndef LIST_H_DEF
-#define LIST_H_DEF 1
+#define LIST_H_DEF
 
 /*
  File:          list.h

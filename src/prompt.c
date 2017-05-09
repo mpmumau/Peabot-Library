@@ -1,5 +1,5 @@
-#ifndef PROMPT
-#define PROMPT
+#ifndef PROMPT_DEF
+#define PROMPT_DEF
 
 /*
  File:          prompt.c
@@ -90,7 +90,7 @@ void prompt_handle_cmd(char *stdin_str)
     {
         if (arg_count != 3)
         {
-            console_print("[ERROR] Incorrect number of params. Usage: srv [pin_num] [pwm_val] (ex: srv 0 -0.3)");
+            console_print("[ERROR] Incorrect number of params. Usage: srv [pin_num] [pwm_val]");
         }
             
         const char *servo_pin_string = args[1];
@@ -116,7 +116,7 @@ void prompt_handle_cmd(char *stdin_str)
     {
         if (arg_count != 2)
         {
-            console_print("[ERROR] Incorrect number of params. Usage: up [seconds] (ex: up 2.0");
+            console_print("[ERROR] Incorrect number of params. Usage: up [seconds]");
         }
 
         const char *seconds_string = args[1];

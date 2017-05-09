@@ -1,5 +1,5 @@
-#ifndef EVENT_HANDLER
-#define EVENT_HANDLER
+#ifndef EVENT_HANDLER_DEF
+#define EVENT_HANDLER_DEF
 
 /*
  File:          event_handler.c
