@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#include "config.h"
+
 struct servo_mvmt {
     float start_pos;
     float end_pos;
