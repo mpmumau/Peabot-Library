@@ -19,7 +19,7 @@
 /* Application includes */
 #include "list.h"
 #include "utils.h"
-#include "movements.h"
+#include "keyframe.h"
 #include "robot.h"
 
 #include "event_handler.h"
@@ -89,10 +89,10 @@ void event_add(int event_type, float duration)
         case EVENT_RESET:
             break;
         case EVENT_WALK_A:
-            evt->mvmts = (Keyframe *) &mvmt_walk_a;
+            evt->mvmts = (Keyframe *) &keyfr_walka;
             break;
         case EVENT_UP:
-            evt->mvmts = (Keyframe *) &mvmt_up;
+            evt->mvmts = (Keyframe *) &keyfr_up;
     }
 
     list_push(&events, (void *) evt);

@@ -1,9 +1,9 @@
-#ifndef MOVEMENTS_DEF
-#define MOVEMENTS_DEF
+#ifndef KEYFRAME_DEF
+#define KEYFRAME_DEF
 
 /*
- File:          movements.c
- Description:   Implementation of a data structure and utility functions for servo sweeps.
+ File:          keyframe.c
+ Description:   Implementation of a data structure and utility functions for servo keyframes.
  Created:       May 8, 2017
  Author:        Matt Mumau
  */
@@ -14,9 +14,9 @@
 /* Application includes */
 #include "config.h"
 
-#include "movements.h"
+#include "keyframe.h"
 
-Keyframe mvmt_walk_a[SERVOS_NUM] = {
+Keyframe keyfr_walka[SERVOS_NUM] = {
     { -0.7f, 0.7f, 0.0f },
     { -0.7f, 0.7f, 0.0f },
     {  0.7f, -0.7f, 0.0f },
@@ -27,7 +27,7 @@ Keyframe mvmt_walk_a[SERVOS_NUM] = {
     { -0.2f, 0.2f, 0.0f }
 };
 
-Keyframe mvmt_up[SERVOS_NUM] = {
+Keyframe keyfr_up[SERVOS_NUM] = {
     { -1.0, 1.0, 0.0f },
     {},
     {},
