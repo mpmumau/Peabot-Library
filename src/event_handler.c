@@ -19,6 +19,7 @@
 /* Application includes */
 #include "list.h"
 #include "utils.h"
+#include "movements.h"
 
 #include "event_handler.h"
 
@@ -65,6 +66,15 @@ void event_add(int event_type, float duration)
     
     evt->type = event_type;
     evt->duration = duration;
+
+    switch (event_type)
+    {
+        case EVENT_RESET:
+            break;
+        case EVENT_WALK_A:
+            evt->mvmts = mvmt_walk_a();
+            break;
+    }
 
     list_push(&events, (void *) evt);
 }
