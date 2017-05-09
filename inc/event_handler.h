@@ -8,7 +8,7 @@
  Author:        Matt Mumau
  */
 
-#include "movements.h"
+#include "keyframe.h"
 
 #define EVENT_RESET 0
 #define EVENT_WALK_A 1
