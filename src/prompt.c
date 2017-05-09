@@ -173,7 +173,7 @@ void prompt_handle_cmd(char *stdin_str)
 
     if (str_equals(args[0], "delay"))
     {
-        if (arg_count != 3)
+        if (arg_count != 2)
         {
             console_print("[ERROR] Incorrect number of params. Usage: delay [seconds]");
 
