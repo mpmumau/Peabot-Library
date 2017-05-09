@@ -17,7 +17,7 @@ typedef struct Keyframe {
 } Keyframe;
 
 Keyframe keyfr_walka[SERVOS_NUM];
-Keyframe keyfr_walkb[SERVOS_NUM]
+Keyframe keyfr_walkb[SERVOS_NUM];
 Keyframe keyfr_up[SERVOS_NUM];
 
 #endif
