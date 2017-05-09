@@ -58,7 +58,7 @@ void event_tick()
         return;
 
     evt_data = (Event *) events->data;
-    struct servo_mvmt *mvmts = evt_data->mvmts;
+    Keyframe *mvmts = evt_data->mvmts;
 
     if (!mvmts)
         return;
@@ -89,10 +89,10 @@ void event_add(int event_type, float duration)
         case EVENT_RESET:
             break;
         case EVENT_WALK_A:
-            evt->mvmts = (struct servo_mvmt *) &mvmt_walk_a;
+            evt->mvmts = (Keyframe *) &mvmt_walk_a;
             break;
         case EVENT_UP:
-            evt->mvmts = (struct servo_mvmt *) &mvmt_up;
+            evt->mvmts = (Keyframe *) &mvmt_up;
     }
 
     list_push(&events, (void *) evt);

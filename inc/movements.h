@@ -10,13 +10,13 @@
 
 #include "config.h"
 
-struct servo_mvmt {
+typedef struct Keyframe {
     float start_pos;
     float end_pos;
     float delay;
-};
+} Keyframe;
 
-struct servo_mvmt mvmt_walk_a[SERVOS_NUM];
-struct servo_mvmt mvmt_up[SERVOS_NUM];
+Keyframe mvmt_walk_a[SERVOS_NUM];
+Keyframe mvmt_up[SERVOS_NUM];
 
 #endif
