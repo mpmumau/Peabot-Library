@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#include "movements.h"
+
 #define EVENT_RESET 0
 #define EVENT_WALK_A 1
 #define EVENT_WALK_B 2
