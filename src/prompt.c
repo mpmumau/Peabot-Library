@@ -176,7 +176,7 @@ void promptcmd_delay(char *args[], int arg_num)
 
 void promptcmd_srv(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 3)
     {
         console_print("ERROR] Incorrect number of params. Usage: srv [pin] [pwm_val]");
         return;
