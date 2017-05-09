@@ -91,8 +91,12 @@ void event_add(int event_type, float duration)
         case EVENT_WALK_A:
             evt->mvmts = (Keyframe *) &keyfr_walka;
             break;
+        case EVENT_WALK_B:
+            evt->mvmts = (Keyframe *) &keyfr_walkb;
+            break;            
         case EVENT_UP:
             evt->mvmts = (Keyframe *) &keyfr_up;
+            break;
     }
 
     list_push(&events, (void *) evt);
@@ -101,8 +105,6 @@ void event_add(int event_type, float duration)
 bool event_checkdone(List *events, float secs)
 {
     Event *event = (Event *) events->data;
-
-    printf("Checkdone | secs: %f | duration: %f\n", secs, event->duration);
 
     if (secs > event->duration)
         return true;

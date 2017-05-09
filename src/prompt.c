@@ -137,6 +137,19 @@ void prompt_handle_cmd(char *stdin_str)
 
         event_add(EVENT_WALK_A, seconds);
     }
+
+    if (str_equals(args[0], "walkb"))
+    {
+        if (arg_count != 2)
+        {
+            console_print("[ERROR] Incorrect number of params. Usage: walkb [seconds]");
+        }
+
+        const char *seconds_string = args[1];
+        float seconds = (float) atof(seconds_string);
+
+        event_add(EVENT_WALK_B, seconds);
+    }    
 }
 
 int prompt_count_args(char *arg_str)

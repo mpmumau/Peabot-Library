@@ -28,14 +28,14 @@ Keyframe keyfr_walka[SERVOS_NUM] = {
 };
 
 Keyframe keyfr_walkb[SERVOS_NUM] = {
-    { -0.7f, 0.7f, 0.0f },
-    { -0.7f, 0.7f, 0.0f },
-    {  0.7f, -0.7f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },
-    { -0.2f, 0.2f, 0.0f },    
-    { -0.2f, 0.2f, 0.0f }
+    {},
+    { -0.6f, 0.6f, 0.0f },
+    { -0.6f, 0.6f, 0.0f },
+    {},
+    {},
+    { 0.6f, -0.6f, 0.0f },
+    {},    
+    { 0.6f, -0.6f, 0.0f }
 };
 
 Keyframe keyfr_up[SERVOS_NUM] = {
