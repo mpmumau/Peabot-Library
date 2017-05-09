@@ -171,7 +171,7 @@ void prompt_handle_cmd(char *stdin_str)
         }
     }
 
-    if (str_equals(args[0]), "delay")
+    if (str_equals(args[0], "delay"))
     {
         if (arg_count != 3)
         {
