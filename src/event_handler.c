@@ -48,6 +48,7 @@ void event_tick()
         struct event *evt_data;
         evt_data = (struct event *) list_pop(&events);
         printf("Event type is: %d\n", evt_data->type);
+        free(evt_data);
         evt_tick = 0.0f;       
     }
 }
