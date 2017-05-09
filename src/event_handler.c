@@ -22,15 +22,19 @@
 #include "event_handler.h"
 
 List *events;
-struct timespec evt_time;
-struct timespec evt_ltime;
-float evt_tick = 0.0f;
 
 /* Forward decs */
 bool event_checkdone(List *event, float secs);
 
 void event_tick()
 {
+    if (events == NULL)
+        return;
+
+    static struct timespec evt_time;
+    static struct timespec evt_ltime;
+    static float evt_tick = 0.0f;
+
     clock_gettime(CLOCK_MONOTONIC, &evt_time);
 
     float diff = ((float) evt_time.tv_sec - (float) evt_ltime.tv_sec) +
