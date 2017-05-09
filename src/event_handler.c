@@ -75,7 +75,6 @@ void event_tick()
 
         mvmts++;
     }
-    
 }
 
 void event_add(int event_type, float duration)

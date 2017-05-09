@@ -90,7 +90,7 @@ void prompt_handle_cmd(char *stdin_str)
     {
         if (arg_count != 3)
         {
-            console_print("[ERROR] Incorrect number of params. Usage: srv [pin_num] [pwm_val]");
+            console_print("[ERROR] Incorrect number of params. Usage: srv [pin_num] [pwm_val] (ex: srv 0 -0.3)");
         }
             
         const char *servo_pin_string = args[1];
@@ -112,9 +112,17 @@ void prompt_handle_cmd(char *stdin_str)
         app_exit("User requested application shutdown.", 0);
     }
 
-    if (str_equals(args[0], "test_event"))
+    if (str_equals(args[0], "up"))
     {
-        event_add(EVENT_UP, 10.0f);
+        if (arg_count != 2)
+        {
+            console_print("[ERROR] Incorrect number of params. Usage: up [seconds] (ex: up 2.0");
+        }
+
+        const char *seconds_string = args[1];
+        float seconds = (int) aoti(seconds_string);
+
+        event_add(EVENT_UP, seconds);
     }
 }
 
