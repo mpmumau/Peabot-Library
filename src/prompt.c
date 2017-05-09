@@ -98,7 +98,7 @@ void prompt_handle_cmd(char *stdin_str)
     if (arg_count < 1)
         return;
 
-    char *cmd = args[0]
+    char *cmd = args[0];
 
     if (cmd, "srv")
         cmd_callback = promptcmd_srv;
@@ -115,7 +115,7 @@ void prompt_handle_cmd(char *stdin_str)
     if (cmd, "walka")
         cmd_callback = promptcmd_walka;
 
-    if (scmd, "walkb")
+    if (cmd, "walkb")
         cmd_callback = promptcmd_walkb;   
 
     if (cmd, "walk")
