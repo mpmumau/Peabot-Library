@@ -49,9 +49,11 @@ void event_tick()
             evt_data = (struct event *) events->data;
         next = 0.0f;       
     }
-
-    if (evt_data && evt_data->type)
+    else
+    {
+        if (evt_data && evt_data->type)
         printf("Event type is: %d\n", evt_data->type);
+    }
 }
 
 void event_add(int event_type, float duration)
