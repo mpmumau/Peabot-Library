@@ -64,7 +64,7 @@ void event_tick()
             float diff = mvmts->end_pos - mvmts->start_pos;
             float diff_mod = diff * perc_complete;
             float final = mvmts->start_pos + diff_mod;
-            robot_setservo(int pin, float val);
+            robot_setservo(i, final);
             mvmts++;
         }
     }
