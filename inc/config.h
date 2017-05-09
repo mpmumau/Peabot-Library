@@ -19,7 +19,7 @@
 
 /* Robot related*/
 #define SERVOS_NUM 8
-#define ROBOT_TICK 0.1
+#define ROBOT_TICK 0.01
 #define SERVO_DEFAULT_MIN 200
 #define SERVO_DEFAULT_MAX 400
 
