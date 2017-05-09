@@ -57,7 +57,7 @@ void event_tick()
     if (!events->data)
         return;
 
-    evt_data = (struct event *) events->data;
+    evt_data = (Event *) events->data;
     struct servo_mvmt *mvmts = evt_data->mvmts;
 
     if (!mvmts)
