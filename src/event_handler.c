@@ -69,7 +69,7 @@ void event_tick()
     for (int i = 0; i < SERVOS_NUM; i++)
     {
         float diff = mvmts->end_pos - mvmts->start_pos;
-        float diff_mod = diff * perc_complete;
+        float diff_mod = diff * complete;
         float final = mvmts->start_pos + diff_mod;
 
         robot_setservo(i, final);
