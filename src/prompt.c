@@ -150,6 +150,23 @@ void prompt_handle_cmd(char *stdin_str)
 
         event_add(EVENT_WALK_B, seconds);
     }    
+
+    if (str_equals(args[0], "walk"))
+    {
+        if (arg_count != 2)
+        {
+            console_print("[ERROR] Incorrect number of params. Usage: walk [cycles]");
+        }
+
+        const char *cycles_string = args[1];
+        int cycles = (int) atoi(cycles_string);
+
+        for (int i = 0; i < cycles; i++)
+        {
+            event_add(EVENT_WALK_A, 3.0);
+            event_add(EVENT_WALK_B, 3.0);
+        }
+    }        
 }
 
 int prompt_count_args(char *arg_str)
