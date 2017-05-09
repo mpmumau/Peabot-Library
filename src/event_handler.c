@@ -38,7 +38,6 @@ void event_tick()
     static struct event *evt_data;
 
     clock_gettime(CLOCK_MONOTONIC, &time);
-
     next += utils_timediff(time, last_time);
     last_time = time;
 
@@ -46,11 +45,12 @@ void event_tick()
     {
         struct event *tmp_data = list_pop(&events);
         free(tmp_data);
-        evt_data = (struct event *) events->data;
+        if (events && events->data)
+            evt_data = (struct event *) events->data;
         next = 0.0f;       
     }
 
-    if (evt_data)
+    if (evt_data && evt_data->type)
         printf("Event type is: %d\n", evt_data->type);
 }
 
