@@ -10,6 +10,8 @@
 //  http://sam.zoy.org/wtfpl/COPYING for more details.
 //
 
+#define _USE_MATH_DEFINES
+
 #include <math.h>
 #include "easing.h"
 
