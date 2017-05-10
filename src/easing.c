@@ -10,10 +10,8 @@
 //  http://sam.zoy.org/wtfpl/COPYING for more details.
 //
 
-#define _USE_MATH_DEFINES
-
 #include <math.h>
-#include <cmath>
+#include "math_defs."
 #include "easing.h"
 
 // Modeled after the line y = x
