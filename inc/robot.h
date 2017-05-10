@@ -16,14 +16,14 @@ struct ServoRange {
 /* Initialize the robot device and its resources, and begin its loop. */
 void robot_init();
 
-/* Sets the min and max servo ranges for the pin. */
-void robot_set_servo_limit(int pin, int min, int max);
+/* Stop the robot, reset it and end its loop. */
+void robot_halt();
 
 /* Resets the robot to its "home" position */
 void robot_reset();
 
-/* Stop the robot, reset it and end its loop. */
-void robot_halt();
+/* Sets the min and max servo ranges for the pin. */
+void robot_set_servo_limit(int pin, int min, int max);
 
 /* Set the value of the servo at the given pin; will be mapped between -1.0 and 1.0 */
 void robot_setservo(int pin, float val);

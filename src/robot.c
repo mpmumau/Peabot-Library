@@ -23,28 +23,25 @@
 /* Application includes */
 #include "config.h"
 #include "main.h"
+#include "utils.h"
 
 #include "robot.h"
 
-/* Internal thread */
-pthread_t robot_thread;
-bool robot_running = true;
-struct timespec robot_current_time;
-struct timespec robot_last_time;
+static pthread_t robot_thread;
+static bool robot_running = true;
 
 /* Device globals */
-int pca_9685_fd;
+static int pca_9685_fd;
 
 /* Servo values*/
-struct ServoRange servo_ranges[SERVOS_NUM];
-float servo[SERVOS_NUM];
+static struct ServoRange servo_ranges[SERVOS_NUM];
+static float servo[SERVOS_NUM];
 
 /* Forward decs */
-void *robot_tick(void *arg);
-int robot_mapsrv(float val, int min, int max);
-bool robot_jointinv(int joint);
-void robot_mvjoint(int joint, float val);
-void robot_reset();
+static void *robot_main(void *arg);
+static int robot_mapsrv(float val, int min, int max);
+static bool robot_jointinv(int joint);
+static void robot_mvjoint(int joint, float val);
 
 void robot_init()
 {
@@ -52,19 +49,11 @@ void robot_init()
 
     pca_9685_fd = pca9685Setup(PCA_9685_PIN_BASE, 0x40, PCA_9685_HERTZ);
     if (pca_9685_fd < 0)
-    {
         app_exit("[ERROR!] Could not create PCA-9685 file descriptor.", 1);
-    }
 
     pca9685PWMReset(pca_9685_fd);
 
-    pthread_create(&robot_thread, NULL, robot_tick, NULL);
-}
-
-void robot_set_servo_limit(int pin, int min, int max)
-{
-    servo_ranges[pin].min = min;
-    servo_ranges[pin].max = max;
+    pthread_create(&robot_thread, NULL, robot_main, NULL);
 }
 
 void robot_halt()
@@ -75,23 +64,36 @@ void robot_halt()
     pca9685PWMReset(pca_9685_fd);
 }
 
+void robot_reset()
+{
+    for (int i = 0; i < SERVOS_NUM; i++)
+        servo[i] = 0.0f; 
+}
+
+void robot_set_servo_limit(int pin, int min, int max)
+{
+    servo_ranges[pin].min = min;
+    servo_ranges[pin].max = max;
+}
+
 void robot_setservo(int pin, float val)
 {
     servo[pin] = val;
 }
 
-void *robot_tick(void *arg)
+static void *robot_main(void *arg)
 {
     float tick = ROBOT_TICK;
-    clock_gettime(CLOCK_MONOTONIC, &robot_last_time);
+
+    struct timespec time;
+    struct timespec last_time;
 
     while (robot_running)
     {
-        clock_gettime(CLOCK_MONOTONIC, &robot_current_time);
-        float diff = ((float) robot_current_time.tv_sec - (float) robot_last_time.tv_sec) +
-            ((float) robot_current_time.tv_nsec - (float) robot_last_time.tv_nsec) / 1000000000.0f;
-        robot_last_time = robot_current_time;
-        tick = tick - diff;
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        float diff = utils_timediff(time, last_time);
+        last_time = time;
+        tick -= diff;
 
         if (tick > 0.0f)
             continue;
@@ -107,7 +109,7 @@ void *robot_tick(void *arg)
     return (void *) NULL;
 }
 
-int robot_mapsrv(float val, int min, int max)
+static int robot_mapsrv(float val, int min, int max)
 {
     if (min >= max)
         return -1;
@@ -128,7 +130,7 @@ int robot_mapsrv(float val, int min, int max)
     return midway + diff;
 }
 
-bool robot_jointinv(int joint)
+static bool robot_jointinv(int joint)
 {
     if (joint == FRONT_LEFT_KNEE ||
         joint == FRONT_LEFT_HIP ||
@@ -139,24 +141,13 @@ bool robot_jointinv(int joint)
     return false;
 }
 
-void robot_mvjoint(int joint, float val)
+static void robot_mvjoint(int joint, float val)
 {
     if (robot_jointinv(joint))
-    {
-        val = val * -1.0f;
-    }
+        val *= -1.0f;
 
     int mapped_val = robot_mapsrv(val, 200, 400);
     pwmWrite(PCA_9685_PIN_BASE + joint, mapped_val);
 }
-
-void robot_reset()
-{
-    for (int i = 0; i < SERVOS_NUM; i++)
-    {
-        servo[i] = 0.0f; 
-    }
-}
-
 
 #endif
