@@ -68,7 +68,7 @@ void event_tick()
         return;
 
     float complete = next / evt_data->duration;
-    float modifier = (float) CircularEaseInOut((AHFloat) complete);
+    float modifier = (float) BounceEaseIn((AHFloat) complete);
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
