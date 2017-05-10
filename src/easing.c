@@ -13,6 +13,7 @@
 #define _USE_MATH_DEFINES
 
 #include <math.h>
+#include <cmath>
 #include "easing.h"
 
 // Modeled after the line y = x
