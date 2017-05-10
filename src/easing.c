@@ -11,7 +11,7 @@
 //
 
 #include <math.h>
-#include "math_defs."
+#include "math_defs.h"
 #include "easing.h"
 
 // Modeled after the line y = x
