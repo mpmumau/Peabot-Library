@@ -23,11 +23,11 @@ CFLAGS=-Wall -I$(INC_DIR) -std=c11
 LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread
 
 # Project DEPS
-_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h event_handler.h list.h keyframe.h
+_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h event_handler.h list.h keyframe.h prompt_commands.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o event_handler.o list.o keyframe.o
+_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o event_handler.o list.o keyframe.o promp_commands.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
