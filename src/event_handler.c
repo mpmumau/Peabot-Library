@@ -21,6 +21,7 @@
 #include "utils.h"
 #include "keyframe.h"
 #include "robot.h"
+#include "easing.h"
 
 #include "event_handler.h"
 
@@ -67,11 +68,12 @@ void event_tick()
         return;
 
     float complete = next / evt_data->duration;
+    float modifier = (float) QuarticEaseOut((AHFloat) complete);
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
         float diff = mvmts->end_pos - mvmts->start_pos;
-        float diff_mod = diff * complete;
+        float diff_mod = diff * modifier;
         float final = mvmts->start_pos + diff_mod;
 
         robot_setservo(i, final);
