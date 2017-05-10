@@ -18,6 +18,7 @@
 /* Application includes */
 #include "config.h"
 #include "prompt.h"
+#include "prompt_commands.h"
 #include "console.h"
 #include "string_utils.h"
 #include "log.h"
