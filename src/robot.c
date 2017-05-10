@@ -34,7 +34,7 @@ static bool robot_running = true;
 static int pca_9685_fd;
 
 /* Servo values*/
-static struct ServoRange servo_ranges[SERVOS_NUM];
+static ServoLimit servo_limits[SERVOS_NUM];
 static float servo[SERVOS_NUM];
 
 /* Forward decs */
@@ -72,13 +72,18 @@ void robot_reset()
 
 void robot_set_servo_limit(int pin, int min, int max)
 {
-    servo_ranges[pin].min = min;
-    servo_ranges[pin].max = max;
+    servo_limits[pin].min = min;
+    servo_limits[pin].max = max;
 }
 
 void robot_setservo(int pin, float val)
 {
     servo[pin] = val;
+}
+
+float robot_getservo(int pin)
+{
+    return servo[pin];
 }
 
 static void *robot_main(void *arg)

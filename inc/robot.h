@@ -8,10 +8,10 @@
  Author:        Matt Mumau
  */
 
-struct ServoRange {
+typedef struct ServoLimit {
     int min;
     int max;
-};
+} ServoLimit;
 
 /* Initialize the robot device and its resources, and begin its loop. */
 void robot_init();
@@ -27,5 +27,8 @@ void robot_set_servo_limit(int pin, int min, int max);
 
 /* Set the value of the servo at the given pin; will be mapped between -1.0 and 1.0 */
 void robot_setservo(int pin, float val);
+
+/* Return the current value of a given servo. */
+float robot_getservo(int pin);
 
 #endif
