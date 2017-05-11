@@ -77,4 +77,14 @@ void keyfr_transition(Keyframe **keyfrm, Keyframe *target)
     *keyfrm = tmp;
 }
 
+void keyfr_reset(Keyframe **keyfrm)
+{
+    Keyframe *tmp = malloc(sizeof(Keyframe) * SERVOS_NUM);
+
+    for (int i = 0; i < SERVOS_NUM; i++)
+        tmp[i] = (Keyframe) { 0.0f, 0.0f, 0.0f };
+
+    *keyfrm = tmp;
+}
+
 #endif

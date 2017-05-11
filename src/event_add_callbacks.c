@@ -70,4 +70,31 @@ void eventadd_up(List **events, float duration)
     list_push(events, (void *) evt);  
 }
 
+void eventadd_reset(List **events, float duration)
+{
+    // Final key
+    Event *evt = malloc(sizeof(Event));
+    
+    evt->type = EVENT_RESET;
+    evt->duration = 1.0f;
+
+    Keyframe *keyfr;
+    keyfr_reset(&keyfr);
+    evt->mvmts = keyfr;    
+
+    // Transition key
+    Event *evt_trans = malloc(sizeof(Event));
+
+    evt_trans->type = EVENT_TRANSITION;
+    evt_trans->duration = 1.0f;
+
+    Keyframe *trans_key;
+    keyfr_transition(&trans_key, keyfr);
+    evt_trans->mvmts = trans_key;
+
+    // Add both to list
+    list_push(events, (void *) evt_trans);    
+    list_push(events, (void *) evt);  
+}
+
 #endif

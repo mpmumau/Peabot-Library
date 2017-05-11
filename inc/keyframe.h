@@ -35,4 +35,7 @@ void keyfr_walkb(Keyframe **keyfr);
  */
 void keyfr_transition(Keyframe **keyfrm, Keyframe *target);
 
+/* Keyframe for the reset position. */
+void keyfr_reset(Keyframe **keyfrm);
+
 #endif

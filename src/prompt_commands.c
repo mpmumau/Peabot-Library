@@ -22,7 +22,7 @@
 
 void promptcmd_reset(char *args[], int arg_num)
 {
-    robot_reset();    
+    event_add(EVENT_RESET, 0.0f);  
 }
 
 void promptcmd_quit(char *args[], int arg_num)

@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+void eventadd_reset(List **events, float duration);
+
 void eventadd_walka(List **events, float duration);
 
 void eventadd_walkb(List **events, float duration);
