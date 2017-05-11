@@ -59,7 +59,7 @@ static void *prompt_main(void *arg)
     return (void *) NULL;
 }
 
-sttic void prompt_handle_cmd(char *stdin_str)
+static void prompt_handle_cmd(char *stdin_str)
 {
     if (LOG_STDIN)
     {
