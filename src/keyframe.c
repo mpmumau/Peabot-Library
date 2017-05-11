@@ -29,7 +29,7 @@ void keyfr_walka(Keyframe **keyfr)
     tmp_keyfr[6] = (Keyframe) { 0.4f, 0.4f, 0.0f}; 
     tmp_keyfr[7] = (Keyframe) { -0.6f, 0.6f, 0.0f };
 
-    *keyfr = tmp_keyfr;
+    (*keyfr) = tmp_keyfr;
 }
 
 void keyfr_walkb(Keyframe **keyfr)
@@ -45,7 +45,7 @@ void keyfr_walkb(Keyframe **keyfr)
     tmp_keyfr[6] = (Keyframe) { -0.6, 0.6, 0.0f};
     tmp_keyfr[7] = (Keyframe) { 0.4f, -0.4f, 0.0f }
 
-    *keyfr = tmp_keyfr;
+    (*keyfr) = tmp_keyfr;
 }
 
 void keyfr_up(Keyframe **keyfr)
@@ -56,7 +56,7 @@ void keyfr_up(Keyframe **keyfr)
     tmp_keyfr[4] = (Keyframe) { -1.0, 1.0, 0.0f };
     tmp_keyfr[6] = (Keyframe) { -1.0, 1.0, 0.0f };
 
-    *keyfr = tmp_keyfr;
+    (*keyfr) = tmp_keyfr;
 }
 
 #endif
