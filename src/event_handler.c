@@ -85,7 +85,7 @@ void event_tick()
 
 void event_add(int event_type, float duration)
 {
-    void (*event_add_cb)(List *events, float duration);
+    void (*event_add_cb)(List **events, float duration);
 
     if (event_type == EVENT_WALK_A)
         event_add_cb = eventadd_walka;
@@ -96,7 +96,7 @@ void event_add(int event_type, float duration)
     if (event_type == EVENT_UP)
         event_add_cb = eventadd_up;
 
-    (*event_add_cb)(events, duration);
+    (*event_add_cb)(&events, duration);
 }
 
 bool event_checkdone(List *events, float secs)

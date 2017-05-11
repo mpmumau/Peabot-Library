@@ -8,10 +8,10 @@
  Author:        Matt Mumau
  */
 
-void eventadd_walka(List *events, float duration);
+void eventadd_walka(List **events, float duration);
 
-void eventadd_walkb(List *events, float duration);
+void eventadd_walkb(List **events, float duration);
 
-void eventadd_up(List *events, float duration);
+void eventadd_up(List **events, float duration);
 
 #endif

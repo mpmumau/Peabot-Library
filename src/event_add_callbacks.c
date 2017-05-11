@@ -16,7 +16,7 @@
 #include "list.h"
 #include "event_add_callbacks.h"
 
-void eventadd_walka(List *events, float duration)
+void eventadd_walka(List **events, float duration)
 {
     Event *evt = malloc(sizeof(Event));
     
@@ -27,10 +27,10 @@ void eventadd_walka(List *events, float duration)
     keyfr_walka(&keyfr);
     evt->mvmts = keyfr;
 
-    list_push(&events, (void *) evt);   
+    list_push(events, (void *) evt);   
 }
 
-void eventadd_walkb(List *events, float duration)
+void eventadd_walkb(List **events, float duration)
 {
     Keyframe *keyfr;
     keyfr_walkb(&keyfr);
@@ -40,10 +40,10 @@ void eventadd_walkb(List *events, float duration)
     evt->duration = duration;
     evt->mvmts = keyfr;
 
-    list_push(&events, (void *) evt);  
+    list_push(events, (void *) evt);  
 }
 
-void eventadd_up(List *events, float duration)
+void eventadd_up(List **events, float duration)
 {
     Event *evt = malloc(sizeof(Event));
     
@@ -63,10 +63,8 @@ void eventadd_up(List *events, float duration)
 
     evt_trans->mvmts = trans_key;
 
-    list_push(&events, (void *) evt_trans);    
-    list_push(&events, (void *) evt);  
-
-    printf("tried to add up event");
+    list_push(events, (void *) evt_trans);    
+    list_push(events, (void *) evt);  
 }
 
 #endif
