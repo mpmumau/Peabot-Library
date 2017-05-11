@@ -85,7 +85,7 @@ void event_tick()
 
 void event_add(int event_type, float duration)
 {
-    void (*event_add_cb)(List *events, float duration) = NULL;
+    void (*event_add_cb)(List *events, float duration);
 
     if (event_type == EVENT_WALK_A)
         event_add_cb = eventadd_walka;

@@ -65,6 +65,8 @@ void eventadd_up(List *events, float duration)
 
     list_push(&events, (void *) evt_trans);    
     list_push(&events, (void *) evt);  
+
+    printf("tried to add up event");
 }
 
 #endif
