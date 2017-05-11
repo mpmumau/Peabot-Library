@@ -89,21 +89,26 @@ void event_add(int event_type, float duration)
     evt->type = event_type;
     evt->duration = duration;
 
+    Keyframe *keyfr = NULL;
+
     switch (event_type)
     {
         case EVENT_RESET:
             break;
         case EVENT_WALK_A:
-            evt->mvmts = (Keyframe *) &keyfr_walka;
+            keyfr_walka(&keyfr);
             break;
         case EVENT_WALK_B:
-            evt->mvmts = (Keyframe *) &keyfr_walkb;
+            keyfr_walkb(&keyfr);
             break;            
         case EVENT_UP:
-            evt->mvmts = (Keyframe *) &keyfr_up;
+            keyfr_up(&keyfr);
             break;
     }
 
+    if (keyfr != NULL)
+        evt->mvmts = keyfr;
+    
     list_push(&events, (void *) evt);
 }
 

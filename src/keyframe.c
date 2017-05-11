@@ -16,37 +16,47 @@
 
 #include "keyframe.h"
 
-Keyframe keyfr_walka[SERVOS_NUM] = {
-    { 0.4f, 0.4f, 0.0f},
-    { 0.6f, -0.6f, 0.0f },
-    { 0.6f, -0.6f, 0.0f },
-    { -0.4, 0.4, 0.0f},
-    { -0.4, 0.4, 0.0f },
-    { -0.6f, 0.6f, 0.0f },
-    { 0.4f, 0.4f, 0.0f},   
-    { -0.6f, 0.6f, 0.0f }
-};
+void keyfr_walka(Keyframe **keyfr)
+{
+    Keyframe *tmp_keyfr = malloc(sizeof(Keyframe) * SERVOS_NUM);
 
-Keyframe keyfr_walkb[SERVOS_NUM] = {
-    { -0.4, 0.4, 0.0f},
-    { -0.6f, 0.6f, 0.0f },
-    { -0.6f, 0.6f, 0.0f },
-    { 0.4f, 0.4f, 0.0f },
-    { 0.4f, 0.4f, 0.0f },
-    { 0.6f, -0.6f, 0.0f },
-    { -0.6, 0.6, 0.0f},    
-    { 0.4f, -0.4f, 0.0f }
-};
+    tmp_keyfr[0] = (Keyframe) { 0.4f, 0.4f, 0.0f};
+    tmp_keyfr[1] = (Keyframe) { 0.6f, -0.6f, 0.0f };
+    tmp_keyfr[2] = (Keyframe) { 0.6f, -0.6f, 0.0f };
+    tmp_keyfr[3] = (Keyframe) { -0.4, 0.4, 0.0f};
+    tmp_keyfr[4] = (Keyframe) { -0.4, 0.4, 0.0f };
+    tmp_keyfr[5] = (Keyframe) { -0.6f, 0.6f, 0.0f };
+    tmp_keyfr[6] = (Keyframe) { 0.4f, 0.4f, 0.0f}; 
+    tmp_keyfr[7] = (Keyframe) { -0.6f, 0.6f, 0.0f };
 
-Keyframe keyfr_up[SERVOS_NUM] = {
-    { -1.0, 1.0, 0.0f },
-    {},
-    {},
-    { -1.0, 1.0, 0.0f },
-    { -1.0, 1.0, 0.0f },
-    {},
-    { -1.0, 1.0, 0.0f },
-    {}
-};
+    *keyfr = tmp_keyfr;
+}
+
+void keyfr_walkb(Keyframe **keyfr)
+{
+    Keyframe *tmp_keyfr = malloc(sizeof(Keyframe) * SERVOS_NUM);
+
+    tmp_keyfr[0] = (Keyframe) { -0.4, 0.4, 0.0f };
+    tmp_keyfr[1] = (Keyframe) { -0.6f, 0.6f, 0.0f };
+    tmp_keyfr[2] = (Keyframe) { -0.6f, 0.6f, 0.0f };
+    tmp_keyfr[3] = (Keyframe) { 0.4f, 0.4f, 0.0f };
+    tmp_keyfr[4] = (Keyframe) { 0.4f, 0.4f, 0.0f };
+    tmp_keyfr[5] = (Keyframe) { 0.6f, -0.6f, 0.0f };
+    tmp_keyfr[6] = (Keyframe) { -0.6, 0.6, 0.0f};
+    tmp_keyfr[7] = (Keyframe) { 0.4f, -0.4f, 0.0f }
+
+    *keyfr = tmp_keyfr;
+}
+
+void keyfr_up(Keyframe **keyfr)
+{
+    Keyframe *tmp_keyfr = malloc(sizeof(Keyframe) * SERVOS_NUM);
+    tmp_keyfr[0] = (Keyframe) { -1.0, 1.0, 0.0f };
+    tmp_keyfr[3] = (Keyframe) { -1.0, 1.0, 0.0f };
+    tmp_keyfr[4] = (Keyframe) { -1.0, 1.0, 0.0f };
+    tmp_keyfr[6] = (Keyframe) { -1.0, 1.0, 0.0f };
+
+    *keyfr = tmp_keyfr;
+}
 
 #endif

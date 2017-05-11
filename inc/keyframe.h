@@ -16,8 +16,10 @@ typedef struct Keyframe {
     float delay;
 } Keyframe;
 
-Keyframe keyfr_walka[SERVOS_NUM];
-Keyframe keyfr_walkb[SERVOS_NUM];
-Keyframe keyfr_up[SERVOS_NUM];
+void keyfr_up(Keyframe **keyfr);
+
+void keyfr_walka(Keyframe **keyfr);
+
+void keyfr_walkb(Keyframe **keyfr);
 
 #endif
