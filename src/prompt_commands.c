@@ -44,7 +44,6 @@ void promptcmd_delay(char *args[], int arg_num)
     event_add(EVENT_DELAY, seconds);    
 }
 
-
 void promptcmd_srv(char *args[], int arg_num)
 {
     if (arg_num != 2)

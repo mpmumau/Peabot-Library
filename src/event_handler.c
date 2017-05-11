@@ -96,8 +96,6 @@ void event_add(int event_type, float duration)
     if (event_type == EVENT_UP)
         event_add_cb = eventadd_up;
 
-    if (event_add_cb == NULL)
-        return;
     (*event_add_cb)(events, duration);
 }
 
