@@ -60,7 +60,7 @@ void keyfr_up(Keyframe **keyfr)
     tmp_keyfr[4] = (Keyframe) { -1.0f, 1.0f, 0.0f };
     tmp_keyfr[5] = (Keyframe) { 0.0f, 0.0f, 0.0f };
     tmp_keyfr[6] = (Keyframe) { -1.0f, 1.0f, 0.0f };
-    tmp_keyfr[7] = (Keyframe) { 0.0f, 0.0f, 0.0f };
+    tmp_keyfr[7] = (Keyframe) { -0.5f, 0.0f, 0.0f };
 
     (*keyfr) = tmp_keyfr;
 }
@@ -70,7 +70,7 @@ void keyfr_transition(Keyframe **keyfrm, Keyframe *target)
     Keyframe *tmp = malloc(sizeof(Keyframe) * SERVOS_NUM);
 
     for (int i = 0; i < SERVOS_NUM; i++)
-        tmp[i] = (Keyframe) { robot_getservo(i), target->end_pos, 0.0f };
+        tmp[i] = (Keyframe) { robot_getservo(i), target->start_pos, 0.0f };
 
     *keyfrm = tmp;
 }
