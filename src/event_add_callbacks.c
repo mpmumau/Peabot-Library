@@ -45,14 +45,17 @@ void eventadd_walkb(List **events, float duration)
 
 void eventadd_up(List **events, float duration)
 {
+    // Final key
     Event *evt = malloc(sizeof(Event));
     
     evt->type = EVENT_UP;
     evt->duration = duration;
 
     Keyframe *keyfr;
-    keyfr_up(&keyfr);    
+    keyfr_up(&keyfr);
+    evt->mvmts = keyfr;    
 
+    // Transition key
     Event *evt_trans = malloc(sizeof(Event));
 
     evt_trans->type = EVENT_TRANSITION;
@@ -60,9 +63,9 @@ void eventadd_up(List **events, float duration)
 
     Keyframe *trans_key;
     keyfr_transition(&trans_key, keyfr);
-
     evt_trans->mvmts = trans_key;
 
+    // Add both to list
     list_push(events, (void *) evt_trans);    
     list_push(events, (void *) evt);  
 }
