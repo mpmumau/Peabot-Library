@@ -103,13 +103,23 @@ void event_add(int event_type, float duration)
             break;            
         case EVENT_UP:
             keyfr_up(&keyfr);
+            
+            Event *evt_trans = malloc(sizeof(Event));
+            evt_trans->type = EVENT_TRANSITION;
+            evt_trans->duration = 1.0f;
+            Keyframe *trans_key;
+            keyfr_transition(&trans_key, keyfr);
+            evt_trans->mvmts = trans_key;
+            list_push(&events, (void *) evt_trans);
             break;
     }
 
     if (keyfr != NULL)
         evt->mvmts = keyfr;
-    
+
     list_push(&events, (void *) evt);
+
+
 }
 
 bool event_checkdone(List *events, float secs)
