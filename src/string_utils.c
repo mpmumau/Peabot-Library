@@ -31,11 +31,9 @@ bool str_equals(char *string_a, char *string_b)
 
 void str_removenl(char *string)
 {
-    char *nl;
-    if ((nl = strchr(string, '\n')) != NULL)
-    {
+    char *nl = strchr(string, '\n');
+    if (nl != NULL)
         *nl = '\0';
-    }
 }
 
 void str_copy(char *dest, char *src)

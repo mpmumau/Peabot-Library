@@ -23,7 +23,7 @@ void config_log_filename();
 void config_handle_arg(char *arg, char *val);
 
 /* Config variables */
-char log_filename[LOG_FILENAME_MAXLEN];
+static char log_filename[LOG_FILENAME_MAXLEN];
 
 void config_pipe(int argc, char *argv[])
 {
