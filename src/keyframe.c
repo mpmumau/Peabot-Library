@@ -69,8 +69,10 @@ void keyfr_transition(Keyframe **keyfrm, Keyframe *target)
 {
     Keyframe *tmp = malloc(sizeof(Keyframe) * SERVOS_NUM);
 
-    for (int i = 0; i < SERVOS_NUM; i++)
-        tmp[i] = (Keyframe) { robot_getservo(i), target[i]->start_pos, 0.0f };
+    for (int i = 0; i < SERVOS_NUM; i++) {
+        tmp[i] = (Keyframe) { robot_getservo(i), target->start_pos, 0.0f };
+        target++;
+    }
 
     *keyfrm = tmp;
 }
