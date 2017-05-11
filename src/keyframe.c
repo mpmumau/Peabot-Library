@@ -61,7 +61,7 @@ void keyfr_up(Keyframe **keyfr)
     (*keyfr) = tmp_keyfr;
 }
 
-void keyfrm_transition(Keyframe **keyfrm, Keyframe *target)
+void keyfr_transition(Keyframe **keyfrm, Keyframe *target)
 {
     Keyframe *tmp = malloc(sizeof(Keyframe) * SERVOS_NUM);
 

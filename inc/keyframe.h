@@ -33,6 +33,6 @@ void keyfr_walkb(Keyframe **keyfr);
  * Create a keyframe between the robot's current position, and the target keyframe's
  * start position. 
  */
-void keyfrm_transition(Keyframe **keyfrm, Keyframe *target);
+void keyfr_transition(Keyframe **keyfrm, Keyframe *target);
 
 #endif
