@@ -9,7 +9,7 @@
  */
 
 /* System includes */
-#include <stdio.h>
+#include <stlib.h>
 
 /* Application includes */
 #include "event_handler.h"
