@@ -23,7 +23,7 @@
 #define SERVO_DEFAULT_MIN 200
 #define SERVO_DEFAULT_MAX 400
 
-/* PCA_9685 servo pins*/
+/* PCA_9685 servo pins; left/right relative to the robot. */
 #define FRONT_RIGHT_KNEE 6
 #define FRONT_RIGHT_HIP 7
 #define FRONT_LEFT_KNEE 3

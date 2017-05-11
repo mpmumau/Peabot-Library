@@ -87,7 +87,7 @@ unsigned int list_sizeof(List *head)
 
 List *list_get(List *head, unsigned int index)
 {
-    for (unsigned int i = 1; i < index; i++) {
+    for (unsigned int i = 0; i < index; i++) {
         head = head->next;
     }
 
@@ -113,6 +113,16 @@ void list_remove(List **head, unsigned int index)
     (*precursor)->next = (*head)->next;
 
     free(*head);
+}
+
+void *list_last(List *head)
+{
+    int count = list_sizeof(head);
+    if (!count)
+        return (void *) NULL;
+
+    List *last = list_get(head, count - 1);
+    return (void *) last->data;
 }
 
 #endif
