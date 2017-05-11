@@ -13,6 +13,7 @@
 
 /* Application includes */
 #include "config.h"
+#include "robot.h"
 
 #include "keyframe.h"
 
