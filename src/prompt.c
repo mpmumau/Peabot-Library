@@ -24,25 +24,28 @@
 #include "log.h"
 
 /* Forward decs */
-void prompt_init();
-void *prompt_tick(void *arg);
-void prompt_handle_cmd(char *stdin);
-int prompt_count_args(char *arg_str);
+static void *prompt_main(void *arg);
+static void prompt_handle_cmd(char *stdin);
+static int prompt_count_args(char *arg_str);
 
-pthread_t prompt_thread;
-char stdin_buffer[64];
-bool prompt_running = true;
-
-/* Event Callbacks */
-static void (*cmd_callback)(char *args[], int args_num);
+static pthread_t prompt_thread;
+static bool prompt_running = true;
 
 void prompt_init()
 {
-    pthread_create(&prompt_thread, NULL, prompt_tick, NULL);
+    pthread_create(&prompt_thread, NULL, prompt_main, NULL);
 }
 
-void *prompt_tick(void *arg)
+void prompt_halt()
 {
+    prompt_running = false;
+    pthread_join(prompt_thread, NULL);
+}
+
+static void *prompt_main(void *arg)
+{
+    char stdin_buffer[64];
+
     while (prompt_running)
     {
         printf("peabot > ");
@@ -56,13 +59,7 @@ void *prompt_tick(void *arg)
     return (void *) NULL;
 }
 
-void prompt_halt()
-{
-    prompt_running = false;
-    pthread_join(prompt_thread, NULL);
-}
-
-void prompt_handle_cmd(char *stdin_str)
+sttic void prompt_handle_cmd(char *stdin_str)
 {
     if (LOG_STDIN)
     {
@@ -70,12 +67,14 @@ void prompt_handle_cmd(char *stdin_str)
         snprintf(ancmt, 64, "[Stdin]: %s", stdin_str);
         log_event(ancmt);
     }
-    
+
     int arg_count = prompt_count_args(stdin_str);
     char *args[arg_count];
 
+    void (*cmd_callback)(char *args[], int args_num);
+
     char *tmp_arg;
-    char delim[2] = " ";
+    char delim[2] = { ' ', '\0'};
 
     tmp_arg = strtok(stdin_str, delim);
     for (int i = 0; (i < arg_count) && tmp_arg; i++)
@@ -117,7 +116,7 @@ void prompt_handle_cmd(char *stdin_str)
     (*cmd_callback)(&args[1], arg_count);
 }
 
-int prompt_count_args(char *arg_str)
+static int prompt_count_args(char *arg_str)
 {
     char tmp_str[64];
 

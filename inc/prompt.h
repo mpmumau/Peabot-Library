@@ -8,9 +8,10 @@
  Author:        Matt Mumau
  */
 
-
+/* Initialize the command prompt thread and beginning taking input. */
 void prompt_init();
 
+/* End the command prompt thread. */
 void prompt_halt();
 
 #endif

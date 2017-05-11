@@ -22,6 +22,7 @@
 #include "keyframe.h"
 #include "robot.h"
 #include "easing.h"
+#include "event_add_callbacks.h"
 
 #include "event_handler.h"
 
@@ -84,42 +85,20 @@ void event_tick()
 
 void event_add(int event_type, float duration)
 {
-    Event *evt = malloc(sizeof(Event));
-    
-    evt->type = event_type;
-    evt->duration = duration;
+    void (*event_add_cb)(List *events, float duration) = NULL;
 
-    Keyframe *keyfr = NULL;
+    if (event_type == EVENT_WALK_A)
+        event_add_cb = eventadd_walka;
 
-    switch (event_type)
-    {
-        case EVENT_RESET:
-            break;
-        case EVENT_WALK_A:
-            keyfr_walka(&keyfr);
-            break;
-        case EVENT_WALK_B:
-            keyfr_walkb(&keyfr);
-            break;            
-        case EVENT_UP:
-            keyfr_up(&keyfr);
-            
-            Event *evt_trans = malloc(sizeof(Event));
-            evt_trans->type = EVENT_TRANSITION;
-            evt_trans->duration = 1.0f;
-            Keyframe *trans_key;
-            keyfr_transition(&trans_key, keyfr);
-            evt_trans->mvmts = trans_key;
-            list_push(&events, (void *) evt_trans);
-            break;
-    }
+    if (event_type == EVENT_WALK_B)
+        event_add_cb = eventadd_walkb;
 
-    if (keyfr != NULL)
-        evt->mvmts = keyfr;
+    if (event_type == EVENT_UP)
+        event_add_cb = eventadd_up;
 
-    list_push(&events, (void *) evt);
-
-
+    if (event_add_cb == NULL)
+        return;
+    (*event_add_cb)(events, duration);
 }
 
 bool event_checkdone(List *events, float secs)
