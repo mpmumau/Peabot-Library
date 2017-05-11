@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+
 /* Application includes */
 #include "event_handler.h"
 #include "list.h"
