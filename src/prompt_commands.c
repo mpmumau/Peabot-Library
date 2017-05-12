@@ -68,8 +68,16 @@ void promptcmd_elevate(char *args[], int arg_num)
     const char *reverse_string = args[1];
 
     EventElevateData *elevate_data = malloc(sizeof(EventElevateData));
-    elevate_data->reverse = (bool) ((int) atoi(reverse_string));
     elevate_data->duration = (float) atof(seconds_string);
+    elevate_data->reverse = (bool) ((int) atoi(reverse_string));
+    
+    if (LOG_PROMPT_COMMANDS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding elevate event. (seconds: %f, reverse %d)", elevate_data->duration, elevate_data->reverse);
+        log_event(log_msg);
+        free(log_msg);
+    } 
 
     event_add(EVENT_ELEVATE, (void *) elevate_data);    
 }
