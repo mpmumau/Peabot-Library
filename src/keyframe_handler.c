@@ -136,7 +136,6 @@ static void *keyhandler_main(void *arg)
             robot_setservo(i, pos);
         }
 
-        printf("running");
         continue;
 
         if (next > keyfr->duration)
