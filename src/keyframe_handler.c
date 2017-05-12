@@ -140,9 +140,8 @@ static void *keyhandler_main(void *arg)
         {
             next = 0.0f;
 
-            if (last_keyfr && servo_pos)
+            if (last_keyfr)
             {
-                free(servo_pos);
                 free(last_keyfr);                
             }
 
