@@ -57,8 +57,9 @@ static void *event_main(void *arg)
         printf("running...\n");
 
         event = (Event *) list_pop(&events);
+
         if (!event)
-            return (void *) NULL;
+            continue;
 
         if (event->type == EVENT_RESET)
             event_callback = eventcb_reset;
