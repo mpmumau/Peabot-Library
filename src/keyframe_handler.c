@@ -128,7 +128,7 @@ static void *keyhandler_main(void *arg)
             robot_setservo(i, pos);
         }
 
-        if (next > keyframes->duration)
+        if (next > keyfr->duration)
         {
             next = 0.0f;
 
