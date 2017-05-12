@@ -124,7 +124,7 @@ static void *keyhandler_main(void *arg)
 
         for (int i = 0; i < SERVOS_NUM; i++)
         {
-            pos = keyhandler_mappos(perc, servo_pos[i]);
+            pos = keyhandler_mappos(perc, &servo_pos[i]);
             robot_setservo(i, pos);
         }
 
