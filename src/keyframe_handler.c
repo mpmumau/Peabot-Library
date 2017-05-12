@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
@@ -66,6 +67,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
 
     if (keyfr_type == KEYFR_WALK)
         keyfactory_cb = keyfactory_walk;
+
+    printf("We here?\n");
 
     if (keyfactory_cb == NULL)
         return;
