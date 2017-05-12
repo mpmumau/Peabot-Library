@@ -15,6 +15,7 @@
 /* Application includes */
 #include "main.h"
 #include "config.h"
+#include "log.h"
 #include "events.h"
 #include "keyframe_handler.h"
 
