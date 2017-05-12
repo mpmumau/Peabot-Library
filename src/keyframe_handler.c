@@ -122,10 +122,11 @@ static void *keyhandler_main(void *arg)
         }
 
         keyfr = (Keyframe *) keyframes->data;
-        servo_pos = keyfr->servo_pos;
-
-        if (!keyfr || !servo_pos)
-            continue;
+        
+        if (keyfr->servo_pos != NULL)
+            servo_pos = keyfr->servo_pos;
+        else 
+            servos_pos = NULL;
         
         perc = next / keyfr->duration;
         if (perc > 1.0f)
@@ -133,10 +134,13 @@ static void *keyhandler_main(void *arg)
         if (perc < 0.0f)
             perc = 0.0f;
 
-        for (int i = 0; i < SERVOS_NUM; i++)
+        if (!keyfr->is_delay && servo_pos)
         {
-            pos = keyhandler_mappos(perc, &servo_pos[i]);
-            robot_setservo(i, pos);
+            for (int i = 0; i < SERVOS_NUM; i++)
+            {
+                pos = keyhandler_mappos(perc, &servo_pos[i]);
+                robot_setservo(i, pos);
+            }
         }
 
         if (next > keyfr->duration)
