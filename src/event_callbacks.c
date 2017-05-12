@@ -45,8 +45,6 @@ void eventcb_delay(void *arg)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
     *duration_p = duration;
 
-    printf("here?\n");
-
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
@@ -54,6 +52,8 @@ void eventcb_delay(void *arg)
         log_event(log_msg);
         free(log_msg);
     }
+
+    printf("\nhow about here?\n");
 
     keyhandler_add(KEYFR_DELAY, (void *) duration_p, false);
 }
