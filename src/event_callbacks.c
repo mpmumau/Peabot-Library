@@ -17,7 +17,7 @@
 
 void eventcb_reset(void *arg)
 {
-    keyhandler_add(KEYFR_RESET, (void *) NULL, false);
+    keyhandler_add(KEYFR_HOME, (void *) NULL, false);
 }
 
 void eventcb_delay(void *arg)
