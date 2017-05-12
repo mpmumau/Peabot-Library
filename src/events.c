@@ -15,6 +15,7 @@
 
 /* Application includes */
 #include "main.h"
+#include "config.h"
 #include "log.h"
 #include "list.h"
 #include "event_callbacks.h"
@@ -28,6 +29,7 @@ static List *events;
 
 /* Forward decs */
 static void *event_main(void *arg);
+static char *event_getname(int event_type);
 
 void event_init()
 {
@@ -88,7 +90,30 @@ void event_add(int event_type, void *data)
     event->type = event_type;
     event->data = data;
 
+    if (LOG_EVENT_ADD)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Added event. (type: %s)", event_getname(event_type));
+        log_event(log_msg);
+        free(log_msg);
+    }
+
     list_push(&events, (void *) event);
+}
+
+static char *event_getname(int event_type)
+{
+    switch (event_type)
+    {
+        case EVENT_RESET:
+            return "EVENT_RESET";
+        case EVENT_DELAY:
+            return "EVENT_DELAY";
+        case EVENT_ELEVATE:
+            return "EVENT_ELEVATE";
+        case EVENT_WALK:
+            return "EVENT_WALK";
+    }
 }
 
 #endif
