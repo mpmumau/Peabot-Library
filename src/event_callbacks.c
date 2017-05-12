@@ -9,10 +9,12 @@
  */
 
 /* System includes */
+#include <stdio.h>
 #include <stdlib.h>
 
 /* Application includes */
 #include "main.h"
+#include "config.h"
 #include "events.h"
 #include "keyframe_handler.h"
 
@@ -21,6 +23,14 @@
 
 void eventcb_reset(void *arg)
 {
+    if (LOG_EVENT_CALLBACKS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Reset callback. Adding KEYFR_HOME keyframe.");
+        log_event(log_msg);
+        free(log_msg);
+    }
+
     keyhandler_add(KEYFR_HOME, (void *) NULL, false);
 }
 
@@ -31,6 +41,14 @@ void eventcb_delay(void *arg)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
 
     *duration = *((float *) arg);
+
+    if (LOG_EVENT_CALLBACKS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Delay callback. Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
+        log_event(log_msg);
+        free(log_msg);
+    }
 
     keyhandler_add(KEYFR_DELAY, (void *) duration, false);
 }

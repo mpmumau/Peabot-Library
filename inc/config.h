@@ -13,6 +13,7 @@
 #define LOG_STDIN 1
 #define LOG_PROMPT_COMMANDS 1
 #define LOG_EVENT_ADD 1
+#define LOG_EVENT_CALLBACKS 1
 
 /* PCA-9685 config */
 #define PCA_9685_PIN_BASE 300
