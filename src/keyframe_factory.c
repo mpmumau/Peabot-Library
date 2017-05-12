@@ -155,8 +155,6 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
     if (servopos_matches(src, dest))
         return NULL;
 
-    printf("We here?\n");
-
     ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
@@ -180,6 +178,8 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
+    printf("We here?\n");
+    
     bool matches;
 
     for (int i = 0; i < SERVOS_NUM; i++) 
