@@ -14,7 +14,7 @@
 /* Application includes */
 #include "main.h"
 #include "console.h"
-#include "event_handler.h"
+#include "events.h"
 
 /* Header */
 #include "prompt_commands.h"
