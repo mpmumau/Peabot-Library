@@ -60,7 +60,7 @@ void promptcmd_elevate(char *args[], int arg_num)
     elevate_data->reverse = (bool) ((int) atoi(reverse_string));
     elevate_data->duration = (float) atof(seconds_string);
 
-    event_add(EVENT_UP, (void *) elevate_data);    
+    event_add(EVENT_ELEVATE, (void *) elevate_data);    
 }
 
 void promptcmd_walk(char *args[], int arg_num)
