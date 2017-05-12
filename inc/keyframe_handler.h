@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#include <stdbool.h>
+
 #ifndef SERVOS_NUM
 #define SERVOS_NUM 8
 #endif
