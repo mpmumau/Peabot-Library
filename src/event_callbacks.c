@@ -43,10 +43,9 @@ void eventcb_delay(void *arg)
     float *duration_p = malloc(sizeof(float));
     if (!duration_p)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
-    printf("Got this far\n");
     *duration_p = duration;
 
-
+    printf("here?\n");
 
     if (LOG_EVENT_CALLBACKS)
     {
