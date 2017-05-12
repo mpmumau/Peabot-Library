@@ -54,9 +54,8 @@ static void *event_main(void *arg)
 
     while (running)
     {
-        printf("running...\n");
-
         event = (Event *) list_pop(&events);
+        event_callback = NULL;
 
         if (!event)
             continue;
@@ -72,6 +71,9 @@ static void *event_main(void *arg)
 
         if (event->type == EVENT_WALK)
             event_callback = eventcb_walk;
+
+        if (!event_callback)
+            continue;
 
         (*event_callback)(event->data);
 
