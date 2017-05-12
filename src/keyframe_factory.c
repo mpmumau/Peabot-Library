@@ -188,3 +188,5 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest)
 
     return matches;
 }
+
+#endif
