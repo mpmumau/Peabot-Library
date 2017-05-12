@@ -29,9 +29,9 @@ void console_h(char *val)
     }
     line[CONSOLE_LINE_MAXLEN - 1] = '\0';
 
-    console_print(line);
-    console_print(val);
-    console_print(line);
+    printf("%s\n", line);
+    printf("%s\n", val);
+    printf("%s\n", line);
 }
 
 void console_print(char *val)
