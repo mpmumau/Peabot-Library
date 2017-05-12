@@ -23,20 +23,22 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest);
 
 Keyframe *keyfactory_home(void *data, bool reverse)
 {
-    ServoPos *servo_pos[] = malloc(sizeof(ServoPos) * SERVOS_NUM);
+    ServoPos *servo_pos = malloc(sizeof(ServoPos *) * SERVOS_NUM);
     if (!servo_pos)
         app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
 
-    ServoPos *cursor;
+    ServoPos *tmp;
     for (int i = 0; i < SERVOS_NUM; i++)
     {
-        cursor = &servo_pos[i];
+        tmp = malloc(sizeof(ServoPos));
+        
+        tmp->easing = NULL;
+        tmp->start_pos = 0.0f;
+        tmp->end_pos = 0.0f;
+        tmp->begin_pad = 0.0f;
+        tmp->end_pad 0.0f;
 
-        cursor->easing = NULL;
-        cursor->start_pos = 0.0f;
-        cursor->end_pos = 0.0f;
-        cursor->begin_pad = 0.0f;
-        cursor->end_pad 0.0f;
+        servo_pos[i] = tmp;
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
