@@ -75,22 +75,25 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (!keyfr)
         return;
 
-    // Check if the new animation needs a transition keyframe and insert it first if so.
-    Keyframe *tmp_keyfr;
-    if (last_keyfr)
-        tmp_keyfr = last_keyfr;
-    else
-        tmp_keyfr = keyfactory_home((void *) NULL, false);
+    if (keyfr_type != KEYFR_DELAY)
+    {
+        // Check if the new animation needs a transition keyframe and insert it first if so.
+        Keyframe *tmp_keyfr;
+        if (last_keyfr)
+            tmp_keyfr = last_keyfr;
+        else
+            tmp_keyfr = keyfactory_home((void *) NULL, false);
 
-    KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
-    trans_data->duration = KEYFRAME_TRANSITION_TIME;
-    trans_data->src = tmp_keyfr->servo_pos;
-    trans_data->dest = keyfr->servo_pos;
-    
-    Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
+        KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
+        trans_data->duration = KEYFRAME_TRANSITION_TIME;
+        trans_data->src = tmp_keyfr->servo_pos;
+        trans_data->dest = keyfr->servo_pos;
+        
+        Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
 
-    if (trans_keyfr)
-        list_push(&keyframes, trans_keyfr);
+        if (trans_keyfr)
+            list_push(&keyframes, trans_keyfr);
+    }
 
     list_push(&keyframes, keyfr);
 }
