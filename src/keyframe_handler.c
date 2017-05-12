@@ -130,14 +130,14 @@ static void *keyhandler_main(void *arg)
         if (perc < 0.0f)
             perc = 0.0f;
 
-        printf("running");
-        continue;
-
         for (int i = 0; i < SERVOS_NUM; i++)
         {
             pos = keyhandler_mappos(perc, &servo_pos[i]);
             robot_setservo(i, pos);
         }
+
+        printf("running");
+        continue;
 
         if (next > keyfr->duration)
         {
