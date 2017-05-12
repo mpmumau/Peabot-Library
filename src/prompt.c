@@ -55,7 +55,7 @@ static void *prompt_main(void *arg)
 
     while (running)
     {
-        printf("\npeabot > ");
+        printf("peabot > ");
 
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
