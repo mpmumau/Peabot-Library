@@ -21,6 +21,7 @@
 #include "list.h"
 #include "easing.h"
 #include "utils.h"
+#include "robot.h"
 #include "keyframe_factory.h"
 
 /* Header */
