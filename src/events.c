@@ -54,10 +54,9 @@ static void *event_main(void *arg)
 
     while (running)
     {
-        if (!events)
-            continue;
-
         event = (Event *) list_pop(&events);
+        if (!event)
+            return (void *) NULL;
 
         if (event->type == EVENT_RESET)
             event_callback = eventcb_reset;
