@@ -123,6 +123,9 @@ static void *keyhandler_main(void *arg)
 
         keyfr = (Keyframe *) keyframes->data;
         servo_pos = keyfr->servo_pos;
+
+        if (!keyfr || !servo_pos)
+            continue;
         
         perc = next / keyfr->duration;
         if (perc > 1.0f)
@@ -140,10 +143,8 @@ static void *keyhandler_main(void *arg)
         {
             next = 0.0f;
 
-            if (last_keyfr)
-            {
-                free(last_keyfr);                
-            }
+            free(servo_pos);
+            free(last_keyfr);                
 
             last_keyfr = (Keyframe *) list_pop(&keyframes);
         }
