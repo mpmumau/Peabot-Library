@@ -118,4 +118,6 @@ AHFloat BounceEaseInOut(AHFloat p);
 }
 #endif
 
+float easing_calc(int easing_type, AHFloat p);
+
 #endif
