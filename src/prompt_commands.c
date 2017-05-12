@@ -49,7 +49,7 @@ void promptcmd_delay(char *args[], int arg_num)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (seconds: %f)", *seconds);
-        log_write("[Prompt] Adding delay command.");
+        log_write(log_msg);
         free(log_msg);
     } 
 
