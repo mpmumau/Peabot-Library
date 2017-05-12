@@ -113,7 +113,7 @@ static void prompt_handle_cmd(char *stdin_str)
 
     if (cmd_callback == NULL)
     {
-        console_pr("[ERROR] Unknown command.");
+        console_print("[ERROR] Unknown command.");
         return;
     }
 
