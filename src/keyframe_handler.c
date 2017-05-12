@@ -71,8 +71,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (keyfactory_cb == NULL)
         return;
 
-    printf("We here?\n");
     keyfr = (*keyfactory_cb)(data, reverse);
+
+    printf("We here?\n");
 
     if (!keyfr)
         return;
