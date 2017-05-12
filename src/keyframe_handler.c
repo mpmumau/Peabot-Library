@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
@@ -110,6 +111,8 @@ static void *keyhandler_main(void *arg)
 
     while (running)
     {
+        printf("running");
+
         clock_gettime(CLOCK_MONOTONIC, &time);
         next += utils_timediff(time, last_time);
         last_time = time;        

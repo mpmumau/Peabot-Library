@@ -10,7 +10,6 @@
 
 /* System includes */
 #include <stdlib.h>
-#include <stdio.h>
 
 /* Application includes */
 #include "main.h"
