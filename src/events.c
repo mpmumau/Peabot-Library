@@ -115,6 +115,8 @@ static char *event_getname(int event_type)
         case EVENT_WALK:
             return "EVENT_WALK";
     }
+
+    return NULL;
 }
 
 #endif
