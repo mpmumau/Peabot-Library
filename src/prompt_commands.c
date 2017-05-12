@@ -48,7 +48,7 @@ void promptcmd_delay(char *args[], int arg_num)
     if (LOG_PROMPT_COMMANDS)
     {
         char *log_msg;
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (seconds: %f)", seconds);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (seconds: %f)", *seconds);
         log_write("[Prompt] Adding delay command.")
     } 
 
