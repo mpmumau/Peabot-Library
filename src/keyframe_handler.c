@@ -77,7 +77,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (last_keyfrm)
         current_keyfr = last_keyfrm;
     else
-        current_keyfr = keyfradd_home();
+        current_keyfr = keyfactory_home();
 
     KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
     trans_data->src = current_keyfr->servo_pos;
