@@ -36,7 +36,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
         tmp->start_pos = 0.0f;
         tmp->end_pos = 0.0f;
         tmp->begin_pad = 0.0f;
-        tmp->end_pad 0.0f;
+        tmp->end_pad = 0.0f;
 
         servo_pos[i] = tmp;
     }
