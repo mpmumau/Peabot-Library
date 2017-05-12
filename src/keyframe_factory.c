@@ -148,6 +148,7 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
     ServoPos *src = trans_data->src;
     ServoPos *dest = trans_data->dest;
+
     float duration = trans_data->duration;
 
     if (servopos_matches(src, dest))
@@ -159,7 +160,9 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
-        servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src[i]->end_pos, dest[i]->start_pos, 0.0f, 0.0f };
+        servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->end_pos, dest->start_pos, 0.0f, 0.0f };
+        src++;
+        dest++;
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
