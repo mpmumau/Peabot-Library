@@ -65,6 +65,14 @@ void eventcb_elevate(void *arg)
 
     *duration = elevate_data->duration;
 
+    if (LOG_EVENT_CALLBACKS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Elevate callback. Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)\n", elevate_data->duration, (int) elevate_data->reverse);
+        log_event(log_msg);
+        free(log_msg);
+    }    
+
     keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse);
 }
 
@@ -75,18 +83,30 @@ void eventcb_walk(void *arg)
     int cycles = walk_data->cycles;
     float duration = walk_data->duration;
 
+    if (LOG_EVENT_CALLBACKS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Walk callback. Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)\n", duration, cycles);
+        log_event(log_msg);
+        free(log_msg);
+    } 
+
     float *duration_p;
 
     for (int i = 0; i < cycles; i++)
     {
         duration_p = malloc(sizeof(float));
-        if (!duration)
+        if (!duration_p)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
+        *duration_p = duration;
+        
         keyhandler_add(KEYFR_WALK, (void *) duration_p, false);
 
         duration_p = malloc(sizeof(float));
         if (!duration)
-            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);        
+            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);     
+        *duration_p = duration;
+               
         keyhandler_add(KEYFR_WALK, (void *) duration_p, true);
     }
 }
