@@ -37,7 +37,7 @@ void promptcmd_delay(char *args[], int arg_num)
 {
     if (arg_num != 1)
     {
-        console_print("[ERROR] Incorrect number of params. Usage: delay [seconds]");
+        console_print("[ERROR] Incorrect number of params. Usage: delay [duration]");
         return;
     }
 
@@ -48,7 +48,7 @@ void promptcmd_delay(char *args[], int arg_num)
     if (LOG_PROMPT_COMMANDS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (seconds: %f)", *seconds);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (duration: %f)", *seconds);
         log_event(log_msg);
         free(log_msg);
     } 
@@ -60,7 +60,7 @@ void promptcmd_elevate(char *args[], int arg_num)
 {
     if (arg_num != 2)
     {
-        console_print("[ERROR] Incorrect number of params. Usage: up [seconds] [reverse]");
+        console_print("[ERROR] Incorrect number of params. Usage: elevate [duration] [reverse]");
         return;
     }
 
@@ -74,7 +74,7 @@ void promptcmd_elevate(char *args[], int arg_num)
     if (LOG_PROMPT_COMMANDS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding elevate event. (seconds: %f, reverse %d)", elevate_data->duration, elevate_data->reverse);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding elevate event. (duration: %f, reverse %d)", elevate_data->duration, elevate_data->reverse);
         log_event(log_msg);
         free(log_msg);
     } 
@@ -86,7 +86,7 @@ void promptcmd_walk(char *args[], int arg_num)
 {
     if (arg_num != 2)
     {
-        console_print("[ERROR] Incorrect number of params. Usage: walk [cycles] [cycle_secs/2]");
+        console_print("[ERROR] Incorrect number of params. Usage: walk [cycles] [duration]");
         return;
     }
 
@@ -96,6 +96,14 @@ void promptcmd_walk(char *args[], int arg_num)
     EventWalkData *walk_data = malloc(sizeof(EventWalkData));
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
+
+    if (LOG_PROMPT_COMMANDS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding walk event. (duration: %f, cycles %d)", walk_data->duration, walk_data->cycles);
+        log_event(log_msg);
+        free(log_msg);
+    }     
 
     event_add(EVENT_WALK, (void *) walk_data);
 }
