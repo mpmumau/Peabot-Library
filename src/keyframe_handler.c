@@ -68,10 +68,10 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (keyfr_type == KEYFR_WALK)
         keyfactory_cb = keyfactory_walk;
 
-    printf("We here?\n");
-
     if (keyfactory_cb == NULL)
         return;
+
+    printf("We here?\n");
     keyfr = (*keyfactory_cb)(data, reverse);
 
     if (!keyfr)
