@@ -142,8 +142,6 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
 Keyframe *keyfactory_transition(void *data, bool reverse)
 {
-    printf("We here?\n");
-
     if (!data)
         return NULL;
 
@@ -153,6 +151,8 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
     ServoPos *dest = trans_data->dest;
 
     float duration = trans_data->duration;
+
+    printf("We here?\n");
 
     if (servopos_matches(src, dest))
         return NULL;
