@@ -48,7 +48,7 @@ void keyhandler_halt()
     pthread_join(keyhandler_thread, NULL);
 }
 
-void keyhandler_add(int keyfr_type, void *data, bool reverse);
+void keyhandler_add(int keyfr_type, void *data, bool reverse)
 {
     Keyframe *keyfr;
     Keyframe *(*keyfactory_cb)(void *data, bool reverse);
