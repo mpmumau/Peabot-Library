@@ -111,6 +111,9 @@ static void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
 
+    if (cmd_callback = NULL)
+        return;
+
     (*cmd_callback)(&args[1], arg_count);
 }
 
