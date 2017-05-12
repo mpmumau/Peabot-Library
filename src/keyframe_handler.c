@@ -136,10 +136,9 @@ static void *keyhandler_main(void *arg)
             robot_setservo(i, pos);
         }
 
-        continue;
-
         if (next > keyfr->duration)
         {
+            printf("duration expired\n");
             next = 0.0f;
 
             if (last_keyfr && last_keyfr->servo_pos)
