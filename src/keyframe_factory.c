@@ -182,8 +182,12 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest)
 
     for (int i = 0; i < SERVOS_NUM; i++) 
     {
-        matches = src[i]->end_pos == dest[i]->start_pos;
+        matches = src->end_pos == dest->start_pos;
+        src++;
+        dest++;
     }
+
+    printf("We here?\n");
 
     return matches;
 }
