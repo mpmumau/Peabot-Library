@@ -73,7 +73,7 @@ static void *event_main(void *arg)
         if (event->type == EVENT_WALK)
             event_callback = eventcb_walk;
 
-        if (event_callback != NULL)
+        if (event_callback)
             (*event_callback)(event->data);
 
         if (event->data)
