@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdlib.h>
+
 /* Application includes */
 #include "events.h"
 #include "keyframe_handler.h"
