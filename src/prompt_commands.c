@@ -10,9 +10,12 @@
 
 /* System includes */ 
 #include <stdlib.h>
+#include <string.h>
 
 /* Application includes */
 #include "main.h"
+#include "config.h"
+#include "log.h"
 #include "console.h"
 #include "events.h"
 
@@ -41,6 +44,13 @@ void promptcmd_delay(char *args[], int arg_num)
     const char *seconds_string = args[0];
     float *seconds = malloc(sizeof(float));
     *seconds = (float) atof(seconds_string);
+
+    if (LOG_PROMPT_COMMANDS)
+    {
+        char *log_msg;
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (seconds: %f)", seconds);
+        log_write("[Prompt] Adding delay command.")
+    } 
 
     event_add(EVENT_DELAY, (void *) seconds);    
 }
