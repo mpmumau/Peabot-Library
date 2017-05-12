@@ -78,7 +78,7 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
             servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
         else
-            servo_pos[i] = (ServoPos) { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
