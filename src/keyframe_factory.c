@@ -29,7 +29,11 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 
     for (int i = 0; i < SERVOS_NUM; i++)
     {
-        *(servo_pos[i]) = (ServoPos) { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
+        servo_pos[i]->easing = NULL;
+        servo_pos[i]->start_pos = 0.0f;
+        servo_pos[i]->end_pos = 0.0f;
+        servo_pos[i]->begin_pad = 0.0f;
+        servo_pos[i]->end_pad 0.0f;
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
