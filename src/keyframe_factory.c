@@ -36,7 +36,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
     if (!keyfr)
         app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_home).", 1);
 
-    keyfr->servos_pos = servo_pos;
+    keyfr->servo_pos = servo_pos;
 
     return keyfr;
 }
