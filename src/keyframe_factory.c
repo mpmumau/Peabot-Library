@@ -13,6 +13,7 @@
 
 /* Application includes */
 #include "main.h"
+#include "config.h"
 #include "keyframe_handler.h"
 
 /* Header */
