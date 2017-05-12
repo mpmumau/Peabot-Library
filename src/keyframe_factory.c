@@ -30,7 +30,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
     ServoPos *cursor = servo_pos;
     for (int i = 0; i < SERVOS_NUM; i++)
     {
-        *cursor = (ServoPos) { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
+        *cursor = { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
         cursor++;
     }
 
