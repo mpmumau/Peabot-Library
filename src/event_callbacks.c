@@ -37,11 +37,14 @@ void eventcb_reset(void *arg)
 
 void eventcb_delay(void *arg)
 {
+    float *dp = (float *) arg;
+    float duration = *dp;
+
     float *duration = malloc(sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
+    *duration = duration;
 
-    *duration = *((float *) arg);
 
     if (LOG_EVENT_CALLBACKS)
     {
