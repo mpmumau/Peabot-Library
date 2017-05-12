@@ -28,7 +28,9 @@ Keyframe *keyfactory_home(void *data, bool reverse)
         app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
 
     for (int i = 0; i < SERVOS_NUM; i++)
-        servo_pos[i] = (ServoPos) { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
+    {
+        *servo_pos[i] = (ServoPos) { NULL, 0.0f, 0.0f, 0.0f, 0.0f };
+    }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
     if (!keyfr)
