@@ -110,7 +110,7 @@ static void *keyhandler_main(void *arg)
         if (!keyframes)
         {
             next = 0.0f;
-            return (void *) NULL;        
+            continue;       
         }
 
         keyfr = (Keyframe *) keyframes->data;
