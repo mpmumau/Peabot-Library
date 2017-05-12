@@ -73,8 +73,6 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
 
     keyfr = (*keyfactory_cb)(data, reverse);
 
-    printf("We here?\n");
-
     if (!keyfr)
         return;
 
@@ -89,6 +87,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     trans_data->src = current_keyfr->servo_pos;
     trans_data->dest = keyfr->servo_pos;
     trans_data->duration = KEYFRAME_TRANSITION_TIME;
+
+    printf("We here?\n");
 
     Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
     if (trans_keyfr)
