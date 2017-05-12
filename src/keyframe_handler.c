@@ -121,9 +121,6 @@ static void *keyhandler_main(void *arg)
             continue;       
         }
 
-        printf("running");
-        continue;
-
         keyfr = (Keyframe *) keyframes->data;
         servo_pos = keyfr->servo_pos;
         
@@ -132,6 +129,9 @@ static void *keyhandler_main(void *arg)
             perc = 1.0f;
         if (perc < 0.0f)
             perc = 0.0f;
+
+        printf("running");
+        continue;
 
         for (int i = 0; i < SERVOS_NUM; i++)
         {

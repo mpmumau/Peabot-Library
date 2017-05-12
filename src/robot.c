@@ -30,7 +30,7 @@
 #include "robot.h"
 
 static pthread_t robot_thread;
-static bool robot_running = true;
+static bool running = true;
 
 static int pca_9685_fd;
 
@@ -61,7 +61,7 @@ void robot_halt()
 {   
     robot_reset();
 
-    robot_running = false;
+    running = false;
     int error = pthread_join(robot_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from robot thread.");
@@ -99,7 +99,7 @@ static void *robot_main(void *arg)
     float tick = 0.0f;
     float diff;
 
-    while (robot_running)
+    while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
