@@ -32,7 +32,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
     {
         tmp = malloc(sizeof(ServoPos));
         
-        tmp->easing = NULL;
+        tmp->easing = -1;
         tmp->start_pos = 0.0f;
         tmp->end_pos = 0.0f;
         tmp->begin_pad = 0.0f;
