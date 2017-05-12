@@ -37,7 +37,7 @@
 #define BACK_LEFT_HIP 1
 
 /* Keyframe animation */
-#define KEYFRAME_TRANSITION_TIME 2.0
+#define KEYFRAME_TRANSITION_TIME 1.0
 
 void config_init();
 
