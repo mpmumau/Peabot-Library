@@ -47,6 +47,6 @@ void list_remove(List **head, unsigned int index);
 /*
  Get the data of the last item in the list.
  */
-void *list_last(List *head)
+void *list_last(List *head);
 
 #endif
