@@ -10,6 +10,7 @@
 
 /* System includes */
 #include <stdlib.h>
+#include <stdio.h>
 
 /* Application includes */
 #include "main.h"
@@ -142,7 +143,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 Keyframe *keyfactory_transition(void *data, bool reverse)
 {
     printf("We here?\n");
-    
+
     if (!data)
         return NULL;
 
