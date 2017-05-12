@@ -152,10 +152,10 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
     float duration = trans_data->duration;
 
-    printf("We here?\n");
-
     if (servopos_matches(src, dest))
         return NULL;
+
+    printf("We here?\n");
 
     ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
     if (!servo_pos)
