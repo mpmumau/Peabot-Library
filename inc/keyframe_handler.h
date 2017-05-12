@@ -12,10 +12,10 @@
 #define SERVOS_NUM 8
 #endif
 
-#define KEYFR_HOME 0;
-#define KEYFR_DELAY 1;
-#define KEYFR_ELEVATE 2;
-#define KEYFR_WALK 3;
+#define KEYFR_HOME 0
+#define KEYFR_DELAY 1
+#define KEYFR_ELEVATE 2
+#define KEYFR_WALK 3
 
 typedef struct ServoPos {
     int easing;
