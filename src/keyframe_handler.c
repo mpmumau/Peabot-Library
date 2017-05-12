@@ -111,8 +111,6 @@ static void *keyhandler_main(void *arg)
 
     while (running)
     {
-        printf("running");
-
         clock_gettime(CLOCK_MONOTONIC, &time);
         next += utils_timediff(time, last_time);
         last_time = time;        
@@ -122,6 +120,9 @@ static void *keyhandler_main(void *arg)
             next = 0.0f;
             continue;       
         }
+
+        printf("running");
+        continue;
 
         keyfr = (Keyframe *) keyframes->data;
         servo_pos = keyfr->servo_pos;
