@@ -49,7 +49,7 @@ Keyframe *keyfactory_delay(void *data, bool reverse)
     if (!keyfr)
         app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_delay).", 1);
 
-    keyfr->duration = duration;
+    keyfr->duration = *duration;
     keyfr->is_delay = true;
 
     return keyfr;
