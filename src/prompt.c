@@ -16,12 +16,15 @@
 #include <stdbool.h>
 
 /* Application includes */
+#include "main.h"
 #include "config.h"
-#include "prompt.h"
-#include "prompt_commands.h"
-#include "console.h"
-#include "string_utils.h"
 #include "log.h"
+#include "console.h"
+#include "prompt_commands.h"
+#include "string_utils.h"
+
+/* Header */
+#include "prompt.h"
 
 /* Forward decs */
 static void *prompt_main(void *arg);
@@ -29,30 +32,36 @@ static void prompt_handle_cmd(char *stdin);
 static int prompt_count_args(char *arg_str);
 
 static pthread_t prompt_thread;
-static bool prompt_running = true;
+static bool running = true;
 
 void prompt_init()
 {
-    pthread_create(&prompt_thread, NULL, prompt_main, NULL);
+    int error = pthread_create(&prompt_thread, NULL, prompt_main, NULL);
+    if (error)
+        app_exit("[ERROR!] Could not initialize prompt thread.", 1);
 }
 
 void prompt_halt()
 {
-    prompt_running = false;
-    pthread_join(prompt_thread, NULL);
+    running = false;
+    int error = pthread_join(prompt_thread, NULL);
+        log_event("[ERROR!] Could not rejoin from prompt thread.");
+}
+
+void prompt_repeatpr()
+{
+    printf("\npeabot > ");
 }
 
 static void *prompt_main(void *arg)
 {
     char stdin_buffer[64];
 
-    while (prompt_running)
+    while (running)
     {
-        printf("peabot > ");
+        prompt_repeatpr();
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
-        
         str_removenl(stdin_buffer);
-
         prompt_handle_cmd(stdin_buffer);
     }
 
@@ -89,29 +98,20 @@ static void prompt_handle_cmd(char *stdin_str)
 
     char *cmd = args[0];
 
-    if (str_equals(cmd, "srv"))
-        cmd_callback = promptcmd_srv;
+    if (str_equals(cmd, "quit"))
+        cmd_callback = promptcmd_quit;
 
     if (str_equals(cmd, "reset"))
         cmd_callback = promptcmd_reset;
 
-    if (str_equals(cmd, "quit"))
-        cmd_callback = promptcmd_quit;
+    if (str_equals(cmd, "delay"))
+        cmd_callback = promptcmd_delay;      
 
-    if (str_equals(cmd, "up"))
-        cmd_callback = promptcmd_up;
-
-    if (str_equals(cmd, "walka"))
-        cmd_callback = promptcmd_walka;
-
-    if (str_equals(cmd, "walkb"))
-        cmd_callback = promptcmd_walkb;   
+    if (str_equals(cmd, "elevate"))
+        cmd_callback = promptcmd_elevate;
 
     if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
-
-    if (str_equals(cmd, "delay"))
-        cmd_callback = promptcmd_delay;     
 
     (*cmd_callback)(&args[1], arg_count);
 }

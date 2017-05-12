@@ -8,6 +8,7 @@
  Author:        Matt Mumau
  */
 
+/* Exit the application, citing the given message as a reason. */
 void app_exit(char *message, int retval);
 
 #endif

@@ -125,6 +125,8 @@ static void *keyhandler_main(void *arg)
             robot_setservo(i, pos);
         }
     }
+
+    return (void *) NULL;
 }
 
 static float keyhandler_getpos(float perc, ServoPos *servo_pos)

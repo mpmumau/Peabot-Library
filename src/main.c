@@ -10,9 +10,7 @@
 
 /* System dependencies */
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <time.h>
 #include <signal.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -22,37 +20,18 @@
 #include "log.h"
 #include "console.h"
 #include "prompt.h"
-#include "utils.h"
-#include "string_utils.h"
+#include "events.h"
+#include "keyframe_handler.h"
 #include "robot.h"
-#include "event_handler.h"
 
 /* Header */
 #include "main.h"
 
-/* Application config */
 static bool app_running = true;
-static int exit_val = 0; // suspect?
+static int exit_val = 0;
 
 /* Forward decs */
-void signal_handler(int signum);
-void app_exit(char *message, int retval);
-
-/*
- Handles all posix signals.
- */
-void signal_handler(int signum)
-{
-    if (signum == SIGINT)
-    {
-        log_event("POSIX SIGNIT received. Exiting...");
-        log_close();
-
-        robot_halt();
-
-        exit(0);
-    }
-}
+static void signal_handler(int signum);
 
 void app_exit(char *message, int retval)
 {
@@ -62,17 +41,42 @@ void app_exit(char *message, int retval)
 
     log_event(message);
 
-    robot_halt();
-    log_event("Robot shutdown.");
-
     prompt_halt();
-    log_event("Prompt shutdown.");
+    log_event("[APP_EXIT] Prompt shutdown.");
 
-    log_event("Bye!");
+    event_halt();
+    log_event("[APP_EXIT] Event handler shutdown.")
+
+    keyhandler_halt();
+    log_event("[APP_EXIT] Keyframe handler shutdown.");
+
+    robot_halt();
+    log_event("[APP_EXIT] Robot shutdown.");
+
+    log_event("[APP_EXIT] Bye!");
     log_close();
 
     exit_val = retval;
     app_running = false;  
+}
+
+/*
+ Handles all posix signals.
+ */
+static void signal_handler(int signum)
+{
+    if (signum == SIGINT)
+    {
+        prompt_halt();
+        event_halt();
+        keyhandler_halt();
+        robot_halt();
+        
+        log_event("POSIX SIGNIT received. Exiting...");
+        log_close();
+
+        exit(0);
+    }
 }
 
 /* Application main */
@@ -82,7 +86,6 @@ int main(int argc, char *argv[])
     config_pipe(argc, argv);
 
     char *log_filename = config_logfile();
-    
     log_init(log_filename);
     log_h("Peabot Server Logs");
     log_event("Server started.");
@@ -92,14 +95,12 @@ int main(int argc, char *argv[])
     console_h("Peabot Server Console"); 
     console_event("Server started");
 
+    robot_init();
+    keyhandler_init();
+    event_init();
     prompt_init();
 
-    robot_init();
-
-    while (app_running)
-    {
-        event_tick();
-    }
+    while (app_running) {}
 
     return exit_val;
 }

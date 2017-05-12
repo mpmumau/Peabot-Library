@@ -8,23 +8,6 @@
  Author:        Matt Mumau
  */
 
-
-// typedef struct ServoPos {
-//     int easing;
-//     float start_pos;
-//     float end_pos;
-//     float delay; 
-//     float stop;   
-// } ServoPos;
-
-//  Data structure for representing servo positions at a point in time. 
-// typedef struct Keyframe {
-//     float duration;
-//     ServoPos servo_pos[SERVOS_NUM];
-//     bool reverse;
-// } Keyframe;
-
-
 #include "main.h"
 #include "keyframe_add_callbacks.h"
 
