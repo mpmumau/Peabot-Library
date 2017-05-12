@@ -14,7 +14,4 @@ void prompt_init();
 /* End the command prompt thread. */
 void prompt_halt();
 
-/* Print out the prompt itself to the console. */
-void prompt_repeatpr();
-
 #endif

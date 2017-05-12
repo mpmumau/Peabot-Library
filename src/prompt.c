@@ -49,18 +49,13 @@ void prompt_halt()
         log_event("[ERROR!] Could not rejoin from prompt thread.");
 }
 
-void prompt_repeatpr()
-{
-    printf("\npeabot > ");
-}
-
 static void *prompt_main(void *arg)
 {
     char stdin_buffer[64];
 
     while (running)
     {
-        prompt_repeatpr();
+        printf("\npeabot > ");
 
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
