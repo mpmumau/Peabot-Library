@@ -38,24 +38,22 @@ void eventcb_reset(void *arg)
 void eventcb_delay(void *arg)
 {
     float *dp = (float *) arg;
-    float duration = *dp;
+    float duration_val = *dp;
 
-    float *duration_p = malloc(sizeof(float));
-    if (!duration_p)
+    float *duration = malloc(sizeof(float));
+    if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
-    *duration_p = duration;
+    *duration = duration_val;
 
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration_p);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
         log_event(log_msg);
         free(log_msg);
     }
 
-    printf("Duration here: %f\n", *duration_p);
-
-    keyhandler_add(KEYFR_DELAY, (void *) duration_p, false);
+    keyhandler_add(KEYFR_DELAY, (void *) duration, false);
 }
 
 void eventcb_elevate(void *arg)
