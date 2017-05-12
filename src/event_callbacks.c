@@ -30,7 +30,7 @@ void eventcb_delay(void *arg)
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
 
-    *duration = (float) *arg;
+    *duration = *((float *) arg);
 
     keyhandler_add(KEYFR_DELAY, (void *) duration, false);
 }
