@@ -88,7 +88,7 @@ void event_add(int event_type, void *data)
     event->type = event_type;
     event->data = data;
 
-    list_add(&events, (void *) event);
+    list_push(&events, (void *) event);
 }
 
 #endif
