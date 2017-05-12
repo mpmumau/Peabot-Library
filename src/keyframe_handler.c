@@ -126,7 +126,7 @@ static void *keyhandler_main(void *arg)
         if (keyfr->servo_pos != NULL)
             servo_pos = keyfr->servo_pos;
         else 
-            servos_pos = NULL;
+            servo_pos = NULL;
         
         perc = next / keyfr->duration;
         if (perc > 1.0f)
