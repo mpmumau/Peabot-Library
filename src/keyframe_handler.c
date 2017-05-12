@@ -28,7 +28,7 @@
 #include "keyframe_handler.h"
 
 static pthread_t keyhandler_thread;
-static bool running;
+static bool running = true;
 
 static List *keyframes;
 static Keyframe *last_keyfr;  
