@@ -53,6 +53,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     Keyframe *keyfr;
     Keyframe *(*keyfactory_cb)(void *data, bool reverse);
 
+    keyfactory_cb = NULL;
+
     if (keyfr_type == KEYFR_HOME)
         keyfactory_cb = keyfactory_home;
 
@@ -65,7 +67,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (keyfr_type == KEYFR_WALK)
         keyfactory_cb = keyfactory_walk;
 
-    if (*keyfactory_cb == NULL)
+    if (keyfactory_cb == NULL)
         return;
     keyfr = (*keyfactory_cb)(data, reverse);
 
