@@ -45,7 +45,7 @@ void app_exit(char *message, int retval)
     log_event("[APP_EXIT] Prompt shutdown complete.");
 
     event_halt();
-    log_event("[APP_EXIT] Event handler shutdown complete.")
+    log_event("[APP_EXIT] Event handler shutdown complete.");
 
     keyhandler_halt();
     log_event("[APP_EXIT] Keyframe handler shutdown complete.");
