@@ -25,7 +25,7 @@
 #include "events.h"
 
 static pthread_t event_thread;
-static bool running;
+static bool running = true;
 static List *events;
 
 /* Forward decs */
@@ -54,8 +54,6 @@ static void *event_main(void *arg)
 
     while (running)
     {
-        printf("Event running...");
-
         event = (Event *) list_pop(&events);
         if (!event)
             return (void *) NULL;
