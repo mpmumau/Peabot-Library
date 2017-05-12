@@ -117,7 +117,7 @@ static void *keyhandler_main(void *arg)
         perc = next / keyfr->duration;
         if (perc > 1.0f)
             perc = 1.0f;
-        if (perc < 0.0f;)
+        if (perc < 0.0f)
             perc = 0.0f;
 
         for (int i = 0; i < SERVOS_NUM; i++)
