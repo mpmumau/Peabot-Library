@@ -53,6 +53,8 @@ void eventcb_delay(void *arg)
         free(log_msg);
     }
 
+    printf("Duration here: %f\n", *duration_p);
+
     keyhandler_add(KEYFR_DELAY, (void *) duration_p, false);
 }
 
