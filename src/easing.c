@@ -409,5 +409,5 @@ float easing_calc(int easing_type, AHFloat p)
 	if (easing_type == EASE_BOUNCE_INOUT)
 		easing_func = BounceEaseInOut; 								
 
-	(*easing_func)(p);
+	return (*easing_func)(p);
 }
