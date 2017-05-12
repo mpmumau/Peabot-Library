@@ -55,7 +55,7 @@ static void *event_main(void *arg)
 
         event = (Event *) list_pop(&events);
 
-        (*event_callback) = NULL;
+        event_callback = NULL;
 
         if (event->type == EVENT_RESET)
             event_callback = eventcb_reset;
@@ -69,7 +69,7 @@ static void *event_main(void *arg)
         if (event->type == EVENT_WALK)
             event_callback = eventcb_walk;
 
-        if ((*event_callback) != NULL)
+        if (event_callback != NULL)
             (*event_callback)(event->data);
 
         if (event->data)
