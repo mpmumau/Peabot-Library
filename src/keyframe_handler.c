@@ -138,7 +138,6 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
-            printf("duration expired\n");
             next = 0.0f;
 
             if (last_keyfr && last_keyfr->servo_pos)
