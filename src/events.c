@@ -16,6 +16,7 @@
 #include "main.h"
 #include "log.h"
 #include "list.h"
+#include "event_callbacks.h"
 
 /* Header */
 #include "events.h"
