@@ -76,17 +76,17 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
         return;
 
     // Check if the new animation needs a transition keyframe and insert it first if so.
-    Keyframe *current_keyfr;
+    Keyframe *tmp_keyfr;
     if (last_keyfr)
-        current_keyfr = last_keyfr;
+        tmp_keyfr = last_keyfr;
     else
-        current_keyfr = keyfactory_home((void *) NULL, false);
+        tmp_keyfr = keyfactory_home((void *) NULL, false);
 
     KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
-    trans_data->src = current_keyfr->servo_pos;
-    trans_data->dest = keyfr->servo_pos;
     trans_data->duration = KEYFRAME_TRANSITION_TIME;
-
+    trans_data->src = tmp_keyfr->servo_pos;
+    trans_data->dest = keyfr->servo_pos;
+    
     Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
 
     if (trans_keyfr)

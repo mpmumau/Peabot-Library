@@ -178,11 +178,16 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
-    bool matches;
+    bool matches = true;
 
     for (int i = 0; i < SERVOS_NUM; i++) 
     {
-        matches = src->end_pos == dest->start_pos;
+        if (src->end_pos != dest->start_pos)
+        {
+            matches = false;
+            break;   
+        }
+
         src++;
         dest++;
     }
