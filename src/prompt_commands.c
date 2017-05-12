@@ -30,6 +30,14 @@ void promptcmd_quit(char *args[], int arg_num)
 
 void promptcmd_reset(char *args[], int arg_num)
 {
+    if (LOG_PROMPT_COMMANDS)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding reset event.");
+        log_event(log_msg);
+        free(log_msg);
+    } 
+
     event_add(EVENT_RESET, (void *) NULL);  
 }
 
