@@ -39,7 +39,7 @@ typedef struct KeyframeTransData {
 } KeyframeTransData;
 
 /* Initialize the keyframe handler process. */
-void keyhandler_init()
+void keyhandler_init();
 
 /* End the keyframe process thread and stop processing keyframes. */
 void keyhandler_halt();
