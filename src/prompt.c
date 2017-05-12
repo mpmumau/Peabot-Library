@@ -78,7 +78,7 @@ static void prompt_handle_cmd(char *stdin_str)
     int arg_count = prompt_count_args(stdin_str);
     char *args[arg_count];
 
-    void (*cmd_callback)(char *args[], int args_num);
+    void (*cmd_callback)(char *args[], int args_num) = NULL;
 
     char *tmp_arg;
     char delim[2] = { ' ', '\0' };
@@ -111,7 +111,7 @@ static void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
 
-    if ((*cmd_callback) == NULL)
+    if (cmd_callback == NULL)
         return;
 
     (*cmd_callback)(&args[1], arg_count);
