@@ -54,6 +54,8 @@ static void *event_main(void *arg)
 
     while (running)
     {
+        printf("Event running...");
+
         event = (Event *) list_pop(&events);
         if (!event)
             return (void *) NULL;
