@@ -142,7 +142,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 Keyframe *keyfactory_transition(void *data, bool reverse)
 {
     if (!data)
-        return;
+        return NULL;
 
     KeyframeTransData *trans_data = (KeyframeTransData *) data;
 
