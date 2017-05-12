@@ -304,7 +304,10 @@ AHFloat BounceEaseInOut(AHFloat p)
 
 float easing_calc(int easing_type, AHFloat p)
 {
-	float (*easing_func)(AHFloat p);
+	if (easing_type < 0)
+		return (float) p;
+
+	AHFloat (*easing_func)(AHFloat p);
 
 	if (easing_type == EASE_LINEAR)
 		easing_func = LinearInterpolation;
@@ -409,5 +412,5 @@ float easing_calc(int easing_type, AHFloat p)
 	if (easing_type == EASE_BOUNCE_INOUT)
 		easing_func = BounceEaseInOut; 								
 
-	return (*easing_func)(p);
+	return (float) (*easing_func)(p);
 }
