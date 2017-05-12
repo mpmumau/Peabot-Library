@@ -12,6 +12,7 @@
 #include <stdlib.h>
 
 /* Application includes */
+#include "main.h"
 #include "events.h"
 #include "keyframe_handler.h"
 
