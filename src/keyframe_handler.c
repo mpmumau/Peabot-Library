@@ -31,7 +31,7 @@ static pthread_t keyhandler_thread;
 static bool running;
 
 static List *keyframes;
-static Keyframe *last_keyfrm;  
+static Keyframe *last_keyfr;  
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
@@ -74,8 +74,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
 
     // Check if the new animation needs a transition keyframe and insert it first if so.
     Keyframe *current_keyfr;
-    if (last_keyfrm)
-        current_keyfr = last_keyfrm;
+    if (last_keyfr)
+        current_keyfr = last_keyfr;
     else
         current_keyfr = keyfactory_home((void *) NULL, false);
 
@@ -132,13 +132,13 @@ static void *keyhandler_main(void *arg)
         {
             next = 0.0f;
 
-            if (last_keyframe && last_keyframe->servo_pos)
+            if (last_keyfr && last_keyfr->servo_pos)
             {
-                free(last_keyframe->servo_pos);
-                free(last_keyframe);                
+                free(last_keyfr->servo_pos);
+                free(last_keyfr);                
             }
 
-            last_keyframe = (Keyframe *) list_pop(&keyframes);
+            last_keyfr = (Keyframe *) list_pop(&keyframes);
         }
     }
 
