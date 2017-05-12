@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#include "keyframe_handler.h"
+
 /* Get keyframe for resetting the robot to the home position. */
 Keyframe *keyfactory_home(void *data, bool reverse);
 
