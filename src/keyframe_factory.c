@@ -192,8 +192,6 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest)
         dest++;
     }
 
-    printf("We here?\n");
-
     return matches;
 }
 
