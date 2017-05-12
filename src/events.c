@@ -13,6 +13,8 @@
 #include <pthread.h>
 
 /* Application includes */
+#include "main.h"
+#include "log.h"
 #include "list.h"
 
 /* Header */
@@ -27,13 +29,17 @@ static void *event_main(void *arg);
 
 void event_init()
 {
-    pthread_create(&event_thread, NULL, event_main, NULL);
+    int error = pthread_create(&event_thread, NULL, event_main, NULL);
+    if (error)
+        app_exit("[ERROR!] Could not create event thread.", 1);
 }
 
 void event_halt()
 {
     running = false;
-    pthread_join(event_thread, NULL);
+    int error = pthread_join(event_thread, NULL);
+    if (error)
+        log_event("[ERROR!] Could not rejoin from robot thread.");
 }
 
 static void *event_main(void *arg)
@@ -45,8 +51,10 @@ static void *event_main(void *arg)
     {
         if (!events)
             continue;
-        
-        event = (Event) list_pop(&events);
+
+        event = (Event *) list_pop(&events);
+
+        (*event_callback) = NULL;
 
         if (event->type == EVENT_RESET)
             event_callback = eventcb_reset;
@@ -63,7 +71,8 @@ static void *event_main(void *arg)
         if ((*event_callback) != NULL)
             (*event_callback)(event->data);
 
-        free(event->data);
+        if (event->data)
+            free(event->data);
         free(event);
     }
 

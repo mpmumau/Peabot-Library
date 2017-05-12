@@ -14,7 +14,6 @@
 /* Application includes */
 #include "main.h"
 #include "console.h"
-#include "prompt.h"
 #include "event_handler.h"
 
 /* Header */
@@ -22,7 +21,7 @@
 
 void promptcmd_quit(char *args[], int arg_num)
 {
-    app_exit("User requested application shutdown.", 0);
+    app_exit("[Prompt] User requested application shutdown.", 0);
 }
 
 
@@ -36,7 +35,6 @@ void promptcmd_delay(char *args[], int arg_num)
     if (arg_num != 1)
     {
         console_print("[ERROR] Incorrect number of params. Usage: delay [seconds]");
-        prompt_repeatpr();
         return;
     }
 
@@ -59,7 +57,7 @@ void promptcmd_elevate(char *args[], int arg_num)
     const char *reverse_string = args[1];
 
     EventElevateData *elevate_data = malloc(sizeof(EventElevateData));
-    elevate_data->reverse = (bool) atoi(reverse_string);
+    elevate_data->reverse = (bool) ((int) atoi(reverse_string));
     elevate_data->duration = (float) atof(seconds_string);
 
     event_add(EVENT_UP, (void *) elevate_data);    
@@ -80,7 +78,7 @@ void promptcmd_walk(char *args[], int arg_num)
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
 
-    event_data(EVENT_WALK, (void *) walk_data);
+    event_add(EVENT_WALK, (void *) walk_data);
 }
 
 #endif

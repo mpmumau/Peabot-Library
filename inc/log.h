@@ -21,7 +21,7 @@
 #endif
 
 /* Open the given log file for appending. */
-void log_init(char *file);
+void log_init();
 
 /* Write the given line to the log file. */
 void log_write(char *line);

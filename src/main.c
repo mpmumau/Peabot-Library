@@ -42,18 +42,18 @@ void app_exit(char *message, int retval)
     log_event(message);
 
     prompt_halt();
-    log_event("[APP_EXIT] Prompt shutdown.");
+    log_event("[APP_EXIT] Prompt shutdown complete.");
 
     event_halt();
-    log_event("[APP_EXIT] Event handler shutdown.")
+    log_event("[APP_EXIT] Event handler shutdown complete.")
 
     keyhandler_halt();
-    log_event("[APP_EXIT] Keyframe handler shutdown.");
+    log_event("[APP_EXIT] Keyframe handler shutdown complete.");
 
     robot_halt();
-    log_event("[APP_EXIT] Robot shutdown.");
+    log_event("[APP_EXIT] Robot shutdown complete.");
 
-    log_event("[APP_EXIT] Bye!");
+    log_event("[APP_EXIT] Exit sequence complete. Bye!");
     log_close();
 
     exit_val = retval;
@@ -85,8 +85,7 @@ int main(int argc, char *argv[])
     config_init();
     config_pipe(argc, argv);
 
-    char *log_filename = config_logfile();
-    log_init(log_filename);
+    log_init();
     log_h("Peabot Server Logs");
     log_event("Server started.");
 
@@ -104,4 +103,5 @@ int main(int argc, char *argv[])
 
     return exit_val;
 }
+
 #endif

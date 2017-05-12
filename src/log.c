@@ -14,33 +14,37 @@
 #include <string.h>
 #include <time.h>
 
+/* Application includes */
+#include "main.h"
+#include "config.h"
+
+/* Header */
 #include "log.h"
 
-FILE *logfile = NULL;
+static FILE *logfile = NULL;
 
-void log_init(char *file)
+void log_init()
 {
-    logfile = fopen(file, "w");
+    char *filename = config_logfile();
+    if (!filename)
+        app_exit("[ERROR!] Could not open logfile!", 1);
 
-    if (logfile == NULL)
-    {
-        printf("[LOG LIBRARY EXCEPTION] Could not open logfile!");
-        exit(0);
-    }
+    logfile = fopen(filename, "w");
+
+    if (!logfile)
+        app_exit("[ERROR!] Could not open logfile!", 1);
 }
 
 void log_write(char *line)
 {
-    if (logfile == NULL)
+    if (!logfile || !line)
         return;
-
-    //fwrite(line, 1, LOG_LINE_MAXLEN, logfile);
     fprintf(logfile, "%s\n", line);
 }
 
 void log_close()
 {
-    if (logfile == NULL)
+    if (!logfile)
         return;
     fclose(logfile);
 }

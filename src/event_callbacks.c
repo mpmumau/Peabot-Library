@@ -17,22 +17,32 @@
 
 void eventcb_reset(void *arg)
 {
-    keyhandler_add(KEYFR_RESET, NULL, false);
+    keyhandler_add(KEYFR_RESET, (void *) NULL, false);
 }
 
 void eventcb_delay(void *arg)
 {
-    float *duration_p = (float *) arg;
-    keyhandler_add(KEYFR_DELAY, *duration_p, false);
+    float *duration = malloc(sizeof(float));
+    if (!duration)
+        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
+
+    *duration = (float) *arg;
+
+    keyhandler_add(KEYFR_DELAY, (void *) duration, false);
 }
 
 void eventcb_elevate(void *arg)
 {
     EventElevateData *elevate_data = (EventElevateData *) arg;
     bool reverse = elevate_data->reverse;
-    float duration = elevate_data->duration;
 
-    keyhandler_add(KEYFR_ELEVATE, *duration_p, false);
+    float *duration = malloc(sizeof(float));
+    if (!duration)
+        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
+
+    *duration = elevate_data->duration;
+
+    keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse);
 }
 
 void eventcb_walk(void *arg)
@@ -40,13 +50,21 @@ void eventcb_walk(void *arg)
     EventWalkData *walk_data = (EventWalkData *) arg;
 
     int cycles = walk_data->cycles;
-    float *duration = malloc(sizeof(float));
-    *duration = walk_data->duration;
+    float duration = walk_data->duration;
+
+    float *duration_p;
 
     for (int i = 0; i < cycles; i++)
     {
-        keyhandler_add(KEYFR_WALK, (void *) duration, false);
-        keyhandler_add(KEYFR_WALK, (void *) duration, true);
+        duration_p = malloc(sizeof(float));
+        if (!duration)
+            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
+        keyhandler_add(KEYFR_WALK, (void *) duration_p, false);
+
+        duration_p = malloc(sizeof(float));
+        if (!duration)
+            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);        
+        keyhandler_add(KEYFR_WALK, (void *) duration_p, true);
     }
 }
 

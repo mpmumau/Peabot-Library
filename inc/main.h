@@ -3,7 +3,7 @@
 
 /*
  File:          main.h
- Description:   Forward declarations for the main Peabot application.
+ Description:   Application flow functions for the main Peabot application.
  Created:       May 6, 2017
  Author:        Matt Mumau
  */

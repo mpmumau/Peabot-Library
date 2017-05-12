@@ -45,6 +45,7 @@ void prompt_halt()
 {
     running = false;
     int error = pthread_join(prompt_thread, NULL);
+    if (error)
         log_event("[ERROR!] Could not rejoin from prompt thread.");
 }
 
@@ -60,8 +61,10 @@ static void *prompt_main(void *arg)
     while (running)
     {
         prompt_repeatpr();
+
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
+
         prompt_handle_cmd(stdin_buffer);
     }
 
@@ -83,7 +86,7 @@ static void prompt_handle_cmd(char *stdin_str)
     void (*cmd_callback)(char *args[], int args_num);
 
     char *tmp_arg;
-    char delim[2] = { ' ', '\0'};
+    char delim[2] = { ' ', '\0' };
 
     tmp_arg = strtok(stdin_str, delim);
     for (int i = 0; (i < arg_count) && tmp_arg; i++)

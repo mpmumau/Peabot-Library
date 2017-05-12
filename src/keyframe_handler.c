@@ -16,20 +16,24 @@
 #include <stdbool.h>
 
 /* Application includes */
-#include "keyframe_handler.h"
-#include "utils.h"
+#include "config.h"
 #include "list.h"
 #include "easing.h"
+#include "utils.h"
+#include "keyframe_factory.h"
+
+/* Header */
+#include "keyframe_handler.h"
 
 static pthread_t keyhandler_thread;
-static List *keyframes;
 static bool running;
+
+static List *keyframes;
 static Keyframe *last_keyfrm;  
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
-static float keyhandler_getpos(float perc, ServoPos *servo_pos);
-static bool keyhandler_checkdone(List *keyframes, float duration);
+static float keyhandler_mappos(float perc, ServoPos *servo_pos);
 
 void keyhandler_init()
 {
@@ -44,33 +48,41 @@ void keyhandler_halt()
 
 void keyhandler_add(int keyfr_type, void *data, bool reverse);
 {
-    Keyframe *(*keyhandler_add_cb)(void *data, bool reverse);
     Keyframe *keyfr;
+    Keyframe *(*keyfactory_cb)(void *data, bool reverse);
 
-    if (keyfr_type == KEYFR_RESET)
-        keyhandler_add_cb = keyfradd_reset;
+    if (keyfr_type == KEYFR_HOME)
+        keyfactory_cb = keyfactory_home;
+
+    if (keyfr_type == KEYFR_DELAY)
+        keyfactory_cb = keyfactory_delay;
 
     if (keyfr_type == KEYFR_ELEVATE)
-        keyhandler_add_cb = keyfradd_elevate;
+        keyfactory_cb = keyfactory_elevate;
 
     if (keyfr_type == KEYFR_WALK)
-        keyhandler_add_cb = keyfradd_walk;
+        keyfactory_cb = keyfactory_walk;
 
-    if (*keyhandler_add_cb == NULL)
+    if (*keyfactory_cb == NULL)
         return;
-    keyfr = (*keyhandler_add_cb)(data, reverse);
+    keyfr = (*keyfactory_cb)(data, reverse);
 
     if (!keyfr)
         return;
 
-    // Check if the new animation needs a transition keyframe and add it if so.
+    // Check if the new animation needs a transition keyframe and insert it first if so.
     Keyframe *current_keyfr;
     if (last_keyfrm)
         current_keyfr = last_keyfrm;
     else
         current_keyfr = keyfradd_home();
 
-    Keyframe *trans_keyfr = keyfradd_transition(current_keyfr, keyfr);
+    KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
+    trans_data->src = current_keyfr->servo_pos;
+    trans_data->dest = keyfr->servo_pos;
+    trans_data->duration = KEYFRAME_TRANSITION_TIME;
+
+    Keyframe *trans_keyfr = keyfradd_transition((void *) trans_data, false);
     if (trans_keyfr)
         list_add(&keyframes, trans_keyfr);
 
@@ -79,10 +91,13 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse);
 
 static void *keyhandler_main(void *arg)
 {
-    static struct timespec time;
-    static struct timespec last_time;
-    static float next = 0.0f;
+    struct timespec time;
+    struct timespec last_time;
+    float next = 0.0f;
     Keyframe *keyfr;
+    ServoPos *servo_pos;
+    float perc;
+    float pos;
 
     while (running)
     {
@@ -96,6 +111,21 @@ static void *keyhandler_main(void *arg)
             return;        
         }
 
+        keyfr = (Keyframe *) keyframes->data;
+        servo_pos = keyfr->servo_pos;
+        
+        perc = next / keyfr->duration;
+        if (perc > 1.0f)
+            perc = 1.0f;
+        if (perc < 0.0f;)
+            perc = 0.0f;
+
+        for (int i = 0; i < SERVOS_NUM; i++)
+        {
+            pos = keyhandler_mappos(perc, servo_pos[i]);
+            robot_setservo(i, pos);
+        }
+
         if (next > keyframes->duration)
         {
             next = 0.0f;
@@ -107,29 +137,13 @@ static void *keyhandler_main(void *arg)
             }
 
             last_keyframe = (Keyframe *) list_pop(&keyframes);
-            continue;
-        }
-
-        keyfr = (Keyframe *) keyframes->data;
-        ServoPos *servo_pos = keyfr->servo_pos;
-        float perc = next / keyfr->duration;
-        float pos;
-
-        for (int i = 0; i < SERVOS_NUM; i++)
-        {
-            pos = keyhandler_getpos(perc, servo_pos[i]);
-
-            if (keyframe->reverse)
-                pos *= -1.0f;
-
-            robot_setservo(i, pos);
         }
     }
 
     return (void *) NULL;
 }
 
-static float keyhandler_getpos(float perc, ServoPos *servo_pos)
+static float keyhandler_mappos(float perc, ServoPos *servo_pos)
 {
     float diff, mod, delta, final;
 
@@ -139,16 +153,6 @@ static float keyhandler_getpos(float perc, ServoPos *servo_pos)
     final = servo_pos->start_pos + delta;
 
     return final;
-}
-
-static bool keyhandler_checkdone(List *keyframes, float duration)
-{
-    Keyframe *keyfr = (Keyframe *) keyframes->data;
-
-    if (secs > event->duration)
-        return true;
-
-    return false;
 }
 
 #endif

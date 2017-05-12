@@ -3,7 +3,7 @@
 
 /*
  File:          prompt.h
- Description:   Functions for dealing with input from a standard in prompt.
+ Description:   Functions for dealing with input from a standard-in prompt.
  Created:       May 8, 2017
  Author:        Matt Mumau
  */

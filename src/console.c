@@ -14,6 +14,10 @@
 #include <string.h>
 #include <time.h>
 
+/* Application includes */
+#include "prompt.h"
+
+/* Header */
 #include "console.h"
 
 void console_h(char *val)
@@ -33,6 +37,7 @@ void console_h(char *val)
 void console_print(char *val)
 {
     printf("%s\n", val);
+    prompt_repeatpr();
 }
 
 void console_br()

@@ -33,6 +33,9 @@
 #define BACK_LEFT_KNEE 0
 #define BACK_LEFT_HIP 1
 
+/* Keyframe animation */
+#define KEYFRAME_TRANSITION_TIME 2.0f
+
 void config_init();
 
 void config_pipe(int argc, char * argv[]);
