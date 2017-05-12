@@ -27,7 +27,7 @@ void eventcb_reset(void *arg)
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Reset callback. Adding KEYFR_HOME keyframe.");
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_HOME keyframe.");
         log_event(log_msg);
         free(log_msg);
     }
@@ -46,7 +46,7 @@ void eventcb_delay(void *arg)
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Delay callback. Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
         log_event(log_msg);
         free(log_msg);
     }
@@ -62,13 +62,12 @@ void eventcb_elevate(void *arg)
     float *duration = malloc(sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
-
     *duration = elevate_data->duration;
 
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Elevate callback. Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)\n", elevate_data->duration, (int) elevate_data->reverse);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
         log_event(log_msg);
         free(log_msg);
     }    
@@ -86,7 +85,7 @@ void eventcb_walk(void *arg)
     if (LOG_EVENT_CALLBACKS)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Walk callback. Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)\n", duration, cycles);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)", duration, cycles);
         log_event(log_msg);
         free(log_msg);
     } 
