@@ -31,7 +31,7 @@ typedef struct ServoPos {
 typedef struct Keyframe {
     float duration;
     bool is_delay;
-    ServoPos servo_pos[SERVOS_NUM];
+    ServoPos *servo_pos;
 } Keyframe;
 
 typedef struct KeyframeTransData {
