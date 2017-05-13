@@ -27,7 +27,7 @@ _DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h 
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o events.o list.o keyframe_factory.o keyframe_handler.o prompt_commands.o easing.o event_callbacks.o easing_utils.c
+_OBJ = main.o config.o log.o console.o prompt.o string_utils.o utils.o robot.o events.o list.o keyframe_factory.o keyframe_handler.o prompt_commands.o easing.o event_callbacks.o easing_utils.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
