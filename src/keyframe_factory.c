@@ -15,6 +15,7 @@
 #include "main.h"
 #include "config.h"
 #include "easing.h"
+#include "easing_utils.h"
 #include "keyframe_handler.h"
 
 /* Header */
