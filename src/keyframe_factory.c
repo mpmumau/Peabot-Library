@@ -118,7 +118,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
             continue;
         }
    
-        if (reverse) 
+        if (!reverse) 
         {
             if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
             {
