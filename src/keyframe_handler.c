@@ -20,7 +20,7 @@
 /* Application includes */
 #include "config.h"
 #include "list.h"
-#include "easing.h"
+#include "easing_utils.h"
 #include "utils.h"
 #include "robot.h"
 #include "keyframe_factory.h"
