@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include "easing.h"
+
 #define EASE_LINEAR 0
 
 #define EASE_QUAD_IN 1
