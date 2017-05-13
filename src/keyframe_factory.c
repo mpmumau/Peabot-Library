@@ -117,15 +117,31 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
             continue;
         }
    
-        if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
+        if (reverse) 
         {
-            servo_pos[i] = (ServoPos) { EASE_CIRC_IN, knee_delta, knee_delta, 0.0f, 0.0f };
-            continue;
-        }
+            if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
+            {
+                servo_pos[i] = (ServoPos) { EASE_CIRC_IN, knee_delta, knee_delta, 0.0f, 0.0f };
+                continue;
+            }
 
-        if (i == BACK_RIGHT_KNEE || i == FRONT_LEFT_KNEE)
+            if (i == BACK_RIGHT_KNEE || i == FRONT_LEFT_KNEE)
+            {
+                servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, knee_delta * -1.0f, knee_delta, 0.0f, 0.0f };
+            }
+        }
+        else
         {
-            servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, knee_delta * -1.0f, knee_delta, 0.0f, 0.0f };
+            if (i == BACK_RIGHT_KNEE || i == FRONT_LEFT_KNEE)
+            {
+                servo_pos[i] = (ServoPos) { EASE_CIRC_IN, knee_delta, knee_delta, 0.0f, 0.0f };
+                continue;
+            }
+
+            if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
+            {
+                servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, knee_delta * -1.0f, knee_delta, 0.0f, 0.0f };
+            }            
         }
     }
 
