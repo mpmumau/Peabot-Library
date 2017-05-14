@@ -23,7 +23,8 @@ CFLAGS=-Wall -I$(INC_DIR) -std=c11
 LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread -lm
 
 # Project DEPS
-_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h events.h list.h keyframe_factory.h keyframe_handler.h prompt_commands.h easing.h math_defs.h event_callbacks.h easing_utils.h
+_DEPS = main.h config.h console.h prompt.h log.h string_utils.h utils.h robot.h \
+	events.h list.h keyframe_factory.h keyframe_handler.h prompt_commands.h easing.h math_defs.h event_callbacks.h easing_utils.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
