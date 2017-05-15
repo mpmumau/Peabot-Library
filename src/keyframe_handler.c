@@ -154,15 +154,7 @@ static void *keyhandler_main(void *arg)
         }
 
         if (next > keyfr->duration)
-        {
-            if (LOG_KEYFRAMES)
-            {
-                char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)", keyfr->duration, (int) keyfr->is_delay);
-                log_event(msg);
-                free(msg);
-                msg = NULL;
-            }     
+        {  
 
             next = 0.0f;
 
