@@ -158,11 +158,11 @@ static void *keyhandler_main(void *arg)
             if (LOG_KEYFRAMES)
             {
                 char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)\n", keyfr->duration, (int) keyfr->is_delay);
+                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)", keyfr->duration, (int) keyfr->is_delay);
                 log_event(msg);
                 free(msg);
             }     
-            
+
             next = 0.0f;
 
             if (servo_pos != NULL)
