@@ -104,8 +104,8 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float knee_delta = 0.5f;
     float hip_delta = 0.6f * mod;
 
-    float knee_pad_a = 0.65f;
-    float knee_pad_b = 0.85f;
+    float knee_pad_a = 0.9f;
+    float knee_pad_b = 0.9f;
 
     float knee_pad_ax = reverse ? knee_pad_a : knee_pad_b;
     float knee_pad_bx = reverse ? knee_pad_b : knee_pad_a;
