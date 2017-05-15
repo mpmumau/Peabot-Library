@@ -105,19 +105,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float hip_delta = 0.6f * mod;
 
     for (int i = 0; i < SERVOS_NUM; i++)
-    {
-        if (i == FRONT_LEFT_HIP || i == BACK_LEFT_HIP)
-        {
-            servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta, hip_delta * -1.0f, 0.0f, 0.0f };
-            continue;
-        }
-
-        if (i == FRONT_RIGHT_HIP || i == BACK_RIGHT_HIP)
-        {
-            servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta * -1.0f, hip_delta, 0.0f, 0.0f };
-            continue;
-        }
-   
+    {   
         if (!reverse) 
         {
             if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
@@ -130,6 +118,18 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
             {
                 servo_pos[i] = (ServoPos) { EASE_LINEAR, knee_delta * -1.0f, knee_delta, 0.0f, 0.0f };
             }
+
+            if (i == FRONT_LEFT_HIP || i == BACK_LEFT_HIP)
+            {
+                servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta, hip_delta * -1.0f, 0.0f, 0.0f };
+                continue;
+            }
+
+            if (i == FRONT_RIGHT_HIP || i == BACK_RIGHT_HIP)
+            {
+                servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta * -1.0f, hip_delta, 0.0f, 0.0f };
+                continue;
+            }            
         }
         else
         {
@@ -142,7 +142,20 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
             if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
             {
                 servo_pos[i] = (ServoPos) { EASE_LINEAR, knee_delta * -1.0f, knee_delta, 0.0f, 0.0f };
-            }            
+            }           
+
+            if (i == FRONT_RIGHT_HIP || i == BACK_RIGHT_HIP)
+            {
+                servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta, hip_delta * -1.0f, 0.0f, 0.0f };
+                continue;
+            }
+
+            if (i == FRONT_LEFT_HIP || i == BACK_LEFT_HIP)
+            {
+                servo_pos[i] = (ServoPos) { EASE_LINEAR, hip_delta * -1.0f, hip_delta, 0.0f, 0.0f };
+                continue;
+            } 
+
         }
     }
 
