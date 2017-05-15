@@ -19,6 +19,7 @@
 
 /* Application includes */
 #include "config.h"
+#include "log.h"
 #include "list.h"
 #include "easing_utils.h"
 #include "utils.h"
@@ -125,6 +126,13 @@ static void *keyhandler_main(void *arg)
         }
 
         keyfr = (Keyframe *) keyframes->data;
+
+        if (LOG_KEYFRAMES)
+        {
+            char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+            snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Processing keyframe. (duration: %f, is_delay: %d)\n", keyfr->duration, (int) keyfr->is_delay);
+            log_event("Logging")
+        }
         
         if (keyfr->servo_pos != NULL)
             servo_pos = keyfr->servo_pos;
