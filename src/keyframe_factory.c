@@ -114,16 +114,16 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     if (!reverse)
     {
-        servo_pos[0] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.9f, 0.0f };
+        servo_pos[0] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.7f, 0.0f };
         servo_pos[3] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.9f, 0.0f };
         servo_pos[4] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.9f, 0.0f };
-        servo_pos[6] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.9f, 0.0f };
+        servo_pos[6] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.7f, 0.0f };
     }
     else
     {
         servo_pos[0] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.9f, 0.0f };
-        servo_pos[3] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.9f, 0.0f };
-        servo_pos[4] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.9f, 0.0f };
+        servo_pos[3] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.7f, 0.0f };
+        servo_pos[4] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, 0.7f, 0.0f };
         servo_pos[6] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.9f, 0.0f };
     }
 
