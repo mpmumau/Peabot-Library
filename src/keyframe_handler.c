@@ -113,7 +113,7 @@ static void *keyhandler_main(void *arg)
     
     float perc, pos, begin_time, end_time, adjusted_duration;
 
-    char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+    char msg[LOG_LINE_MAXLEN];
 
     while (running)
     {
@@ -181,7 +181,6 @@ static void *keyhandler_main(void *arg)
         }
     }
 
-    free(msg);
     return (void *) NULL;
 }
 
