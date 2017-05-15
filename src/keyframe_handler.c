@@ -36,7 +36,7 @@ static Keyframe *last_keyfr;
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
-static float keyhandler_mappos(float perc, ServoPos *servo_pos);
+static float keyhandler_mappos(float perc, float next, ServoPos *servo_pos);
 
 void keyhandler_init()
 {
@@ -104,10 +104,11 @@ static void *keyhandler_main(void *arg)
     struct timespec time;
     struct timespec last_time;
     float next = 0.0f;
+    
     Keyframe *keyfr;
     ServoPos *servo_pos;
-    float perc;
-    float pos;
+    
+    float perc, pos, begin_time, end_time, adjusted_duration;
 
     while (running)
     {
@@ -127,24 +128,24 @@ static void *keyhandler_main(void *arg)
             servo_pos = keyfr->servo_pos;
         else 
             servo_pos = NULL;
-        
-        perc = next / keyfr->duration;
-        if (perc > 1.0f)
-            perc = 1.0f;
-        if (perc < 0.0f)
-            perc = 0.0f;
 
         if (!keyfr->is_delay && servo_pos)
         {
             for (int i = 0; i < SERVOS_NUM; i++)
             {
-                pos = keyhandler_mappos(perc, &servo_pos[i]);
+                begin_time = keyfr->duration * servo_pos[i].begin_pad;
+                end_time = keyfr->duration * servo_pos[i].end_pad;
+                adjusted_duration = keyfr->duration - begin_time - end_time;  
+                
+                perc = next / adjusted_duration;
 
                 if (servo_pos[i].begin_pad && next < servo_pos[i].begin_pad * keyfr->duration) 
-                    pos = servo_pos[i].start_pos;
+                    perc = 0.0;
 
                 if (servo_pos[i].end_pad && next > servo_pos[i].end_pad * keyfr->duration) 
-                    pos = servo_pos[i].end_pos;
+                    perc = 1.0;
+
+                pos = keyhandler_mappos(perc, &servo_pos[i]);
                 
                 robot_setservo(i, pos);
             }
