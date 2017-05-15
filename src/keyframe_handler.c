@@ -36,7 +36,7 @@ static Keyframe *last_keyfr;
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
-static float keyhandler_mappos(float perc, float next, ServoPos *servo_pos);
+static float keyhandler_mappos(float perc, ServoPos *servo_pos);
 
 void keyhandler_init()
 {
