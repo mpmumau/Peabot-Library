@@ -106,14 +106,17 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     int tmp_ease;
 
+    int ease_in = reverse ? EASE_CIRC_IN ? EASE_CIRC_OUT;
+    int ease_out = reverse ? EASE_CIRC_OUT ? EASE_CIRC_IN;
+
     // servo_pos[0] = (ServoPos) { EASE_CIRC_IN, -hip_delta, hip_delta, 0.0f, 0.0f };
-    servo_pos[1] = (ServoPos) { EASE_CIRC_IN, -hip_delta, hip_delta, 0.0f, 0.0f };
-    servo_pos[2] = (ServoPos) { EASE_CIRC_OUT, -hip_delta, hip_delta, 0.0f, 0.0f };
+    servo_pos[1] = (ServoPos) { ease_in, -hip_delta, hip_delta, 0.0f, 0.0f };
+    servo_pos[2] = (ServoPos) { ease_out, -hip_delta, hip_delta, 0.0f, 0.0f };
     // servo_pos[3] = (ServoPos) { CircularEaseIn, hip_delta, -hip_delta, 0.0f, 0.0f };
     // servo_pos[4] = (ServoPos) { CircularEaseIn, hip_delta, -hip_delta, 0.0f, 0.0f };
-    servo_pos[5] = (ServoPos) { EASE_CIRC_OUT, hip_delta, -hip_delta, 0.0f, 0.0f };
+    servo_pos[5] = (ServoPos) { ease_out, hip_delta, -hip_delta, 0.0f, 0.0f };
     // servo_pos[6] = (ServoPos) { CircularEaseIn, hip_delta, -hip_delta, 0.0f, 0.0f };
-    servo_pos[7] = (ServoPos) { EASE_CIRC_IN, hip_delta, -hip_delta, 0.0f, 0.0f };
+    servo_pos[7] = (ServoPos) { ease_in, hip_delta, -hip_delta, 0.0f, 0.0f };
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
     if (!keyfr)
