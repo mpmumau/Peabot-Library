@@ -175,13 +175,7 @@ static void *keyhandler_main(void *arg)
             {
                 free(servo_pos);
                 servo_pos = NULL;
-            }
-
-            if (last_keyfr != NULL)
-            {
-                free(last_keyfr);             
-                last_keyfr = NULL;
-            }       
+            }      
 
             last_keyfr = (Keyframe *) list_pop(&keyframes);
         }
