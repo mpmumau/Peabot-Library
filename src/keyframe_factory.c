@@ -106,8 +106,8 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     int tmp_ease;
 
-    int ease_in = reverse ? EASE_CIRC_IN ? EASE_CIRC_OUT;
-    int ease_out = reverse ? EASE_CIRC_OUT ? EASE_CIRC_IN;
+    int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
+    int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
     // servo_pos[0] = (ServoPos) { EASE_CIRC_IN, -hip_delta, hip_delta, 0.0f, 0.0f };
     servo_pos[1] = (ServoPos) { ease_in, -hip_delta, hip_delta, 0.0f, 0.0f };
