@@ -27,6 +27,12 @@
 #define SERVO_DEFAULT_MAX 400
 #define TRANSITIONS_ENABLE 1
 
+/* Walk related */
+#define HIP_DELTA 0.7
+#define KNEE_DELTA 0.3
+#define KNEE_PAD_A 0.9
+#define KNEE_PAD_B 0.9
+
 /* PCA_9685 servo pins; left/right relative to the robot. */
 #define FRONT_RIGHT_KNEE 6
 #define FRONT_RIGHT_HIP 7

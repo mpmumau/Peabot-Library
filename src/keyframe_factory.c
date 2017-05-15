@@ -101,11 +101,11 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float *duration = (float *) data;
     float mod = reverse ? -1.0f : 1.0f;
 
-    float knee_delta = 0.3f;
-    float hip_delta = 0.6f * mod;
+    float knee_delta = KNEE_DELTAf;
+    float hip_delta = HIP_DELTA * mod;
 
-    float knee_pad_a = 0.9f;
-    float knee_pad_b = 0.9f;
+    float knee_pad_a = KNEE_PAD_A;
+    float knee_pad_b = KNEE_PAD_B;
 
     float knee_pad_ax = reverse ? knee_pad_a : knee_pad_b;
     float knee_pad_bx = reverse ? knee_pad_b : knee_pad_a;
