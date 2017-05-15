@@ -102,7 +102,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         app_exit("[ERROR] Could not allocate memory for ServoPos (keyfradd_walk).", 1);
 
     float knee_delta = 0.4f * mod;
-    float hip_delta = 0.6f * mod;
+    float hip_delta = 0.6f;
 
     int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
     int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
