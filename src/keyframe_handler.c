@@ -177,17 +177,11 @@ static void *keyhandler_main(void *arg)
 
 static float keyhandler_mappos(float perc, ServoPos *servo_pos)
 {
-    float diff, begin_pad, end_pad, modifier, delta, final;
+    float diff, modifier, delta, final;
 
     diff = servo_pos->end_pos - servo_pos->start_pos;
-    begin_pad = diff * servo_pos->begin_pad;
-    end_pad = diff * servo_pos->end_pad;
-
-    diff = diff - begin_pad - end_pad;
-
     modifier = easing_calc(servo_pos->easing, perc);
-    delta = diff * modifier;
-    
+    delta = diff * modifier;    
     final = servo_pos->start_pos + delta;
 
     return final;
