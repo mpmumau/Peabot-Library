@@ -168,7 +168,7 @@ static void *keyhandler_main(void *arg)
             if (keyfr->is_delay) 
             {
                 list_pop(&keyframes);
-                return;
+                return (void *) NULL;
             }
 
             if (servo_pos != NULL)
