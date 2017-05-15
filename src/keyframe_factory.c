@@ -104,7 +104,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float knee_delta = 0.4f * mod;
     float hip_delta = 0.6f * mod;
 
-    float knee_pad_a = 0.7f
+    float knee_pad_a = 0.7f;
     float knee_pad_b = 0.9f;
 
     float knee_pad_ax = reverse ? knee_pad_a : knee_pad_b;
@@ -127,7 +127,6 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
             servo_pos[i] = (ServoPos) { ease_out, -knee_delta, knee_delta, knee_pad_ax, 0.0f };
     }
-    
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));
     if (!keyfr)
