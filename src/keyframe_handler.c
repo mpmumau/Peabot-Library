@@ -126,14 +126,6 @@ static void *keyhandler_main(void *arg)
         }
 
         keyfr = (Keyframe *) keyframes->data;
-
-        if (LOG_KEYFRAMES)
-        {
-            char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
-            snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Processing keyframe. (duration: %f, is_delay: %d)\n", keyfr->duration, (int) keyfr->is_delay);
-            log_event("Logging");
-            free(msg);
-        }
         
         if (keyfr->servo_pos != NULL)
             servo_pos = keyfr->servo_pos;
@@ -163,6 +155,14 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
+            if (LOG_KEYFRAMES)
+            {
+                char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)\n", keyfr->duration, (int) keyfr->is_delay);
+                log_event("Logging");
+                free(msg);
+            }     
+            
             next = 0.0f;
 
             if (servo_pos != NULL)
@@ -175,7 +175,7 @@ static void *keyhandler_main(void *arg)
             {
                 free(last_keyfr);             
                 last_keyfr = NULL;
-            }
+            }       
 
             last_keyfr = (Keyframe *) list_pop(&keyframes);
         }
