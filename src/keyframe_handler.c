@@ -76,7 +76,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (!keyfr)
         return;
 
-    if (keyfr_type != KEYFR_DELAY)
+    if (keyfr_type != KEYFR_DELAY && TRANSITIONS_ENABLE)
     {
         // Check if the new animation needs a transition keyframe and insert it first if so.
         Keyframe *tmp_keyfr;
@@ -93,7 +93,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
         Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
 
         if (trans_keyfr)
-            list_push(&keyframes, TRANSITIONS_ENABLE);
+            list_push(&keyframes, trans_keyfr);
     }
 
     list_push(&keyframes, keyfr);
