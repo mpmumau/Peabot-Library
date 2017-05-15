@@ -139,6 +139,13 @@ static void *keyhandler_main(void *arg)
             for (int i = 0; i < SERVOS_NUM; i++)
             {
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
+
+                if (next < servo_pos[i]->begin_pad * keyfr->duration) 
+                    pos = servo_pos[i]->start_pos;
+
+                if (next > servo_pos[i]->end_pad * keyfr->duration) 
+                    pos = servo_pos[i]->end_pos;
+                
                 robot_setservo(i, pos);
             }
         }
@@ -168,11 +175,17 @@ static void *keyhandler_main(void *arg)
 
 static float keyhandler_mappos(float perc, ServoPos *servo_pos)
 {
-    float diff, mod, delta, final;
+    float diff, begin_pad, end_pad, modifier, delta, final;
 
     diff = servo_pos->end_pos - servo_pos->start_pos;
-    mod = easing_calc(servo_pos->easing, perc);
-    delta = diff * mod;
+    begin_pad = diff * servo_pos->begin_pad;
+    end_pad = diff * servo__pos->end_pad;
+
+    diff = diff - begin_pad - end_pad;
+
+    modifier = easing_calc(servo_pos->easing, perc);
+    delta = diff * modifier;
+    
     final = servo_pos->start_pos + delta;
 
     return final;
