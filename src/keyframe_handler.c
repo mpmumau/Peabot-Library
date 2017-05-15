@@ -113,6 +113,8 @@ static void *keyhandler_main(void *arg)
     
     float perc, pos, begin_time, end_time, adjusted_duration;
 
+    char *msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
@@ -154,9 +156,20 @@ static void *keyhandler_main(void *arg)
         }
 
         if (next > keyfr->duration)
-        {  
+        {
+            if (LOG_KEYFRAMES)
+            {
+                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)", keyfr->duration, (int) keyfr->is_delay);
+                log_event(msg);
+            }     
 
             next = 0.0f;
+
+            if (keyfr->is_delay) 
+            {
+                list_pop(&keyframes);
+                return;
+            }
 
             if (servo_pos != NULL)
             {
@@ -174,6 +187,7 @@ static void *keyhandler_main(void *arg)
         }
     }
 
+    free(msg);
     return (void *) NULL;
 }
 
