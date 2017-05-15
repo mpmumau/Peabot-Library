@@ -107,8 +107,8 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float knee_pad_a = 0.60f;
     float knee_pad_b = 0.95f;
 
-    float knee_pad_bx = reverse ? knee_pad_a : knee_pad_b;
-    float knee_pad_ax = reverse ? knee_pad_b : knee_pad_a;
+    float knee_pad_ax = reverse ? knee_pad_a : knee_pad_b;
+    float knee_pad_bx = reverse ? knee_pad_b : knee_pad_a;
 
     int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
     int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
