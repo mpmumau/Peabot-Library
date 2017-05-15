@@ -101,7 +101,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float *duration = (float *) data;
     float mod = reverse ? -1.0f : 1.0f;
 
-    float knee_delta = 0.4f * mod;
+    float knee_delta = 0.4f;
     float hip_delta = 0.6f * mod;
 
     float knee_pad_a = 0.60f;
@@ -113,9 +113,6 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
     int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
-    float knee_delta_a = reverse ? knee_delta : -knee_delta;
-    float knee_delta_b = reverse ? -knee_delta : knee_delta;
-
     for (int i = 0; i < SERVOS_NUM; i++)
     {
         if (i == BACK_LEFT_HIP || FRONT_LEFT_HIP)
@@ -124,11 +121,22 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         if (i == BACK_RIGHT_HIP || i == FRONT_RIGHT_HIP)
             servo_pos[i] = (ServoPos) { ease_out, hip_delta, -hip_delta, 0.0f, 0.0f };
 
-        if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
-            servo_pos[i] = (ServoPos) { ease_in, knee_delta_b, -knee_delta_b, knee_pad_ax, 0.0f };
+        if (!reverse)
+        {
+            if (i == BACK_LEFT_KNEE || i = FRONT_RIGHT_KNEE)
+                servo_pos[i] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, knee_pad_ax, 0.0f };
 
-        if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
-            servo_pos[i] = (ServoPos) { ease_out, knee_delta_a, -knee_delta_a, knee_pad_bx, 0.0f };
+            if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
+                servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, knee_pad_bx, 0.0f };
+        }
+        else
+        {
+            if (i == BACK_LEFT_KNEE || i = FRONT_RIGHT_KNEE)
+                servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, knee_pad_bx, 0.0f };
+
+            if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
+                servo_pos[i] = (ServoPos) { EASE_CIRC_IN, -knee_delta, knee_delta, knee_pad_ax, 0.0f };
+        }
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));

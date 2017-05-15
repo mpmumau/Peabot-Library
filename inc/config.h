@@ -25,7 +25,7 @@
 #define ROBOT_TICK 0.01
 #define SERVO_DEFAULT_MIN 200
 #define SERVO_DEFAULT_MAX 400
-#define TRANSITIONS_ENABLE 0
+#define TRANSITIONS_ENABLE 1
 
 /* PCA_9685 servo pins; left/right relative to the robot. */
 #define FRONT_RIGHT_KNEE 6
