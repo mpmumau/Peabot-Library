@@ -93,7 +93,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
         Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
 
         if (trans_keyfr)
-            list_push(&keyframes, trans_keyfr);
+            list_push(&keyframes, TRANSITIONS_ENABLE);
     }
 
     list_push(&keyframes, keyfr);
