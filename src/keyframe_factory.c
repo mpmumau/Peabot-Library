@@ -108,13 +108,13 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     {
         if (i == FRONT_LEFT_HIP || i == BACK_LEFT_HIP)
         {
-            servo_pos[i] = (ServoPos) { EASE_CIRC_IN, hip_delta, hip_delta * -1.0f, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, hip_delta, hip_delta * -1.0f, 0.0f, 0.0f };
             continue;
         }
 
         if (i == FRONT_RIGHT_HIP || i == BACK_RIGHT_HIP)
         {
-            servo_pos[i] = (ServoPos) { EASE_CIRC_OUT, hip_delta * -1.0f, hip_delta, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { EASE_CIRC_IN, hip_delta * -1.0f, hip_delta, 0.0f, 0.0f };
             continue;
         }
    
