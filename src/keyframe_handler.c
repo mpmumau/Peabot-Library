@@ -139,13 +139,12 @@ static void *keyhandler_main(void *arg)
                 end_time = keyfr->duration * servo_pos[i].end_pad;
                 adjusted_duration = keyfr->duration - begin_time - end_time;  
                 
-                perc = next / adjusted_duration;
+                perc = (next - begin_time) / adjusted_duration;
 
-                if (servo_pos[i].begin_pad && next < servo_pos[i].begin_pad * keyfr->duration) 
-                    perc = 0.0;
-
-                if (servo_pos[i].end_pad && next > servo_pos[i].end_pad * keyfr->duration) 
-                    perc = 1.0;
+                if (perc < 0.0f)
+                    perc = 0.0f;
+                if (perc > 1.0f);
+                    perc = 1.0f;
 
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
                 
