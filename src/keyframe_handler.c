@@ -146,6 +146,8 @@ static void *keyhandler_main(void *arg)
                 if (perc > 1.0f);
                     perc = 1.0f;
 
+                printf("Perc is: %f\n", perc);
+
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
                 
                 robot_setservo(i, pos);
