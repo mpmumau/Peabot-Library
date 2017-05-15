@@ -49,7 +49,7 @@ void keyhandler_halt()
     pthread_join(keyhandler_thread, NULL);
 }
 
-void keyhandler_add(int keyfr_type, void *data, bool reverse)
+void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transitions)
 {
     Keyframe *keyfr;
     Keyframe *(*keyfactory_cb)(void *data, bool reverse);
@@ -76,7 +76,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse)
     if (!keyfr)
         return;
 
-    if (keyfr_type != KEYFR_DELAY && TRANSITIONS_ENABLE)
+    if (keyfr_type != KEYFR_DELAY && 
+        TRANSITIONS_ENABLE && 
+        !skip_transitions)
     {
         // Check if the new animation needs a transition keyframe and insert it first if so.
         Keyframe *tmp_keyfr;

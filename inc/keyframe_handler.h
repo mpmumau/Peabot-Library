@@ -47,6 +47,6 @@ void keyhandler_init();
 void keyhandler_halt();
 
 /* Add a keyframe to the keyframe queue. */
-void keyhandler_add(int keyfr_type, void *data, bool reverse);
+void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transitions);
 
 #endif

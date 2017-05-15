@@ -32,7 +32,7 @@ void eventcb_reset(void *arg)
         free(log_msg);
     }
 
-    keyhandler_add(KEYFR_HOME, (void *) NULL, false);
+    keyhandler_add(KEYFR_HOME, (void *) NULL, false, false);
 }
 
 void eventcb_delay(void *arg)
@@ -53,7 +53,7 @@ void eventcb_delay(void *arg)
         free(log_msg);
     }
 
-    keyhandler_add(KEYFR_DELAY, (void *) duration, false);
+    keyhandler_add(KEYFR_DELAY, (void *) duration, false, true);
 }
 
 void eventcb_elevate(void *arg)
@@ -74,7 +74,7 @@ void eventcb_elevate(void *arg)
         free(log_msg);
     }    
 
-    keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse);
+    keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse, false);
 }
 
 void eventcb_walk(void *arg)
@@ -94,22 +94,36 @@ void eventcb_walk(void *arg)
 
     float *duration_p;
 
-    for (int i = 0; i < cycles; i++)
+    duration_p = malloc(sizeof(float));
+    if (!duration)
+        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);     
+    *duration_p = duration;
+           
+    keyhandler_add(KEYFR_WALK, (void *) duration_p, true, false);    
+
+    for (int i = 0; i < cycles - 1; i++)
     {
         duration_p = malloc(sizeof(float));
         if (!duration_p)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
         *duration_p = duration;
         
-        keyhandler_add(KEYFR_WALK, (void *) duration_p, false);
+        keyhandler_add(KEYFR_WALK, (void *) duration_p, false, true);
 
         duration_p = malloc(sizeof(float));
         if (!duration)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);     
         *duration_p = duration;
                
-        keyhandler_add(KEYFR_WALK, (void *) duration_p, true);
+        keyhandler_add(KEYFR_WALK, (void *) duration_p, true, true);
     }
+
+    duration_p = malloc(sizeof(float));
+    if (!duration_p)
+        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
+    *duration_p = duration;
+    
+    keyhandler_add(KEYFR_WALK, (void *) duration_p, false, true);    
 }
 
 #endif
