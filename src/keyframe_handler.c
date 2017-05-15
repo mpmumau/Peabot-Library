@@ -140,10 +140,10 @@ static void *keyhandler_main(void *arg)
             {
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
 
-                if (next < servo_pos[i].begin_pad * keyfr->duration) 
+                if (servo_pos[i].begin_pad && next < servo_pos[i].begin_pad * keyfr->duration) 
                     pos = servo_pos[i].start_pos;
 
-                if (next > servo_pos[i].end_pad * keyfr->duration) 
+                if (servo_pos[i].end_pad && next > servo_pos[i].end_pad * keyfr->duration) 
                     pos = servo_pos[i].end_pos;
                 
                 robot_setservo(i, pos);
