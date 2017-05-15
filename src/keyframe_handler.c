@@ -141,10 +141,10 @@ static void *keyhandler_main(void *arg)
                 
                 perc = (next - begin_time) / adjusted_duration;
 
-                // if (perc < 0.0f)
-                //     perc = 0.0f;
-                // if (perc > 1.0f);
-                //     perc = 1.0f;
+                if (perc < 0.0f)
+                    perc = 0.0f;
+                if (perc > 1.0f)
+                    perc = 1.0f;
 
                 printf("Perc is: %f\n", perc);
 
