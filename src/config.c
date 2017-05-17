@@ -111,6 +111,9 @@ static void config_set_defaults()
 
     // Do these after processing other configs; dependent upon them.
     config.servo_pins = malloc(sizeof(int) * config.servos_num);
+    if (!config.servo_pins)
+        app_exit("[ERROR!] Could not allocate memory for config.servo_pins (config_init).", 1);
+
     ServoPinData servo_pin_data;
     int num;
     
@@ -157,6 +160,9 @@ static void config_set_defaults()
     }
 
     config.servo_limits = malloc(sizeof(ServoLimit) * config.servos_num);
+    if (!config.servo_pins)
+        app_exit("[ERROR!] Could not allocate memory for config.servo_limits (config_init).", 1);
+
     ServoLimitData servo_limit_data;
 
     for (int j = 0; j < config.servos_num; j++)
