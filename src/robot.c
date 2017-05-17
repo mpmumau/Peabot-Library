@@ -63,7 +63,7 @@ void robot_init()
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    float *servo = malloc(sizeof(float) * (*servos_num));
+    servo = malloc(sizeof(float) * (*servos_num));
 
     ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
