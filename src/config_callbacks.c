@@ -10,6 +10,7 @@
 
 /* Application includes */
 #include "config.h"
+#include "robot.h"
 
 /* Header */
 #include "config_callbacks.h"
@@ -147,8 +148,9 @@ void configset_servo_pins(Config *config, void *data)
 void configset_servo_limits(Config *config, void *data)
 {
     ServoLimitData *data_p = (ServoLimitData *) data;
-    config->servo_pins[data_p->id]->min = data_p->min;
-    config->servo_pins[data_p->id]->max = data_p->max;
+    ServoLimit *servo_limit = &(config->servo_limits[data_p->id]);
+    servo_limit->min = data_p->min;
+    servo_limit->max = data_p->max;
     return;
 }
 
