@@ -278,73 +278,73 @@ void *config_get(int config_var)
     void *ret_val;
 
     if (config_var == CONF_LOG_FILE_DIR)
-        ret_val = (void *) config->log_file_dir;
+        ret_val = (void *) config.log_file_dir;
 
     if (config_var == CONF_LOG_FILENAME)
-        ret_val = (void *) config->log_filename;    
+        ret_val = (void *) config.log_filename;    
 
     if (config_var == CONF_LOG_FULLPATH)
-        ret_val = (void *) config->log_fullpath;    
+        ret_val = (void *) config.log_fullpath;    
 
     if (config_var == CONF_CONFIG_FILE)
-        ret_val = (void *) config->config_file;  
+        ret_val = (void *) config.config_file;  
 
     if (config_var == CONF_LOG_STDIN)
-        ret_val = (void *) &(config->log_stdin);      
+        ret_val = (void *) &(config.log_stdin);      
 
     if (config_var == CONF_LOG_PROMPT_COMMANDS)
-        ret_val = (void *) &(config->log_prompt_commands);     
+        ret_val = (void *) &(config.log_prompt_commands);     
         
      if (config_var == CONF_LOG_EVENT_ADD)
-        ret_val = (void *) &(config->log_event_add);  
+        ret_val = (void *) &(config.log_event_add);  
         
      if (config_var == CONF_LOG_EVENT_CALLBACKS)
-        ret_val = (void *) &(config->log_event_callbacks);   
+        ret_val = (void *) &(config.log_event_callbacks);   
 
      if (config_var == CONF_LOG_KEYFRAMES)
-        ret_val = (void *) &(config->log_keyframes);       
+        ret_val = (void *) &(config.log_keyframes);       
 
      if (config_var == CONF_PCA_9685_PIN_BASE)
-        ret_val = (void *) &(config->pca_9685_pin_base);  
+        ret_val = (void *) &(config.pca_9685_pin_base);  
 
      if (config_var == CONF_PCA_9685_MAX_PWM)
-        ret_val = (void *) &(config->pca_9685_max_pwm);  
+        ret_val = (void *) &(config.pca_9685_max_pwm);  
 
      if (config_var == CONF_PCA_9685_HERTZ)
-        ret_val = (void *) &(config->pca_9685_hertz);
+        ret_val = (void *) &(config.pca_9685_hertz);
 
      if (config_var == CONF_SERVOS_NUM)
-        ret_val = (void *) &(config->servos_num);
+        ret_val = (void *) &(config.servos_num);
 
      if (config_var == CONF_ROBOT_TICK)
-        ret_val = (void *) &(config->robot_tick);   
+        ret_val = (void *) &(config.robot_tick);   
         
      if (config_var == CONF_TRANSITIONS_ENABLE)
-        ret_val = (void *) &(config->transitions_enable);  
+        ret_val = (void *) &(config.transitions_enable);  
         
      if (config_var == CONF_TRANSITIONS_TIME)
-        ret_val = (void *) &(config->transition_time);                
+        ret_val = (void *) &(config.transition_time);                
 
      if (config_var == CONF_TRANSITIONS_TIME)
-        ret_val = (void *) &(config->transition_time); 
+        ret_val = (void *) &(config.transition_time); 
 
      if (config_var == CONF_SERVO_PINS)
-        ret_val = (void *) config->servo_pins;       
+        ret_val = (void *) config.servo_pins;       
         
      if (config_var == CONF_SERVO_LIMITS)
-        ret_val = (void *) config->servo_limits;   
+        ret_val = (void *) config.servo_limits;   
         
      if (config_var == CONF_WALK_HIP_DELTA)
-        ret_val = (void *) &(config->walk_hip_delta);
+        ret_val = (void *) &(config.walk_hip_delta);
 
      if (config_var == CONF_WALK_KNEE_DELTA)
-        ret_val = (void *) &(config->walk_knee_delta);           
+        ret_val = (void *) &(config.walk_knee_delta);           
 
      if (config_var == CONF_WALK_KNEE_PAD_A)
-        ret_val = (void *) &(config->walk_knee_pad_a);
+        ret_val = (void *) &(config.walk_knee_pad_a);
 
      if (config_var == CONF_WALK_KNEE_PAD_B)
-        ret_val = (void *) &(config->walk_knee_pad_b);                                                                                                                                            
+        ret_val = (void *) &(config.walk_knee_pad_b);                                                                                                                                            
 
     return ret_val;
 }
