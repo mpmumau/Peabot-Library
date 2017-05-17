@@ -163,10 +163,10 @@ static void robot_mvjoint(int joint, float val)
 
 static bool robot_jointinv(int joint)
 {
-    if (joint == FRONT_LEFT_KNEE ||
-        joint == FRONT_LEFT_HIP ||
-        joint == BACK_RIGHT_KNEE ||
-        joint == BACK_RIGHT_HIP)
+    if (joint == DEFAULT_FRONT_LEFT_KNEE ||
+        joint == DEFAULT_FRONT_LEFT_HIP ||
+        joint == DEFAULT_BACK_RIGHT_KNEE ||
+        joint == DEFAULT_BACK_RIGHT_HIP)
         return true;
 
     return false;
