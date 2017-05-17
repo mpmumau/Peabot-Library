@@ -369,8 +369,7 @@ static char *config_default_log_filename()
     struct tm *ltime = localtime(&current_time);
 
     snprintf(filename, LOG_FILENAME_MAXLEN, 
-        "%s/peabot.%.*d-%.*d-%.*d_%.*d-%.*d-%.*d.log", 
-        log_file_dir,
+        "peabot.%.*d-%.*d-%.*d_%.*d-%.*d-%.*d.log", 
         2,
         ltime->tm_mon, 
         2,
