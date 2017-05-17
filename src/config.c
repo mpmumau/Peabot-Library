@@ -19,6 +19,7 @@
 /* Application includes */
 #include "config_defaults.h"
 #include "config_callbacks.h"
+#include "main.h"
 #include "log.h"
 #include "string_utils.h"
 
