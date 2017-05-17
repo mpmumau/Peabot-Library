@@ -24,7 +24,8 @@
 
 void eventcb_reset(void *arg)
 {
-    if (LOG_EVENT_CALLBACKS)
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_HOME keyframe.");
@@ -45,7 +46,8 @@ void eventcb_delay(void *arg)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
     *duration = duration_val;
 
-    if (LOG_EVENT_CALLBACKS)
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
@@ -66,7 +68,8 @@ void eventcb_elevate(void *arg)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
     *duration = elevate_data->duration;
 
-    if (LOG_EVENT_CALLBACKS)
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
@@ -84,7 +87,8 @@ void eventcb_walk(void *arg)
     int cycles = walk_data->cycles;
     float duration = walk_data->duration;
 
-    if (LOG_EVENT_CALLBACKS)
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)", duration, cycles);

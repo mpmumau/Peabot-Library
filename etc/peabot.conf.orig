@@ -1,1 +1,81 @@
+# =============================================================================
 # Peabot config file
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Log
+# -----------------------------------------------------------------------------
+
+log_file_dir            /var/lib/peabot
+log_stdin               true
+log_prompt_commands     true
+log_event_add           true
+log_event_callbacks     true
+log_keyframes           true
+
+# -----------------------------------------------------------------------------
+# PCA-9685
+# -----------------------------------------------------------------------------
+
+pca_9685_pin_base       300
+pca_9685_max_pwm        4096
+pca_9685_hertz          50
+
+# -----------------------------------------------------------------------------
+# Robot
+# -----------------------------------------------------------------------------
+
+servos_num              8
+robot_tick              0.01
+transitions_enable      true
+transition_time         1.0
+
+# -----------------------------------------------------------------------------
+# Walk motion
+# -----------------------------------------------------------------------------
+
+walk_hip_delta          0.7
+walk_knee_delta         0.3
+walk_knee_pad_a         0.9
+walk_knee_pad_b         0.9
+
+# -----------------------------------------------------------------------------
+# PCA-9685 servo pins
+# -----------------------------------------------------------------------------
+
+front_right_knee        6
+front_right_hip         7
+front_left_knee         3
+front_left_hip          2
+back_right_knee         4
+back_right_hip          5
+back_left_knee          0
+back_left_hip           1
+
+# -----------------------------------------------------------------------------
+# Servo limits
+# -----------------------------------------------------------------------------
+
+front_right_knee_min    200
+front_right_knee_max    400
+
+front_right_hip_min     200
+front_right_hip_max     400
+
+front_left_knee_min     200
+front_left_knee_max     400
+
+front_left_hip_min      200
+front_left_hip_max      400
+
+back_right_knee_min     200
+back_right_knee_max     400
+
+back_right_hip_min      200
+back_right_hip_max      400
+
+back_left_knee_min      200
+back_left_knee_max      400
+
+back_left_hip_min       200
+back_left_hip_max       400

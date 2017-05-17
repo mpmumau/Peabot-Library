@@ -92,7 +92,8 @@ void event_add(int event_type, void *data)
     event->type = event_type;
     event->data = data;
 
-    if (LOG_EVENT_ADD)
+    bool *log_event_add = config_get(CONF_LOG_EVENT_ADD);
+    if (*log_event_add)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Added event. (type: %s)", event_getname(event_type));

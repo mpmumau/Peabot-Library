@@ -34,8 +34,8 @@ static bool running = true;
 
 static int pca_9685_fd;
 
-static ServoLimit servo_limits[SERVOS_NUM];
 static float servo[SERVOS_NUM];
+static ServoLimit *servo_limits;
 
 /* Forward decs */
 static void *robot_main(void *arg);
@@ -55,6 +55,22 @@ void robot_init()
     int error = pthread_create(&robot_thread, NULL, robot_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not initialize robot thread.", 1);
+
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
+
+    servo_limits = malloc(sizeof(ServoLimit) * (*servos_num));
+    for (int i = 0; i < *servos_num; i++)
+    {
+        servo_limits[i]->min = servo_limits_conf[i]->min;
+        servo_limits[i]->max = servo_limits_conf[i]->max;
+    }
+}
+
+void robot_destroy()
+{
+    if (servo_limits)
+        free(servo_limits);
 }
 
 void robot_halt()
@@ -71,7 +87,9 @@ void robot_halt()
 
 void robot_reset()
 {
-    for (int i = 0; i < SERVOS_NUM; i++)
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    for (int i = 0; i < *servos_num; i++)
         servo[i] = 0.0f; 
 }
 
@@ -98,6 +116,8 @@ static void *robot_main(void *arg)
 
     float tick = 0.0f;
     float diff;
+    float *robot_tick = (float *) config_get(CONF_ROBOT_TICK);
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
     while (running)
     {
@@ -106,11 +126,11 @@ static void *robot_main(void *arg)
         last_time = time;
         
         tick += diff;
-        if (tick < ROBOT_TICK)
+        if (tick < *robot_tick)
             continue;
 
         tick = 0.0f;
-        for (int i = 0; i < SERVOS_NUM; i++)
+        for (int i = 0; i < *servos_num; i++)
         {
            robot_mvjoint(i, servo[i]); 
         }
@@ -124,8 +144,13 @@ static void robot_mvjoint(int joint, float val)
     if (robot_jointinv(joint))
         val *= -1.0f;
 
-    int mapped_val = robot_mapsrv(val, 200, 400);
-    pwmWrite(PCA_9685_PIN_BASE + joint, mapped_val);
+    int *pin_data = (int *) config_get(CONF_SERVO_PINS);
+    int pin = pin_data[joint];
+
+    ServoLimit *servo_limit = &servo_limits[joint];
+
+    int mapped_val = robot_mapsrv(val, servo_limit->min, servo_limit->max);
+    pwmWrite(PCA_9685_PIN_BASE + pin, mapped_val);
 }
 
 static bool robot_jointinv(int joint)

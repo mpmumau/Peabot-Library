@@ -77,8 +77,10 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (!keyfr)
         return;
 
+    bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
+
     if (keyfr_type != KEYFR_DELAY && 
-        TRANSITIONS_ENABLE && 
+        *transitions_enable && 
         !skip_transitions)
     {
         // Check if the new animation needs a transition keyframe and insert it first if so.
@@ -88,8 +90,10 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         else
             tmp_keyfr = keyfactory_home((void *) NULL, false);
 
+        float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
+        
         KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
-        trans_data->duration = KEYFRAME_TRANSITION_TIME;
+        trans_data->duration = *transitions_time;
         trans_data->src = tmp_keyfr->servo_pos;
         trans_data->dest = keyfr->servo_pos;
         
@@ -157,7 +161,8 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
-            if (LOG_KEYFRAMES)
+            bool *log_keyframes = (bool *) config_get(CONF_LOG_KEYFRAMES);
+            if (*log_keyframes)
             {
                 snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)", keyfr->duration, (int) keyfr->is_delay);
                 log_event(msg);

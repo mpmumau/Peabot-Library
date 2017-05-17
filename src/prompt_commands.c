@@ -30,7 +30,8 @@ void promptcmd_quit(char *args[], int arg_num)
 
 void promptcmd_reset(char *args[], int arg_num)
 {
-    if (LOG_PROMPT_COMMANDS)
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding reset event.");
@@ -53,7 +54,8 @@ void promptcmd_delay(char *args[], int arg_num)
     float *seconds = malloc(sizeof(float));
     *seconds = (float) atof(seconds_string);
 
-    if (LOG_PROMPT_COMMANDS)
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (duration: %f)", *seconds);
@@ -79,7 +81,8 @@ void promptcmd_elevate(char *args[], int arg_num)
     elevate_data->duration = (float) atof(seconds_string);
     elevate_data->reverse = (bool) ((int) atoi(reverse_string));
     
-    if (LOG_PROMPT_COMMANDS)
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding elevate event. (duration: %f, reverse %d)", elevate_data->duration, elevate_data->reverse);
@@ -105,7 +108,8 @@ void promptcmd_walk(char *args[], int arg_num)
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
 
-    if (LOG_PROMPT_COMMANDS)
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
     {
         char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding walk event. (duration: %f, cycles %d)", walk_data->duration, walk_data->cycles);

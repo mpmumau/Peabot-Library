@@ -25,7 +25,7 @@ static FILE *logfile = NULL;
 
 void log_init()
 {
-    char *filename = config_logfile();
+    char *filename = config_get(CONF_LOG_FULLPATH);
     if (!filename)
         app_exit("[ERROR!] Could not open logfile!", 1);
 

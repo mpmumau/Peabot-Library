@@ -68,7 +68,8 @@ static void *prompt_main(void *arg)
 
 static void prompt_handle_cmd(char *stdin_str)
 {
-    if (LOG_STDIN)
+    bool *log_stdin = config_get(CONF_LOG_STDIN);
+    if (*log_stdin)
     {
         char ancmt[64];
         snprintf(ancmt, 64, "[Stdin]: %s", stdin_str);

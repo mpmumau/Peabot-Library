@@ -3,54 +3,91 @@
 
 /*
  File:          config.h
- Description:   Peabot application-level configuration
+ Description:   Peabot application-level configuration.
  Created:       May 5, 2017
  Author:        Matt Mumau
  */
 
-/* Application settings */
-#define LOG_FILENAME_MAXLEN 64
-#define LOG_STDIN 1
-#define LOG_PROMPT_COMMANDS 1
-#define LOG_EVENT_ADD 1
-#define LOG_EVENT_CALLBACKS 1
-#define LOG_KEYFRAMES 1
+#include <stdbool.h>
 
-/* PCA-9685 config */
-#define PCA_9685_PIN_BASE 300
-#define PCA_9685_MAX_PWM 4096
-#define PCA_9685_HERTZ 50
+#include "robot.h"
 
-/* Robot related*/
-#define SERVOS_NUM 8
-#define ROBOT_TICK 0.01
-#define SERVO_DEFAULT_MIN 200
-#define SERVO_DEFAULT_MAX 400
-#define TRANSITIONS_ENABLE 1
+enum ConfigFlag {
+    CONF_LOG_FILE_DIR            = 1 << 0,
+    CONF_LOG_FILENAME            = 1 << 1,
+    CONF_LOG_FULLPATH            = 1 << 2,
 
-/* Walk related */
-#define HIP_DELTA 0.7
-#define KNEE_DELTA 0.3
-#define KNEE_PAD_A 0.9
-#define KNEE_PAD_B 0.9
+    CONF_CONFIG_FILE             = 1 << 3,
 
-/* PCA_9685 servo pins; left/right relative to the robot. */
-#define FRONT_RIGHT_KNEE 6
-#define FRONT_RIGHT_HIP 7
-#define FRONT_LEFT_KNEE 3
-#define FRONT_LEFT_HIP 2
-#define BACK_RIGHT_KNEE 4
-#define BACK_RIGHT_HIP 5
-#define BACK_LEFT_KNEE 0
-#define BACK_LEFT_HIP 1
+    CONF_LOG_STDIN               = 1 << 4,
+    CONF_LOG_PROMPT_COMMANDS     = 1 << 5,
+    CONF_LOG_EVENT_ADD           = 1 << 6,
+    CONF_LOG_EVENT_CALLBACKS     = 1 << 7,
+    CONF_LOG_KEYFRAMES           = 1 << 8,
 
-/* Keyframe animation */
-#define KEYFRAME_TRANSITION_TIME 1.0
+    CONF_PCA_9685_PIN_BASE       = 1 << 9,
+    CONF_PCA_9685_MAX_PWM        = 1 << 10,
+    CONF_PCA_9685_HERTZ          = 1 << 11,
 
-void config_init();
+    CONF_SERVOS_NUM              = 1 << 12,
+    CONF_ROBOT_TICK              = 1 << 13,
+    CONF_TRANSITIONS_ENABLE      = 1 << 14,
+    CONF_TRANSITIONS_TIME        = 1 << 15,
+    CONF_SERVO_PINS              = 1 << 16,
+    CONF_SERVO_LIMITS            = 1 << 17,
 
-void config_pipe(int argc, char * argv[]);
+    CONF_WALK_HIP_DELTA          = 1 << 18,
+    CONF_WALK_KNEE_DELTA         = 1 << 19,
+    CONF_WALK_KNEE_PAD_A         = 1 << 20,
+    CONF_WALK_KNEE_PAD_B         = 1 << 21    
+};
 
-char *config_logfile();
+/* Config data struct */
+typedef define Config {
+    char *log_file_dir;
+    char *log_filename;
+    char *log_fullpath;
+
+    char *config_file;
+
+    bool log_stdin;
+    bool log_prompt_commands;
+    bool log_event_add;
+    bool log_event_callbacks;
+    bool log_keyframes;
+
+    int pca_9685_pin_base;
+    int pca_9685_max_pwm;
+    int pca_9685_hertz;
+
+    int servos_num;
+    float robot_tick;
+    bool transitions_enable;
+    float transition_time;
+    int *servo_pins;
+    ServoLimit *servo_limits;
+
+    float walk_hip_delta;
+    float walk_knee_delta;
+    float walk_knee_pad_a;
+    float walk_knee_pad_b;
+} Config;
+
+typedef struct ServoPinData {
+    int id;
+    int val;
+} ServoPinData;
+
+typedef struct ServoLimitData {
+    int id;
+    int min;
+    int max;
+} ServoLimitData;
+
+/* Initialize the application configuration, setting all variables. */
+void config_init(int argc, char *argv[]);
+
+/* Free memory allocated on the stack for config variables. */
+void config_destroy();
 
 #endif

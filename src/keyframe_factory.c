@@ -26,7 +26,9 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest);
 
 Keyframe *keyfactory_home(void *data, bool reverse)
 {
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
     if (!servo_pos)
         app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
 
@@ -63,14 +65,16 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
     float *duration = (float *) data;
     float mod = reverse ? -1.0f : 1.0f;
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
 
     float start_pos = -1.0f * mod;
     float end_pos = 1.0f * mod;
 
-    for (int i = 0; i < SERVOS_NUM; i++)
+    for (int i = 0; i < *servos_num; i++)
     {
         if (i == BACK_RIGHT_KNEE || 
             i == BACK_LEFT_KNEE || 
@@ -94,48 +98,50 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
 Keyframe *keyfactory_walk(void *data, bool reverse)
 {
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    ServoPos *servo_pos = malloc(sizeof(ServoPos) * *servos_num);
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for ServoPos (keyfradd_walk).", 1);
 
     float *duration = (float *) data;
     float mod = reverse ? -1.0f : 1.0f;
 
-    float knee_delta = KNEE_DELTA;
-    float hip_delta = HIP_DELTA * mod;
+    float *knee_delta = (float *) config_get(CONF_WALK_KNEE_DELTA);
+    float *hip_delta = (float *) config_get(CONF_WALK_HIP_DELTA);
 
-    float knee_pad_a = KNEE_PAD_A;
-    float knee_pad_b = KNEE_PAD_B;
+    float *knee_pad_a = (float *) config_get(CONF_WALK_KNEE_PAD_A);
+    float *knee_pad_b = (float *) config_get(CONF_WALK_KNEE_PAD_B);
 
-    float knee_pad_ax = reverse ? knee_pad_a : knee_pad_b;
-    float knee_pad_bx = reverse ? knee_pad_b : knee_pad_a;
+    float knee_pad_ax = reverse ? *knee_pad_a : *knee_pad_b;
+    float knee_pad_bx = reverse ? *knee_pad_b : *knee_pad_a;
 
     int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
     int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
-    for (int i = 0; i < SERVOS_NUM; i++)
+    for (int i = 0; i < *servos_num; i++)
     {
         if (i == BACK_LEFT_HIP || FRONT_LEFT_HIP)
-            servo_pos[i] = (ServoPos) { ease_in, -hip_delta, hip_delta, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { ease_in, -*hip_delta, *hip_delta, 0.0f, 0.0f };
 
         if (i == BACK_RIGHT_HIP || i == FRONT_RIGHT_HIP)
-            servo_pos[i] = (ServoPos) { ease_out, hip_delta, -hip_delta, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
 
         if (!reverse)
         {
             if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -knee_delta, knee_delta, knee_pad_bx, 0.0f };
+                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_bx, 0.0f };
 
             if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, knee_delta, -knee_delta, knee_pad_ax, 0.0f };
+                servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_ax, 0.0f };
         }
         else
         {
             if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, knee_delta, -knee_delta, knee_pad_bx, 0.0f };
+                servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_bx, 0.0f };
 
             if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -knee_delta, knee_delta, knee_pad_ax, 0.0f };
+                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_ax, 0.0f };
         }
     }
 
@@ -164,11 +170,15 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
     if (servopos_matches(src, dest))
         return NULL;
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * SERVOS_NUM);
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
 
-    for (int i = 0; i < SERVOS_NUM; i++)
+
+
+    for (int i = 0; i < *servos_num; i++)
     {
         servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->end_pos, dest->start_pos, 0.0f, 0.0f };
         src++;
@@ -189,7 +199,9 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
     bool matches = true;
 
-    for (int i = 0; i < SERVOS_NUM; i++) 
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    for (int i = 0; i < *servos_num; i++) 
     {
         if (src->end_pos != dest->start_pos)
         {

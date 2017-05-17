@@ -52,7 +52,11 @@ void app_exit(char *message, int retval)
     log_event("[APP_EXIT] Keyframe handler shutdown complete.");
 
     robot_halt();
+    robot_destroy();
+
     log_event("[APP_EXIT] Robot shutdown complete.");
+
+    config_destroy();
 
     log_event("[APP_EXIT] Exit sequence complete. Bye!");
     log_close();
@@ -84,7 +88,6 @@ static void signal_handler(int signum)
 int main(int argc, char *argv[])
 {
     config_init();
-    config_pipe(argc, argv);
 
     log_init();
     log_h("Peabot Server Logs");
@@ -96,8 +99,11 @@ int main(int argc, char *argv[])
     console_event("Server started");
 
     robot_init();
+
     keyhandler_init();
+
     event_init();
+    
     prompt_init();
 
     while (app_running) {}
