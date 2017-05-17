@@ -86,7 +86,7 @@ static void signal_handler(int signum)
 /* Application main */
 int main(int argc, char *argv[])
 {
-    config_init();
+    config_init(arc, argv);
 
     log_init();
     log_h("Peabot Server Logs");
