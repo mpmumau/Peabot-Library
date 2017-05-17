@@ -34,7 +34,7 @@ static bool running = true;
 
 static int pca_9685_fd;
 
-static float servo[SERVOS_NUM];
+static float *servo;
 static ServoLimit *servo_limits;
 
 /* Forward decs */
@@ -58,6 +58,7 @@ void robot_init()
         app_exit("[ERROR!] Could not initialize robot thread.", 1);
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    float *servo = malloc(sizeof(float) * servos_num);
     ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
     servo_limits = malloc(sizeof(ServoLimit) * (*servos_num));
@@ -186,6 +187,9 @@ static void robot_destroy()
 {
     if (servo_limits)
         free(servo_limits);
+
+    if (servo)
+        free(servo);
 }
 
 #endif
