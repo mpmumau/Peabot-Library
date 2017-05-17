@@ -48,7 +48,10 @@ void robot_init()
 {
     wiringPiSetup();
 
-    pca_9685_fd = pca9685Setup(PCA_9685_PIN_BASE, 0x40, PCA_9685_HERTZ);
+    int *pca_9685_pin_base = (int *) config_get(CONF_PCA_9685_PIN_BASE);
+    int *pca_9685_hertz = (int *) config_get(CONF_PCA_9685_HERTZ);
+
+    pca_9685_fd = pca9685Setup(*pca_9685_pin_base, 0x40, *pca_9685_hertz);
     if (pca_9685_fd < 0)
         app_exit("[ERROR!] Could not create PCA-9685 file descriptor.", 1);
     pca9685PWMReset(pca_9685_fd);
@@ -58,7 +61,9 @@ void robot_init()
         app_exit("[ERROR!] Could not initialize robot thread.", 1);
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
     float *servo = malloc(sizeof(float) * servos_num);
+    
     ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
     servo_limits = malloc(sizeof(ServoLimit) * (*servos_num));
