@@ -43,7 +43,7 @@ enum ConfigFlag {
 };
 
 /* Config data struct */
-typedef define Config {
+typedef struct Config {
     char *log_file_dir;
     char *log_filename;
     char *log_fullpath;
