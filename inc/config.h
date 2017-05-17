@@ -91,7 +91,7 @@ void config_init(int argc, char *argv[]);
 void config_set(int config_var, void *data);
 
 /* Return a generic data object representing the value of the given configuration var identifier. */
-void config_get(int config_var);
+void *config_get(int config_var);
 
 /* Free memory allocated on the stack for config variables. */
 void config_destroy();
