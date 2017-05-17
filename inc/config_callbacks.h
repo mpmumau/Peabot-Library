@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#include "config.h"
+
 /* Set the log file's directory; takes a char pointer, cast to a void pointer. */
 void configset_log_file_dir(Config config, (void *) data);
 /* Set the log file's filename; takes a char pointer, cast to a void pointer. */
