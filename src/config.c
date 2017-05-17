@@ -57,12 +57,12 @@ static void config_set_defaults()
     config_set(CONF_LOG_FILENAME, (void *) log_filename);
 
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
-    config.log_fullpath = malloc(full_path_size);
+    config.log_fullpath = malloc(sizeof(char) * full_path_size);
     strcpy(config.log_fullpath, config.log_file_dir);
     strcat(config.log_fullpath, config.log_filename);
 
     bool log_stdin = DEFAULT_LOG_STDIN;
-    config_set(CONF_LOG_FILENAME, (void *) &log_stdin);
+    config_set(CONF_LOG_STDIN, (void *) &log_stdin);
 
     bool log_prompt_commands = DEFAULT_LOG_PROMPT_COMMANDS;
     config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_prompt_commands);
@@ -74,7 +74,7 @@ static void config_set_defaults()
     config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
 
     bool log_keyframes = DEFAULT_LOG_KEYFRAMES;
-    config_set(CONF_LOG_EVENT_KEYFRAMES, (void *) &log_keyframes);
+    config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
 
     int pca_9685_pin_base = DEFAULT_PCA_9685_PIN_BASE;
     config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
