@@ -88,10 +88,10 @@ typedef struct ServoLimitData {
 void config_init(int argc, char *argv[]);
 
 /* Set the variable correlating the identifier (a value from the ConfigFlag enum) to a data object. */ 
-void config_set(int config_var, (void *) data);
+void config_set(int config_var, void *data);
 
 /* Return a generic data object representing the value of the given configuration var identifier. */
-void config_get(int config_var)
+void config_get(int config_var);
 
 /* Free memory allocated on the stack for config variables. */
 void config_destroy();
