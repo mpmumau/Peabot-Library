@@ -13,6 +13,7 @@
 
 /* Application includes */
 #include "main.h"
+#include "config_defaults.h"
 #include "config.h"
 #include "easing.h"
 #include "easing_utils.h"
@@ -76,10 +77,10 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
     for (int i = 0; i < *servos_num; i++)
     {
-        if (i == BACK_RIGHT_KNEE || 
-            i == BACK_LEFT_KNEE || 
-            i == FRONT_RIGHT_KNEE || 
-            i == FRONT_LEFT_KNEE)
+        if (i == DEFAULT_BACK_RIGHT_KNEE || 
+            i == DEFAULT_BACK_LEFT_KNEE || 
+            i == DEFAULT_FRONT_RIGHT_KNEE || 
+            i == DEFAULT_FRONT_LEFT_KNEE)
 
             servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
         else
@@ -121,26 +122,26 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     for (int i = 0; i < *servos_num; i++)
     {
-        if (i == BACK_LEFT_HIP || FRONT_LEFT_HIP)
+        if (i == DEFAULT_BACK_LEFT_HIP || DEFAULT_FRONT_LEFT_HIP)
             servo_pos[i] = (ServoPos) { ease_in, -*hip_delta, *hip_delta, 0.0f, 0.0f };
 
-        if (i == BACK_RIGHT_HIP || i == FRONT_RIGHT_HIP)
+        if (i == DEFAULT_BACK_RIGHT_HIP || i == DEFAULT_FRONT_RIGHT_HIP)
             servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
 
         if (!reverse)
         {
-            if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
+            if (i == DEFAULT_BACK_LEFT_KNEE || i == DEFAULT_FRONT_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
+            if (i == DEFAULT_FRONT_LEFT_KNEE || i == DEFAULT_BACK_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_ax, 0.0f };
         }
         else
         {
-            if (i == BACK_LEFT_KNEE || i == FRONT_RIGHT_KNEE)
+            if (i == DEFAULT_BACK_LEFT_KNEE || i == DEFAULT_FRONT_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == FRONT_LEFT_KNEE || i == BACK_RIGHT_KNEE)
+            if (i == DEFAULT_FRONT_LEFT_KNEE || i == DEFAULT_BACK_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_ax, 0.0f };
         }
     }
