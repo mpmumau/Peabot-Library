@@ -203,7 +203,7 @@ static void config_pipe(int argc, char *argv[])
     }
 }
 
-static void config_set(int config_var, (void *) data)
+void config_set(int config_var, (void *) data)
 {
     void *(*config_set_callback)(void *data);
     config_set_callback = NULL;
