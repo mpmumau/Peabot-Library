@@ -363,7 +363,7 @@ static void config_handle_arg(char *arg, char *val)
 
 static char *config_default_log_filename()
 {
-    char *filename;
+    char *filename = NULL;
 
     time_t current_time = time(NULL);
     struct tm *ltime = localtime(&current_time);
