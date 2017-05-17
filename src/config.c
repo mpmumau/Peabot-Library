@@ -29,7 +29,7 @@ static Config config;
 
 /* Forward decs */
 static void config_set_defaults();
-static void config_pipe(int argc, char *argv[])
+static void config_pipe(int argc, char *argv[]);
 static void config_handle_arg(char *arg, char *val);
 static char *config_default_log_filename();
 
