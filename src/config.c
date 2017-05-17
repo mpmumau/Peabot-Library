@@ -205,7 +205,7 @@ static void config_pipe(int argc, char *argv[])
 
 void config_set(int config_var, void *data)
 {
-    void *(*config_set_callback)(void *data);
+    void (*config_set_callback)(Config config, void *data);
     config_set_callback = NULL;
 
     if (config_var == CONF_LOG_FILE_DIR)
