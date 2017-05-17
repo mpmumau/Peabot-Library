@@ -70,8 +70,8 @@ void robot_init()
     servo_limits = malloc(sizeof(ServoLimit) * (*servos_num));
     for (int i = 0; i < *servos_num; i++)
     {
-        &(servo_limits[i])->min = servo_limits_conf[i]->min;
-        &(servo_limits[i])->max = servo_limits_conf[i]->max;
+        (servo_limits[i])->min = servo_limits_conf[i]->min;
+        (servo_limits[i])->max = servo_limits_conf[i]->max;
     }
 }
 
