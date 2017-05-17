@@ -154,7 +154,11 @@ static void robot_mvjoint(int joint, float val)
     ServoLimit *servo_limit = &servo_limits[joint];
 
     int mapped_val = robot_mapsrv(val, servo_limit->min, servo_limit->max);
-    pwmWrite(PCA_9685_PIN_BASE + pin, mapped_val);
+
+    int *pca_9685_pin_base = (int *) config_get(CONF_PCA_9685_PIN_BASE);
+    pin += *pca_9685_pin_base;
+
+    pwmWrite(pin, mapped_val);
 }
 
 static bool robot_jointinv(int joint)
