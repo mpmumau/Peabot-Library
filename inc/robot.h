@@ -19,9 +19,6 @@ void robot_init();
 /* Stop the robot, reset it and end its loop. */
 void robot_halt();
 
-/* Destroy stack memory for the robot object. */
-void robot_destroy();
-
 /* Resets the robot to its "home" position */
 void robot_reset();
 

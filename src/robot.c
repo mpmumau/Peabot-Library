@@ -42,6 +42,7 @@ static void *robot_main(void *arg);
 static void robot_mvjoint(int joint, float val);
 static bool robot_jointinv(int joint);
 static int robot_mapsrv(float val, int min, int max);
+static void robot_destroy();
 
 void robot_init()
 {
@@ -67,15 +68,11 @@ void robot_init()
     }
 }
 
-void robot_destroy()
-{
-    if (servo_limits)
-        free(servo_limits);
-}
-
 void robot_halt()
 {   
     robot_reset();
+
+    robot_destroy();
 
     running = false;
     int error = pthread_join(robot_thread, NULL);
@@ -183,6 +180,12 @@ static int robot_mapsrv(float val, int min, int max)
         return midway - diff;
     
     return midway + diff;
+}
+
+static void robot_destroy()
+{
+    if (servo_limits)
+        free(servo_limits);
 }
 
 #endif

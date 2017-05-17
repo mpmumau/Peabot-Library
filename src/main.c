@@ -52,7 +52,6 @@ void app_exit(char *message, int retval)
     log_event("[APP_EXIT] Keyframe handler shutdown complete.");
 
     robot_halt();
-    robot_destroy();
 
     log_event("[APP_EXIT] Robot shutdown complete.");
 
