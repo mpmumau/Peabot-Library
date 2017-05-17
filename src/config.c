@@ -100,7 +100,7 @@ static void config_set_defaults()
     float walk_hip_delta = DEFAULT_HIP_DELTA;
     config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
 
-    float walk_knee_delta = DEFAULT_WALK_KNEE_DELTA;
+    float walk_knee_delta = DEFAULT_KNEE_DELTA;
     config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
 
     float walk_knee_pad_a = DEFAULT_KNEE_PAD_A;
