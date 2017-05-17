@@ -66,13 +66,13 @@ void robot_init()
 
     servo = malloc(sizeof(float) * (*servos_num));
     if (!servo)
-        app_exit("[ERROR!] Could not allocate memory for servo. (robot_init).");
+        app_exit("[ERROR!] Could not allocate memory for servo. (robot_init).", 1);
 
     ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
     servo_limits = malloc(sizeof(ServoLimit) * (*servos_num));
     if (!servo_limits)
-        app_exit("[ERROR!] Could not allocate memory for servo_limits. (robot_init).");
+        app_exit("[ERROR!] Could not allocate memory for servo_limits. (robot_init).", 1);
 
     for (int i = 0; i < *servos_num; i++)
     {
