@@ -147,8 +147,8 @@ void configset_servo_pins(Config *config, void *data)
 void configset_servo_limits(Config *config, void *data)
 {
     ServoLimitData *data_p = (ServoLimitData *) data;
-    config->servo_pins[data_p->id].min = data_p->min;
-    config->servo_pins[data_p->id].max = data_p->max;
+    config->servo_pins[data_p->id]->min = data_p->min;
+    config->servo_pins[data_p->id]->max = data_p->max;
     return;
 }
 
