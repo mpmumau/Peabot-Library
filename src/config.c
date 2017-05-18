@@ -540,7 +540,7 @@ static void config_parse_configfile(char *config_file)
 
         val = buffer;   
 
-        config_handle_config_line(arg, val);
+        //config_handle_config_line(arg, val);
     } 
 
     fclose(config_file_handle);
