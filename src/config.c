@@ -382,7 +382,10 @@ static void config_handle_arg(char *arg, char *val)
     printf("handling arg: %s, val: %s\n", arg, val);
 
     if (str_equals(arg, "-c") || str_equals(arg, "-config")) 
+    {
+        printf("attempting -c \n");
         config_set(CONF_CONFIG_FILE, (void *) val);
+    }
 
     if (str_equals(arg, "-log_stdin"))
     {
