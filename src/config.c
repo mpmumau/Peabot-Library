@@ -206,6 +206,8 @@ static void config_pipe(int argc, char *argv[])
     char *arg;
     char *val;
 
+    printf("doing pipe: args: %d\n", argc);
+
     for (int i = 1; i < argc; i++)
     {
         arg = NULL;
