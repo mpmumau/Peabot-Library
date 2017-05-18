@@ -374,8 +374,6 @@ void *config_get(int config_var)
 
 static void config_handle_arg(char *arg, char *val)
 {
-    printf("cmd_line_arg: %s, val: %s\n", arg, val);
-
     if (str_equals(arg, "c") || str_equals(arg, "-config")) 
         config_set(CONF_CONFIG_FILE, (void *) val);
 
