@@ -114,6 +114,7 @@ static void *keyhandler_main(void *arg)
     
     Keyframe *keyfr;
     ServoPos *servo_pos;
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
     
     float perc, pos, begin_time, end_time, adjusted_duration;
 
@@ -140,7 +141,7 @@ static void *keyhandler_main(void *arg)
 
         if (!keyfr->is_delay && servo_pos)
         {
-            for (int i = 0; i < SERVOS_NUM; i++)
+            for (int i = 0; i < *servos_num; i++)
             {
                 begin_time = keyfr->duration * servo_pos[i].begin_pad;
                 end_time = keyfr->duration * servo_pos[i].end_pad;
