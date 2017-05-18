@@ -533,6 +533,8 @@ static void config_parse_configfile(char *config_file)
 
         arg = strtok(buffer, delim);
 
+        printf("arg: %s | val: %s \n");
+
         config_handle_config_line(arg, val);
     } 
 
@@ -541,12 +543,6 @@ static void config_parse_configfile(char *config_file)
 
 static void config_handle_config_line(char *arg, char *val)
 {
-    // if (str_equals(arg, "servos_num"))
-    // {
-    //     int servos_num = (int) atoi(val);
-    //     config_set(CONF_SERVOS_NUM, (void *) &servos_num);
-    // }
-
     printf("arg: %s, val %s", arg, val);
 }
 
