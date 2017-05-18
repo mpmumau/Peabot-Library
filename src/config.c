@@ -33,11 +33,17 @@ static void config_set_defaults();
 static void config_pipe(int argc, char *argv[]);
 static void config_handle_arg(char *arg, char *val);
 static char *config_default_log_filename();
+static void config_parse_configfile(char *config_file);
+static void config_handle_config_line(char *arg, char *val);
 
 void config_init(int argc, char *argv[])
 {
     config_set_defaults();
     config_pipe(argc, argv);
+
+    char *config_file = (char *) config_get(CONF_CONFIG_FILE);
+    if (config_file)
+        config_parse_configfile(config_file);
 }
 
 void config_destroy()
@@ -67,9 +73,10 @@ static void config_set_defaults()
     config.log_fullpath = malloc(sizeof(char) * full_path_size);
     if (!config.log_fullpath)
         app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).", 1);
-
     strcpy(config.log_fullpath, config.log_file_dir);
     strcat(config.log_fullpath, config.log_filename);
+
+    config.config_file = NULL;
 
     bool log_stdin = DEFAULT_LOG_STDIN;
     config_set(CONF_LOG_STDIN, (void *) &log_stdin);
@@ -367,14 +374,104 @@ void *config_get(int config_var)
 
 static void config_handle_arg(char *arg, char *val)
 {
-    if (str_equals(arg, "c")) {
-        // handle config file
+    if (str_equals(arg, "c") || str_equals(arg, "-config")) 
+        config_set(CONF_CONFIG_FILE, (void *) val);
+
+    if (str_equals(arg, "-log_stdin"))
+    {
+        bool log_stdin = true;
+        config_set(CONF_LOG_STDIN, (void *) &log_stdin);
     }
 
-    if (str_equals(arg, "rt"))
+    if (str_equals(arg, "-log_prompt"))
     {
-        // handle setting the robot tick speed from the command line
+        bool log_prompt = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_prompt);
     }    
+
+    if (str_equals(arg, "-log_event_add"))
+    {
+        bool log_event_add = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add);
+    }     
+
+    if (str_equals(arg, "-log_event_callback"))
+    {
+        bool log_event_callbacks = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
+    }
+
+    if (str_equals(arg, "-log_keyframes"))
+    {
+        bool log_keyframes = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_KEYFRAMES, (void *) &log_event_callbacks);
+    }                  
+
+    if (str_equals(arg), "-pca-9685-hertz")
+    {
+        int pca_9685_hertz = (int) atoi(val);
+        config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
+    }    
+
+    if (str_equals(arg, "-pca-9685-pin-base")) 
+    {
+        int pca_9685_pin_base = (int) atoi(val);
+        config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
+    }
+
+    if (str_equals(arg, "-pca-9685-max-pwm"))
+    {
+        int pca_9685_max_pwm = (int) atoi(val);
+        config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm);
+    }
+
+    if (str_equals(arg, "s") || str_equals(arg, "-servos"))
+    {
+        int servos_num = (int) atoi(val);
+        config_set(CONF_SERVOS_NUM, (void *) &servos_num);
+    }
+
+    if (str_equals(arg, "t") || str_equals(arg, "-servo_tick"))
+    {
+        float servo_tick = (float) atof(val);
+        config_set(CONF_ROBOT_TICK, (void *) &servo_tick);
+    }
+
+    if (str_equals(arg, "-transitions-enable"))
+    {
+        bool transitions_enable = str_equals(val, "true") ? true : false;
+        config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable);
+    }
+
+    if (str_equals(arg, "-transitions-time"))
+    {
+        float transitions_time = (float) atof(val);
+        config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time);
+    }
+
+    if (str_equals(arg, "-walk-hip-delta"))
+    {
+        float walk_hip_delta = (float) atof(val);
+        config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
+    }
+
+    if (str_equals(arg, "-walk-knee-delta"))
+    {
+        float walk_knee_delta = (float) atof(val);
+        config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
+    }   
+
+    if (str_equals(arg, "-walk-knee-pad-a"))
+    {
+        float walk_knee_pad_a = (float) atof(val);
+        config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a);
+    }       
+
+    if (str_equals(arg, "-walk-knee-pad-b"))
+    {
+        float walk_knee_pad_b = (float) atof(val);
+        config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b);
+    }        
 }
 
 static char *config_default_log_filename()
@@ -400,6 +497,48 @@ static char *config_default_log_filename()
         ltime->tm_sec);  
 
     return filename;
+}
+
+static void config_parse_configfile(char *config_file)
+{
+    if (!config_file)
+        return;
+
+    File *config_file = fopen(config_file, "r");
+
+    int buffer_size = 128;
+    char *buffer[buffer_size];
+
+    char *arg = NULL;
+    char *val = NULL;
+
+    char *delim = " ";
+
+    while(buffer)
+    {
+        fgets(buffer, buffer_size, config_file);
+
+        if (!buffer)
+            continue;
+
+        arg = strtok(buffer, delim);
+        val = buffer;   
+
+        config_handle_config_line(arg, val);
+    }
+
+    fclose(logfile);
+}
+
+static void config_handle_config_line(char *arg, char *val)
+{
+    // if (str_equals(arg, "servos_num"))
+    // {
+    //     int servos_num = (int) atoi(val);
+    //     config_set(CONF_SERVOS_NUM, (void *) &servos_num);
+    // }
+
+    printf("arg: %s, val %s", arg, val);
 }
 
 #endif
