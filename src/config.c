@@ -42,6 +42,12 @@ void config_init(int argc, char *argv[])
 
 void config_destroy()
 {
+    if (config.log_filename)
+        free(config.log_filename);
+
+    if (config.log_fullpath)
+        free(config.log_fullpath);
+
     if (config.servo_pins)
         free(config.servo_pins);
 
@@ -59,6 +65,9 @@ static void config_set_defaults()
 
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
     config.log_fullpath = malloc(sizeof(char) * full_path_size);
+    if (!config.log_fullpath)
+        app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).");
+
     strcpy(config.log_fullpath, config.log_file_dir);
     strcat(config.log_fullpath, config.log_filename);
 
@@ -370,7 +379,7 @@ static void config_handle_arg(char *arg, char *val)
 
 static char *config_default_log_filename()
 {
-    char *filename = NULL;
+    char *filename = malloc(sizeof(char) * LOG_FILENAME_MAXLEN);
 
     time_t current_time = time(NULL);
     struct tm *ltime = localtime(&current_time);
