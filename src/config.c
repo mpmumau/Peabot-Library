@@ -507,7 +507,7 @@ static void config_parse_configfile(char *config_file)
     FILE *config_file_handle = fopen(config_file, "r");
 
     int buffer_size = 128;
-    char *buffer[buffer_size];
+    char buffer[buffer_size];
 
     char *arg = NULL;
     char *val = NULL;
