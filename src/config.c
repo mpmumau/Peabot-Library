@@ -529,22 +529,14 @@ static void config_parse_configfile(char *config_file)
         if (str_starts(buffer, "#") || buffer[0] == '\0')
             continue;
 
-        printf("buffer before: %s\n", buffer);
-
         val = str_after_spaces(buffer, buffer_size);  
 
         arg = strtok(buffer, delim);
 
-        
+        if (arg == NULL)
+             continue;
 
-        // if (arg == NULL)
-        //     continue;
-
-         
-
-        printf("arg: %s | val: %s\n", arg, val);
-
-        //config_handle_config_line(arg, val);
+        config_handle_config_line(arg, val);
     } 
 
     fclose(config_file_handle);
