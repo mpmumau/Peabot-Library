@@ -531,6 +531,8 @@ static void config_parse_configfile(char *config_file)
 
         arg = strtok(buffer, delim);
 
+        printf("arg: %s\n", arg);
+
         if (arg == NULL)
             continue;
 
