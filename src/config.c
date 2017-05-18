@@ -531,6 +531,8 @@ static void config_parse_configfile(char *config_file)
 
         printf("buffer before: %s\n", buffer);
 
+        val = str_after_spaces(buffer, buffer_size);  
+
         arg = strtok(buffer, delim);
 
         
@@ -538,7 +540,7 @@ static void config_parse_configfile(char *config_file)
         // if (arg == NULL)
         //     continue;
 
-        val = str_after_spaces(buffer, buffer_size);   
+         
 
         printf("arg: %s | val: %s\n", arg, val);
 
