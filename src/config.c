@@ -522,8 +522,7 @@ static void config_parse_configfile(char *config_file)
 
     char *delim = " ";
 
-    fgets(buffer, buffer_size, config_file_handle);
-    while(buffer != NULL)
+    while(fgets(buffer, buffer_size, config_file_handle) != NULL)
     {
         // arg = strtok(buffer, delim);
 
@@ -535,8 +534,6 @@ static void config_parse_configfile(char *config_file)
         // config_handle_config_line(arg, val);
 
         printf("config file buffer: %s\n", buffer);
-
-        fgets(buffer, buffer_size, config_file_handle);
     } 
 
     fclose(config_file_handle);
