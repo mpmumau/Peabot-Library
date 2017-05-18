@@ -127,7 +127,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
 
         if (i == SERVO_INDEX_BACK_LEFT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
-            servo_pos[i] = (ServoPos) { ease_in, *hip_delta * mod, -(*hip_delta) * mod, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? EASE_CIRC_IN : EASE_CIRC_OUT, *hip_delta * mod, -(*hip_delta) * mod, 0.0f, 0.0f };
 
         // if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
         //     servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
