@@ -407,7 +407,7 @@ static void config_handle_arg(char *arg, char *val)
         config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
     }                  
 
-    if (str_equals(arg, "-pca-9685-hertz")
+    if (str_equals(arg, "-pca-9685-hertz"))
     {
         int pca_9685_hertz = (int) atoi(val);
         config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
