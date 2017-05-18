@@ -42,6 +42,9 @@ void config_init(int argc, char *argv[])
     config_pipe(argc, argv);
 
     char *config_file = (char *) config_get(CONF_CONFIG_FILE);
+
+    printf("config file should be: %s\n", config_file);
+
     if (config_file)
         config_parse_configfile(config_file);
 }
