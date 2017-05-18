@@ -43,8 +43,6 @@ void config_init(int argc, char *argv[])
 
     char *config_file = (char *) config_get(CONF_CONFIG_FILE);
 
-    printf("config file should be: %s\n", config_file);
-
     if (config_file)
         config_parse_configfile(config_file);
 }
@@ -380,8 +378,6 @@ void *config_get(int config_var)
 
 static void config_handle_arg(char *arg, char *val)
 {
-    printf("handling arg: %s, val: %s\n", arg, val);
-
     if (str_equals(arg, "-c") || str_equals(arg, "-config")) 
         config_set(CONF_CONFIG_FILE, (void *) val);
 
