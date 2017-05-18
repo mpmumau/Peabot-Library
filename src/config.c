@@ -66,7 +66,7 @@ static void config_set_defaults()
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
     config.log_fullpath = malloc(sizeof(char) * full_path_size);
     if (!config.log_fullpath)
-        app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).");
+        app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).", 1);
 
     strcpy(config.log_fullpath, config.log_file_dir);
     strcat(config.log_fullpath, config.log_filename);
