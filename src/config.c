@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#define _POSIX_C_SOURCE 199309L
+
 /* System includes*/
 #include <stdio.h>
 #include <stdlib.h>
@@ -502,7 +504,7 @@ static void config_parse_configfile(char *config_file)
     if (!config_file)
         return;
 
-    File *config_file = fopen(config_file, "r");
+    FILE *config_file = fopen(config_file, "r");
 
     int buffer_size = 128;
     char *buffer[buffer_size];
