@@ -73,7 +73,7 @@ debug: $(OBJ)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/peabot
+	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/peabot $(BIN_DIR)/peabot_debug;
 
 .PHONY: install
 install:
