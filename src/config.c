@@ -533,6 +533,9 @@ static void config_parse_configfile(char *config_file)
 
         // config_handle_config_line(arg, val);
 
+        if (str_starts(buffer, "#"))
+            continue;
+
         printf("config file buffer: %s\n", buffer);
     } 
 
