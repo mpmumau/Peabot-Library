@@ -33,7 +33,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
     if (!servo_pos)
         app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
 
-    for (int i = 0; i < SERVOS_NUM; i++)
+    for (int i = 0; i < *servos_num; i++)
     {
         servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
     }
@@ -77,10 +77,10 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
     for (int i = 0; i < *servos_num; i++)
     {
-        if (i == DEFAULT_BACK_RIGHT_KNEE || 
-            i == DEFAULT_BACK_LEFT_KNEE || 
-            i == DEFAULT_FRONT_RIGHT_KNEE || 
-            i == DEFAULT_FRONT_LEFT_KNEE)
+        if (i == SERVO_INDEX_BACK_RIGHT_KNEE || 
+            i == SERVO_INDEX_BACK_LEFT_KNEE || 
+            i == SERVO_INDEX_FRONT_RIGHT_KNEE || 
+            i == SERVO_INDEX_FRONT_LEFT_KNEE)
 
             servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
         else
@@ -121,26 +121,26 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     for (int i = 0; i < *servos_num; i++)
     {
-        if (i == DEFAULT_BACK_LEFT_HIP || DEFAULT_FRONT_LEFT_HIP)
+        if (i == SERVO_INDEX_BACK_LEFT_HIP || SERVO_INDEX_FRONT_LEFT_HIP)
             servo_pos[i] = (ServoPos) { ease_in, -*hip_delta, *hip_delta, 0.0f, 0.0f };
 
-        if (i == DEFAULT_BACK_RIGHT_HIP || i == DEFAULT_FRONT_RIGHT_HIP)
+        if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
             servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
 
         if (!reverse)
         {
-            if (i == DEFAULT_BACK_LEFT_KNEE || i == DEFAULT_FRONT_RIGHT_KNEE)
+            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == DEFAULT_FRONT_LEFT_KNEE || i == DEFAULT_BACK_RIGHT_KNEE)
+            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_ax, 0.0f };
         }
         else
         {
-            if (i == DEFAULT_BACK_LEFT_KNEE || i == DEFAULT_FRONT_RIGHT_KNEE)
+            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == DEFAULT_FRONT_LEFT_KNEE || i == DEFAULT_BACK_RIGHT_KNEE)
+            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_ax, 0.0f };
         }
     }

@@ -133,28 +133,28 @@ static void config_set_defaults()
 
         switch (i)
         {
-            case 0:
+            case SERVO_INDEX_BACK_LEFT_KNEE:
                 num = DEFAULT_BACK_LEFT_KNEE;
                 break;
-            case 1:
+            case SERVO_INDEX_BACK_LEFT_HIP:
                 num = DEFAULT_BACK_LEFT_HIP;
                 break;
-            case 2:
+            case SERVO_INDEX_FRONT_LEFT_KNEE:
+                num = DEFAULT_FRONT_LEFT_KNEE;
+                break;                
+            case SERVO_INDEX_FRONT_LEFT_HIP:
                 num = DEFAULT_FRONT_LEFT_HIP;
                 break;
-            case 3:
-                num = DEFAULT_FRONT_LEFT_KNEE;
-                break;
-            case 4:
+            case SERVO_INDEX_BACK_RIGHT_KNEE:
                 num = DEFAULT_BACK_RIGHT_KNEE;
                 break;
-            case 5:
+            case SERVO_INDEX_BACK_RIGHT_HIP:
                 num = DEFAULT_BACK_RIGHT_HIP;
                 break;
-            case 6:
+            case SERVO_INDEX_FRONT_RIGHT_KNEE:
                 num = DEFAULT_FRONT_RIGHT_KNEE;
                 break;     
-            case 7:
+            case SERVO_INDEX_FRONT_RIGHT_HIP:
                 num = DEFAULT_FRONT_RIGHT_HIP;
                 break;       
             default:
