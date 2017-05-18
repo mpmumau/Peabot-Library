@@ -504,7 +504,7 @@ static void config_parse_configfile(char *config_file)
     if (!config_file)
         return;
 
-    FILE *config_file = fopen(config_file, "r");
+    FILE *config_file_handle = fopen(config_file, "r");
 
     int buffer_size = 128;
     char *buffer[buffer_size];
@@ -516,7 +516,7 @@ static void config_parse_configfile(char *config_file)
 
     while(buffer)
     {
-        fgets(buffer, buffer_size, config_file);
+        fgets(buffer, buffer_size, config_file_handle);
 
         if (!buffer)
             continue;
@@ -527,7 +527,7 @@ static void config_parse_configfile(char *config_file)
         config_handle_config_line(arg, val);
     }
 
-    fclose(logfile);
+    fclose(config_file_handle);
 }
 
 static void config_handle_config_line(char *arg, char *val)
