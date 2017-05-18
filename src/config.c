@@ -404,7 +404,7 @@ static void config_handle_arg(char *arg, char *val)
     if (str_equals(arg, "-log_keyframes"))
     {
         bool log_keyframes = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_KEYFRAMES, (void *) &log_event_callbacks);
+        config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
     }                  
 
     if (str_equals(arg), "-pca-9685-hertz")
