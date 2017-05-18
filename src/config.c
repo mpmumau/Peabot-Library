@@ -533,8 +533,6 @@ static void config_parse_configfile(char *config_file)
 
         arg = strtok(buffer, delim);
 
-        printf("arg: %s | val: %s \n", arg, val);
-
         config_handle_config_line(arg, val);
     } 
 
@@ -543,7 +541,7 @@ static void config_parse_configfile(char *config_file)
 
 static void config_handle_config_line(char *arg, char *val)
 {
-    printf("arg: %s, val %s", arg, val);
+    printf("arg: %s, val %s\n", arg, val);
 }
 
 #endif
