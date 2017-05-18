@@ -541,7 +541,8 @@ static void config_parse_configfile(char *config_file)
 
 static void config_handle_config_line(char *arg, char *val)
 {
-    printf("arg: %s, val %s\n", arg, val);
+    if (str_starts(arg, "log_file_dir"))
+        printf("DING DING DING DING DING!!!!\n");
 }
 
 #endif
