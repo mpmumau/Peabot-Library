@@ -206,8 +206,6 @@ static void config_pipe(int argc, char *argv[])
     char *arg;
     char *val;
 
-    printf("doing pipe: args: %d\n", argc);
-
     for (int i = 1; i < argc; i++)
     {
         arg = NULL;
@@ -243,7 +241,7 @@ void config_set(int config_var, void *data)
         config_set_callback = configset_log_filename;
 
     if (config_var == CONF_CONFIG_FILE) 
-        config_set_callback = configset_log_filename;    
+        config_set_callback = configset_log_configfile;    
 
     if (config_var == CONF_LOG_STDIN) 
         config_set_callback = configset_log_stdin; 
