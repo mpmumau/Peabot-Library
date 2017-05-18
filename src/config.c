@@ -514,18 +514,20 @@ static void config_parse_configfile(char *config_file)
 
     char *delim = " ";
 
-    while(buffer)
+    fgets(buffer, buffer_size, config_file_handle);
+    while(buffer != NULL)
     {
-        fgets(buffer, buffer_size, config_file_handle);
+        arg = strtok(buffer, delim);
 
-        if (!buffer)
+        if (arg == NULL)
             continue;
 
-        arg = strtok(buffer, delim);
         val = buffer;   
 
         config_handle_config_line(arg, val);
-    }
+
+        fgets(buffer, buffer_size, config_file_handle);
+    } 
 
     fclose(config_file_handle);
 }
