@@ -524,21 +524,19 @@ static void config_parse_configfile(char *config_file)
 
     while(fgets(buffer, buffer_size, config_file_handle) != NULL)
     {
-        // arg = strtok(buffer, delim);
-
-        // if (arg == NULL)
-        //     continue;
-
-        // val = buffer;   
-
-        // config_handle_config_line(arg, val);
-
         str_removenl(buffer);
 
         if (str_starts(buffer, "#") || buffer[0] == '\0')
             continue;
 
-        printf("config file buffer: %s\n", buffer);
+        arg = strtok(buffer, delim);
+
+        if (arg == NULL)
+            continue;
+
+        val = buffer;   
+
+        config_handle_config_line(arg, val);
     } 
 
     fclose(config_file_handle);
