@@ -46,4 +46,25 @@ void str_copy(char *dest, char *src)
     *dest = '\0';
 }
 
+char *str_after_spaces(char *string, int limit)
+{
+    for (int i = 0; i < limit; i++)
+    {
+        if (!isspace(string[i]))
+            continue;
+        else
+            break;
+    }
+
+    if (!i || i == limit)
+        return NULL;
+
+    for ( ; i < limit; i++)
+    {
+        if (isspace(string[i]))
+            continue;
+        return &string[i];
+    }
+}
+
 #endif
