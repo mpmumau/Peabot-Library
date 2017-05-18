@@ -151,8 +151,7 @@ static void *robot_main(void *arg)
 
 static void robot_mvjoint(int joint, float val)
 {
-    if (robot_jointinv(joint))
-        val *= -1.0f;
+    val = robot_jointinv(joint) ? -val : val;
 
     int *pin_data = (int *) config_get(CONF_SERVO_PINS);
     int pin = pin_data[joint];
@@ -169,10 +168,10 @@ static void robot_mvjoint(int joint, float val)
 
 static bool robot_jointinv(int joint)
 {
-    if (joint == DEFAULT_FRONT_LEFT_KNEE ||
-        joint == DEFAULT_FRONT_LEFT_HIP ||
-        joint == DEFAULT_BACK_RIGHT_KNEE ||
-        joint == DEFAULT_BACK_RIGHT_HIP)
+    if (joint == SERVO_INDEX_FRONT_LEFT_KNEE ||
+        joint == SERVO_INDEX_FRONT_LEFT_HIP ||
+        joint == SERVO_INDEX_BACK_RIGHT_KNEE ||
+        joint == SERVO_INDEX_BACK_RIGHT_HIP)
         return true;
 
     return false;
