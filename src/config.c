@@ -533,9 +533,6 @@ static void config_parse_configfile(char *config_file)
 
         arg = strtok(buffer, delim);
 
-        if (arg == NULL)
-             continue;
-
         config_handle_config_line(arg, val);
     } 
 
