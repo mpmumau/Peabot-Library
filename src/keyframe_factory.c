@@ -124,25 +124,25 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         if (i == SERVO_INDEX_BACK_LEFT_HIP || SERVO_INDEX_FRONT_LEFT_HIP)
             servo_pos[i] = (ServoPos) { ease_in, -*hip_delta, *hip_delta, 0.0f, 0.0f };
 
-        if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
-            servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
+        // if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
+        //     servo_pos[i] = (ServoPos) { ease_out, *hip_delta, -*hip_delta, 0.0f, 0.0f };
 
-        if (!reverse)
-        {
-            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_bx, 0.0f };
+        // if (!reverse)
+        // {
+        //     if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
+        //         servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_ax, 0.0f };
-        }
-        else
-        {
-            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_bx, 0.0f };
+        //     if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
+        //         servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_ax, 0.0f };
+        // }
+        // else
+        // {
+        //     if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
+        //         servo_pos[i] = (ServoPos) { ease_out, *knee_delta, -*knee_delta, knee_pad_bx, 0.0f };
 
-            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_ax, 0.0f };
-        }
+        //     if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
+        //         servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, *knee_delta, knee_pad_ax, 0.0f };
+        // }
     }
 
     Keyframe *keyfr = malloc(sizeof(Keyframe));

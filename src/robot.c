@@ -141,14 +141,8 @@ static void *robot_main(void *arg)
 
         tick = 0.0f;
 
-        int *mapped_pins = (int *) config_get(CONF_SERVO_PINS);
-        int tmp_pin;
-
         for (int i = 0; i < *servos_num; i++)
-        {
-            tmp_pin = mapped_pins[i];
-            robot_mvjoint(tmp_pin, servo[i]); 
-        }
+            robot_mvjoint(i, servo[i]); 
     }
 
     return (void *) NULL;
