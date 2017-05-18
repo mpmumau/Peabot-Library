@@ -68,6 +68,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
 peabot: $(OBJ)
 	$(CC) -o $(BIN_DIR)/$@ $^ $(CFLAGS) $(LIBS)
 
+debug: $(OBJ)
+	$(CC) -g -o $(BIN_DIR)/peabot_debug $^ $(CFLAGS) ($LIBS)
+
 .PHONY: clean
 clean:
 	rm -f $(OBJ_DIR)/*.o $(BIN_DIR)/peabot
