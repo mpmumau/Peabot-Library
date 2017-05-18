@@ -14,6 +14,8 @@
 void configset_log_file_dir(Config *config, void *data);
 /* Set the log file's filename; takes a char pointer, cast to a void pointer. */
 void configset_log_filename(Config *config, void *data);
+/* Set the configuration file for the application. */
+void configset_log_configfile(Config *config, void *data);
 
 /* Set wheter to log prompt stdin; takes a bool pointer, cast to a void pointer. */
 void configset_log_stdin(Config *config, void *data);

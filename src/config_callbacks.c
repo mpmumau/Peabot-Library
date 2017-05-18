@@ -27,6 +27,12 @@ void configset_log_filename(Config *config, void *data)
     return;
 }
 
+void configset_log_configfile(Config *config, void *data)
+{
+    config->config_file = (char *) data;
+    return;
+}
+
 void configset_log_stdin(Config *config, void *data)
 {
     bool *data_p = (bool *) data;
@@ -38,6 +44,7 @@ void configset_log_prompt_commands(Config *config, void *data)
 {
     bool *data_p = (bool *) data;
     config->log_prompt_commands = *data_p;
+    return;
 }
 
 void configset_log_event_add(Config *config, void *data)

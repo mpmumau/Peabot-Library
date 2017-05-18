@@ -242,6 +242,9 @@ void config_set(int config_var, void *data)
     if (config_var == CONF_LOG_FILENAME) 
         config_set_callback = configset_log_filename;
 
+    if (config_var == CONF_CONFIG_FILE) 
+        config_set_callback = configset_log_filename;    
+
     if (config_var == CONF_LOG_STDIN) 
         config_set_callback = configset_log_stdin; 
 
@@ -382,10 +385,7 @@ static void config_handle_arg(char *arg, char *val)
     printf("handling arg: %s, val: %s\n", arg, val);
 
     if (str_equals(arg, "-c") || str_equals(arg, "-config")) 
-    {
-        printf("attempting -c \n");
         config_set(CONF_CONFIG_FILE, (void *) val);
-    }
 
     if (str_equals(arg, "-log_stdin"))
     {
