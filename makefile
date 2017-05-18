@@ -69,7 +69,7 @@ peabot: $(OBJ)
 	$(CC) -o $(BIN_DIR)/$@ $^ $(CFLAGS) $(LIBS)
 
 debug: $(OBJ)
-	$(CC) -g -o $(BIN_DIR)/peabot_debug $^ $(CFLAGS) ($LIBS)
+	$(CC) -g -o $(BIN_DIR)/peabot_debug $^ $(CFLAGS) $(LIBS)
 
 .PHONY: clean
 clean:
