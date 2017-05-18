@@ -529,12 +529,14 @@ static void config_parse_configfile(char *config_file)
         if (str_starts(buffer, "#") || buffer[0] == '\0')
             continue;
 
+        printf("buffer before: %s\n", buffer);
+
         arg = strtok(buffer, delim);
 
         printf("arg: %s\n", arg);
 
-        if (arg == NULL)
-            continue;
+        // if (arg == NULL)
+        //     continue;
 
         val = buffer;   
 
