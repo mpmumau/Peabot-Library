@@ -308,7 +308,7 @@ void promptcmd_cfg_get(char *args[], int arg_num)
         return;
     }
 
-    printf("[ERROR] Could not get config variable with specified name.");
+    printf("[ERROR] Could not get config variable with specified name.\n");
     return;
 }
 
