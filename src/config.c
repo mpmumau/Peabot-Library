@@ -538,7 +538,271 @@ static void config_parse_configfile(char *config_file)
 static void config_handle_config_line(char *arg, char *val)
 {
     if (str_starts(arg, "log_file_dir"))
-        printf("DING DING DING DING DING!!!!\n");
+        config_set(CONF_LOG_FILE_DIR, val);
+
+    if (str_starts(arg, "log_stdin"))
+    {
+        bool log_stdin = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_STDIN, (void *) &log_stdin);
+    }
+
+    if (str_starts(arg, "log_prompt_commands"))
+    {
+        bool log_command_prompts = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_command_prompts);
+    }
+
+    if (str_starts(arg, "log_event_add"))
+    {
+        bool log_event_add = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add);
+    } 
+
+    if (str_starts(arg, "log_event_callbacks"))
+    {
+        bool log_event_callbacks = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
+    }     
+
+    if (str_starts(arg, "log_keyframes"))
+    {
+        bool log_keyframes = str_equals(val, "true") ? true : false;
+        config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
+    }   
+
+    if (str_starts(arg, "pca_9685_pin_base"))
+    {
+        int pca_9685_pin_base = (int) atoi(val);
+        config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
+    }
+
+    if (str_starts(arg, "pca_9685_max_pwm"))
+    {
+        int pca_9685_max_pwm = (int) atoi(val);
+        config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm);
+    }    
+
+    if (str_starts(arg, "pca_9685_hertz"))
+    {
+        int pca_9685_hertz = (int) atoi(val);
+        config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
+    } 
+
+    if (str_starts(arg, "servos_num"))
+    {
+        int servos_num = (int) atoi(val);
+        config_set(CONF_SERVOS_NUM, (void *) &servos_num);
+    }                        
+
+    if (str_starts(arg, "robot_tick"))
+    {
+        float robot_tick = (float) atof(val);
+        config_set(CONF_ROBOT_TICK, (void *) &robot_tick);
+    }    
+
+    if (str_starts(arg, "transitions_enable"))
+    {
+        bool transitions_enable = str_equals(val, "true") ? true : false;
+        config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable);
+    }  
+
+    if (str_starts(arg, "transition_time"))
+    {
+        float transitions_time = (float) atof(val);
+        config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time);
+    }      
+
+    if (str_starts(arg, "walk_hip_delta"))
+    {
+        float walk_hip_delta = (float) atof(val);
+        config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
+    }      
+
+    if (str_starts(arg, "walk_knee_delta"))
+    {
+        float walk_knee_delta = (float) atof(val);
+        config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
+    }   
+
+    if (str_starts(arg, "walk_knee_pad_a"))
+    {
+        float walk_knee_pad_a = (float) atof(val);
+        config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a);
+    } 
+
+    if (str_starts(arg, "walk_knee_pad_b"))
+    {
+        float walk_knee_pad_b = (float) atof(val);
+        config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b);
+    }  
+
+    if (str_starts(arg, "back_left_knee"))
+    {
+        int back_left_knee_val = (int) atoi(val);
+        ServoPinData back_left_knee = (ServoPinData) { SERVO_INDEX_BACK_LEFT_KNEE, back_left_knee_val }
+        config_set(CONF_SERVO_PINS, (void *) &back_left_knee);
+    }
+
+    if (str_starts(arg, "back_left_hip"))
+    {
+        int back_left_hip_val = (int) atoi(val);
+        ServoPinData back_left_hip = (ServoPinData) { SERVO_INDEX_BACK_LEFT_HIP, back_left_hip_val }
+        config_set(CONF_SERVO_PINS, (void *) &back_left_hip);
+    } 
+
+    if (str_starts(arg, "front_left_knee"))
+    {
+        int front_left_knee_val = (int) atoi(val);
+        ServoPinData front_left_knee = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_KNEE, front_left_knee_val }
+        config_set(CONF_SERVO_PINS, (void *) &front_left_knee);
+    }  
+
+    if (str_starts(arg, "front_left_hip"))
+    {
+        int front_left_hip_val = (int) atoi(val);
+        ServoPinData front_left_hip = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_HIP, front_left_hip_val }
+        config_set(CONF_SERVO_PINS, (void *) &front_left_hip);
+    } 
+
+    if (str_starts(arg, "back_right_knee"))
+    {
+        int back_right_knee_val = (int) atoi(val);
+        ServoPinData back_right_knee = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_KNEE, back_right_knee_val }
+        config_set(CONF_SERVO_PINS, (void *) &back_right_knee);
+    }
+
+    if (str_starts(arg, "back_right_hip"))
+    {
+        int back_right_hip_val = (int) atoi(val);
+        ServoPinData back_right_hip = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_HIP, back_right_hip_val }
+        config_set(CONF_SERVO_PINS, (void *) &back_right_hip);
+    }   
+    
+    if (str_starts(arg, "front_right_knee"))
+    {
+        int front_right_knee_val = (int) atoi(val);
+        ServoPinData front_right_knee = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_KNEE, front_right_knee_val }
+        config_set(CONF_SERVO_PINS, (void *) &front_right_knee);
+    } 
+
+    if (str_starts(arg, "front_right_hip"))
+    {
+        int front_right_hip_val = (int) atoi(val);
+        ServoPinData front_right_hip = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_HIP, front_right_hip_val }
+        config_set(CONF_SERVO_PINS, (void *) &front_right_hip);
+    }         
+
+    if (str_starts(arg, "back_left_knee_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_BACK_LEFT_KNEE;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }  
+
+    if (str_starts(arg, "back_left_hip_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_BACK_LEFT_HIP;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }
+
+    if (str_starts(arg, "front_left_knee_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_FRONT_LEFT_KNEE;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    } 
+
+    if (str_starts(arg, "front_left_hip_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_FRONT_LEFT_HIP;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }
+
+    if (str_starts(arg, "back_right_knee_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_BACK_RIGHT_KNEE;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }  
+    
+    if (str_starts(arg, "back_right_hip_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_BACK_RIGHT_HIP;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    } 
+
+    if (str_starts(arg, "front_right_knee_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_FRONT_RIGHT_KNEE;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }    
+    
+    if (str_starts(arg, "front_right_hip_limits"))      
+    {
+        char *min_tok = strtok(val, " ");
+        char *max_tok = strtok(val, " ");
+
+        int min = (int) atoi(min_tok);
+        int max = (int) atoi(max_tok);
+
+        int pin = SERVO_INDEX_FRONT_RIGHT_HIP;
+
+        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+    }                                                               
 }
 
 #endif

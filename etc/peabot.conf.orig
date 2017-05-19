@@ -6,7 +6,7 @@
 # Log
 # -----------------------------------------------------------------------------
 
-log_file_dir            /var/lib/peabot
+log_file_dir            /var/lib/peabot/
 log_stdin               true
 log_prompt_commands     true
 log_event_add           true
@@ -43,39 +43,24 @@ walk_knee_pad_b         0.9
 # PCA-9685 servo pins
 # -----------------------------------------------------------------------------
 
-front_right_knee        6
-front_right_hip         7
+back_left_knee          0
+back_left_hip           1
 front_left_knee         3
 front_left_hip          2
 back_right_knee         4
 back_right_hip          5
-back_left_knee          0
-back_left_hip           1
+front_right_knee        6
+front_right_hip         7
 
 # -----------------------------------------------------------------------------
 # Servo limits
 # -----------------------------------------------------------------------------
 
-front_right_knee_min    200
-front_right_knee_max    400
-
-front_right_hip_min     200
-front_right_hip_max     400
-
-front_left_knee_min     200
-front_left_knee_max     400
-
-front_left_hip_min      200
-front_left_hip_max      400
-
-back_right_knee_min     200
-back_right_knee_max     400
-
-back_right_hip_min      200
-back_right_hip_max      400
-
-back_left_knee_min      200
-back_left_knee_max      400
-
-back_left_hip_min       200
-back_left_hip_max       400
+back_left_knee_limits       200 400
+back_left_hip_limits        200 400
+front_left_knee_limits      200 400
+front_left_hip_limits       200 400
+back_right_knee_limits      200 400
+back_right_hip_limits       200 400
+front_right_knee_limits     200 400
+front_right_hip_limits      200 400
