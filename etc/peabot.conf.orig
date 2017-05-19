@@ -56,11 +56,11 @@ front_right_hip         7
 # Servo limits
 # -----------------------------------------------------------------------------
 
-back_left_knee_limits       200 400
-back_left_hip_limits        200 400
-front_left_knee_limits      200 400
-front_left_hip_limits       200 400
-back_right_knee_limits      200 400
-back_right_hip_limits       200 400
-front_right_knee_limits     200 400
-front_right_hip_limits      200 400
+back_left_knee_limits       200-400
+back_left_hip_limits        200-400
+front_left_knee_limits      200-400
+front_left_hip_limits       200-400
+back_right_knee_limits      200-400
+back_right_hip_limits       200-400
+front_right_knee_limits     200-400
+front_right_hip_limits      200-400
