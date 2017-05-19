@@ -50,7 +50,7 @@ static void configfile_parse(FILE *config_file)
         val = str_after_spaces(buffer, buffer_size);  
         arg = strtok(buffer, CONFIG_DELIM);
 
-        config_handle_config_line(arg, val);
+        configfile_handle_line(arg, val);
     } 
 }
 
