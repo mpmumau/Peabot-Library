@@ -137,6 +137,176 @@ void promptcmd_cfg_get(char *args[], int arg_num)
         printf("[Config] log_file_dir: %s\n", log_file_dir);
         return;
     }
+
+    if (str_equals(var_name, "log_filename"))
+    {
+        char *log_filename = (char *) config_get(CONF_LOG_FILENAME);
+        printf("[Config] log_filename: %s\n", log_filename);
+        return;
+    }   
+
+    if (str_equals(var_name, "log_fullpath"))
+    {
+        char *log_fullpath = (char *) config_get(CONF_LOG_FULLPATH);
+        printf("[Config] log_fullpath: %s\n", log_fullpath);
+        return;
+    } 
+
+    if (str_equals(var_name, "config_file"))
+    {
+        char *config_file = (char *) config_get(CONF_CONFIG_FILE);
+        printf("[Config] config_file: %s\n", config_file);
+        return;
+    } 
+
+    if (str_equals(var_name, "log_stdin"))
+    {
+        bool *val = (bool *) config_get(CONF_LOG_STDIN);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] log_stdin: %s\n", truth);
+        return;
+    } 
+
+    if (str_equals(var_name, "log_prompt_commands"))
+    {
+        bool *val = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] log_prompt_commands: %s\n", truth);
+        return;
+    }    
+
+    if (str_equals(var_name, "log_event_add"))
+    {
+        bool *val = (bool *) config_get(CONF_LOG_EVENT_ADD);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] log_event_add: %s\n", truth);
+        return;
+    }   
+
+    if (str_equals(var_name, "log_event_callbacks"))
+    {
+        bool *val = (bool *) config_get(CONF_LOG_EVENT_CALLBACKS);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] log_event_callbacks: %s\n", truth);
+        return;
+    }  
+
+    if (str_equals(var_name, "log_keyframes"))
+    {
+        bool *val = (bool *) config_get(CONF_LOG_KEYFRAMES);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] log_keyframes: %s\n", truth);
+        return;
+    }     
+
+    if (str_equals(var_name, "pca_9685_pin_base"))
+    {
+        int *val = (int *) config_get(CONF_PCA_9685_PIN_BASE);
+        printf("[Config] pca_9685_pin_base: %i\n", *val);
+        return;
+    }    
+
+    if (str_equals(var_name, "pca_9685_max_pwm"))
+    {
+        int *val = (int *) config_get(CONF_PCA_9685_MAX_PWM);
+        printf("[Config] pca_9685_max_pwm: %i\n", *val);
+        return;
+    }          
+
+    if (str_equals(var_name, "pca_9685_hertz"))
+    {
+        int *val = (int *) config_get(CONF_PCA_9685_HERTZ);
+        printf("[Config] pca_9685_hertz: %i\n", *val);
+        return;
+    }      
+
+    if (str_equals(var_name, "servos_num"))
+    {
+        int *val = (int *) config_get(CONF_SERVOS_NUM);
+        printf("[Config] servos_num: %i\n", *val);
+        return;
+    }        
+
+    if (str_equals(var_name, "robot_tick"))
+    {
+        float *val = (float *) config_get(CONF_ROBOT_TICK);
+        printf("[Config] robot_tick: %f\n", *val);
+        return;
+    }    
+
+    if (str_equals(var_name, "transitions_enable"))
+    {
+        bool *val = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
+        char *truth = *val ? "true" : "false";
+        printf("[Config] transitions_enable: %s\n", truth);
+        return;
+    } 
+
+    if (str_equals(var_name, "transitions_time"))
+    {
+        float *val = (float *) config_get(CONF_TRANSITIONS_TIME);
+        printf("[Config] transitions_time: %f\n", *val);
+        return;
+    }             
+
+    if (str_equals(var_name, "walk_hip_delta"))
+    {
+        float *val = (float *) config_get(CONF_WALK_HIP_DELTA);
+        printf("[Config] walk_hip_delta: %f\n", *val);
+        return;
+    }       
+
+    if (str_equals(var_name, "walk_knee_delta"))
+    {
+        float *val = (float *) config_get(CONF_WALK_KNEE_DELTA);
+        printf("[Config] walk_knee_delta: %f\n", *val);
+        return;
+    }       
+
+    if (str_equals(var_name, "walk_knee_pad_a"))
+    {
+        float *val = (float *) config_get(CONF_WALK_KNEE_PAD_A);
+        printf("[Config] walk_knee_pad_a: %f\n", *val);
+        return;
+    }               
+
+    if (str_equals(var_name, "walk_knee_pad_b"))
+    {
+        float *val = (float *) config_get(CONF_WALK_KNEE_PAD_B);
+        printf("[Config] walk_knee_pad_b: %f\n", *val);
+        return;
+    }   
+
+    if (str_equals(var_name, "servo_pin"))
+    {
+        if (arg_num < 2)
+        {
+            console_print("[ERROR] Incorrect number of params. Usage: cfg_get servo_pin [index]]");
+            return;
+        }        
+
+        int index = (int) atoi(args[1]);
+        int *pins = config_get(CONF_SERVO_PINS);
+
+        printf("[Config] servo_pin@%d: %d\n", pins[index]);
+        return ;
+    }                                      
+
+    if (str_equals(var_name, "servo_limit"))
+    {
+        if (arg_num < 2)
+        {
+            console_print("[ERROR] Incorrect number of params. Usage: cfg_get servo_limit [index]]");
+            return;
+        }           
+
+        int index = (int) atoi(args[1]);
+
+        ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);        
+
+        printf("[Config] Serov limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
+        return;
+    }
 }
 
 #endif
