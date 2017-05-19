@@ -8,6 +8,12 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+
+/* Application includes */
+#include "config.h"
+
 /* Header */
 #include "config_stdin.h"
 

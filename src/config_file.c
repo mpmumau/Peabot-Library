@@ -11,8 +11,10 @@
 /* System libraries */
 #include <stdio.h>
 
-/* Headxer */
+/* Application includes */
 #include "config.h"
+
+/* Headxer */
 #include "config_file.h"
 
 /* Forward decs */

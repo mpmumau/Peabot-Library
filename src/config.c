@@ -17,13 +17,13 @@
 #include <string.h>
 
 /* Application includes */
+#include "main.h"
+#include "log.h"
+#include "string_utils.h"
 #include "config_defaults.h"
 #include "configset_callbacks.h"
 #include "config_stdin.h"
 #include "config_file.h"
-#include "main.h"
-#include "log.h"
-#include "string_utils.h"
 
 /* Header */
 #include "config.h"
