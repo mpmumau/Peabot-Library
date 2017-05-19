@@ -13,6 +13,7 @@
 
 /* Application includes */
 #include "config.h"
+#include "string_utils.h"
 
 /* Header */
 #include "config_stdin.h"
