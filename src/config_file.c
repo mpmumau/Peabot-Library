@@ -18,7 +18,7 @@
 #include "config_file.h"
 
 /* Forward decs */
-static void configfile_parse(FILE *config_file_handle);
+static void configfile_parse(FILE *config_file);
 static void configfile_handle_line(char *arg, char *val);
 
 void configfile_process(char *config_file_fullpath)
@@ -28,7 +28,7 @@ void configfile_process(char *config_file_fullpath)
     fclose(config_file);
 }
 
-static void configfile_parse(FILE *config_file_handle)
+static void configfile_parse(FILE *config_file)
 {
     if (!config_file)
         return;
@@ -39,7 +39,7 @@ static void configfile_parse(FILE *config_file_handle)
     char *arg = NULL;
     char *val = NULL;
 
-    while (fgets(buffer, buffer_size, config_file_handle) != NULL)
+    while (fgets(buffer, buffer_size, config_file) != NULL)
     {
         if (str_starts(buffer, COMMENT_CHARACTER) || str_empty(buffer))
             continue;
