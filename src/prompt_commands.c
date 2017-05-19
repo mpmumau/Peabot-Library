@@ -318,7 +318,7 @@ void promptcmd_cfg_get(char *args[], int arg_num)
 
         ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);        
 
-        printf("[Config] Serov limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
+        printf("[Config] servo_limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
         return;
     }
 
