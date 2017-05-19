@@ -25,28 +25,33 @@ LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread -lm
 # Project DEPS
 _DEPS = main.h \
 	config.h \
+	config_defaults.h \
+	configset_callbacks.h \
+	config_file.h \
+	config_stdin.h \
 	console.h \
 	prompt.h \
 	log.h \
 	string_utils.h \
-	utils.h robot.h \
-	events.h list.h \
+	utils.h \
+	robot.h \
+	events.h \
+	list.h \
 	keyframe_factory.h \
 	keyframe_handler.h \
 	prompt_commands.h \
 	easing.h \
-	math_defs.h \
-	event_callbacks.h \
 	easing_utils.h \
-	configset_callbacks.h \
-	config_defaults.h \
-	config_file.h \
-	config_stdin.h
+	math_defs.h \
+	event_callbacks.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
 _OBJ = main.o \
 	config.o \
+	configset_callbacks.o \
+	config_file.o \
+	config_stdin.o \
 	log.o \
 	console.o \
 	prompt.o \
@@ -60,10 +65,7 @@ _OBJ = main.o \
 	prompt_commands.o \
 	easing.o \
 	event_callbacks.o \
-	easing_utils.o \
-	configset_callbacks.o \
-	config_file.o \
-	config_stdin.o
+	easing_utils.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)

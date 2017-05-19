@@ -28,12 +28,12 @@
 /* Header */
 #include "config.h"
 
-static Config config;
-
 /* Forward decs */
 static void config_set_defaults();
 static void config_handle_arg(char *arg, char *val);
 static char *config_default_log_filename();
+
+static Config config;
 
 void config_init(int argc, char *argv[])
 {
