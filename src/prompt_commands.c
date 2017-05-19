@@ -288,6 +288,13 @@ void promptcmd_cfg_get(char *args[], int arg_num)
         int index = (int) atoi(args[1]);
         int *pins = config_get(CONF_SERVO_PINS);
 
+        int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+        if (index > *servos_num - 1)
+        {
+            console_print("[ERROR] Provided index is greater than the number of servos.");
+            return;
+        }
+
         printf("[Config] servo_pin@%d: %d\n", index, pins[index]);
         return ;
     }                                      
@@ -302,13 +309,20 @@ void promptcmd_cfg_get(char *args[], int arg_num)
 
         int index = (int) atoi(args[1]);
 
+        int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+        if (index > *servos_num - 1)
+        {
+            console_print("[ERROR] Provided index is greater than the number of servos.");
+            return;
+        }        
+
         ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);        
 
         printf("[Config] Serov limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
         return;
     }
 
-    printf("[ERROR] Could not get config variable with specified name.\n");
+    console_print("[ERROR] Could not get config variable with specified name.");
     return;
 }
 
