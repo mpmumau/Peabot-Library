@@ -16,7 +16,7 @@
 #include "robot.h"
 
 /* Header */
-#include "config_callbacks.h"
+#include "configset_callbacks.h"
 
 void configset_log_file_dir(Config *config, void *data, bool is_string)
 {
