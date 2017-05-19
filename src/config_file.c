@@ -14,6 +14,7 @@
 #include <string.h>
 
 /* Application includes */
+#include "main.h"
 #include "config.h"
 #include "string_utils.h"
 
@@ -27,6 +28,8 @@ static void configfile_handle_line(char *arg, char *val);
 void configfile_process(char *config_file_fullpath)
 {
     FILE *config_file = fopen(config_file_fullpath, "r");
+    if (!config_file)
+        app_exit("[ERROR] Could not open config file.", 1);
     configfile_parse(config_file);
     fclose(config_file);
 }
