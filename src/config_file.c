@@ -114,7 +114,7 @@ static void configfile_handle_line(char *arg, char *val)
         str_equals(arg, "back_right_knee") ||
         str_equals(arg, "back_right_hip") ||
         str_equals(arg, "front_right_knee") ||
-        str_equals(arg, "front_right_hip") ||
+        str_equals(arg, "front_right_hip")
         )
     {
         int servo_index = config_str_to_servo_index(arg);
@@ -130,7 +130,7 @@ static void configfile_handle_line(char *arg, char *val)
         str_equals(arg, "back_right_knee_limits") ||
         str_equals(arg, "back_right_hip_limits") ||
         str_equals(arg, "front_right_knee_limits") ||
-        str_equals(arg, "front_right_hip_limits") ||
+        str_equals(arg, "front_right_hip_limits")
         )
     {    
         int servo_index = config_str_to_servo_index(arg);
