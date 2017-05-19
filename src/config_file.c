@@ -66,6 +66,9 @@ static void configfile_parse(FILE *config_file)
 
 static void configfile_handle_line(char *arg, char *val)
 {
+    if (arg == NULL)
+        return;
+
     if (str_equals(arg, "log_file_dir"))
         config_set(CONF_LOG_FILE_DIR, (void *) val, true);
 
