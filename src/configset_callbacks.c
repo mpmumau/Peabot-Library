@@ -10,6 +10,7 @@
 
 /* System includes */
 #include <stdbool.h>
+#include <stdlib.h>
 
 /* Application includes */
 #include "config.h"
