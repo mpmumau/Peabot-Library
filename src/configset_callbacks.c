@@ -15,6 +15,7 @@
 /* Application includes */
 #include "config.h"
 #include "robot.h"
+#include "string_utils.h"
 
 /* Header */
 #include "configset_callbacks.h"
