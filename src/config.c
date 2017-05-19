@@ -19,6 +19,7 @@
 /* Application includes */
 #include "config_defaults.h"
 #include "configset_callbacks.h"
+#include "config_stdin.h"
 #include "config_file.h"
 #include "main.h"
 #include "log.h"
@@ -31,7 +32,6 @@ static Config config;
 
 /* Forward decs */
 static void config_set_defaults();
-static void config_pipe(int argc, char *argv[]);
 static void config_handle_arg(char *arg, char *val);
 static char *config_default_log_filename();
 
@@ -39,7 +39,7 @@ void config_init(int argc, char *argv[])
 {
     config_set_defaults();
 
-    config_pipe(argc, argv);
+    configstdin_pipe(argc, argv);
 
     char *config_file = (char *) config_get(CONF_CONFIG_FILE);
     if (config_file)
@@ -59,6 +59,157 @@ void config_destroy()
 
     if (config.servo_limits)
         free(config.servo_limits);
+}
+
+void config_set(int config_var, void *data, bool is_string)
+{
+    void (*config_set_callback)(Config *config, void *data, bool is_string);
+    config_set_callback = NULL;
+
+    if (config_var == CONF_LOG_FILE_DIR)
+        config_set_callback = configset_log_file_dir;
+
+    if (config_var == CONF_LOG_FILENAME) 
+        config_set_callback = configset_log_filename;
+
+    if (config_var == CONF_CONFIG_FILE) 
+        config_set_callback = configset_log_configfile;    
+
+    if (config_var == CONF_LOG_STDIN) 
+        config_set_callback = configset_log_stdin; 
+
+    if (config_var == CONF_LOG_PROMPT_COMMANDS)
+        config_set_callback = configset_log_prompt_commands;
+
+    if (config_var == CONF_LOG_EVENT_ADD) 
+        config_set_callback = configset_log_event_add; 
+
+    if (config_var == CONF_LOG_EVENT_CALLBACKS) 
+        config_set_callback = configset_log_event_callbacks; 
+
+    if (config_var == CONF_LOG_KEYFRAMES) 
+        config_set_callback = configset_log_keyframes;      
+
+    if (config_var == CONF_PCA_9685_PIN_BASE) 
+        config_set_callback = configset_pca_9685_pin_base;           
+
+    if (config_var == CONF_PCA_9685_MAX_PWM) 
+        config_set_callback = configset_pca_9685_max_pwm;      
+
+    if (config_var == CONF_PCA_9685_HERTZ) 
+        config_set_callback = configset_pca_9685_hertz;           
+
+    if (config_var == CONF_SERVOS_NUM) 
+        config_set_callback = configset_servos_num;       
+
+    if (config_var == CONF_ROBOT_TICK) 
+        config_set_callback = configset_robot_tick;      
+
+    if (config_var == CONF_TRANSITIONS_ENABLE) 
+        config_set_callback = configset_transitions_enable;    
+
+    if (config_var == CONF_TRANSITIONS_TIME) 
+        config_set_callback = configset_transition_time;       
+
+    if (config_var == CONF_SERVO_PINS) 
+        config_set_callback = configset_servo_pins;  
+
+    if (config_var == CONF_SERVO_LIMITS) 
+        config_set_callback = configset_servo_limits;    
+
+    if (config_var == CONF_WALK_HIP_DELTA) 
+        config_set_callback = configset_walk_hip_delta;         
+
+    if (config_var == CONF_WALK_KNEE_DELTA) 
+        config_set_callback = configset_walk_knee_delta; 
+
+    if (config_var == CONF_WALK_KNEE_PAD_A) 
+        config_set_callback = configset_walk_knee_pad_a;         
+
+    if (config_var == CONF_WALK_KNEE_PAD_B) 
+        config_set_callback = configset_walk_knee_pad_b;     
+
+    /* Callback execute */
+    if (config_set_callback != NULL)
+        (*config_set_callback)(&config, data, is_string);
+
+    return;
+}
+
+void *config_get(int config_var)
+{
+    void *ret_val = NULL;
+
+    if (config_var == CONF_LOG_FILE_DIR)
+        ret_val = (void *) config.log_file_dir;
+
+    if (config_var == CONF_LOG_FILENAME)
+        ret_val = (void *) config.log_filename;    
+
+    if (config_var == CONF_LOG_FULLPATH)
+        ret_val = (void *) config.log_fullpath;    
+
+    if (config_var == CONF_CONFIG_FILE)
+        ret_val = (void *) config.config_file;  
+
+    if (config_var == CONF_LOG_STDIN)
+        ret_val = (void *) &(config.log_stdin);      
+
+    if (config_var == CONF_LOG_PROMPT_COMMANDS)
+        ret_val = (void *) &(config.log_prompt_commands);     
+        
+     if (config_var == CONF_LOG_EVENT_ADD)
+        ret_val = (void *) &(config.log_event_add);  
+        
+     if (config_var == CONF_LOG_EVENT_CALLBACKS)
+        ret_val = (void *) &(config.log_event_callbacks);   
+
+     if (config_var == CONF_LOG_KEYFRAMES)
+        ret_val = (void *) &(config.log_keyframes);       
+
+     if (config_var == CONF_PCA_9685_PIN_BASE)
+        ret_val = (void *) &(config.pca_9685_pin_base);  
+
+     if (config_var == CONF_PCA_9685_MAX_PWM)
+        ret_val = (void *) &(config.pca_9685_max_pwm);  
+
+     if (config_var == CONF_PCA_9685_HERTZ)
+        ret_val = (void *) &(config.pca_9685_hertz);
+
+     if (config_var == CONF_SERVOS_NUM)
+        ret_val = (void *) &(config.servos_num);
+
+     if (config_var == CONF_ROBOT_TICK)
+        ret_val = (void *) &(config.robot_tick);   
+        
+     if (config_var == CONF_TRANSITIONS_ENABLE)
+        ret_val = (void *) &(config.transitions_enable);  
+        
+     if (config_var == CONF_TRANSITIONS_TIME)
+        ret_val = (void *) &(config.transition_time);                
+
+     if (config_var == CONF_TRANSITIONS_TIME)
+        ret_val = (void *) &(config.transition_time); 
+
+     if (config_var == CONF_SERVO_PINS)
+        ret_val = (void *) config.servo_pins;       
+        
+     if (config_var == CONF_SERVO_LIMITS)
+        ret_val = (void *) config.servo_limits;   
+        
+     if (config_var == CONF_WALK_HIP_DELTA)
+        ret_val = (void *) &(config.walk_hip_delta);
+
+     if (config_var == CONF_WALK_KNEE_DELTA)
+        ret_val = (void *) &(config.walk_knee_delta);           
+
+     if (config_var == CONF_WALK_KNEE_PAD_A)
+        ret_val = (void *) &(config.walk_knee_pad_a);
+
+     if (config_var == CONF_WALK_KNEE_PAD_B)
+        ret_val = (void *) &(config.walk_knee_pad_b);                                                                                                                                            
+
+    return ret_val;
 }
 
 int config_str_to_servo_index(char *str)
@@ -219,157 +370,6 @@ static void config_set_defaults()
 
         config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data, false);
     }    
-}
-
-void config_set(int config_var, void *data, bool is_string)
-{
-    void (*config_set_callback)(Config *config, void *data, bool is_string);
-    config_set_callback = NULL;
-
-    if (config_var == CONF_LOG_FILE_DIR)
-        config_set_callback = configset_log_file_dir;
-
-    if (config_var == CONF_LOG_FILENAME) 
-        config_set_callback = configset_log_filename;
-
-    if (config_var == CONF_CONFIG_FILE) 
-        config_set_callback = configset_log_configfile;    
-
-    if (config_var == CONF_LOG_STDIN) 
-        config_set_callback = configset_log_stdin; 
-
-    if (config_var == CONF_LOG_PROMPT_COMMANDS)
-        config_set_callback = configset_log_prompt_commands;
-
-    if (config_var == CONF_LOG_EVENT_ADD) 
-        config_set_callback = configset_log_event_add; 
-
-    if (config_var == CONF_LOG_EVENT_CALLBACKS) 
-        config_set_callback = configset_log_event_callbacks; 
-
-    if (config_var == CONF_LOG_KEYFRAMES) 
-        config_set_callback = configset_log_keyframes;      
-
-    if (config_var == CONF_PCA_9685_PIN_BASE) 
-        config_set_callback = configset_pca_9685_pin_base;           
-
-    if (config_var == CONF_PCA_9685_MAX_PWM) 
-        config_set_callback = configset_pca_9685_max_pwm;      
-
-    if (config_var == CONF_PCA_9685_HERTZ) 
-        config_set_callback = configset_pca_9685_hertz;           
-
-    if (config_var == CONF_SERVOS_NUM) 
-        config_set_callback = configset_servos_num;       
-
-    if (config_var == CONF_ROBOT_TICK) 
-        config_set_callback = configset_robot_tick;      
-
-    if (config_var == CONF_TRANSITIONS_ENABLE) 
-        config_set_callback = configset_transitions_enable;    
-
-    if (config_var == CONF_TRANSITIONS_TIME) 
-        config_set_callback = configset_transition_time;       
-
-    if (config_var == CONF_SERVO_PINS) 
-        config_set_callback = configset_servo_pins;  
-
-    if (config_var == CONF_SERVO_LIMITS) 
-        config_set_callback = configset_servo_limits;    
-
-    if (config_var == CONF_WALK_HIP_DELTA) 
-        config_set_callback = configset_walk_hip_delta;         
-
-    if (config_var == CONF_WALK_KNEE_DELTA) 
-        config_set_callback = configset_walk_knee_delta; 
-
-    if (config_var == CONF_WALK_KNEE_PAD_A) 
-        config_set_callback = configset_walk_knee_pad_a;         
-
-    if (config_var == CONF_WALK_KNEE_PAD_B) 
-        config_set_callback = configset_walk_knee_pad_b;     
-
-    /* Callback execute */
-    if (config_set_callback != NULL)
-        (*config_set_callback)(&config, data, is_string);
-
-    return;
-}
-
-void *config_get(int config_var)
-{
-    void *ret_val = NULL;
-
-    if (config_var == CONF_LOG_FILE_DIR)
-        ret_val = (void *) config.log_file_dir;
-
-    if (config_var == CONF_LOG_FILENAME)
-        ret_val = (void *) config.log_filename;    
-
-    if (config_var == CONF_LOG_FULLPATH)
-        ret_val = (void *) config.log_fullpath;    
-
-    if (config_var == CONF_CONFIG_FILE)
-        ret_val = (void *) config.config_file;  
-
-    if (config_var == CONF_LOG_STDIN)
-        ret_val = (void *) &(config.log_stdin);      
-
-    if (config_var == CONF_LOG_PROMPT_COMMANDS)
-        ret_val = (void *) &(config.log_prompt_commands);     
-        
-     if (config_var == CONF_LOG_EVENT_ADD)
-        ret_val = (void *) &(config.log_event_add);  
-        
-     if (config_var == CONF_LOG_EVENT_CALLBACKS)
-        ret_val = (void *) &(config.log_event_callbacks);   
-
-     if (config_var == CONF_LOG_KEYFRAMES)
-        ret_val = (void *) &(config.log_keyframes);       
-
-     if (config_var == CONF_PCA_9685_PIN_BASE)
-        ret_val = (void *) &(config.pca_9685_pin_base);  
-
-     if (config_var == CONF_PCA_9685_MAX_PWM)
-        ret_val = (void *) &(config.pca_9685_max_pwm);  
-
-     if (config_var == CONF_PCA_9685_HERTZ)
-        ret_val = (void *) &(config.pca_9685_hertz);
-
-     if (config_var == CONF_SERVOS_NUM)
-        ret_val = (void *) &(config.servos_num);
-
-     if (config_var == CONF_ROBOT_TICK)
-        ret_val = (void *) &(config.robot_tick);   
-        
-     if (config_var == CONF_TRANSITIONS_ENABLE)
-        ret_val = (void *) &(config.transitions_enable);  
-        
-     if (config_var == CONF_TRANSITIONS_TIME)
-        ret_val = (void *) &(config.transition_time);                
-
-     if (config_var == CONF_TRANSITIONS_TIME)
-        ret_val = (void *) &(config.transition_time); 
-
-     if (config_var == CONF_SERVO_PINS)
-        ret_val = (void *) config.servo_pins;       
-        
-     if (config_var == CONF_SERVO_LIMITS)
-        ret_val = (void *) config.servo_limits;   
-        
-     if (config_var == CONF_WALK_HIP_DELTA)
-        ret_val = (void *) &(config.walk_hip_delta);
-
-     if (config_var == CONF_WALK_KNEE_DELTA)
-        ret_val = (void *) &(config.walk_knee_delta);           
-
-     if (config_var == CONF_WALK_KNEE_PAD_A)
-        ret_val = (void *) &(config.walk_knee_pad_a);
-
-     if (config_var == CONF_WALK_KNEE_PAD_B)
-        ret_val = (void *) &(config.walk_knee_pad_b);                                                                                                                                            
-
-    return ret_val;
 }
 
 static char *config_default_log_filename()

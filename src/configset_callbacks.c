@@ -1,5 +1,5 @@
-#ifndef CONFIG_CALLBACKS_DEF
-#define CONFIG_CALLBACKS_DEF
+#ifndef CONFIGSET_CALLBACKS_DEF
+#define CONFIGSET_CALLBACKS_DEF
 
 /*
  File:          config_callbacks.c

@@ -1,5 +1,5 @@
-#ifndef CONFIG_CALLBACKS_H_DEF
-#define CONFIG_CALLBACKS_H_DEF
+#ifndef CONFIGSET_CALLBACKS_H_DEF
+#define CONFIGSET_CALLBACKS_H_DEF
 
 /*
  File:          config_callbacks.h

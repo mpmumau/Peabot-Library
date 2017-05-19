@@ -9,7 +9,6 @@
  */
 
 #include <stdbool.h>
-
 #include "robot.h"
 
 enum ConfigFlag {
@@ -87,6 +86,9 @@ typedef struct ServoLimitData {
 /* Initialize the application configuration, setting all variables. */
 void config_init(int argc, char *argv[]);
 
+/* Free memory allocated on the stack for config variables. */
+void config_destroy();
+
 /* Set the variable correlating the identifier (a value from the ConfigFlag enum) to a data object. */ 
 void config_set(int config_var, void *data);
 
@@ -95,8 +97,5 @@ void *config_get(int config_var);
 
 /* Get the integer value of a servo index from a string. */
 int config_str_to_servo_index(char *str);
-
-/* Free memory allocated on the stack for config variables. */
-void config_destroy();
 
 #endif
