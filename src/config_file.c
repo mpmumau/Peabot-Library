@@ -121,7 +121,7 @@ static void configfile_handle_line(char *arg, char *val)
         int servo_index = config_str_to_servo_index(arg);
         int servo_val = (int) atoi(val);
         ServoPinData servo_pin_data = (ServoPinData) { servo_index, servo_val };
-        config_set(CONF_SERVO_PINS, (void *) &servo_pin_data);
+        config_set(CONF_SERVO_PINS, (void *) &servo_pin_data, false);
     }
 
     if (str_equals(arg, "back_left_knee_limits") ||
@@ -143,7 +143,7 @@ static void configfile_handle_line(char *arg, char *val)
         int max = (int) atoi(max_tok);
 
         ServoLimitData servo_limit_data = (ServoLimitData) { servo_index, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data, false);
     }  
 }
 
