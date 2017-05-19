@@ -24,7 +24,7 @@ static void configfile_handle_line(char *arg, char *val);
 void configfile_process(char *config_file_fullpath)
 {
     FILE *config_file = fopen(config_file_fullpath, "r");
-    configfile_parse();
+    configfile_parse(config_file);
     fclose(config_file);
 }
 
