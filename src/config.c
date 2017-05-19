@@ -639,56 +639,56 @@ static void config_handle_config_line(char *arg, char *val)
     if (str_starts(arg, "back_left_knee"))
     {
         int back_left_knee_val = (int) atoi(val);
-        ServoPinData back_left_knee = (ServoPinData) { SERVO_INDEX_BACK_LEFT_KNEE, back_left_knee_val }
+        ServoPinData back_left_knee = (ServoPinData) { SERVO_INDEX_BACK_LEFT_KNEE, back_left_knee_val };
         config_set(CONF_SERVO_PINS, (void *) &back_left_knee);
     }
 
     if (str_starts(arg, "back_left_hip"))
     {
         int back_left_hip_val = (int) atoi(val);
-        ServoPinData back_left_hip = (ServoPinData) { SERVO_INDEX_BACK_LEFT_HIP, back_left_hip_val }
+        ServoPinData back_left_hip = (ServoPinData) { SERVO_INDEX_BACK_LEFT_HIP, back_left_hip_val };
         config_set(CONF_SERVO_PINS, (void *) &back_left_hip);
     } 
 
     if (str_starts(arg, "front_left_knee"))
     {
         int front_left_knee_val = (int) atoi(val);
-        ServoPinData front_left_knee = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_KNEE, front_left_knee_val }
+        ServoPinData front_left_knee = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_KNEE, front_left_knee_val };
         config_set(CONF_SERVO_PINS, (void *) &front_left_knee);
     }  
 
     if (str_starts(arg, "front_left_hip"))
     {
         int front_left_hip_val = (int) atoi(val);
-        ServoPinData front_left_hip = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_HIP, front_left_hip_val }
+        ServoPinData front_left_hip = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_HIP, front_left_hip_val };
         config_set(CONF_SERVO_PINS, (void *) &front_left_hip);
     } 
 
     if (str_starts(arg, "back_right_knee"))
     {
         int back_right_knee_val = (int) atoi(val);
-        ServoPinData back_right_knee = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_KNEE, back_right_knee_val }
+        ServoPinData back_right_knee = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_KNEE, back_right_knee_val };
         config_set(CONF_SERVO_PINS, (void *) &back_right_knee);
     }
 
     if (str_starts(arg, "back_right_hip"))
     {
         int back_right_hip_val = (int) atoi(val);
-        ServoPinData back_right_hip = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_HIP, back_right_hip_val }
+        ServoPinData back_right_hip = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_HIP, back_right_hip_val };
         config_set(CONF_SERVO_PINS, (void *) &back_right_hip);
     }   
     
     if (str_starts(arg, "front_right_knee"))
     {
         int front_right_knee_val = (int) atoi(val);
-        ServoPinData front_right_knee = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_KNEE, front_right_knee_val }
+        ServoPinData front_right_knee = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_KNEE, front_right_knee_val };
         config_set(CONF_SERVO_PINS, (void *) &front_right_knee);
     } 
 
     if (str_starts(arg, "front_right_hip"))
     {
         int front_right_hip_val = (int) atoi(val);
-        ServoPinData front_right_hip = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_HIP, front_right_hip_val }
+        ServoPinData front_right_hip = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_HIP, front_right_hip_val };
         config_set(CONF_SERVO_PINS, (void *) &front_right_hip);
     }         
 
