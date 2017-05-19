@@ -67,6 +67,8 @@ char *str_after_spaces(char *string, int limit)
             continue;
         return &string[i];
     }
+
+    return NULL;
 }
 
 #endif

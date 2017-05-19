@@ -18,6 +18,7 @@
 #include "log.h"
 #include "console.h"
 #include "events.h"
+#include "string_utils.h"
 
 /* Header */
 #include "prompt_commands.h"
