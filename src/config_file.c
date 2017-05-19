@@ -149,7 +149,7 @@ static void configfile_handle_line(char *arg, char *val)
         int servo_index = config_str_to_servo_index(arg);
 
         char *min_tok = strtok(val, "-");
-        char *max_tok = val;
+        char *max_tok = strtok(NULL, "-");
 
         int min = (int) atoi(min_tok);
         int max = (int) atoi(max_tok);
