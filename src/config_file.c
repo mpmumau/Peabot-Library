@@ -48,14 +48,17 @@ static void configfile_parse(FILE *config_file)
     char *arg = NULL;
     char *val = NULL;
 
+    char *comment_character = "#";
+    char *config_delim = " ";
+
     while (fgets(buffer, buffer_size, config_file) != NULL)
     {
-        if (str_starts(buffer, COMMENT_CHARACTER) || str_empty(buffer))
+        if (str_starts(buffer, comment_character) || str_empty(buffer))
             continue;
      
         str_removenl(buffer);
         val = str_after_spaces(buffer, buffer_size);  
-        arg = strtok(buffer, CONFIG_DELIM);
+        arg = strtok(buffer, config_delim);
 
         configfile_handle_line(arg, val);
     } 

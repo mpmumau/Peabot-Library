@@ -8,9 +8,6 @@
  Author:        Matt Mumau
  */
 
-#define COMMENT_CHARACTER "#"
-#define CONFIG_DELIM " "
-
 /* Load the configuration file and set configuration variables from it. */
 void configfile_process(char *config_file_fullpath);
 
