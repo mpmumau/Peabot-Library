@@ -10,6 +10,7 @@
 
 /* System libraries */
 #include <stdio.h>
+#include <string.h>
 
 /* Application includes */
 #include "config.h"
