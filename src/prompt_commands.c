@@ -120,4 +120,22 @@ void promptcmd_walk(char *args[], int arg_num)
     event_add(EVENT_WALK, (void *) walk_data);
 }
 
+void promptcmd_cfg_get(char *args[], int arg_num)
+{
+    if (arg_num < 1)
+    {
+        console_print("[ERROR] Incorrect number of params. Usage: cfg_get [variable] [other_data]");
+        return;
+    }
+
+    char *var_name = args[0];
+
+    if (str_equals(var_name, "log_file_dir"))
+    {
+        char *log_file_dir = (char *) config_get(CONF_LOG_FILE_DIR);
+        printf("[Config] log_file_dir: %s\n", log_file_dir);
+        return;
+    }
+}
+
 #endif

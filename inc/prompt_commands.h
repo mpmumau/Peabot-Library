@@ -23,4 +23,6 @@ void promptcmd_elevate(char *args[], int arg_num);
 /* Callback to sequence the robot for walking */
 void promptcmd_walk(char *args[], int arg_num);
 
+void promptcmd_cfg_get(char *args[], int arg_num);
+
 #endif

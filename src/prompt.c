@@ -112,6 +112,9 @@ static void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
 
+    if (str_equals(cmd, "cfg_get"))
+        cmd_callback = promptcmd_cfg_get;
+
     if (cmd_callback == NULL)
     {
         console_print("[ERROR] Unknown command.");
