@@ -66,55 +66,55 @@ static void configfile_parse(FILE *config_file)
 
 static void configfile_handle_line(char *arg, char *val)
 {
-    if (str_starts(arg, "log_file_dir"))
+    if (str_equals(arg, "log_file_dir"))
         config_set(CONF_LOG_FILE_DIR, (void *) val, true);
 
-    if (str_starts(arg, "log_stdin"))
+    if (str_equals(arg, "log_stdin"))
         config_set(CONF_LOG_STDIN, (void *) val, true);
 
-    if (str_starts(arg, "log_prompt_commands"))
+    if (str_equals(arg, "log_prompt_commands"))
         config_set(CONF_LOG_PROMPT_COMMANDS, (void *) val, true);
 
-    if (str_starts(arg, "log_event_add"))
+    if (str_equals(arg, "log_event_add"))
         config_set(CONF_LOG_EVENT_ADD, (void *) val, true);
 
-    if (str_starts(arg, "log_event_callbacks"))
+    if (str_equals(arg, "log_event_callbacks"))
         config_set(CONF_LOG_EVENT_CALLBACKS, (void *) val, true);  
 
-    if (str_starts(arg, "log_keyframes"))
+    if (str_equals(arg, "log_keyframes"))
         config_set(CONF_LOG_KEYFRAMES, (void *) val, true);
 
-    if (str_starts(arg, "pca_9685_pin_base"))
+    if (str_equals(arg, "pca_9685_pin_base"))
         config_set(CONF_PCA_9685_PIN_BASE, (void *) val, true);
 
-    if (str_starts(arg, "pca_9685_max_pwm"))
+    if (str_equals(arg, "pca_9685_max_pwm"))
         config_set(CONF_PCA_9685_MAX_PWM, (void *) val, true); 
 
-    if (str_starts(arg, "pca_9685_hertz"))
+    if (str_equals(arg, "pca_9685_hertz"))
         config_set(CONF_PCA_9685_HERTZ, (void *) val, true);
 
-    if (str_starts(arg, "servos_num"))
+    if (str_equals(arg, "servos_num"))
         config_set(CONF_SERVOS_NUM, (void *) val, true);                      
 
-    if (str_starts(arg, "robot_tick"))
+    if (str_equals(arg, "robot_tick"))
         config_set(CONF_ROBOT_TICK, (void *) val, true);
 
-    if (str_starts(arg, "transitions_enable"))
+    if (str_equals(arg, "transitions_enable"))
         config_set(CONF_TRANSITIONS_ENABLE, (void *) val, true);
 
-    if (str_starts(arg, "transition_time"))
+    if (str_equals(arg, "transition_time"))
         config_set(CONF_TRANSITIONS_TIME, (void *) val, true);
 
-    if (str_starts(arg, "walk_hip_delta"))
+    if (str_equals(arg, "walk_hip_delta"))
         config_set(CONF_WALK_HIP_DELTA, (void *) val, true);
 
-    if (str_starts(arg, "walk_knee_delta"))
+    if (str_equals(arg, "walk_knee_delta"))
         config_set(CONF_WALK_KNEE_DELTA, (void *) val, true);
 
-    if (str_starts(arg, "walk_knee_pad_a"))
+    if (str_equals(arg, "walk_knee_pad_a"))
         config_set(CONF_WALK_KNEE_PAD_A, (void *) val, true);
 
-    if (str_starts(arg, "walk_knee_pad_b"))
+    if (str_equals(arg, "walk_knee_pad_b"))
         config_set(CONF_WALK_KNEE_PAD_B, (void *) val, true);
 
     if (str_equals(arg, "back_left_knee") ||
