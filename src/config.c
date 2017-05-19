@@ -538,7 +538,7 @@ static void config_parse_configfile(char *config_file)
 static void config_handle_config_line(char *arg, char *val)
 {
     if (str_starts(arg, "log_file_dir"))
-        config_set(CONF_LOG_FILE_DIR, val);
+        config_set(CONF_LOG_FILE_DIR, (void *) val);
 
     if (str_starts(arg, "log_stdin"))
     {
