@@ -288,7 +288,7 @@ void promptcmd_cfg_get(char *args[], int arg_num)
         int index = (int) atoi(args[1]);
         int *pins = config_get(CONF_SERVO_PINS);
 
-        printf("[Config] servo_pin@%d: %d\n", pins[index]);
+        printf("[Config] servo_pin@%d: %d\n", index, pins[index]);
         return ;
     }                                      
 
