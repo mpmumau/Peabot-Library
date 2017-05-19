@@ -93,6 +93,9 @@ void config_set(int config_var, void *data);
 /* Return a generic data object representing the value of the given configuration var identifier. */
 void *config_get(int config_var);
 
+/* Get the integer value of a servo index from a string. */
+int config_str_to_servo_index(char *str);
+
 /* Free memory allocated on the stack for config variables. */
 void config_destroy();
 

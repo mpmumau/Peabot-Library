@@ -23,4 +23,6 @@ void str_copy(char *dest, char *srv);
 
 char *str_after_spaces(char *string, int limit);
 
+bool str_empty(char *string);
+
 #endif

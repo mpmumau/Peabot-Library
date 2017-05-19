@@ -71,4 +71,11 @@ char *str_after_spaces(char *string, int limit)
     return NULL;
 }
 
+bool str_empty(char *string)
+{
+    if (string[0] == '\0')
+        return true;
+    return false;
+}
+
 #endif

@@ -38,8 +38,10 @@ _DEPS = main.h \
 	math_defs.h \
 	event_callbacks.h \
 	easing_utils.h \
-	config_callbacks.h \
-	config_defaults.h
+	configset_callbacks.h \
+	config_defaults.h \
+	config_file.h \
+	config_stdin.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -59,7 +61,9 @@ _OBJ = main.o \
 	easing.o \
 	event_callbacks.o \
 	easing_utils.o \
-	config_callbacks.o
+	configset_callbacks.o \
+	config_file.o \
+	config_stdin.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)

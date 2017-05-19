@@ -19,6 +19,7 @@
 /* Application includes */
 #include "config_defaults.h"
 #include "config_callbacks.h"
+#include "config_file.h"
 #include "main.h"
 #include "log.h"
 #include "string_utils.h"
@@ -33,18 +34,16 @@ static void config_set_defaults();
 static void config_pipe(int argc, char *argv[]);
 static void config_handle_arg(char *arg, char *val);
 static char *config_default_log_filename();
-static void config_parse_configfile(char *config_file);
-static void config_handle_config_line(char *arg, char *val);
 
 void config_init(int argc, char *argv[])
 {
     config_set_defaults();
+
     config_pipe(argc, argv);
 
     char *config_file = (char *) config_get(CONF_CONFIG_FILE);
-
     if (config_file)
-        config_parse_configfile(config_file);
+        configfile_process(config_file);
 }
 
 void config_destroy()
@@ -62,13 +61,42 @@ void config_destroy()
         free(config.servo_limits);
 }
 
+int config_str_to_servo_index(char *str)
+{
+    if (str_starts(str, "back_left_knee"))
+        return SERVO_INDEX_BACK_LEFT_KNEE;
+
+    if (str_starts(str, "back_left_hip"))
+        return SERVO_INDEX_BACK_LEFT_HIP; 
+
+    if (str_starts(str, "front_left_knee"))
+        return SERVO_INDEX_FRONT_LEFT_KNEE;  
+
+    if (str_starts(str, "front_left_hip"))
+        return SERVO_INDEX_FRONT_LEFT_HIP;
+
+    if (str_starts(str, "back_right_knee"))
+        return SERVO_INDEX_BACK_RIGHT_KNEE;
+
+    if (str_starts(str, "back_right_hip"))
+        return SERVO_INDEX_BACK_RIGHT_HIP; 
+
+    if (str_starts(str, "front_right_knee"))
+        return SERVO_INDEX_FRONT_RIGHT_KNEE;  
+
+    if (str_starts(str, "front_right_hip"))
+        return SERVO_INDEX_FRONT_RIGHT_HIP;        
+
+    return -1;                        
+}
+
 static void config_set_defaults()
 {
     char *log_file_dir = DEFAULT_LOG_DIR;
-    config_set(CONF_LOG_FILE_DIR, (void *) log_file_dir);
+    config_set(CONF_LOG_FILE_DIR, (void *) log_file_dir, false);
     
     char *log_filename = config_default_log_filename();
-    config_set(CONF_LOG_FILENAME, (void *) log_filename);
+    config_set(CONF_LOG_FILENAME, (void *) log_filename, false);
 
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
     config.log_fullpath = malloc(sizeof(char) * full_path_size);
@@ -80,52 +108,52 @@ static void config_set_defaults()
     config.config_file = NULL;
 
     bool log_stdin = DEFAULT_LOG_STDIN;
-    config_set(CONF_LOG_STDIN, (void *) &log_stdin);
+    config_set(CONF_LOG_STDIN, (void *) &log_stdin, false);
 
     bool log_prompt_commands = DEFAULT_LOG_PROMPT_COMMANDS;
-    config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_prompt_commands);
+    config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_prompt_commands, false);
 
     bool log_event_add = DEFAULT_LOG_EVENT_ADD;
-    config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add);
+    config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add, false);
 
     bool log_event_callbacks = DEFAULT_LOG_EVENT_CALLBACKS;
-    config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
+    config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks, false);
 
     bool log_keyframes = DEFAULT_LOG_KEYFRAMES;
-    config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
+    config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes, false);
 
     int pca_9685_pin_base = DEFAULT_PCA_9685_PIN_BASE;
-    config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
+    config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base, false);
 
     int pca_9685_max_pwm = DEFAULT_PCA_9685_MAX_PWM;
-    config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm);
+    config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm, false);
 
     int pca_9685_hertz = DEFAULT_PCA_9685_HERTZ;
-    config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
+    config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz, false);
 
     int servos_num = DEFAULT_SERVOS_NUM;
-    config_set(CONF_SERVOS_NUM, (void *) &servos_num);
+    config_set(CONF_SERVOS_NUM, (void *) &servos_num, false);
 
     float robot_tick = DEFAULT_ROBOT_TICK;
-    config_set(CONF_ROBOT_TICK, (void *) &robot_tick);
+    config_set(CONF_ROBOT_TICK, (void *) &robot_tick, false);
 
     bool transitions_enable = DEFAULT_TRANSITIONS_ENABLE;
-    config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable);
+    config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable, false);
 
     float transitions_time = DEFAULT_KEYFRAME_TRANSITION_TIME;
-    config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time);
+    config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time, false);
 
     float walk_hip_delta = DEFAULT_HIP_DELTA;
-    config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
+    config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta, false);
 
     float walk_knee_delta = DEFAULT_KNEE_DELTA;
-    config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
+    config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta, false);
 
     float walk_knee_pad_a = DEFAULT_KNEE_PAD_A;
-    config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a);
+    config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a, false);
 
     float walk_knee_pad_b = DEFAULT_KNEE_PAD_B;
-    config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b);
+    config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b, false);
 
     // Do these after processing other configs; dependent upon them.
     config.servo_pins = malloc(sizeof(int) * config.servos_num);
@@ -174,7 +202,7 @@ static void config_set_defaults()
 
         servo_pin_data.id = i;
         servo_pin_data.val = num;
-        config_set(CONF_SERVO_PINS, (void *) &servo_pin_data);
+        config_set(CONF_SERVO_PINS, (void *) &servo_pin_data, false);
     }
 
     config.servo_limits = malloc(sizeof(ServoLimit) * config.servos_num);
@@ -189,47 +217,13 @@ static void config_set_defaults()
         servo_limit_data.min = DEFAULT_SERVO_DEFAULT_MIN;
         servo_limit_data.max = DEFAULT_SERVO_DEFAULT_MAX;
 
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
+        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data, false);
     }    
 }
 
-static void config_pipe(int argc, char *argv[])
+void config_set(int config_var, void *data, bool is_string)
 {
-    if (argc <= 1)
-        return;
-
-    char *cursor;
-    char *next;
-
-    char *arg;
-    char *val;
-
-    for (int i = 1; i < argc; i++)
-    {
-        arg = NULL;
-        val = NULL;
-
-        cursor = argv[i];
-        next = argv[i + 1];
-
-        if (!str_starts(cursor, "-"))
-            continue;
-
-        if (!str_starts(next, "-"))
-        {
-            val = next;
-            i++;
-        }
-
-        arg = cursor;
-
-        config_handle_arg(arg, val);
-    }
-}
-
-void config_set(int config_var, void *data)
-{
-    void (*config_set_callback)(Config *config, void *data);
+    void (*config_set_callback)(Config *config, void *data, bool is_string);
     config_set_callback = NULL;
 
     if (config_var == CONF_LOG_FILE_DIR)
@@ -297,12 +291,14 @@ void config_set(int config_var, void *data)
 
     /* Callback execute */
     if (config_set_callback != NULL)
-        (*config_set_callback)(&config, data);
+        (*config_set_callback)(&config, data, is_string);
+
+    return;
 }
 
 void *config_get(int config_var)
 {
-    void *ret_val;
+    void *ret_val = NULL;
 
     if (config_var == CONF_LOG_FILE_DIR)
         ret_val = (void *) config.log_file_dir;
@@ -376,108 +372,6 @@ void *config_get(int config_var)
     return ret_val;
 }
 
-static void config_handle_arg(char *arg, char *val)
-{
-    if (str_equals(arg, "-c") || str_equals(arg, "-config")) 
-        config_set(CONF_CONFIG_FILE, (void *) val);
-
-    if (str_equals(arg, "-log_stdin"))
-    {
-        bool log_stdin = true;
-        config_set(CONF_LOG_STDIN, (void *) &log_stdin);
-    }
-
-    if (str_equals(arg, "-log_prompt"))
-    {
-        bool log_prompt = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_prompt);
-    }    
-
-    if (str_equals(arg, "-log_event_add"))
-    {
-        bool log_event_add = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add);
-    }     
-
-    if (str_equals(arg, "-log_event_callback"))
-    {
-        bool log_event_callbacks = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
-    }
-
-    if (str_equals(arg, "-log_keyframes"))
-    {
-        bool log_keyframes = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
-    }                  
-
-    if (str_equals(arg, "-pca-9685-hertz"))
-    {
-        int pca_9685_hertz = (int) atoi(val);
-        config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
-    }    
-
-    if (str_equals(arg, "-pca-9685-pin-base")) 
-    {
-        int pca_9685_pin_base = (int) atoi(val);
-        config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
-    }
-
-    if (str_equals(arg, "-pca-9685-max-pwm"))
-    {
-        int pca_9685_max_pwm = (int) atoi(val);
-        config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm);
-    }
-
-    if (str_equals(arg, "s") || str_equals(arg, "-servos"))
-    {
-        int servos_num = (int) atoi(val);
-        config_set(CONF_SERVOS_NUM, (void *) &servos_num);
-    }
-
-    if (str_equals(arg, "t") || str_equals(arg, "-servo_tick"))
-    {
-        float servo_tick = (float) atof(val);
-        config_set(CONF_ROBOT_TICK, (void *) &servo_tick);
-    }
-
-    if (str_equals(arg, "-transitions-enable"))
-    {
-        bool transitions_enable = str_equals(val, "true") ? true : false;
-        config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable);
-    }
-
-    if (str_equals(arg, "-transitions-time"))
-    {
-        float transitions_time = (float) atof(val);
-        config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time);
-    }
-
-    if (str_equals(arg, "-walk-hip-delta"))
-    {
-        float walk_hip_delta = (float) atof(val);
-        config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
-    }
-
-    if (str_equals(arg, "-walk-knee-delta"))
-    {
-        float walk_knee_delta = (float) atof(val);
-        config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
-    }   
-
-    if (str_equals(arg, "-walk-knee-pad-a"))
-    {
-        float walk_knee_pad_a = (float) atof(val);
-        config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a);
-    }       
-
-    if (str_equals(arg, "-walk-knee-pad-b"))
-    {
-        float walk_knee_pad_b = (float) atof(val);
-        config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b);
-    }        
-}
-
 static char *config_default_log_filename()
 {
     char *filename = malloc(sizeof(char) * LOG_FILENAME_MAXLEN);
@@ -501,308 +395,6 @@ static char *config_default_log_filename()
         ltime->tm_sec);  
 
     return filename;
-}
-
-static void config_parse_configfile(char *config_file)
-{
-    if (!config_file)
-        return;
-
-    FILE *config_file_handle = fopen(config_file, "r");
-
-    int buffer_size = 128;
-    char buffer[buffer_size];
-
-    char *arg = NULL;
-    char *val = NULL;
-
-    char *delim = " ";
-
-    while(fgets(buffer, buffer_size, config_file_handle) != NULL)
-    {
-        str_removenl(buffer);
-
-        if (str_starts(buffer, "#") || buffer[0] == '\0')
-            continue;
-
-        val = str_after_spaces(buffer, buffer_size);  
-
-        arg = strtok(buffer, delim);
-
-        config_handle_config_line(arg, val);
-    } 
-
-    fclose(config_file_handle);
-}
-
-static void config_handle_config_line(char *arg, char *val)
-{
-    if (str_starts(arg, "log_file_dir"))
-        config_set(CONF_LOG_FILE_DIR, (void *) val);
-
-    if (str_starts(arg, "log_stdin"))
-    {
-        bool log_stdin = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_STDIN, (void *) &log_stdin);
-    }
-
-    if (str_starts(arg, "log_prompt_commands"))
-    {
-        bool log_command_prompts = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_PROMPT_COMMANDS, (void *) &log_command_prompts);
-    }
-
-    if (str_starts(arg, "log_event_add"))
-    {
-        bool log_event_add = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_EVENT_ADD, (void *) &log_event_add);
-    } 
-
-    if (str_starts(arg, "log_event_callbacks"))
-    {
-        bool log_event_callbacks = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_EVENT_CALLBACKS, (void *) &log_event_callbacks);
-    }     
-
-    if (str_starts(arg, "log_keyframes"))
-    {
-        bool log_keyframes = str_equals(val, "true") ? true : false;
-        config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes);
-    }   
-
-    if (str_starts(arg, "pca_9685_pin_base"))
-    {
-        int pca_9685_pin_base = (int) atoi(val);
-        config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base);
-    }
-
-    if (str_starts(arg, "pca_9685_max_pwm"))
-    {
-        int pca_9685_max_pwm = (int) atoi(val);
-        config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm);
-    }    
-
-    if (str_starts(arg, "pca_9685_hertz"))
-    {
-        int pca_9685_hertz = (int) atoi(val);
-        config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz);
-    } 
-
-    if (str_starts(arg, "servos_num"))
-    {
-        int servos_num = (int) atoi(val);
-        config_set(CONF_SERVOS_NUM, (void *) &servos_num);
-    }                        
-
-    if (str_starts(arg, "robot_tick"))
-    {
-        float robot_tick = (float) atof(val);
-        config_set(CONF_ROBOT_TICK, (void *) &robot_tick);
-    }    
-
-    if (str_starts(arg, "transitions_enable"))
-    {
-        bool transitions_enable = str_equals(val, "true") ? true : false;
-        config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable);
-    }  
-
-    if (str_starts(arg, "transition_time"))
-    {
-        float transitions_time = (float) atof(val);
-        config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time);
-    }      
-
-    if (str_starts(arg, "walk_hip_delta"))
-    {
-        float walk_hip_delta = (float) atof(val);
-        config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta);
-    }      
-
-    if (str_starts(arg, "walk_knee_delta"))
-    {
-        float walk_knee_delta = (float) atof(val);
-        config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta);
-    }   
-
-    if (str_starts(arg, "walk_knee_pad_a"))
-    {
-        float walk_knee_pad_a = (float) atof(val);
-        config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a);
-    } 
-
-    if (str_starts(arg, "walk_knee_pad_b"))
-    {
-        float walk_knee_pad_b = (float) atof(val);
-        config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b);
-    }  
-
-    if (str_starts(arg, "back_left_knee"))
-    {
-        int back_left_knee_val = (int) atoi(val);
-        ServoPinData back_left_knee = (ServoPinData) { SERVO_INDEX_BACK_LEFT_KNEE, back_left_knee_val };
-        config_set(CONF_SERVO_PINS, (void *) &back_left_knee);
-    }
-
-    if (str_starts(arg, "back_left_hip"))
-    {
-        int back_left_hip_val = (int) atoi(val);
-        ServoPinData back_left_hip = (ServoPinData) { SERVO_INDEX_BACK_LEFT_HIP, back_left_hip_val };
-        config_set(CONF_SERVO_PINS, (void *) &back_left_hip);
-    } 
-
-    if (str_starts(arg, "front_left_knee"))
-    {
-        int front_left_knee_val = (int) atoi(val);
-        ServoPinData front_left_knee = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_KNEE, front_left_knee_val };
-        config_set(CONF_SERVO_PINS, (void *) &front_left_knee);
-    }  
-
-    if (str_starts(arg, "front_left_hip"))
-    {
-        int front_left_hip_val = (int) atoi(val);
-        ServoPinData front_left_hip = (ServoPinData) { SERVO_INDEX_FRONT_LEFT_HIP, front_left_hip_val };
-        config_set(CONF_SERVO_PINS, (void *) &front_left_hip);
-    } 
-
-    if (str_starts(arg, "back_right_knee"))
-    {
-        int back_right_knee_val = (int) atoi(val);
-        ServoPinData back_right_knee = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_KNEE, back_right_knee_val };
-        config_set(CONF_SERVO_PINS, (void *) &back_right_knee);
-    }
-
-    if (str_starts(arg, "back_right_hip"))
-    {
-        int back_right_hip_val = (int) atoi(val);
-        ServoPinData back_right_hip = (ServoPinData) { SERVO_INDEX_BACK_RIGHT_HIP, back_right_hip_val };
-        config_set(CONF_SERVO_PINS, (void *) &back_right_hip);
-    }   
-    
-    if (str_starts(arg, "front_right_knee"))
-    {
-        int front_right_knee_val = (int) atoi(val);
-        ServoPinData front_right_knee = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_KNEE, front_right_knee_val };
-        config_set(CONF_SERVO_PINS, (void *) &front_right_knee);
-    } 
-
-    if (str_starts(arg, "front_right_hip"))
-    {
-        int front_right_hip_val = (int) atoi(val);
-        ServoPinData front_right_hip = (ServoPinData) { SERVO_INDEX_FRONT_RIGHT_HIP, front_right_hip_val };
-        config_set(CONF_SERVO_PINS, (void *) &front_right_hip);
-    }         
-
-    if (str_starts(arg, "back_left_knee_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_BACK_LEFT_KNEE;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }  
-
-    if (str_starts(arg, "back_left_hip_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_BACK_LEFT_HIP;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }
-
-    if (str_starts(arg, "front_left_knee_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_FRONT_LEFT_KNEE;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    } 
-
-    if (str_starts(arg, "front_left_hip_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_FRONT_LEFT_HIP;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }
-
-    if (str_starts(arg, "back_right_knee_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_BACK_RIGHT_KNEE;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }  
-    
-    if (str_starts(arg, "back_right_hip_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_BACK_RIGHT_HIP;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    } 
-
-    if (str_starts(arg, "front_right_knee_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_FRONT_RIGHT_KNEE;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }    
-    
-    if (str_starts(arg, "front_right_hip_limits"))      
-    {
-        char *min_tok = strtok(val, " ");
-        char *max_tok = strtok(val, " ");
-
-        int min = (int) atoi(min_tok);
-        int max = (int) atoi(max_tok);
-
-        int pin = SERVO_INDEX_FRONT_RIGHT_HIP;
-
-        ServoLimitData servo_limit_data = (ServoLimitData) { pin, min, max };
-        config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data);
-    }                                                               
 }
 
 #endif
