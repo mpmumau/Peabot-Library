@@ -56,6 +56,6 @@ void configset_walk_knee_pad_b(Config *config, void *data, bool is_string);
 /* Set the servo pin value for a given robot position; takes a ServoPinData pointer, cast to a void pointer. */
 void configset_servo_pins(Config *config, void *data, bool is_string);
 /* Set the servo PWM limits for a given robot position; takes a ServoLimitData pointer, cast to a void pointer. */
-void configset_servo_limits(Config *config, void *data, bool is_string;
+void configset_servo_limits(Config *config, void *data, bool is_string);
 
 #endif
