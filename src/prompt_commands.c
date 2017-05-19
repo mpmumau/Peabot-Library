@@ -307,6 +307,9 @@ void promptcmd_cfg_get(char *args[], int arg_num)
         printf("[Config] Serov limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
         return;
     }
+
+    printf("[ERROR] Could not get config variable with specified name.");
+    return;
 }
 
 #endif
