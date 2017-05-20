@@ -212,14 +212,14 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
 
-    printf("Got here \n");
-
     for (int i = 0; i < *servos_num; i++)
     {
         servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->end_pos, dest->start_pos, 0.0f, 0.0f };
         src++;
         dest++;
     }
+
+    printf("Got here \n");    
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
