@@ -118,6 +118,9 @@ static void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "cfg_get"))
         cmd_callback = promptcmd_cfg_get;
 
+    if (str_equals(cmd, "turn"))
+        cmd_callback = promptcmd_turn;
+
     if (cmd_callback == NULL)
     {
         console_print("[ERROR] Unknown command.");

@@ -29,4 +29,7 @@ void promptcmd_walk(char *args[], int arg_num);
 /* Callback for printing a config variable's value to the console. */
 void promptcmd_cfg_get(char *args[], int arg_num);
 
+/* Callback for doing the robot's turn animation. */
+void promptcmd_turn(char *args[], int arg_num);
+
 #endif

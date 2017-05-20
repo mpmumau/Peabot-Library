@@ -15,6 +15,7 @@
 #define EVENT_ELEVATE 2
 #define EVENT_WALK 3
 #define EVENT_EXTEND 4
+#define EVENT_TURN 5
 
 typedef struct Event {
     int type;
@@ -35,6 +36,11 @@ typedef struct EventWalkData {
     int cycles;
     float duration;
 } EventWalkData;
+
+typedef struct EventTurnData {
+    int cycles;
+    float duration;
+} EventTurnData;
 
 /* Initialize the event handler thread. */
 void event_init();

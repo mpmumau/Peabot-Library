@@ -349,4 +349,33 @@ void promptcmd_cfg_get(char *args[], int arg_num)
     return;
 }
 
+void promptcmd_turn(char *args[], int arg_num)
+{
+    if (arg_num != 2)
+    {
+        console_print("[ERROR] Incorrect number of params. Usage: turn [cycles] [duration]");
+        return;
+    }
+
+    const char *cycles_string = args[0];
+    const char *seconds_string = args[1];    
+
+    int cycles = (int) atoi(cycles_string);
+    float duration = (float) atof(seconds_string);
+
+    EventTurnData *turn_data = calloc(1, sizeof(EventTurnData));
+    turn_data->cycles = cycles;
+    turn_data->duration = duration;
+
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
+    {
+        char log_msg[LOG_LINE_MAXLEN];
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding turn event. (duration: %f, cycles %d)", turn_data->duration, turn_data->cycles);
+        log_event(log_msg);
+    }     
+
+    event_add(EVENT_TURN, (void *) turn_data);    
+}
+
 #endif

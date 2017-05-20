@@ -234,6 +234,96 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
     return keyfr; 
 }
 
+Keyframe *keyfactory_turnsegment(void *data, bool reverse)
+{
+    if (!data)
+        return;
+
+    float *duration = (float *) data;
+
+    static int leg = SERVO_INDEX_FRONT_RIGHT_HIP;
+
+    int knee;
+
+    switch(leg)
+    {
+        case SERVO_INDEX_FRONT_RIGHT_HIP:
+            knee = SERVO_INDEX_FRONT_RIGHT_KNEE;
+            break;
+        case SERVO_INDEX_BACK_RIGHT_HIP:
+            knee = SERVO_INDEX_BACK_RIGHT_KNEE;
+            break;
+        case SERVO_INDEX_FRONT_LEFT_HIP:
+            knee = SERVO_INDEX_FRONT_LEFT_KNEE;
+            break;
+        case SERVO_INDEX_BACK_LEFT_HIP:
+            knee = SERVO_INDEX_BACK_LEFT_KNEE;
+            break;
+    }
+
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    float turn_delta = 0.8f;
+    float knee_delta = 0.6f;
+
+    if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
+        turn_delta = -turn_delta;
+
+    turn_delta = reverse ? -turn_delta : turn_delta;
+
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
+    for (int i = 0; i < *servos_num; i++)
+    {
+        if (i == SERVO_INDEX_FRONT_RIGHT_KNEE ||
+            i == SERVO_INDEX_BACK_RIGHT_KNEE ||
+            i == SERVO_INDEX_FRONT_LEFT_KNEE ||
+            i = SERVO_INDEX_BACK_LEFT_KNEE)
+        {
+            servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
+        }
+        else
+        {
+            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+        }
+        
+    }
+
+    servo_pos[leg] = (ServoPos) { EASE_CIRC_IN, 0.0f, -turn_delta, 0.0f, 0.0f };
+    servo_pos[knee] = (ServoPos) { EASE_CIRC_OUT, -knee_delta, knee_delta, 0.0f, 0.0f };}
+
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
+
+    switch(leg)
+    {
+        case SERVO_INDEX_FRONT_RIGHT_HIP:
+            if (reverse)
+                leg = SERVO_INDEX_FRONT_LEFT_HIP;
+            else
+                leg = SERVO_INDEX_BACK_RIGHT_HIP;
+            break;
+        case SERVO_INDEX_BACK_RIGHT_HIP:
+            if (reverse)
+                leg = SERVO_INDEX_FRONT_RIGHT_HIP;
+            else
+                leg = SERVO_INDEX_BACK_LEFT_HIP;
+            break;
+        case SERVO_INDEX_BACK_LEFT_HIP:
+            if (reverse)
+                leg = SERVO_INDEX_BACK_RIGHT_HIP;
+            else
+                leg = SERVO_INDEX_FRONT_LEFT_HIP;
+            break;
+        case SERVO_INDEX_FRONT_LEFT_HIP:
+            if (reverse)
+                leg = SERVO_INDEX_BACK_LEFT_HIP;
+            else
+                leg = SERVO_INDEX_FRONT_RIGHT_HIP;
+            break;
+    }    
+
+    return keyfr;
+}
+
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
     if (!src || !dest)

@@ -19,6 +19,7 @@
 #define KEYFR_ELEVATE 2
 #define KEYFR_WALK 3
 #define KEYFR_EXTEND 4
+#define KEYFR_TURN 5
 
 typedef struct ServoPos {
     int easing;

@@ -148,4 +148,31 @@ void eventcb_walk(void *arg)
     keyhandler_add(KEYFR_WALK, (void *) duration_p, false, true);    
 }
 
+void eventcb_turn(void *arg)
+{
+    EventTurnData *turn_data = (EventTurnData *) arg;
+
+    int cycles = turn_data->cycles;
+    float duration = turn_data->duration;
+
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
+    {
+        char log_msg[LOG_LINE_MAXLEN];
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_TURN keyframes. (duration: %f, cycles: %d)", duration, cycles);
+        log_event(log_msg);
+    }     
+
+    float *duration_p;
+
+    for (int i = 0; i < cycles; i++)
+    {
+        duration_p = calloc(1, sizeof(float));
+        if (!duration_p)
+            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_turn).", 1);
+        *duration_p = duration;
+        keyhandler_add(KEYFR_TURN, (void *) duration_p, false, false);
+    }
+}
+
 #endif
