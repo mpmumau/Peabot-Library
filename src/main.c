@@ -75,7 +75,8 @@ static void signal_handler(int signum)
         event_halt();
         keyhandler_halt();
         robot_halt();
-        
+        config_destroy();
+
         log_event("POSIX SIGNIT received. Exiting...");
         log_close();
 
@@ -84,7 +85,7 @@ static void signal_handler(int signum)
 }
 
 /* Application main */
-int main(int argc, char *argv[])
+void main(int argc, char *argv[])
 {
     config_init(argc, argv);
 
@@ -107,7 +108,7 @@ int main(int argc, char *argv[])
 
     while (app_running) {}
 
-    return exit_val;
+    exit(exit_val);
 }
 
 #endif
