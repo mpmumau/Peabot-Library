@@ -3,7 +3,7 @@
 
 /*
  File:          log.c
- Description:   Implementation of a file logging mechanism.
+ Description:   Implementation of file logging.
  Created:       May 5, 2017
  Author:        Matt Mumau
  */
@@ -52,12 +52,10 @@ void log_close()
 
 void log_h(char *val)
 {
-    char line_break[80];
+    char line_break[81];
     for (int i = 0; i < 80 - 1; i++)
-    {
         line_break[i] = '=';
-    }
-    line_break[80 - 1] = '\0';
+    line_break[80] = '\0';
 
     log_write(line_break);
     log_write(val);
@@ -66,15 +64,12 @@ void log_h(char *val)
 
 void log_br()
 {
-    char *line_break = calloc(80, sizeof(char));
+    char line_break[81];
     for (int i = 0; i < 80; i++)
-    {
         line_break[i] = '-';
-    }
+    line_break[80] = '\0';
 
     log_write(line_break);
-
-    free(line_break);
 }
 
 void log_event(char *data)
