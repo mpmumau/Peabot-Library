@@ -103,9 +103,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
         if (trans_keyfr)
         {
-            list_push(&keyframes, trans_keyfr);
+            list_push(&keyframes, (void *) trans_keyfr);
             last_keyfr = trans_keyfr;
-            keyhandler_add(keyfr_type, data, reverse, skip_transitions);
+            keyhandler_add(keyfr_type, data, reverse, true);
             return;
         }
     }
@@ -113,7 +113,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (data)
         free(data);    
 
-    list_push(&keyframes, keyfr);
+    list_push(&keyframes, (void *) keyfr);
     last_keyfr = keyfr;
 }
 

@@ -202,10 +202,8 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
         return NULL;
 
     KeyframeTransData *trans_data = (KeyframeTransData *) data;
-
     ServoPos *src = trans_data->src;
     ServoPos *dest = trans_data->dest;
-
     float duration = trans_data->duration;
 
     if (servopos_matches(src, dest))
