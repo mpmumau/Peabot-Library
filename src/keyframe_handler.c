@@ -99,12 +99,14 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
         float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
         
-        KeyframeTransData *trans_data = malloc(sizeof(KeyframeTransData));
+        KeyframeTransData *trans_data = calloc(1, sizeof(KeyframeTransData));
         trans_data->duration = *transitions_time;
         trans_data->src = tmp_keyfr->servo_pos;
         trans_data->dest = keyfr->servo_pos;
         
         Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
+
+        free(trans_data);
 
         if (trans_keyfr)
             list_push(&keyframes, trans_keyfr);

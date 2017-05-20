@@ -29,7 +29,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 {
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
 
@@ -38,7 +38,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
         servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
     }
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_home).", 1);
 
@@ -51,7 +51,7 @@ Keyframe *keyfactory_delay(void *data, bool reverse)
 {
     float *duration = (float *) data;
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_delay).", 1);
 
@@ -68,7 +68,7 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
 
@@ -87,7 +87,7 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
             servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
     }
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyframe. (keyfradd_elevate)", 1);
 
@@ -104,7 +104,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
 
@@ -123,7 +123,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
             servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
     }
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyframe. (keyfradd_elevate)", 1);
 
@@ -137,7 +137,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 {
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * *servos_num);
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for ServoPos (keyfradd_walk).", 1);
 
@@ -186,7 +186,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         }
     }
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyframe (keyfradd_walk).", 1);
 
@@ -213,11 +213,9 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
+    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
-
-
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -226,7 +224,7 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
         dest++;
     }
 
-    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyfr (keyfradd_transition).", 1);
 
@@ -238,6 +236,9 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
+    if (!src || !dest)
+        return false;
+
     bool matches = true;
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);

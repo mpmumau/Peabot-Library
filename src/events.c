@@ -91,7 +91,7 @@ static void *event_main(void *arg)
 
 void event_add(int event_type, void *data)
 {
-    Event *event = malloc(sizeof(Event));
+    Event *event = calloc(1, sizeof(Event));
 
     event->type = event_type;
     event->data = data;
@@ -99,10 +99,9 @@ void event_add(int event_type, void *data)
     bool *log_event_add = config_get(CONF_LOG_EVENT_ADD);
     if (*log_event_add)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Added event. (type: %s)", event_getname(event_type));
         log_event(log_msg);
-        free(log_msg);
     }
 
     list_push(&events, (void *) event);
