@@ -90,33 +90,27 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
 
-    if (keyfr_type != KEYFR_DELAY && 
+    if (keyfr_type != KEYFR_DELAY &&
+        last_keyfr && 
         *transitions_enable && 
         !skip_transitions)
     {
-        // Check if the new animation needs a transition keyframe and insert it first if so.
-        Keyframe *tmp_keyfr;
-        if (last_keyfr)
-            tmp_keyfr = last_keyfr;
-        else
-            tmp_keyfr = keyfactory_home((void *) NULL, false);
-
         float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
         
-        KeyframeTransData *trans_data = calloc(1, sizeof(KeyframeTransData));
-        if (!trans_data)
-            app_exit("[ERROR!] Could not allocate memory for trans_data (keyhandler_add).", 1);
-
-        trans_data->duration = *transitions_time;
-        trans_data->src = tmp_keyfr->servo_pos;
-        trans_data->dest = keyfr->servo_pos;
+        KeyframeTransData trans_data;
+        trans_data.duration = *transitions_time;
+        trans_data.src = last_keyfr->servo_pos;
+        trans_data.dest = keyfr->servo_pos;
         
-        Keyframe *trans_keyfr = keyfactory_transition((void *) trans_data, false);
-
-        free(trans_data);
+        Keyframe *trans_keyfr = keyfactory_transition((void *) &trans_data, false);
 
         if (trans_keyfr)
+        {
             list_push(&keyframes, trans_keyfr);
+            last_keyfr = trans_keyfr;
+            keyhandler_add(keyfr_type, data, reverse, skip_transitions);
+            return;
+        }
     }
 
     list_push(&keyframes, keyfr);
@@ -200,13 +194,10 @@ static void *keyhandler_main(void *arg)
                 servo_pos = NULL;
             }     
 
-            if (last_keyfr)
-            {
-                free(last_keyfr);
-                last_keyfr = NULL;
-            } 
-
-            (Keyframe *) list_pop(&keyframes);
+            Keyframe *old_keyfr = NULL;
+            old_keyfr = (Keyframe *) list_pop(&keyframes);
+            if (old_keyfr)
+                free(old_keyfr);
         }
     }
 
