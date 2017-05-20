@@ -301,7 +301,10 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             i == SERVO_INDEX_BACK_LEFT_HIP ||
             i == SERVO_INDEX_FRONT_LEFT_HIP)
         {
-            servo_pos[i] = (ServoPos) { -1, turn_delta, -turn_delta, 0.0f, 0.0f };    
+            if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
+                servo_pos[i] = (ServoPos) { -1, turn_delta, -turn_delta, 0.0f, 0.0f };    
+            else
+                servo_pos[i] = (ServoPos) { -1, -turn_delta, turn_delta, 0.0f, 0.0f };  
         }
         else
         {
