@@ -26,7 +26,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse);
 Keyframe *keyfactory_walk(void *data, bool reverse);
 
 /* Get a keyframe for a transition between the src and dest ServoPos objects. */
-Keyframe *keyfactory_transition(void *data, bool reverse);
+Keyframe *keyfactory_transition(KeyframeTransData trans_data);
 
 /* Get a single segment of a turn animation (one leg). */
 Keyframe *keyfactory_turnsegment(void *data, bool reverse);

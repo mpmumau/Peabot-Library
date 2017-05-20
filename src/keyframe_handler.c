@@ -34,8 +34,8 @@
 static pthread_t keyhandler_thread;
 static bool running = true;
 
-static List *keyframes;
-static Keyframe *last_keyfr;  
+static List *keyframes = NULL;
+static Keyframe *last_keyfr = NULL;  
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
@@ -88,7 +88,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
 
     if (keyfr_type != KEYFR_DELAY &&
-        last_keyfr && 
+        last_keyfr != NULL && 
         *transitions_enable && 
         !skip_transitions)
     {
@@ -99,13 +99,14 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         trans_data.src = last_keyfr->servo_pos;
         trans_data.dest = keyfr->servo_pos;
         
-        Keyframe *trans_keyfr = keyfactory_transition((void *) &trans_data, false);
+        Keyframe *trans_keyfr = keyfactory_transition(trans_data);
 
         if (trans_keyfr)
         {
             list_push(&keyframes, (void *) trans_keyfr);
             last_keyfr = trans_keyfr;
             keyhandler_add(keyfr_type, data, reverse, true);
+            free(keyfr);
             return;
         }
     }
