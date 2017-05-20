@@ -28,7 +28,7 @@ void eventcb_reset(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = calloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char *log_msg = calloc(LOG_LINE_MAXLEN, sizeof(char));
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_HOME keyframe.");
         log_event(log_msg);
         free(log_msg);
@@ -42,7 +42,7 @@ void eventcb_delay(void *arg)
     float *dp = (float *) arg;
     float duration_val = *dp;
 
-    float *duration = calloc(sizeof(float));
+    float *duration = calloc(1, sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
     *duration = duration_val;
@@ -50,7 +50,7 @@ void eventcb_delay(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char *log_msg = calloc(LOG_LINE_MAXLEN, sizeof(char));
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
         log_event(log_msg);
         free(log_msg);
