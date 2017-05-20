@@ -100,6 +100,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
         
         KeyframeTransData *trans_data = calloc(1, sizeof(KeyframeTransData));
+        if (!trans_data)
+            app_exit("[ERROR!] Could not allocate memory for trans_data (keyhandler_add).", 1);
         trans_data->duration = *transitions_time;
         trans_data->src = tmp_keyfr->servo_pos;
         trans_data->dest = keyfr->servo_pos;

@@ -31,7 +31,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR!] Failed to allocate memory for servo_pos (keyfradd_home).", 1);
+        app_exit("[ERROR!] Could not allocate memory for servo_pos (keyfactory_home).", 1);
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -40,7 +40,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_home).", 1);
+        app_exit("[ERROR!] Could not allocate memory for keyfr (keyfactory_home).", 1);
 
     keyfr->servo_pos = servo_pos;
 
@@ -53,7 +53,7 @@ Keyframe *keyfactory_delay(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR!] Failed to allocate memory for keyfr (keyfradd_delay).", 1);
+        app_exit("[ERROR!] Could not allocate memory for keyfr (keyfactory_delay).", 1);
 
     keyfr->duration = *duration;
     keyfr->is_delay = true;
