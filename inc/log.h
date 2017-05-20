@@ -8,18 +8,6 @@
  Author:        Matt Mumau
  */
 
-#ifndef LOG_LINE_MAXLEN
-#define LOG_LINE_MAXLEN 128
-#endif
-
-#ifndef LOG_TIMESTAMP_MAXLEN
-#define LOG_TIMESTAMP_MAXLEN 20
-#endif
-
-#ifndef LOG_FILENAME_MAXLEN
-#define LOG_FILENAME_MAXLEN 64
-#endif
-
 /* Open the given log file for appending. */
 void log_init();
 

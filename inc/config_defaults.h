@@ -8,6 +8,12 @@
  Author:        Matt Mumau
  */
 
+
+/* Application settings */
+#define LOG_LINE_MAXLEN 128
+#define LOG_TIMESTAMP_MAXLEN 20
+#define LOG_FILENAME_MAXLEN 64
+
 /* Log settings */
 #define DEFAULT_LOG_DIR "/var/log/peabot/"
 #define DEFAULT_LOG_STDIN 1

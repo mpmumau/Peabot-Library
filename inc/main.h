@@ -8,9 +8,6 @@
  Author:        Matt Mumau
  */
 
-/* Application settings */
-#define LOG_FILENAME_MAXLEN 64
-
 /* Exit the application, citing the given message as a reason. */
 void app_exit(char *message, int retval);
 
