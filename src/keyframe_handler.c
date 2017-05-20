@@ -18,6 +18,7 @@
 #include <stdbool.h>
 
 /* Application includes */
+#include "config_defaults.h"
 #include "config.h"
 #include "log.h"
 #include "list.h"
