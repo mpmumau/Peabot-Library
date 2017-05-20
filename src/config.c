@@ -249,7 +249,7 @@ static void config_set_defaults()
     config_set(CONF_LOG_FILENAME, (void *) log_filename, false);
 
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
-    config.log_fullpath = malloc(sizeof(char) * full_path_size);
+    config.log_fullpath = calloc(full_path_size, sizeof(char));
     if (!config.log_fullpath)
         app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).", 1);
     strcpy(config.log_fullpath, config.log_file_dir);
@@ -306,7 +306,7 @@ static void config_set_defaults()
     config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b, false);
 
     // Do these after processing other configs; dependent upon them.
-    config.servo_pins = malloc(sizeof(int) * config.servos_num);
+    config.servo_pins = calloc(config.servos_num, sizeof(int));
     if (!config.servo_pins)
         app_exit("[ERROR!] Could not allocate memory for config.servo_pins (config_init).", 1);
 
@@ -355,7 +355,7 @@ static void config_set_defaults()
         config_set(CONF_SERVO_PINS, (void *) &servo_pin_data, false);
     }
 
-    config.servo_limits = malloc(sizeof(ServoLimit) * config.servos_num);
+    config.servo_limits = calloc(config.servos_num, sizeof(ServoLimit));
     if (!config.servo_pins)
         app_exit("[ERROR!] Could not allocate memory for config.servo_limits (config_init).", 1);
 
@@ -373,7 +373,7 @@ static void config_set_defaults()
 
 static char *config_default_log_filename()
 {
-    char *filename = malloc(sizeof(char) * LOG_FILENAME_MAXLEN);
+    char *filename = calloc(LOG_FILENAME_MAXLEN, sizeof(char));
 
     time_t current_time = time(NULL);
     struct tm *ltime = localtime(&current_time);
