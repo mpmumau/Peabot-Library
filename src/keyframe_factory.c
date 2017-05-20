@@ -236,11 +236,6 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
 Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 {
-    if (!data)
-        return NULL;
-
-    float *duration = (float *) data;
-
     static int leg = SERVO_INDEX_FRONT_RIGHT_HIP;
 
     int knee;
