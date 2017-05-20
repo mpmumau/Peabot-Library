@@ -85,9 +85,6 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (!keyfr)
         return;
 
-    if (data)
-        free(data);
-
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
 
     if (keyfr_type != KEYFR_DELAY &&
@@ -112,6 +109,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
             return;
         }
     }
+
+    if (data)
+        free(data);    
 
     list_push(&keyframes, keyfr);
     last_keyfr = keyfr;
@@ -194,10 +194,10 @@ static void *keyhandler_main(void *arg)
                 servo_pos = NULL;
             }     
 
-            Keyframe *old_keyfr = NULL;
-            old_keyfr = (Keyframe *) list_pop(&keyframes);
-            if (old_keyfr)
-                free(old_keyfr);
+            Keyframe *keyfr_popped = NULL;
+            keyfr_popped = (Keyframe *) list_pop(&keyframes);
+            if (keyfr_popped)
+                free(keyfr_popped);
         }
     }
 
