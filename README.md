@@ -2,7 +2,7 @@
 
 ## Overview
 
-This software controls a custom-built quadruped robot. Namely, this guy:
+This software controls a custom-built quadruped robot. Namely, this guy (or anyone like him):
 
 ![Pibot photo](images/pibot.jpg)
 
@@ -12,11 +12,27 @@ This software controls a custom-built quadruped robot. Namely, this guy:
 
 Each of the robot's four legs is moved by two separate micro 9G servos. The 
 servos are able to rotate about 165 degrees, although physical joints of 
-the robot are able to rotate somewhat less so. 
+the robot are able to rotate somewhat less so. That makes for a total of eight servos.
+
+## Requirements.
+
+Peabot is written to be run on any robot that can run c programs on its microprocessor. 
+Likewise, out of the box, it is presumed that you will use the PCA-9685 PWM bus chip.
+However, with minimal modifications, it should be capable of running on any hardware
+that supports PWM servo control.
+
+This software is written in such a way that if future contributers would like to use
+more servos on their robots (for example a hexapod, etc.), then they may do so by
+modifying it to their purposes and recompiling. In general, Peabot is a framework
+for handling generic robotic functions; however, for quadrupeds with eight servos, 
+it's an all-in-one solution. Simply install the application on any Raspberry Pi, 
+and you'll have the ability to get your bot up and walking with minimal configuration.
 
 ## Components
 
 ![Pibot components](images/components.jpg)
+
+My recommended robot build (and what I'm testing this software on) is as follows:
 
 ### Raspberry Pi Zero
 The central component of the robot is the ever popular Raspberry Pi, which is a 
@@ -166,31 +182,37 @@ removed after printing.
 
 ## Required Packages
 
+It is presumed that you will be using the Raspbian operating system on your
+Raspberry Pi.
+
 This software requires that two packages are installed:
 
 **WiringPi** http://wiringpi.com/download-and-install/
 
 **Reinbert/pca9685** https://github.com/Reinbert/pca9685
 
-Instructions for installing those packages (namely in Raspbian) are available 
-via their respective links.
+Instructions for installing those packages are available via their respective 
+links.
 
 ## Log Files
 
-Log files are stored in `/var/log/peabot` on your system. 
+Log files are stored in `/var/log/peabot` on your system. This directory may
+be configured via the application's configuration file. Options are also
+available in the configuration file to log only the information in which you are
+most intestered.
 
 ## Installation
 
 To install Peabot, clone this repository to any directory of your Raspberry Pi
-(i.e. /opt/peabot). Then run `make` then `make install` (as root or sudo) from 
-the command line.
+(i.e. /opt/peabot). Run `make` then `make install` (as root or sudo) from 
+the command line from within the directory of the repository.
 
-To uninstall, type `make full-uninstall.` This will remove Peabot from your 
+To uninstall, type `make full-uninstall` (as root or sudo). This will remove Peabot from your 
 system, while keeping log files in `/var/log/peabot`.
 
 ## Command Prompt
 
-If you run Peabot manually from the command line (by typing `peabot_server`) you
+If you run Peabot manually from the command line (by typing `peabot`) you
 will see a command prompt, from which you may send commands directly to the 
 robot. 
 
@@ -206,6 +228,11 @@ Execute `#times` iterations of the walk cycle, with each cycle lasting
 Execute the robot's "elevate" motion, which fully extends or retracts its knees 
 (defined by the `reverse` param). Lasts a total of `time` seconds.
 
+### extend [time [ex:3.7]] [reverse [ex: 0 or1]]
+
+Extends the robot's "hip" servos to either their fully extended or fully
+retracted position. Last a total of `time` seconds.
+
 ### reset
 
 Reset all servos to their "home" position.
@@ -214,5 +241,185 @@ Reset all servos to their "home" position.
 
 Quit the application and shut down the robot.
 
+## Command Line Options
 
+Various command line options can be set when running the Peabot application. The
+following is a list of those options, their format and what they do.
+
+### `-c` or `--config` [path to config]
+
+Allows the user to specify the path of a configuration file to use.
+
+### `--log_stdin`
+
+If present, log all raw standard-in input from the application's prompt.
+
+### `--log_prompt`
+
+If present, log all command prompt activity.
+
+###  `--log_event_add`
+
+If present, log all system events as they are added to the application's queue.
+
+### `--log_event_callback`
+
+If present, log all callbacks, which occur when an event is executed.
+
+### `--log_keyframes`
+
+If present, log when keyframes have been executed.
+
+### `--pca-9685-hertz` [integer]
+
+Set the PCA-9685's signal frequency.
+
+### `--pca-9685-pin-base` [integer]
+
+Set the PCA-9685's pin base.
+
+### `--pca-9685-max-pwm` [integer]
+
+Set the PCA-9685's maximum PWM value.
+
+### `-s` or `--servos` [integer]
+
+Set the number of servos used by the robot.
+
+### `-t` or `--servo_tick` [decimal number]
+
+Set the robot's update function to the val (which represents seconds).
+
+### `--transitions-enable`
+
+If present, enable automatic transitions between keyframes.
+
+### `--transitions-time` [decimal number]
+
+The amount of time in seconds to allocate for transition keyframes.
+
+### `--walk-hip-delta` [decimal number]
+
+The magnitude of servo position change for hips during the walk animation.
+
+### `--walk-knee-delta` [decimal number]
+
+The magnitude of servo position change for knees during the walk animation.
+
+### `--walk-knee-pad-a` [decimal number]
+
+The percentage of the walk animation where its initial knee movement is delayed.
+
+### `--walk-knee-pad-b` [decimal number]
+
+The percentage of the walk animation where its second knee movement is delayed.
+
+## Config File
+
+As explained above, if the user specifies the `-c` or `--config` option via
+the command line when the application is run, then the Peabot application will
+load the file at the provided path in order to determine its initial settings.
+
+A config file uses `#` to indicate that a line is a comment, and ignores empty
+lines. Options are set in a key-value format, wherein each [KEY] is followed
+by a [VALUE]; extra spaces between [KEY] and [VALUE] are ignored.
+
+The following options are available to be set via a configuration file:
+
+### `log_file_dir` [path]
+
+The directory in which to store log files.
+
+### `log_stdin` [true|false]
+
+Whether or not to log raw standard-in input.
+
+### `log_prompt_commands` [true|false]
+
+Whether or not to log prompt activity.
+
+### `log_event_add` [true|false]
+
+Whether or not to log when events are added to the application's event queue.
+
+### `log_event_callbacks` [true|false]
+
+Whether or not to log event callback functions when an event is acted upon.
+
+### `log_keyframes` [true|false]
+
+Whether or not to log keyframes after they have been executed.
+
+### `pca_9685_pin_base` [integer]
+
+Set the PCA-9685's pin base.
+
+### `pca_9685_max_pwm` [integer]
+
+Set the PCA-9685's maximum PWM value.
+
+### `pca_9685_hertz` [integer]
+
+Set the PCA-9685's signal frequency.
+
+### `servos_num` [integer]
+
+Set the total number of servos in use on the robot.
+
+### `robot_tick` [decimal number]
+
+Set the time in seconds to use for the robot's update function.
+
+### `transitions_enable` [true|false]
+
+Whether or not to enable transition motions between differing keyframes.
+
+### `transition_time` [decimal number]
+
+The time in seconds to use for each transition animation.
+
+### `walk_hip_delta` [decimal number]
+
+Set the robot's hip change magnitude during the walk animation.
+
+### `walk_knee_delta` [decimal number]
+
+Set the robot's knee change magnitude during the walk animation.
+
+### `walk_knee_pad_a` [decimal number]
+
+Set the percentage of the robot's walk animation during which the initial knee 
+motion is delayed.
+
+### `walk_knee_pad_b` [decimal number]
+
+Set the percentage of the robot's walk animation during which the second knee 
+motion is delayed.
+
+### `back_left_knee` [integer]
+### `back_left_hip` [integer]
+### `front_left_knee` [integer]
+### `front_left_hip` [integer]
+### `back_right_knee` [integer]
+### `back_right_hip` [integer]
+### `front_right_knee` [integer]
+### `front_right_hip` [integer]
+
+Set the position [0-16] on the PCA-9685 for each servo position.
+
+### `back_left_knee_limits` [min-max]
+### `back_left_hip_limits` [min-max]
+### `front_left_knee_limits` [min-max]
+### `front_left_hip_limits` [min-max]
+### `back_right_knee_limits` [min-max]
+### `back_right_hip_limits` [min-max]
+### `front_right_knee_limits` [min-max]
+### `front_right_hip_limits` [min-max]
+
+Set the minimum and maximum PWM values to set for the individual
+servos. These settings are very useful for calibrating your robot,
+especially if you were unable to perfectly center your servos
+when installing them onto your robot. Caution should be used such
+that these PWM values do not exceed the physical limitations of the
+robot.
 
