@@ -266,8 +266,8 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     float turn_delta = 0.8f;
     float knee_delta = 0.6f;
 
-    if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
-        turn_delta = -turn_delta;
+    // if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
+    //     turn_delta = -turn_delta;
 
     turn_delta = reverse ? -turn_delta : turn_delta;
 
@@ -297,7 +297,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     for (int i = 0; i < *servos_num; i++)
     {
         if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
-            i == SERVO_INDEX_FRONT_LEFT_HIP ||
+            i == SERVO_INDEX_FRONT_RIGHT_HIP ||
             i == SERVO_INDEX_BACK_LEFT_HIP ||
             i == SERVO_INDEX_FRONT_LEFT_HIP)
         {
