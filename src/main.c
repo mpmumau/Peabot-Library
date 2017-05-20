@@ -85,7 +85,7 @@ static void signal_handler(int signum)
 }
 
 /* Application main */
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     config_init(argc, argv);
 
@@ -109,6 +109,7 @@ void main(int argc, char *argv[])
     while (app_running) {}
 
     exit(exit_val);
+    return exit_val;
 }
 
 #endif
