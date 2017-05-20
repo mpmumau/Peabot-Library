@@ -237,7 +237,7 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 {
     if (!data)
-        return;
+        return NULL;
 
     float *duration = (float *) data;
 
