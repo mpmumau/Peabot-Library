@@ -10,6 +10,7 @@
 
 /* System includes */
 #include <stdlib.h>
+#include <stdio.h>
 
 /* Application includes */
 #include "main.h"
@@ -210,6 +211,8 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
         app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
+
+    printf("Got here \n");
 
     for (int i = 0; i < *servos_num; i++)
     {
