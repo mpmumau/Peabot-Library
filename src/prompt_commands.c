@@ -35,10 +35,9 @@ void promptcmd_reset(char *args[], int arg_num)
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding reset event.");
         log_event(log_msg);
-        free(log_msg);
     } 
 
     event_add(EVENT_RESET, (void *) NULL);  
@@ -53,16 +52,15 @@ void promptcmd_delay(char *args[], int arg_num)
     }
 
     const char *seconds_string = args[0];
-    float *seconds = malloc(sizeof(float));
+    float *seconds = calloc(1, sizeof(float));
     *seconds = (float) atof(seconds_string);
 
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding delay event. (duration: %f)", *seconds);
         log_event(log_msg);
-        free(log_msg);
     } 
 
     event_add(EVENT_DELAY, (void *) seconds);    
@@ -79,17 +77,16 @@ void promptcmd_elevate(char *args[], int arg_num)
     const char *seconds_string = args[0];
     const char *reverse_string = args[1];
 
-    EventElevateData *elevate_data = malloc(sizeof(EventElevateData));
+    EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
     elevate_data->duration = (float) atof(seconds_string);
     elevate_data->reverse = (bool) ((int) atoi(reverse_string));
     
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding elevate event. (duration: %f, reverse %d)", elevate_data->duration, elevate_data->reverse);
         log_event(log_msg);
-        free(log_msg);
     } 
 
     event_add(EVENT_ELEVATE, (void *) elevate_data);    
@@ -106,17 +103,16 @@ void promptcmd_extend(char *args[], int arg_num)
     const char *seconds_string = args[0];
     const char *reverse_string = args[1];
 
-    EventExtendData *extend_data = malloc(sizeof(EventExtendData));
+    EventExtendData *extend_data = calloc(1, sizeof(EventExtendData));
     extend_data->duration = (float) atof(seconds_string);
     extend_data->reverse = (bool) ((int) atoi(reverse_string));
     
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding extend event. (duration: %f, reverse %d)", extend_data->duration, extend_data->reverse);
         log_event(log_msg);
-        free(log_msg);
     } 
 
     event_add(EVENT_EXTEND, (void *) extend_data);    
@@ -133,17 +129,16 @@ void promptcmd_walk(char *args[], int arg_num)
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];
 
-    EventWalkData *walk_data = malloc(sizeof(EventWalkData));
+    EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
 
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding walk event. (duration: %f, cycles %d)", walk_data->duration, walk_data->cycles);
         log_event(log_msg);
-        free(log_msg);
     }     
 
     event_add(EVENT_WALK, (void *) walk_data);
