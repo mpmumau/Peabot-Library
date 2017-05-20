@@ -196,8 +196,8 @@ static void *keyhandler_main(void *arg)
 
             Keyframe *old_keyfr = NULL;
             old_keyfr = (Keyframe *) list_pop(&keyframes);
-            if (old_keyfr)
-                free(old_keyfr);
+            // if (old_keyfr)
+            //     free(old_keyfr);
         }
     }
 
