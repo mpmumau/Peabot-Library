@@ -78,7 +78,7 @@ void log_event(char *data)
     struct tm *ltime = localtime(&current_time);
 
     char timestamp[LOG_TIMESTAMP_MAXLEN];
-    strftime(timestamp, LOG_TIMESTAMP_MAXLEN, "[%m.%d.%y.%H.%M.%S]", ltime);
+    strftime(timestamp, LOG_TIMESTAMP_MAXLEN, "[%m.%d.%y.%H:%M:%S]", ltime);
 
     char buffer[LOG_LINE_MAXLEN];
     snprintf(buffer, LOG_LINE_MAXLEN, "%s %s", timestamp, data);
