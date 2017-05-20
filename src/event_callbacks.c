@@ -49,10 +49,9 @@ void eventcb_delay(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = calloc(LOG_LINE_MAXLEN, sizeof(char));
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
         log_event(log_msg);
-        free(log_msg);
     }
 
     keyhandler_add(KEYFR_DELAY, (void *) duration, false, true);
@@ -63,7 +62,7 @@ void eventcb_elevate(void *arg)
     EventElevateData *elevate_data = (EventElevateData *) arg;
     bool reverse = elevate_data->reverse;
 
-    float *duration = malloc(sizeof(float));
+    float *duration = calloc(1, sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
     *duration = elevate_data->duration;
@@ -71,10 +70,9 @@ void eventcb_elevate(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
         log_event(log_msg);
-        free(log_msg);
     }    
 
     keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse, false);
@@ -85,7 +83,7 @@ void eventcb_extend(void *arg)
     EventExtendData *extend_data = (EventExtendData *) arg;
     bool reverse = extend_data->reverse;
 
-    float *duration = malloc(sizeof(float));
+    float *duration = calloc(1, sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
     *duration = extend_data->duration;
@@ -93,10 +91,9 @@ void eventcb_extend(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_EXTEND keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
         log_event(log_msg);
-        free(log_msg);
     }    
 
     keyhandler_add(KEYFR_EXTEND, (void *) duration, reverse, false);
@@ -112,15 +109,14 @@ void eventcb_walk(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)", duration, cycles);
         log_event(log_msg);
-        free(log_msg);
     } 
 
     float *duration_p;
 
-    duration_p = malloc(sizeof(float));
+    duration_p = calloc(1, sizeof(float));
     if (!duration)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);     
     *duration_p = duration;
@@ -129,14 +125,14 @@ void eventcb_walk(void *arg)
 
     for (int i = 0; i < cycles - 1; i++)
     {
-        duration_p = malloc(sizeof(float));
+        duration_p = calloc(1, sizeof(float));
         if (!duration_p)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
         *duration_p = duration;
         
         keyhandler_add(KEYFR_WALK, (void *) duration_p, false, true);
 
-        duration_p = malloc(sizeof(float));
+        duration_p = calloc(1, sizeof(float));
         if (!duration)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);     
         *duration_p = duration;
@@ -144,7 +140,7 @@ void eventcb_walk(void *arg)
         keyhandler_add(KEYFR_WALK, (void *) duration_p, true, true);
     }
 
-    duration_p = malloc(sizeof(float));
+    duration_p = calloc(1, sizeof(float));
     if (!duration_p)
         app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
     *duration_p = duration;
