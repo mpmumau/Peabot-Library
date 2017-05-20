@@ -289,7 +289,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     }
 
     servo_pos[leg] = (ServoPos) { EASE_CIRC_IN, 0.0f, -turn_delta, 0.0f, 0.0f };
-    servo_pos[knee] = (ServoPos) { EASE_CIRC_OUT, -knee_delta, knee_delta, 0.0f, 0.0f };
+    servo_pos[knee] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.75f, 0.0f };
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
