@@ -236,6 +236,11 @@ Keyframe *keyfactory_transition(void *data, bool reverse)
 
 Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 {
+    if (!data)
+        return NULL;
+
+    float *duration = (float *) data;
+
     static int leg = SERVO_INDEX_FRONT_RIGHT_HIP;
 
     int knee;
@@ -287,6 +292,10 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     servo_pos[knee] = (ServoPos) { EASE_CIRC_OUT, -knee_delta, knee_delta, 0.0f, 0.0f };}
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
+    if (!keyfr)
+        app_exit("[ERROR] Could not allocate memory for keyfr (keyfactory_turnsegment).", 1);
+    keyfr->servo_pos = servo_pos;
+    keyfr->duration = *duration;
 
     switch(leg)
     {
