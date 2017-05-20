@@ -293,6 +293,8 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     else
         servo_pos[leg] = (ServoPos) { -1, turn_delta, -turn_delta, 0.0f, 0.0f };  
 
+    servo_pos[knee] = (ServoPos) { -1, -knee_delta, knee_delta, 0.0f, 0.0f };
+
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyfr (keyfactory_turnsegment).", 1);
