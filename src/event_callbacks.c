@@ -28,13 +28,12 @@ void eventcb_reset(void *arg)
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
     if (*log_event_callbacks)
     {
-        char *log_msg = calloc(LOG_LINE_MAXLEN, sizeof(char));
+        char log_msg[LOG_LINE_MAXLEN];
         snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_HOME keyframe.");
         log_event(log_msg);
-        free(log_msg);
     }
 
-    keyhandler_add(KEYFR_HOME, (void *) NULL, false, true);
+    keyhandler_add(KEYFR_HOME, (void *) NULL, false, false);
 }
 
 void eventcb_delay(void *arg)
