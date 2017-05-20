@@ -188,16 +188,16 @@ static void *keyhandler_main(void *arg)
                 continue;
             }
 
-            // if (servo_pos != NULL)
-            // {
-            //     free(servo_pos);
-            //     servo_pos = NULL;
-            // }     
+            if (servo_pos != NULL)
+            {
+                free(servo_pos);
+                servo_pos = NULL;
+            }     
 
             Keyframe *old_keyfr = NULL;
             old_keyfr = (Keyframe *) list_pop(&keyframes);
-            // if (old_keyfr)
-            //     free(old_keyfr);
+            if (old_keyfr)
+                free(old_keyfr);
         }
     }
 
