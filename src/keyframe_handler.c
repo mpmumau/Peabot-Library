@@ -18,6 +18,7 @@
 #include <stdbool.h>
 
 /* Application includes */
+#include "main.h"
 #include "config_defaults.h"
 #include "config.h"
 #include "log.h"
@@ -102,6 +103,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         KeyframeTransData *trans_data = calloc(1, sizeof(KeyframeTransData));
         if (!trans_data)
             app_exit("[ERROR!] Could not allocate memory for trans_data (keyhandler_add).", 1);
+
         trans_data->duration = *transitions_time;
         trans_data->src = tmp_keyfr->servo_pos;
         trans_data->dest = keyfr->servo_pos;
