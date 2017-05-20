@@ -277,7 +277,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         if (i == SERVO_INDEX_FRONT_RIGHT_KNEE ||
             i == SERVO_INDEX_BACK_RIGHT_KNEE ||
             i == SERVO_INDEX_FRONT_LEFT_KNEE ||
-            i = SERVO_INDEX_BACK_LEFT_KNEE)
+            i == SERVO_INDEX_BACK_LEFT_KNEE)
         {
             servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
         }
