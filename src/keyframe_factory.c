@@ -266,33 +266,9 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     float turn_delta = 0.8f;
     float knee_delta = 0.6f;
 
-    // if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
-    //     turn_delta = -turn_delta;
-
     turn_delta = reverse ? -turn_delta : turn_delta;
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    // for (int i = 0; i < *servos_num; i++)
-    // {
-    //     if (i == SERVO_INDEX_FRONT_RIGHT_KNEE ||
-    //         i == SERVO_INDEX_BACK_RIGHT_KNEE ||
-    //         i == SERVO_INDEX_FRONT_LEFT_KNEE ||
-    //         i == SERVO_INDEX_BACK_LEFT_KNEE)
-    //     {
-    //         servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
-    //     }
-    //     else
-    //     {
-    //         if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
-    //             servo_pos[i] = (ServoPos) { -1, 0.0f, -turn_delta, 0.0f, 0.0f };           
-    //         else
-    //             servo_pos[i] = (ServoPos) { -1, 0.0f, turn_delta, 0.0f, 0.0f };
-    //     }
-        
-    // }
-
-    // servo_pos[leg] = (ServoPos) { EASE_CIRC_IN, 0.0f, -turn_delta, 0.0f, 0.0f };
-    // servo_pos[knee] = (ServoPos) { EASE_CIRC_OUT, knee_delta, -knee_delta, 0.75f, 0.0f };
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -308,9 +284,14 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         }
         else
         {
-            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+            servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
         }       
     }
+
+    if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
+        servo_pos[leg] = (ServoPos) { -1, -turn_delta, turn_delta, 0.0f, 0.0f };    
+    else
+        servo_pos[leg] = (ServoPos) { -1, turn_delta, -turn_delta, 0.0f, 0.0f };  
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
