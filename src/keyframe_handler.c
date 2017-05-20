@@ -69,6 +69,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (keyfr_type == KEYFR_WALK)
         keyfactory_cb = keyfactory_walk;
 
+    if (keyfr_type == KEYFR_EXTEND)
+        keyfactory_cb = keyfactory_extend;
+
     if (keyfactory_cb == NULL)
         return;
 
