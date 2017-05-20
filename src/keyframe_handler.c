@@ -81,6 +81,9 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (!keyfr)
         return;
 
+    if (data)
+        free(data);
+
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
 
     if (keyfr_type != KEYFR_DELAY && 
