@@ -120,6 +120,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     }
 
     list_push(&keyframes, keyfr);
+    last_keyfr = keyfr;
 }
 
 static void *keyhandler_main(void *arg)
@@ -205,7 +206,7 @@ static void *keyhandler_main(void *arg)
                 last_keyfr = NULL;
             } 
 
-            last_keyfr = (Keyframe *) list_pop(&keyframes);
+            (Keyframe *) list_pop(&keyframes);
         }
     }
 
