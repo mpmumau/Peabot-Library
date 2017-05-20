@@ -266,7 +266,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     float turn_delta = 0.8f;
     float knee_delta = 0.6f;
 
-    turn_delta = reverse ? -turn_delta : turn_delta;
+    //turn_delta = reverse ? -turn_delta : turn_delta;
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
 
