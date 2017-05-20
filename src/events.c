@@ -15,6 +15,7 @@
 #include <pthread.h>
 
 /* Application includes */
+#include "config_defaults.h"
 #include "main.h"
 #include "config.h"
 #include "log.h"
