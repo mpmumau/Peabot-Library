@@ -283,7 +283,10 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         }
         else
         {
-            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+            if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
+                servo_pos[i] = (ServoPos) { -1, 0.0f, turn_delta, 0.0f, 0.0f };           
+            else
+                servo_pos[i] = (ServoPos) { -1, 0.0f, -turn_delta, 0.0f, 0.0f };
         }
         
     }
