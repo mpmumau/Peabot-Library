@@ -109,6 +109,9 @@ static void prompt_handle_cmd(char *stdin_str)
     if (str_equals(cmd, "elevate"))
         cmd_callback = promptcmd_elevate;
 
+    if (str_equals(cmd, "extend"))
+        cmd_callback = promptcmd_extend;
+
     if (str_equals(cmd, "walk"))
         cmd_callback = promptcmd_walk;
 

@@ -19,6 +19,9 @@ Keyframe *keyfactory_delay(void *data, bool reverse);
 /* Get keyframe to move all the robot's knees to the fully extended position. */
 Keyframe *keyfactory_elevate(void *data, bool reverse);
 
+/* Get a keyframe for extending or retracting the hip servos. */
+Keyframe *keyfactory_extend(void *data, bool reverse);
+
 /* Get keyframe to add a walk animation. */
 Keyframe *keyfactory_walk(void *data, bool reverse);
 

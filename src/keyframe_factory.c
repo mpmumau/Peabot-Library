@@ -97,6 +97,42 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
     return keyfr;
 }
 
+Keyframe *keyfactory_extend(void *data, bool reverse)
+{
+    float *duration = (float *) data;
+    float mod = reverse ? -1.0f : 1.0f;
+
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    ServoPos *servo_pos = malloc(sizeof(ServoPos) * (*servos_num));
+    if (!servo_pos)
+        app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
+
+    float start_pos = -1.0f * mod;
+    float end_pos = 1.0f * mod;
+
+    for (int i = 0; i < *servos_num; i++)
+    {
+        if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
+            i == SERVO_INDEX_BACK_LEFT_HIP || 
+            i == SERVO_INDEX_FRONT_RIGHT_HIP || 
+            i == SERVO_INDEX_FRONT_LEFT_HIP)
+
+            servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
+        else
+            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+    }
+
+    Keyframe *keyfr = malloc(sizeof(Keyframe));
+    if (!keyfr)
+        app_exit("[ERROR] Could not allocate memory for keyframe. (keyfradd_elevate)", 1);
+
+    keyfr->duration = *duration;
+    keyfr->servo_pos = servo_pos;
+
+    return keyfr;
+}
+
 Keyframe *keyfactory_walk(void *data, bool reverse)
 {
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);

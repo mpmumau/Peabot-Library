@@ -69,6 +69,9 @@ static void *event_main(void *arg)
         if (event->type == EVENT_ELEVATE)
             event_callback = eventcb_elevate;
 
+        if (event->type == EVENT_EXTEND)
+            event_callback = eventcb_extend;        
+
         if (event->type == EVENT_WALK)
             event_callback = eventcb_walk;
 
@@ -116,6 +119,8 @@ static char *event_getname(int event_type)
             return "EVENT_ELEVATE";
         case EVENT_WALK:
             return "EVENT_WALK";
+        case EVENT_EXTEND:
+            return "EVENT_EXTEND";
     }
 
     return NULL;

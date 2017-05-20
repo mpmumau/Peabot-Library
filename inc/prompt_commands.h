@@ -20,9 +20,13 @@ void promptcmd_delay(char *args[], int arg_num);
 /* Callback for the robot's "up" operation */
 void promptcmd_elevate(char *args[], int arg_num);
 
+/* Callback for the robot's "extend" operation. */
+void promptcmd_extend(char *args[], int arg_num);
+
 /* Callback to sequence the robot for walking */
 void promptcmd_walk(char *args[], int arg_num);
 
+/* Callback for printing a config variable's value to the console. */
 void promptcmd_cfg_get(char *args[], int arg_num);
 
 #endif

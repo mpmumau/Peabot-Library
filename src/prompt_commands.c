@@ -94,6 +94,33 @@ void promptcmd_elevate(char *args[], int arg_num)
     event_add(EVENT_ELEVATE, (void *) elevate_data);    
 }
 
+void promptcmd_extend(char *args[], int arg_num)
+{
+    if (arg_num != 2)
+    {
+        console_print("[ERROR] Incorrect number of params. Usage: extend [duration] [reverse]");
+        return;
+    }
+
+    const char *seconds_string = args[0];
+    const char *reverse_string = args[1];
+
+    EventExtendData *extend_data = malloc(sizeof(EventExtendData));
+    extend_data->duration = (float) atof(seconds_string);
+    extend_data->reverse = (bool) ((int) atoi(reverse_string));
+    
+    bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
+    if (*log_prompt_commands)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] Adding extend event. (duration: %f, reverse %d)", extend_data->duration, extend_data->reverse);
+        log_event(log_msg);
+        free(log_msg);
+    } 
+
+    event_add(EVENT_EXTEND, (void *) extend_data);    
+}
+
 void promptcmd_walk(char *args[], int arg_num)
 {
     if (arg_num != 2)

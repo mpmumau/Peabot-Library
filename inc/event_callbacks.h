@@ -17,6 +17,9 @@ void eventcb_delay(void *arg);
 /* Event to do the robot's "elevate" animation. */
 void eventcb_elevate(void *arg);
 
+/* Event to do the robot's "extend" animation. */
+void eventcb_extend(void *arg);
+
 /* Event to do the robot's walk animation. */
 void eventcb_walk(void *arg);
 

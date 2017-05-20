@@ -14,6 +14,7 @@
 #define EVENT_DELAY 1
 #define EVENT_ELEVATE 2
 #define EVENT_WALK 3
+#define EVENT_EXTEND 4
 
 typedef struct Event {
     int type;
@@ -24,6 +25,11 @@ typedef struct EventElevateData {
     bool reverse;
     float duration;
 } EventElevateData;
+
+typedef struct EventExtendData {
+    bool reverse;
+    float duration;
+} EventExtendData;
 
 typedef struct EventWalkData {
     int cycles;

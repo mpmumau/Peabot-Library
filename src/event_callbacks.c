@@ -80,6 +80,28 @@ void eventcb_elevate(void *arg)
     keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse, false);
 }
 
+void eventcb_extend(void *arg)
+{
+    EventExtendData *extend_data = (EventExtendData *) arg;
+    bool reverse = extend_data->reverse;
+
+    float *duration = malloc(sizeof(float));
+    if (!duration)
+        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
+    *duration = extend_data->duration;
+
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (*log_event_callbacks)
+    {
+        char *log_msg = malloc(sizeof(char) * LOG_LINE_MAXLEN);
+        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_EXTEND keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
+        log_event(log_msg);
+        free(log_msg);
+    }    
+
+    keyhandler_add(KEYFR_EXTEND, (void *) duration, reverse, false);
+}
+
 void eventcb_walk(void *arg)
 {
     EventWalkData *walk_data = (EventWalkData *) arg;
