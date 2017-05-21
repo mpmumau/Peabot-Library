@@ -96,10 +96,10 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     keyfr = (*keyfactory_cb)(data, reverse);
 
-    printf("Got this far\n");
-
     if (!keyfr)
         return;
+
+    printf("Got this far\n");
 
     if (keyfr_type != KEYFR_DELAY &&
         *transitions_enable && 
