@@ -58,7 +58,7 @@ void keyhandler_halt()
 
 void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transitions)
 {
-    static Keyframe *lkeyfr = calloc(1, sizeof(Keyframe));
+    static const Keyframe *lkeyfr = calloc(1, sizeof(Keyframe));
     last_keyfr = lkeyfr;
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
