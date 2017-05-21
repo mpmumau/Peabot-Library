@@ -273,23 +273,16 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             i == SERVO_INDEX_BACK_LEFT_HIP ||
             i == SERVO_INDEX_FRONT_LEFT_HIP)
         {
-            if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
-                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, -turn_delta, 0.0f, 0.0f };    
+            if (i == leg)
+                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, -turn_delta, 0.0f, 0.0f };    
             else
-                servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, turn_delta, 0.0f, 0.0f };  
+                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f };  
         }
         else
         {
             servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
         }       
     }
-
-    if (leg == SERVO_INDEX_BACK_RIGHT_HIP || leg == SERVO_INDEX_FRONT_LEFT_HIP)
-        servo_pos[leg] = (ServoPos) { EASE_SINE_OUT, -turn_delta, turn_delta, 0.0f, 0.0f };    
-    else
-        servo_pos[leg] = (ServoPos) { EASE_SINE_OUT, turn_delta, -turn_delta, 0.0f, 0.0f };  
-
-    servo_pos[knee] = (ServoPos) { EASE_SINE_OUT, -knee_delta, knee_delta, 0.0f, 0.0f };
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
