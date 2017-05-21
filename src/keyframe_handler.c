@@ -103,7 +103,6 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         *transitions_enable && 
         !skip_transitions)
     {
-        printf("shouldnt be here\n");
         KeyframeTransData trans_data;
         trans_data.duration = *transitions_time;
         trans_data.src = last_keyfr->servo_pos;
@@ -128,6 +127,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     if (data)
         free(data);    
+
+    printf("got this far\n");
 
     list_push(&keyframes, (void *) keyfr);
 
