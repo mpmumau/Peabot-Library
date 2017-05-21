@@ -58,13 +58,15 @@ void keyhandler_halt()
 
 void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transitions)
 {
-    static const Keyframe *lkeyfr = calloc(1, sizeof(Keyframe));
-    last_keyfr = lkeyfr;
-
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
+    float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
 
-    if (lkeyfr->servo_pos == NULL)
-        lkeyfr->servo_pos = calloc(*servos_num, sizeof(ServoPos));
+    if (last_keyfr == NULL)
+        last_keyfr = calloc(1, sizeof(Keyframe));
+
+    if (last_keyfr->servo_pos == NULL)
+        last_keyfr->servo_pos = calloc(*servos_num, sizeof(ServoPos));
 
     Keyframe *keyfr;
     Keyframe *(*keyfactory_cb)(void *data, bool reverse);
@@ -97,17 +99,13 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (!keyfr)
         return;
 
-    bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
-
     if (keyfr_type != KEYFR_DELAY &&
         *transitions_enable && 
         !skip_transitions)
     {
         KeyframeTransData trans_data;
-        float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
-        
         trans_data.duration = *transitions_time;
-        trans_data.src = lkeyfr->servo_pos;
+        trans_data.src = last_keyfr->servo_pos;
         trans_data.dest = keyfr->servo_pos;
         
         Keyframe *trans_keyfr = keyfactory_transition(trans_data);
@@ -117,11 +115,11 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
             list_push(&keyframes, (void *) trans_keyfr);
             keyhandler_add(keyfr_type, data, reverse, true);
 
-            lkeyfr->is_delay = trans_keyfr->is_delay;
-            lkeyfr->duration = trans_keyfr->duration;
+            last_keyfr->is_delay = trans_keyfr->is_delay;
+            last_keyfr->duration = trans_keyfr->duration;
 
             for (int q = 0; q < *servos_num; q++)
-                lkeyfr->servo_pos[q] = trans_keyfr->servo_pos[q];
+                last_keyfr->servo_pos[q] = trans_keyfr->servo_pos[q];
 
             return;
         }
@@ -132,11 +130,11 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     list_push(&keyframes, (void *) keyfr);
 
-    lkeyfr->is_delay = keyfr->is_delay;
-    lkeyfr->duration = keyfr->duration;
+    last_keyfr->is_delay = keyfr->is_delay;
+    last_keyfr->duration = keyfr->duration;
 
     for (int r = 0; r < *servos_num; r++)
-        lkeyfr->servo_pos[r] = keyfr->servo_pos[r];
+        last_keyfr->servo_pos[r] = keyfr->servo_pos[r];
 }
 
 static void *keyhandler_main(void *arg)
