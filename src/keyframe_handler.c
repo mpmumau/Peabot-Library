@@ -119,7 +119,13 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
             last_keyfr->duration = trans_keyfr->duration;
 
             for (int q = 0; q < *servos_num; q++)
-                last_keyfr->servo_pos[q] = trans_keyfr->servo_pos[q];
+            {
+                last_keyfr->servo_pos[q].easing = trans_keyfr->servo_pos[q].easing;
+                last_keyfr->servo_pos[q].start_pos = trans_keyfr->servo_pos[q].start_pos;
+                last_keyfr->servo_pos[q].end_pos = trans_keyfr->servo_pos[q].end_pos;
+                last_keyfr->servo_pos[q].begin_pad = trans_keyfr->servo_pos[q].begin_pad;
+                last_keyfr->servo_pos[q].end_pad = trans_keyfr->servo_pos[q].end_pad;      
+            }
 
             return;
         }
@@ -137,7 +143,13 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         return;
 
     for (int r = 0; r < *servos_num; r++)
-        last_keyfr->servo_pos[r] = keyfr->servo_pos[r];
+    {
+        last_keyfr->servo_pos[r].easing = keyfr->servo_pos[r].easing;
+        last_keyfr->servo_pos[r].start_pos = keyfr->servo_pos[r].start_pos;
+        last_keyfr->servo_pos[r].end_pos = keyfr->servo_pos[r].end_pos;
+        last_keyfr->servo_pos[r].begin_pad = keyfr->servo_pos[r].begin_pad;
+        last_keyfr->servo_pos[r].end_pad = keyfr->servo_pos[r].end_pad;        
+    }
 }
 
 static void *keyhandler_main(void *arg)
