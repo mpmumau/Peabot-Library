@@ -49,11 +49,23 @@ void keyhandler_init()
 void keyhandler_halt()
 {
     running = false;
+
+    free(last_keyfr->servo_pos);
+    free(last_keyfr);
+
     pthread_join(keyhandler_thread, NULL);
 }
 
 void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transitions)
 {
+    static Keyframe *lkeyfr = calloc(1, sizeof(Keyframe));
+    last_keyfr = lkeyfr;
+
+    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+
+    if (lkeyfr->servo_pos == NULL)
+        lkeyfr->servo_pos = calloc(*servos_num, sizeof(ServoPos));
+
     Keyframe *keyfr;
     Keyframe *(*keyfactory_cb)(void *data, bool reverse);
 
@@ -88,15 +100,14 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
 
     if (keyfr_type != KEYFR_DELAY &&
-        last_keyfr != NULL && 
         *transitions_enable && 
         !skip_transitions)
     {
+        KeyframeTransData trans_data;
         float *transitions_time = (float *) config_get(CONF_TRANSITIONS_TIME);
         
-        KeyframeTransData trans_data;
         trans_data.duration = *transitions_time;
-        trans_data.src = last_keyfr->servo_pos;
+        trans_data.src = lkeyfr->servo_pos;
         trans_data.dest = keyfr->servo_pos;
         
         Keyframe *trans_keyfr = keyfactory_transition(trans_data);
@@ -104,9 +115,14 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         if (trans_keyfr)
         {
             list_push(&keyframes, (void *) trans_keyfr);
-            last_keyfr = trans_keyfr;
             keyhandler_add(keyfr_type, data, reverse, true);
-            free(keyfr);
+
+            lkeyfr->is_delay = trans_keyfr->is_delay;
+            lkeyfr->duration = trans_keyfr->duration;
+
+            for (int q = 0; q < *servos_num; q++)
+                lkeyfr->servo_pos[q] = trans_keyfr->servo_pos[q];
+
             return;
         }
     }
@@ -115,7 +131,12 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         free(data);    
 
     list_push(&keyframes, (void *) keyfr);
-    last_keyfr = keyfr;
+
+    lkeyfr->is_delay = keyfr->is_delay;
+    lkeyfr->duration = keyfr->duration;
+
+    for (int r = 0; r < *servos_num; r++)
+        lkeyfr->servo_pos[r] = keyfr->servo_pos[r];
 }
 
 static void *keyhandler_main(void *arg)

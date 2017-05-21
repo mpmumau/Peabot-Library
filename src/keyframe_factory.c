@@ -219,8 +219,6 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
         dest++;
     }
 
-    printf("Got here \n");    
-
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
         app_exit("[ERROR] Could not allocate memory for keyfr (keyfradd_transition).", 1);
