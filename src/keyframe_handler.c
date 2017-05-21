@@ -128,13 +128,14 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     if (data)
         free(data);    
 
-    printf("got this far\n");
-
     list_push(&keyframes, (void *) keyfr);
 
     last_keyfr->is_delay = keyfr->is_delay;
     last_keyfr->duration = keyfr->duration;
 
+    if (keyfr->servo_pos == NULL)
+        return;
+    
     for (int r = 0; r < *servos_num; r++)
         last_keyfr->servo_pos[r] = keyfr->servo_pos[r];
 }
