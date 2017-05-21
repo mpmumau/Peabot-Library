@@ -327,7 +327,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
-    if (src == NULL || dest = NULL)
+    if (src == NULL || dest == NULL)
         return false;
 
     bool matches = true;
