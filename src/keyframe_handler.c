@@ -113,7 +113,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         if (trans_keyfr)
         {
             list_push(&keyframes, (void *) trans_keyfr);
-            keyhandler_add(keyfr_type, data, reverse, true);
+            keyhandler_add(keyfr_type, data, reverse, skip_transitions);
 
             last_keyfr->is_delay = trans_keyfr->is_delay;
             last_keyfr->duration = trans_keyfr->duration;
@@ -135,7 +135,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     if (keyfr->servo_pos == NULL)
         return;
-    
+
     for (int r = 0; r < *servos_num; r++)
         last_keyfr->servo_pos[r] = keyfr->servo_pos[r];
 }
