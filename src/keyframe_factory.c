@@ -203,7 +203,7 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
     ServoPos *dest = trans_data.dest;
     float duration = trans_data.duration;
 
-    if (servopos_matches(src, dest))
+    if (!servopos_matches(src, dest))
         return NULL;
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
@@ -327,7 +327,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest)
 {
-    if (!src || !dest)
+    if (src == NULL || dest = NULL)
         return false;
 
     bool matches = true;

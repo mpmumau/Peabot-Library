@@ -110,7 +110,7 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
         
         Keyframe *trans_keyfr = keyfactory_transition(trans_data);
 
-        if (trans_keyfr)
+        if (trans_keyfr != NULL)
         {
             list_push(&keyframes, (void *) trans_keyfr);
             keyhandler_add(keyfr_type, data, reverse, skip_transitions);
