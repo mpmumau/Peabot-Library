@@ -278,12 +278,15 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
                     servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, -turn_delta, 0.0f, 0.0f };    
                 else 
                     servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, turn_delta, 0.0f, 0.0f }; 
+
+                servo_pos[knee] = (ServoPos) { EASE_SINE_IN, -knee_delta, knee_delta, 0.0f, 0.0f }; 
             else
                 servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f };  
         }
         else
         {
-            servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
+            if (i != knee)
+                servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
         }       
     }
 
