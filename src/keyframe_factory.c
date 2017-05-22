@@ -241,7 +241,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     int knee;
     static bool legs_complete[4];
     
-    switch(leg)
+    switch (leg)
     {
         case SERVO_INDEX_FRONT_RIGHT_HIP:
             knee = SERVO_INDEX_FRONT_RIGHT_KNEE;
@@ -273,10 +273,6 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         {
             legs_complete[e] = false;
         }
-    }
-    else
-    {
-        legs_complete[leg] = true;
     }
 
     float *duration = (float *) data;
@@ -347,6 +343,22 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             }            
         }
     }
+
+    switch (leg)
+    {
+        case SERVO_INDEX_FRONT_RIGHT_HIP:
+            legs_complete[0] = true;
+            break;
+        case SERVO_INDEX_BACK_RIGHT_HIP:
+            legs_complete[1] = true;
+            break;
+        case SERVO_INDEX_FRONT_LEFT_HIP:
+            legs_complete[2] = true;
+            break;
+        case SERVO_INDEX_BACK_LEFT_HIP:
+            legs_complete[3] = true;
+            break;
+    }    
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
