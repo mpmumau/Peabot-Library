@@ -100,11 +100,6 @@ install:
 	
 .PHONY: full_uninstall
 full_uninstall:
-	if [ -e etc/peabot.conf ]; \
-	then \
-		rm etc/peabot.conf; \
-	fi; \
-
 	if [ -e /bin/peabot_server ]; \
 	then \
 		rm /bin/peabot_server; \
