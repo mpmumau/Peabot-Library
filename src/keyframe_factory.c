@@ -308,7 +308,35 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
                 }
                 else
                 {
-                    servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f };  
+                    
+                    switch (i)
+                    {
+                        case SERVO_INDEX_FRONT_RIGHT_HIP:
+                            if (legs_complete[0] == true)
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                            else
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                            break;
+                        case SERVO_INDEX_BACK_RIGHT_HIP:
+                            if (legs_complete[1] == true)
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                            else
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                            break;
+                        case SERVO_INDEX_FRONT_LEFT_HIP:
+                            if (legs_complete[2] == true)
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                            else
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                            break;
+                        case SERVO_INDEX_BACK_LEFT_HIP:
+                            if (legs_complete[3] == true)
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                            else
+                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                            break;
+                    }
+
                 }
             }
             else
