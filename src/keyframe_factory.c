@@ -344,20 +344,23 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         }
     }
 
-    switch (leg)
+    if (!all_complete)
     {
-        case SERVO_INDEX_FRONT_RIGHT_HIP:
-            legs_complete[0] = true;
-            break;
-        case SERVO_INDEX_BACK_RIGHT_HIP:
-            legs_complete[1] = true;
-            break;
-        case SERVO_INDEX_FRONT_LEFT_HIP:
-            legs_complete[2] = true;
-            break;
-        case SERVO_INDEX_BACK_LEFT_HIP:
-            legs_complete[3] = true;
-            break;
+        switch (leg)
+        {
+            case SERVO_INDEX_FRONT_RIGHT_HIP:
+                legs_complete[0] = true;
+                break;
+            case SERVO_INDEX_BACK_RIGHT_HIP:
+                legs_complete[1] = true;
+                break;
+            case SERVO_INDEX_FRONT_LEFT_HIP:
+                legs_complete[2] = true;
+                break;
+            case SERVO_INDEX_BACK_LEFT_HIP:
+                legs_complete[3] = true;
+                break;
+        }
     }    
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
