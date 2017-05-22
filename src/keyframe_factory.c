@@ -237,12 +237,10 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     if (!data)
         return NULL;
 
-    float *duration = (float *) data;
-
     static int leg = SERVO_INDEX_FRONT_RIGHT_HIP;
-
     int knee;
-
+    static bool legs_complete[4];
+    
     switch(leg)
     {
         case SERVO_INDEX_FRONT_RIGHT_HIP:
@@ -259,6 +257,29 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             break;
     }
 
+    bool all_complete = true;
+    for (int x = 0; x < 4; x++)
+    {
+        if (legs_complete[x] == false)
+        {
+            all_complete = false;
+            break;
+        }
+    }
+
+    if (all_complete)
+    {
+        for (int e = 0; e < 4; e++)
+        {
+            legs_complete[e] = false;
+        }
+    }
+    else
+    {
+        legs_complete[leg] = true;
+    }
+
+    float *duration = (float *) data;
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
     float turn_delta = 0.8f;
@@ -266,38 +287,65 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
 
-    for (int i = 0; i < *servos_num; i++)
+    if (!all_complete)
     {
-        if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
-            i == SERVO_INDEX_FRONT_RIGHT_HIP ||
-            i == SERVO_INDEX_BACK_LEFT_HIP ||
-            i == SERVO_INDEX_FRONT_LEFT_HIP)
+        for (int i = 0; i < *servos_num; i++)
         {
-            if (i == leg)
+            if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
+                i == SERVO_INDEX_FRONT_RIGHT_HIP ||
+                i == SERVO_INDEX_BACK_LEFT_HIP ||
+                i == SERVO_INDEX_FRONT_LEFT_HIP)
             {
-                if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
+                if (i == leg)
                 {
-                    servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, -turn_delta, 0.0f, 0.0f };    
-                }
-                else 
-                {
-                    servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, turn_delta, 0.0f, 0.0f }; 
-                }
+                    if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
+                    {
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, -turn_delta, 0.0f, 0.0f };    
+                    }
+                    else 
+                    {
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, turn_delta, 0.0f, 0.0f }; 
+                    }
 
-                servo_pos[knee] = (ServoPos) { EASE_SINE_IN, -knee_delta, knee_delta, 0.0f, 0.0f }; 
+                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, -knee_delta, knee_delta, 0.0f, 0.0f }; 
+                }
+                else
+                {
+                    servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f };  
+                }
             }
             else
             {
-                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f };  
-            }
+                if (i != knee)
+                {
+                    servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
+                }
+            }       
         }
-        else
+    }   
+    else
+    {
+        for (int i = 0; i < *servos_num; i++)
         {
-            if (i != knee)
+            if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
+                i == SERVO_INDEX_FRONT_RIGHT_HIP ||
+                i == SERVO_INDEX_BACK_LEFT_HIP ||
+                i == SERVO_INDEX_FRONT_LEFT_HIP)
+            {
+                    if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
+                    {
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, 0.0f, 0.0f, 0.0f };    
+                    }
+                    else 
+                    {
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, 0.0f, 0.0f, 0.0f }; 
+                    }
+            }
+            else
             {
                 servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
-            }
-        }       
+            }            
+        }
     }
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
