@@ -280,7 +280,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
     float turn_delta = 0.5f;
-    float knee_delta = 1.0f;
+    float knee_delta = 0.1f;
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
 
@@ -341,7 +341,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             {
                 if (i != knee)
                 {
-                    servo_pos[i] = (ServoPos) { -1, knee_delta, knee_delta, 0.0f, 0.0f };
+                    servo_pos[i] = (ServoPos) { -1, 1.0f, 1.0f, 0.0f, 0.0f };
                 }
             }       
         }
