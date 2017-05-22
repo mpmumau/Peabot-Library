@@ -273,7 +273,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
         {
             legs_complete[e] = false;
         }
-        leg = SERVO_INDEX_BACK_LEFT_HIP;
+        leg = SERVO_INDEX_FRONT_LEFT_HIP;
     }
 
     float *duration = (float *) data;
