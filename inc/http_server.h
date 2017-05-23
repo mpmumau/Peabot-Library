@@ -10,6 +10,7 @@
 
 #include <stdbool.h>
 #include <sys/socket.h>
+#include <pthread.h>
 
 typedef struct HTTPServer {
     bool running;
