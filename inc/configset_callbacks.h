@@ -58,4 +58,9 @@ void configset_servo_pins(Config *config, void *data, bool is_string);
 /* Set the servo PWM limits for a given robot position; takes a ServoLimitData pointer, cast to a void pointer. */
 void configset_servo_limits(Config *config, void *data, bool is_string);
 
+/* Set whether or not to enable the HTTP server. */
+void configset_http_enabled(Config *config, void *data, bool is_string);
+/* Set the port number of the HTTP server. */
+void configset_http_port(Config *config, void *data, bool is_string);
+
 #endif

@@ -38,7 +38,10 @@ enum ConfigFlag {
     CONF_WALK_HIP_DELTA          = 1 << 18,
     CONF_WALK_KNEE_DELTA         = 1 << 19,
     CONF_WALK_KNEE_PAD_A         = 1 << 20,
-    CONF_WALK_KNEE_PAD_B         = 1 << 21    
+    CONF_WALK_KNEE_PAD_B         = 1 << 21,
+
+    CONF_HTTP_ENABLED            = 1 << 22,
+    CONF_HTTP_PORT               = 1 << 23
 };
 
 /* Config data struct */
@@ -70,6 +73,9 @@ typedef struct Config {
     float walk_knee_delta;
     float walk_knee_pad_a;
     float walk_knee_pad_b;
+
+    bool http_enabled;
+    int http_port;
 } Config;
 
 typedef struct ServoPinData {

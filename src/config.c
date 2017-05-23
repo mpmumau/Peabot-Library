@@ -128,6 +128,12 @@ void config_set(int config_var, void *data, bool is_string)
     if (config_var == CONF_WALK_KNEE_PAD_B) 
         config_set_callback = configset_walk_knee_pad_b;     
 
+    if (config_var == CONF_HTTP_ENABLED)
+        config_set_callback = configset_http_enabled;
+
+    if (config_var == CONF_HTTP_PORT)
+        config_set_callback = configset_http_port;
+
     /* Callback execute */
     if (config_set_callback != NULL)
         (*config_set_callback)(&config, data, is_string);
@@ -206,7 +212,13 @@ void *config_get(int config_var)
         ret_val = (void *) &(config.walk_knee_pad_a);
 
      if (config_var == CONF_WALK_KNEE_PAD_B)
-        ret_val = (void *) &(config.walk_knee_pad_b);                                                                                                                                            
+        ret_val = (void *) &(config.walk_knee_pad_b);      
+
+     if (config_var == CONF_HTTP_ENABLED)
+        ret_val = (void *) &(config.http_enabled);
+
+     if (config_var == CONF_HTTP_PORT)
+        ret_val = (void *) &(config.http_port);                                                                                                                                         
 
     return ret_val;
 }
@@ -304,6 +316,12 @@ static void config_set_defaults()
 
     float walk_knee_pad_b = DEFAULT_KNEE_PAD_B;
     config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b, false);
+
+    bool http_enabled = DEFAULT_HTTP_ENABLED;
+    config_set(CONF_HTTP_ENABLED, (void *) &http_enabled, false);
+
+    int http_port = DEFAULT_HTTP_PORT;
+    config_set(CONF_HTTP_PORT, (void *) &http_port, false);
 
     // Do these after processing other configs; dependent upon them.
     config.servo_pins = calloc(config.servos_num, sizeof(int));

@@ -24,6 +24,7 @@
 #include "events.h"
 #include "keyframe_handler.h"
 #include "robot.h"
+#include "http_server.h"
 
 /* Header */
 #include "main.h"
@@ -41,6 +42,9 @@ void app_exit(char *message, int retval)
     console_print(message);
 
     log_event(message);
+
+    http_halt();
+    log_event("[APP_EXIT] HTTP server shutdown complete.");
 
     prompt_halt();
     log_event("[APP_EXIT] Prompt shutdown complete.");
@@ -105,6 +109,8 @@ int main(int argc, char *argv[])
     event_init();
     
     prompt_init();
+
+    http_init();
 
     while (app_running) {}
 

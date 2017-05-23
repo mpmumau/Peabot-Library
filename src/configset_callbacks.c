@@ -342,4 +342,40 @@ void configset_servo_limits(Config *config, void *data, bool is_string)
     return;
 }
 
+void configset_http_enabled(Config *config, void *data, bool is_string)
+{
+    bool val;
+
+    if (is_string)
+    {
+        val = str_equals(data, "true") ? true : false;
+    }
+    else
+    {
+        bool *data_p = (bool *) data;
+        val = *data_p;
+    }
+
+    config->http_enabled = val;
+    return;
+}
+
+void configset_http_port(Config *config, void *data, bool is_string)
+{
+    int val;
+
+    if (is_string)
+    {
+        val = (int) atof((char *) data);
+    }
+    else
+    {
+        int *data_p = (int *) data;
+        val = *data_p;
+    }
+
+    config->http_port = val;
+    return;
+}
+
 #endif

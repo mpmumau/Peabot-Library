@@ -120,6 +120,12 @@ static void configfile_handle_line(char *arg, char *val)
     if (str_equals(arg, "walk_knee_pad_b"))
         config_set(CONF_WALK_KNEE_PAD_B, (void *) val, true);
 
+    if (str_equals(arg, "http_enabled"))
+        config_set(CONF_HTTP_ENABLED, (void *) val, true);
+
+    if (str_equals("http_port"))
+        config_set(CONF_HTTP_PORT, (void *) val, true);
+
     if (str_equals(arg, "back_left_knee") ||
         str_equals(arg, "back_left_hip") ||
         str_equals(arg, "front_left_knee") ||

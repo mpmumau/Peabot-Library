@@ -43,7 +43,8 @@ _DEPS = main.h \
 	easing.h \
 	easing_utils.h \
 	math_defs.h \
-	event_callbacks.h
+	event_callbacks.h \
+	http_server.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -65,7 +66,8 @@ _OBJ = main.o \
 	prompt_commands.o \
 	easing.o \
 	event_callbacks.o \
-	easing_utils.o
+	easing_utils.o \
+	http_server.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)

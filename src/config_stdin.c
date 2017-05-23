@@ -106,6 +106,12 @@ static void config_handle_arg(char *arg, char *val)
         config_set(CONF_WALK_KNEE_PAD_A, (void *) val, true);    
 
     if (str_equals(arg, "--walk-knee-pad-b"))
-        config_set(CONF_WALK_KNEE_PAD_B, (void *) val, true);  
+        config_set(CONF_WALK_KNEE_PAD_B, (void *) val, true); 
+
+    if (str_equals(arg, "--http_enabled"))
+        config_set(CONF_HTTP_ENABLED, (void *) val, true);
+
+    if (str_equals(arg, "-p") || str_equals(arg, "--port"))
+        config_set(CONF_HTTP_PORT, (void *) val, true); 
 }
 #endif
