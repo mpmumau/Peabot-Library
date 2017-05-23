@@ -34,7 +34,7 @@ char *http_response_tobuffer(HTTPResponse *http_response)
 
     time_t current_time = time(NULL);
     char *time_string;
-    utils_mkhttp_responsetime(current_time, time_string);
+    utils_mkresponsetime(current_time, time_string);
 
     char *http_line_fmt = "HTTP/1.0 %d %s\n";
     int http_line_size = snprintf(NULL, 128, http_line_fmt, http_response->code, http_response->message) + 1;
