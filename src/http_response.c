@@ -10,10 +10,12 @@
 
 /* System includes */
 #include <time.h>
+#include <string.h>
 
 /* Application includes */
 #include "main.h"
 #include "utils.h"
+
 
 /* Header */
 #include "http_response.h"
@@ -27,8 +29,7 @@ void http_response_set(HTTPResponse *http_response, int code, char *msg, char *b
 
 char *http_response_tobuffer(HTTPResponse *http_response)
 {
-    const int max_size = 1024 * 32;
-    static char output[max_size]; // limits http_responses to max 32kb
+    static char output[32768]; // limits http_responses to max 32kb
     for (int u = 0; u < max_size; u++)
         output[u] = 0; 
 
