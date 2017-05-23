@@ -72,7 +72,7 @@ static void *http_main(void *arg)
     struct timespec time, last_time;
     float tick = 0.0f, diff = 0.0f, max_tick = 0.25f;
 
-    int client_length = sizeof(http.cli_addr);
+    socklen_t client_length = (socklen_t) sizeof(http.cli_addr);
     int last_socket = -1;
 
     int buffer_size = 256;
