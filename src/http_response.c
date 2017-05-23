@@ -39,11 +39,11 @@ char *http_response_tobuffer(HTTPResponse *http_response)
     utils_mkresponsetime(current_time, time_string);
 
     char *http_line_fmt = "HTTP/1.0 %d %s\n";
-    int http_line_size = snprintf(NULL, 128, http_line_fmt, http_response->code, http_response->message) + 1;
+    int http_line_size = snprintf(NULL, 128, http_line_fmt, http_response->code, http_response->msg) + 1;
     if (http_line_size < 0)
         app_exit("[ERROR!] Could not get size of http http_response line (http_http_response_tobuffer).", 1);
     char http_line[http_line_size];
-    if (snprintf(http_line, http_line_size, http_line_fmt, http_response->code, http_response->message)
+    if (snprintf(http_line, http_line_size, http_line_fmt, http_response->code, http_response->msg)
         < 0)
         app_exit("[ERROR!] Could not copy http_line (http_http_response_tobuffer).", 1);
 
