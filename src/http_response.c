@@ -22,7 +22,7 @@ void http_response_set(HTTPResponse *http_response, int code, char *msg, char *b
 {
     http_response->code = code;
     http_response->msg = msg;
-    response->body = body;
+    http_response->body = body;
 }
 
 char *http_response_tobuffer(HTTPResponse *http_response)
