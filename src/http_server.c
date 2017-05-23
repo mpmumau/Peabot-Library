@@ -112,7 +112,7 @@ static void *http_main(void *arg)
         // http_response_set(&http_response, 200, "OK", "{ 'an_object': 'set_to_this' }");
         // response_buffer = http_response_tobuffer(&http_response);
 
-        response_buffer = "HTTP/1.0 200 OK\nDate: Wed, Mar 22 2019 12:14:15 GMT\nContent-Type: application/json\nContent-Length:27\r\n{'an_object':'set_to_this'}";
+        response_buffer = "HTTP/1.0 200 OK\nDate: Wed, Mar 22 2019 12:14:15 GMT\nContent-Type: application/json\nContent-Length:27\n{'an_object':'set_to_this'}\n";
         printf(response_buffer);
 
         if (write(last_socket, response_buffer, 1024 * 32) < 0)
