@@ -30,7 +30,7 @@ void http_response_set(HTTPResponse *http_response, int code, char *msg, char *b
 char *http_response_tobuffer(HTTPResponse *http_response)
 {
     static char output[32768]; // limits http_responses to max 32kb
-    for (int u = 0; u < max_size; u++)
+    for (int u = 0; u < 32768; u++)
         output[u] = 0; 
 
     time_t current_time = time(NULL);
