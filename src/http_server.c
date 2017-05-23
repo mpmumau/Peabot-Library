@@ -26,6 +26,8 @@
 #include "config.h"
 #include "config_defaults.h"
 #include "utils.h"
+#include "http_request.h"
+#include "http_response.h"
 
 /* Header */
 #include "http_server.h"
@@ -75,8 +77,8 @@ static void *http_main(void *arg)
     socklen_t client_length = (socklen_t) sizeof(http.cli_addr);
     int last_socket = -1;
 
-    int buffer_size = 1024;
-    char buffer[buffer_size];
+    HTTPResponse http_response;
+    char *response_buffer;
 
     while (http.running)
     {
@@ -98,16 +100,19 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
           app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
 
-        bzero(buffer, (size_t) buffer_size);
+        bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
 
-        if (read(last_socket, buffer, buffer_size - 1) < 0)
+        if (read(last_socket, http.buffer, DEFAULT_HTTP_BUFFER_SIZE - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
 
         printf("\n------------------------------------------------------------------\n");
-        printf("%s", buffer);
+        printf("%s", http.buffer);
         printf("\n------------------------------------------------------------------\n");
 
-        if (write(last_socket, "PEABOT SAYS HELLO! :)", 21) < 0)
+        http_response_set(http_response, 200, "OK", "{ 'an_object': 'set_to_this' }");
+        response_buffer = http_response_tobuffer(http_response);
+
+        if (write(last_socket, response_buffer, 1024 * 32) < 0)
             app_exit("[ERROR!] Could not send return message to socket (http_main).", 1);
 
         close(last_socket);

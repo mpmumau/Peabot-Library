@@ -23,6 +23,14 @@ void utils_mktime(time_t time, char *string)
     strftime(string, UTILS_DATETIME_MAXLEN, "%b %d, %Y %H:%M:%S", ltime);
 }
 
+void utils_mkresponsetime(time_t time, char *string)
+{
+    struct tm *ltime;
+    ltime = localtime(&time);
+
+    strftime(string, UTILS_DATETIME_MAXLEN, "%a, %b %Y %H:%M:%S %Z", ltime);
+}
+
 float utils_timediff(struct timespec end_time, struct timespec start_time)
 {
     float diff = ((float) end_time.tv_sec - (float) start_time.tv_sec) +

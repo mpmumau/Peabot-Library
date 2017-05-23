@@ -13,12 +13,15 @@
 #include <pthread.h>
 #include <netinet/in.h>
 
+#include "config_defaults.h"
+
 typedef struct HTTPServer {
     bool running;
     pthread_t thread;
     int socket;
     struct sockaddr_in srv_addr;
     struct sockaddr_in cli_addr;
+    char buffer[DEFAULT_HTTP_BUFFER_SIZE];
 } HTTPServer;
 
 /* Initialize the HTTP server component of Peabot. */
