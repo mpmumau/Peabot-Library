@@ -112,6 +112,8 @@ static void *http_main(void *arg)
     }
 
     close(http.socket);
+
+    return NULL;
 }
 
 #endif
