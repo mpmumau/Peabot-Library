@@ -14,8 +14,8 @@ typedef struct HTTPResponse {
     char *body;
 } HTTPResponse;
 
-void http_response_set(HTTPResponse http_response, int code, char *msg, char *body);
+void http_response_set(HTTPResponse *http_response, int code, char *msg, char *body);
 
-char *http_response_tobuffer(HTTPResponse http_response);
+char *http_response_tobuffer(HTTPResponse *http_response);
 
 #endif

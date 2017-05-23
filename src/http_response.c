@@ -18,14 +18,14 @@
 /* Header */
 #include "http_response.h"
 
-void http_response_set(HTTPResponse http_response, int code, char *msg, char *body)
+void http_response_set(HTTPResponse *http_response, int code, char *msg, char *body)
 {
     http_response->code = code;
     http_response->msg = msg;
     response->body = body;
 }
 
-char *http_response_tobuffer(HTTPResponse http_response)
+char *http_response_tobuffer(HTTPResponse *http_response)
 {
     int max_size = 1024 * 32;
     static char output[max_size]; // limits http_responses to max 32kb
