@@ -18,6 +18,7 @@
 #include <pthread.h>
 #include <time.h>
 #include <sys/types.h> 
+#include <strings.h>
 
 /* Application includes */
 #include "main.h"
