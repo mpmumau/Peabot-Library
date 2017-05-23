@@ -17,6 +17,7 @@
 #include <stdbool.h>
 #include <pthread.h>
 #include <time.h>
+#include <sys/types.h> 
 
 /* Application includes */
 #include "main.h"

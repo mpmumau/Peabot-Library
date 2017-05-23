@@ -11,6 +11,7 @@
 #include <stdbool.h>
 #include <sys/socket.h>
 #include <pthread.h>
+#include <sys/types.h> 
 
 typedef struct HTTPServer {
     bool running;
