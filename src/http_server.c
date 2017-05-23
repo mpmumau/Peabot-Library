@@ -23,6 +23,7 @@
 #include "main.h"
 #include "config.h"
 #include "config_defaults.h"
+#include "utils.h"
 
 /* Header */
 #include "http_server.h"
