@@ -62,7 +62,7 @@ char *http_response_tobuffer(HTTPResponse *http_response)
     int body_size = 0;
     for ( ; body_size < max_body_size; body_size++)
     {
-        if (http_response->body + p == '\0')
+        if (http_response->body + body_size == '\0')
             break;
     }
     body_size++;
