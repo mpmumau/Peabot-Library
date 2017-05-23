@@ -27,7 +27,7 @@ void http_response_set(HTTPResponse *http_response, int code, char *msg, char *b
 
 char *http_response_tobuffer(HTTPResponse *http_response)
 {
-    int max_size = 1024 * 32;
+    const int max_size = 1024 * 32;
     static char output[max_size]; // limits http_responses to max 32kb
     for (int u = 0; u < max_size; u++)
         output[u] = 0; 
