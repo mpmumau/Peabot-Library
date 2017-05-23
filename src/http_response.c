@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <time.h>
+
 /* Application includes */
 #include "main.h"
 #include "utils.h"
