@@ -14,9 +14,9 @@
 #include <string.h>
 
 /* Application includes */
+#include "config_defaults.h"
 #include "main.h"
 #include "utils.h"
-
 
 /* Header */
 #include "http_response.h"
@@ -30,35 +30,28 @@ void http_response_set(HTTPResponse *http_response, int code, char *msg, char *b
 
 char *http_response_tobuffer(HTTPResponse *http_response)
 {
-    static char output[32768]; // limits http_responses to max 32kb
-    for (int u = 0; u < 32768; u++)
+    static char output[DEFAULT_HTTP_RESPONSE_SIZE]; // limits http_responses to max 32kb
+
+    for (int u = 0; u < DEFAULT_HTTP_RESPONSE_SIZE; u++)
         output[u] = 0; 
 
     time_t current_time = time(NULL);
-    char *time_string = NULL;
+    char time_string[64];
     utils_mkresponsetime(current_time, time_string);
 
     char *http_line_fmt = "HTTP/1.0 %d %s\n";
     int http_line_size = snprintf(NULL, 128, http_line_fmt, http_response->code, http_response->msg) + 1;
-    if (http_line_size < 0)
-        app_exit("[ERROR!] Could not get size of http http_response line (http_http_response_tobuffer).", 1);
     char http_line[http_line_size];
-    if (snprintf(http_line, http_line_size, http_line_fmt, http_response->code, http_response->msg)
-        < 0)
-        app_exit("[ERROR!] Could not copy http_line (http_http_response_tobuffer).", 1);
+    snprintf(http_line, http_line_size, http_line_fmt, http_response->code, http_response->msg);
 
     char *date_line_fmt = "Date: %s\n";
     int date_line_size = snprintf(NULL, 128, date_line_fmt, time_string) + 1;
-    if (date_line_size < 0)
-        app_exit("[ERROR!] Could not get size of date line (http_http_response_tobuffer).", 1);
     char date_line[date_line_size];
-    if (snprintf(date_line, date_line_size, date_line_fmt, time_string)
-        < 0 )
-        app_exit("[ERROR!] Could not copy date_line (http_http_response_tobuffer).", 1);
+    snprintf(date_line, date_line_size, date_line_fmt, time_string);
 
     char *content_type_line= "Content-Type: application/json\n";
 
-    int max_body_size = 1024 * 16;
+    int max_body_size = DEFAULT_HTTP_RESPONSE_SIZE / 2;
     int body_size = 0;
     for ( ; body_size < max_body_size; body_size++)
     {
@@ -69,20 +62,12 @@ char *http_response_tobuffer(HTTPResponse *http_response)
 
     char *content_length_line_fmt = "Content-Length: %d\n";
     int content_length_line_size = snprintf(NULL, 128, content_length_line_fmt, body_size);
-    if (content_length_line_size < 0)
-        app_exit("[ERROR!] Could not get size of content length line (http_http_response_tobuffer).", 1);
     char content_length_line[content_length_line_size];
-    if (snprintf(NULL, 128, content_length_line_fmt, body_size)
-        < 0)
-        app_exit("[ERROR!] Could not copy content_length_line (http_http_response_tobuffer).", 1);
+    snprintf(NULL, 128, content_length_line_fmt, body_size);
 
     char *buffer_format = "%s%s%s%s%s%s";
-    if (snprintf(output, 32768, buffer_format, http_line, date_line, content_type_line, 
-        content_length_line, "\r\n", http_response->body)
-        < 0)
-    {
-        app_exit("ERROR!] Could not format output line (http_http_response_tobuffer", 1);
-    }
+    snprintf(output, DEFAULT_HTTP_RESPONSE_SIZE, buffer_format, http_line, date_line, content_type_line, 
+        content_length_line, "\r\n", http_response->body);
 
     return output;
 }
