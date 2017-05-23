@@ -20,9 +20,9 @@
 
 void http_response_set(HTTPResponse http_response, int code, char *msg, char *body)
 {
-    http_http_response->code = code;
-    http_http_response->msg = msg;
-    http_response->body = body;
+    http_response->code = code;
+    http_response->msg = msg;
+    response->body = body;
 }
 
 char *http_response_tobuffer(HTTPResponse http_response)
