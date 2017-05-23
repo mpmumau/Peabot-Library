@@ -61,7 +61,7 @@ void http_init()
 void http_halt()
 {
     http.running = false;
-    pthread_join((pthread_t *) &(http.thread), NULL);
+    pthread_join(http.thread, NULL);
 }
 
 static void *http_main(void *arg)
