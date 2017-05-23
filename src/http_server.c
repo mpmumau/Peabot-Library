@@ -19,6 +19,7 @@
 #include <time.h>
 #include <sys/types.h> 
 #include <strings.h>
+#include <unistd.h>
 
 /* Application includes */
 #include "main.h"
