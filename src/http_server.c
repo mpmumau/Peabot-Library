@@ -75,7 +75,7 @@ static void *http_main(void *arg)
     socklen_t client_length = (socklen_t) sizeof(http.cli_addr);
     int last_socket = -1;
 
-    int buffer_size = 256;
+    int buffer_size = 1024;
     char buffer[buffer_size];
 
     while (http.running)

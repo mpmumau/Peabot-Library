@@ -64,3 +64,10 @@ back_right_knee_limits      200-400
 back_right_hip_limits       200-400
 front_right_knee_limits     200-400
 front_right_hip_limits      200-400
+
+# -----------------------------------------------------------------------------
+# HTTP server
+# -----------------------------------------------------------------------------
+
+http_enabled            true
+http_port               9976
