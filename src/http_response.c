@@ -77,7 +77,7 @@ char *http_response_tobuffer(HTTPResponse *http_response)
         app_exit("[ERROR!] Could not copy content_length_line (http_http_response_tobuffer).", 1);
 
     char *buffer_format = "%s%s%s%s%s%s";
-    if (snprintf(output, max_size, buffer_format, http_line, date_line, content_type_line, 
+    if (snprintf(output, 32768, buffer_format, http_line, date_line, content_type_line, 
         content_length_line, "\r\n", http_response->body)
         < 0)
     {
