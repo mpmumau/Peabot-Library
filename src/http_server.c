@@ -96,7 +96,7 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
           app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
 
-        bzero(buffer, buffer_size);
+        bzero(buffer, (size_t) buffer_size);
 
         if (read(last_socket, buffer, buffer_size - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
