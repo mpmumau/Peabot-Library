@@ -56,7 +56,7 @@ char *http_response_tobuffer(HTTPResponse *http_response)
         < 0 )
         app_exit("[ERROR!] Could not copy date_line (http_http_response_tobuffer).", 1);
 
-    char *content_type_line_fmt = "Content-Type: application/json\n";
+    char *content_type_line= "Content-Type: application/json\n";
 
     int max_body_size = 1024 * 16;
     int body_size = 0;
