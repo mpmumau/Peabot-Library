@@ -81,7 +81,7 @@ static void *http_main(void *arg)
     int last_socket = -1;
 
     HTTPResponse http_response;
-    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nContent-Length:27\r\n\r\n{'an_object':'set_to_this'}\r\n\r\n";
+    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:27\r\n\r\n{'an_object':'set_to_this'}\r\n\r\n";
 
     char log_connection_msg[128];
     char client_ip_str[INET6_ADDRSTRLEN];
