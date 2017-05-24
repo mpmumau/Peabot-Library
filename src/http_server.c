@@ -83,6 +83,7 @@ static void *http_main(void *arg)
     char *response_buffer = "HTTP/1.0 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nContent-Length:27\r\n\r\n{'an_object':'set_to_this'}\r\n\r\n";
 
     char log_connection_msg[128];
+    char client_ip_str[INET6_ADDRSTRLEN];
 
     while (http.running)
     {
@@ -103,8 +104,9 @@ static void *http_main(void *arg)
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
-        
-        snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %d", (int) http.srv_addr.sin_addr.s_addr);
+
+        inet_ntop(AF_INET, &(http.cli_addr->sin_addr), client_ip_str, sizeof(client_ip_str));
+        snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str;
         console_event(log_connection_msg);
         //log_event(log_connection_msg);
 
