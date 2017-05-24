@@ -23,6 +23,7 @@
 
 /* Application includes */
 #include "main.h"
+#include "log.h"
 #include "config.h"
 #include "config_defaults.h"
 #include "utils.h"
@@ -86,7 +87,7 @@ static void *http_main(void *arg)
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
         last_time = time;
-        
+
         tick += diff;
         if (tick < max_tick)
             continue;
@@ -98,7 +99,11 @@ static void *http_main(void *arg)
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
-          app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
+            app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
+
+        char *log_connection_msg = NULL;
+        snprintf(log_connection_msg, 64, "[HTTP] Connection from: %d", (int) http.srv_addr.sin_addr.s_addr);
+        log_event(log_connection_msg);
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
 
