@@ -22,10 +22,11 @@
 #include <unistd.h>
 
 /* Application includes */
-#include "main.h"
-#include "log.h"
 #include "config.h"
 #include "config_defaults.h"
+#include "main.h"
+#include "log.h"
+#include "console.h"
 #include "utils.h"
 #include "http_request.h"
 #include "http_response.h"
@@ -81,6 +82,8 @@ static void *http_main(void *arg)
     HTTPResponse http_response;
     char *response_buffer = "HTTP/1.0 200 OK\r\nDate: Wed, Mar 22 2019 12:14:15 GMT\r\nContent-Type: application/json\r\nContent-Length:27\r\n\r\n{'an_object':'set_to_this'}\r\n\r\n";
 
+    char *log_connection_msg = "This is a test";
+
     while (http.running)
     {
         // Timing mechanism
@@ -100,8 +103,8 @@ static void *http_main(void *arg)
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
-
-        char *log_connection_msg = "This is a test\n";
+        
+        console_event("[HTTP] Connecting to...");
         log_event(log_connection_msg);
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
