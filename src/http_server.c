@@ -99,10 +99,9 @@ static void *http_main(void *arg)
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
-            app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
+            continue;
 
-        char log_connection_msg[128];
-        snprintf(log_connection_msg, 128, "[HTTP] Connection from");
+        char *log_connection_msg = "This is a test\n";
         log_event(log_connection_msg);
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
