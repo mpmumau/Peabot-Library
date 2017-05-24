@@ -101,8 +101,8 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             app_exit("[ERROR!] Problem occured with last_socket (http_main).", 1);
 
-        char log_connection_msg[64];
-        snprintf(log_connection_msg, 64, "[HTTP] Connection from: %d", (int) http.srv_addr.sin_addr.s_addr);
+        char log_connection_msg[128];
+        snprintf(log_connection_msg, 128, "[HTTP] Connection from");
         log_event(log_connection_msg);
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
