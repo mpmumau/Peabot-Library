@@ -20,6 +20,7 @@
 #include <sys/types.h> 
 #include <strings.h>
 #include <unistd.h>
+#include <arpa/inet.h>
 
 /* Application includes */
 #include "config.h"
