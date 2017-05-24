@@ -60,12 +60,14 @@ void console_event(char *data)
     strftime(timestamp, TIMESTAMP_MAXLEN, "[%m.%d.%y.%H.%M.%S]", ltime);
 
     char *buffer = calloc(CONSOLE_LINE_MAXLEN, sizeof(char));
-    snprintf(buffer, CONSOLE_LINE_MAXLEN, "%s %s\n", timestamp, data);
+    snprintf(buffer, CONSOLE_LINE_MAXLEN, "\n%s %s\n", timestamp, data);
 
     console_print(buffer);
 
     free(timestamp);
     free(buffer);    
+
+    printf("\npeabot > ");
 }
 
 #endif
