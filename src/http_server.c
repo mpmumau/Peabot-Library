@@ -106,7 +106,7 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        inet_ntop(AF_INET, &(http.cli_addr->sin_addr), client_ip_str, sizeof(client_ip_str));
+        inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
         snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str;
         console_event(log_connection_msg);
         //log_event(log_connection_msg);
