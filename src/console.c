@@ -66,8 +66,6 @@ void console_event(char *data)
 
     free(timestamp);
     free(buffer);    
-
-    printf("\npeabot > ");
 }
 
 #endif

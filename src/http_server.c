@@ -82,7 +82,7 @@ static void *http_main(void *arg)
     HTTPResponse http_response;
     char *response_buffer = "HTTP/1.0 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nContent-Length:27\r\n\r\n{'an_object':'set_to_this'}\r\n\r\n";
 
-    char *log_connection_msg = "This is a test";
+    char log_connection_msg[128];
 
     while (http.running)
     {
@@ -104,8 +104,9 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
         
-        console_event("[HTTP] Connecting to...");
-        log_event(log_connection_msg);
+        snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %d", (int) http.srv_addr.sin_addr.s_addr);
+        console_event(log_connection_msg);
+        //log_event(log_connection_msg);
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
 
