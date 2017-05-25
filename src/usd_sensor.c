@@ -44,7 +44,7 @@ void usd_sensor_init()
     pinMode(DEFAULT_HRC_SR04_TRIGGER_PIN, OUTPUT);
     pinMode(DEFAULT_HRC_SR04_ECHO_PIN, INPUT);    
 
-    digitalWrite(TRIG, LOW);
+    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
 }
 
 void usd_halt()
@@ -136,7 +136,7 @@ static void *usd_sensor_main(void *arg)
 
             printf("USD Distance: %f\n", distance);
 
-            is_tranmit = true;
+            is_transmit = true;
         }
     }
 }
