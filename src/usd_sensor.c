@@ -158,6 +158,9 @@ static void *usd_sensor_main(void *arg)
             tick = 0.0f;
         }        
 
+        echo_end = false;
+        echo_end = false;
+        tick = 0.0f;
 
         long travelTime = micros() - startTime;
  
