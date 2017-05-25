@@ -72,9 +72,6 @@ static void *usd_sensor_main(void *arg)
 
     printf("initial tick: %f\n", tick);
 
-    bool tick_one = false;
-    bool tick_two = false;
-
     // bool initial_delay = true;
     // while (initial_delay)
     // {
@@ -94,8 +91,6 @@ static void *usd_sensor_main(void *arg)
     //     initial_delay = false;   
     // }
 
-        printf("Starting USD Sensor main.\n");
-
     bool is_transmit = true;
     bool transmit_on = false;
     bool waiting_echo = true;
@@ -111,18 +106,8 @@ static void *usd_sensor_main(void *arg)
         
         tick += diff;
 
-        if (!tick_one) {
-            printf("[first] diff: %f | tick: %f\n", diff, tick);
-            tick_one = true;
-        }
-        else
-        {
-            if (!tick_two)
-            {
-                printf("[second] diff: %f | tick: %f\n", diff, tick);
-                tick_two = true;
-            } 
-        }
+        printf("[first] diff: %f | tick: %f\n", diff, tick);
+
 
         if (is_transmit)
         {
