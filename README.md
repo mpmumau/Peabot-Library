@@ -147,9 +147,9 @@ in a left-to-right orientation.
 
 **VCC** -> RPI GPIO 2
 
-**ECHO** -> RPI GPIO 31
+**ECHO** -> RPI GPIO 32 (WiringPi 26)
 
-**TRIG** -> RPI GPIO 32
+**TRIG** -> RPI GPIO 31 (WiringPi 22) 
 
 **GROUND** -> RPI GPIO 34
 

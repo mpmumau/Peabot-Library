@@ -28,6 +28,7 @@
 #include "keyframe_handler.h"
 #include "robot.h"
 #include "http_server.h"
+#include "usd_sensor.h"
 
 /* Header */
 #include "main.h"
@@ -59,6 +60,8 @@ void app_exit(char *message, int retval)
     log_event("[APP_EXIT] Keyframe handler shutdown complete.");
 
     robot_halt();
+
+    usd_sensor_halt();
 
     log_event("[APP_EXIT] Robot shutdown complete.");
 
@@ -106,6 +109,8 @@ int main(int argc, char *argv[])
     console_event("Server started");
 
     wiringPiSetup();
+
+    usd_sensor_init();
 
     robot_init();
 

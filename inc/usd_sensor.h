@@ -8,4 +8,10 @@
  Author:        Matt Mumau
  */
 
+void usd_sensor_init();
+
+void usd_halt();
+
+float usd_sensor_getdist();
+
 #endif

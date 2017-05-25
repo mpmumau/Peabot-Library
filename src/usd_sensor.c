@@ -8,26 +8,132 @@
  Author:        Matt Mumau
  */
 
+#define _POSIX_C_SOURCE 199309L
+
 /* System includes */
+#include <stdio.h>
+#include <stdbool.h>
+#include <time.h>
+#include <pthread.h>
 
 /* Application includes */
+#include "config_defaults.h"
+#include "utils.h"
 
 /* Header */
-#include "usd.sensor.c"
+#include "usd.sensor.h"
 
 /* Forward decs */
-static void *usd_main(void *arg);
+static void *usd_sensor_main(void *arg);
 
-pthread_t usd_thread;
+static bool running;
+static float distance;
+static pthread_t usd_thread;
 
-void usd_init()
+void usd_sensor_init()
 {
-    
+    int error = pthread_create(&usd_thread, NULL, usd_sensor_main, NULL);
+    if (error)
+        app_exit("[ERROR!] Could not initialize USD sensor thread.", 1);
+
+    pinMode(DEFAULT_HRC_SR04_TRIGGER_PIN, OUTPUT);
+    pinMode(DEFAULT_HRC_SR04_ECHO_PIN, INPUT);    
+
+    digitalWrite(TRIG, LOW);
 }
 
-static void *usd_main(void *arg)
+void usd_halt()
 {
+    int error = pthread_join(robot_thread, NULL);
+    if (error)
+        log_event("[ERROR!] Could not rejoin from USD sensor thread.");
+}
 
+float usd_sensor_getdist()
+{
+    return distance;
+}
+
+static void *usd_sensor_main(void *arg)
+{
+    struct timespec time;
+    struct timespec last_time;
+
+    float tick = 0.0f;
+    float diff;
+
+    float transmit_time = 0.1f;
+
+    bool initial_delay = true;
+    while (initial_delay)
+    {
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
+        
+        tick += diff;
+
+        if (tick < 1.0f)
+            continue; 
+
+        tick = 0.0f;
+        diff = 0.0f;
+        initial_delay = false;   
+    }
+
+    bool is_transmit = true;
+    bool transmit_on = false;
+    bool waiting_echo = true;
+
+    while (running)
+    {
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
+        
+        tick += diff;
+
+        if (is_transmit)
+        {
+            if (tick < transmit_time)
+            {
+                if (transmit_on == false)
+                {
+                    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+                    transmit_on = true;
+                }
+                continue;
+            }
+
+            digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+            transmit_on = false;
+
+            tick = 0.0f;
+            is_transmit = false;
+        }
+        else
+        {
+            if (waiting_echo)
+            {
+                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
+                    continue;
+
+                wait_echo = false;
+                tick = 0.0f;
+            }
+
+            if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+                continue;
+
+            waiting_echo = true;
+
+            distance = (tick * 0.000000001) / 58;
+
+            printf("USD Distance: %f\n", distance);
+
+            is_tranmit = true;
+        }
+    }
 }
 
 #endif
