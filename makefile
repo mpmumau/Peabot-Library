@@ -46,7 +46,8 @@ _DEPS = main.h \
 	event_callbacks.h \
 	http_server.h \
 	http_request.h \
-	http_response.h
+	http_response.h \
+	usd_sensor.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -71,7 +72,8 @@ _OBJ = main.o \
 	easing_utils.o \
 	http_server.o \
 	http_request.o \
-	http_response.o
+	http_response.o \
+	usd_sensor.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
