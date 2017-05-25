@@ -62,7 +62,7 @@ float usd_sensor_getdist()
 
 static void *usd_sensor_main(void *arg)
 {
-    printf("Starting USD Sensor main.\n");
+
     struct timespec time;
     struct timespec last_time;
 
@@ -87,6 +87,8 @@ static void *usd_sensor_main(void *arg)
         diff = 0.0f;
         initial_delay = false;   
     }
+
+        printf("Starting USD Sensor main.\n");
 
     bool is_transmit = true;
     bool transmit_on = false;
