@@ -49,7 +49,7 @@ void usd_sensor_init()
 
 void usd_halt()
 {
-    int error = pthread_join(robot_thread, NULL);
+    int error = pthread_join(usd_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from USD sensor thread.");
 }
