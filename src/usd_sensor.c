@@ -62,6 +62,7 @@ float usd_sensor_getdist()
 
 static void *usd_sensor_main(void *arg)
 {
+    printf("Starting USD Sensor main.\n");
     struct timespec time;
     struct timespec last_time;
 
