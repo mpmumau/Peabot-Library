@@ -16,6 +16,9 @@
 #include <time.h>
 #include <pthread.h>
 
+/* Raspberry Pi includes */
+#include <wiringPi.h>
+
 /* Application includes */
 #include "config_defaults.h"
 #include "utils.h"
