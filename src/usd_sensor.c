@@ -129,7 +129,7 @@ static void *usd_sensor_main(void *arg)
             transmit_on = false;
 
             tick = 0.0f;
-            is_transmit = false;
+            //is_transmit = false;
         }
         // else
         // {
