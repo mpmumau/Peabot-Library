@@ -101,6 +101,8 @@ static void *usd_sensor_main(void *arg)
     bool waiting_echo = true;
     float transmit_time = 0.1f;
 
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
+
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
@@ -110,14 +112,14 @@ static void *usd_sensor_main(void *arg)
         tick += diff;
 
         if (!tick_one) {
-            printf("diff: %f | tick: %f\n", diff, tick);
+            printf("[first] diff: %f | tick: %f\n", diff, tick);
             tick_one = true;
         }
         else
         {
             if (!tick_two)
             {
-                printf("diff: %f | tick: %f\n", diff, tick);
+                printf("[second] diff: %f | tick: %f\n", diff, tick);
                 tick_two = true;
             } 
         }

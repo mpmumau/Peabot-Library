@@ -127,6 +127,8 @@ static void *robot_main(void *arg)
     float *robot_tick = (float *) config_get(CONF_ROBOT_TICK);
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
+
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
