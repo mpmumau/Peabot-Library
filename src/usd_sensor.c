@@ -95,7 +95,7 @@ static void *usd_sensor_main(void *arg)
     bool is_transmit = true;
     bool transmit_on = false;
     bool waiting_echo = true;
-    float transmit_time = 0.000002f;
+    float transmit_time = 0.00001f;
 
     tick = 0.0f;
     diff = 0.0f;
