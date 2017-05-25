@@ -69,8 +69,6 @@ static void *usd_sensor_main(void *arg)
     float tick = 0.0f;
     float diff;
 
-    float transmit_time = 0.1f;
-
     bool initial_delay = true;
     while (initial_delay)
     {
@@ -79,6 +77,8 @@ static void *usd_sensor_main(void *arg)
         last_time = time;
         
         tick += diff;
+
+        printf("tick: %f\n", tick);
 
         if (tick < 1.0f)
             continue; 
@@ -93,6 +93,7 @@ static void *usd_sensor_main(void *arg)
     bool is_transmit = true;
     bool transmit_on = false;
     bool waiting_echo = true;
+    float transmit_time = 0.1f;
 
     while (running)
     {
