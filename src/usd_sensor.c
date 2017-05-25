@@ -103,34 +103,50 @@ static void *usd_sensor_main(void *arg)
 
     while (running)
     {
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        diff = utils_timediff(time, last_time);
-        last_time = time;
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+        delayMicroseconds(20);
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+ 
+        //Wait for echo start
+        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW);
+ 
+        //Wait for echo end
+        long startTime = micros();
+        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH);
+        long travelTime = micros() - startTime;
+ 
+        //Get distance in cm
+        int distance = travelTime / 58;
+        printf("distance: %d\n", distance);
+
+        // clock_gettime(CLOCK_MONOTONIC, &time);
+        // diff = utils_timediff(time, last_time);
+        // last_time = time;
         
-        tick += diff;
+        // tick += diff;
 
-        if (is_transmit)
-        {
-            printf("[is transmit diff]: %f | tick: %f\n", diff, tick);
-            printf("is transmit\n");
-            if (tick < transmit_time)
-            {
-                if (transmit_on == false)
-                {
-                    printf("transmit on\n");
-                    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
-                    transmit_on = true;
-                }
-                continue;
-            }
+        // if (is_transmit)
+        // {
+        //     printf("[is transmit diff]: %f | tick: %f\n", diff, tick);
+        //     printf("is transmit\n");
+        //     if (tick < transmit_time)
+        //     {
+        //         if (transmit_on == false)
+        //         {
+        //             printf("transmit on\n");
+        //             digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+        //             transmit_on = true;
+        //         }
+        //         continue;
+        //     }
 
-            printf("transmit off\n");
-            digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
-            transmit_on = false;
+        //     printf("transmit off\n");
+        //     digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+        //     transmit_on = false;
 
-            tick = 0.0f;
-            //is_transmit = false;
-        }
+        //     tick = 0.0f;
+        //     //is_transmit = false;
+        // }
         // else
         // {
         //     if (waiting_echo)
