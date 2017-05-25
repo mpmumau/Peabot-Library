@@ -67,36 +67,38 @@ static void *usd_sensor_main(void *arg)
     struct timespec time;
     struct timespec last_time;
 
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
+
     float tick = 0.0f;
     float diff = 0.0f;
 
     printf("initial tick: %f\n", tick);
 
-    // bool initial_delay = true;
-    // while (initial_delay)
-    // {
-    //     clock_gettime(CLOCK_MONOTONIC, &time);
-    //     diff = utils_timediff(time, last_time);
-    //     last_time = time;
+    bool initial_delay = true;
+    while (initial_delay)
+    {
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
         
-    //     tick += diff;
+        tick += diff;
 
-    //     printf("diff: %f | tick: %f\n", diff, tick);
+        printf("diff: %f | tick: %f\n", diff, tick);
 
-    //     if (tick < 1.0f)
-    //         continue; 
+        if (tick < 1.0f)
+            continue; 
 
-    //     tick = 0.0f;
-    //     diff = 0.0f;
-    //     initial_delay = false;   
-    // }
+        tick = 0.0f;
+        diff = 0.0f;
+        initial_delay = false;   
+    }
 
     bool is_transmit = true;
     bool transmit_on = false;
     bool waiting_echo = true;
     float transmit_time = 0.1f;
 
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
+    
 
     while (running)
     {
