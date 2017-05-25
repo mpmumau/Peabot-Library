@@ -123,7 +123,7 @@ static void *usd_sensor_main(void *arg)
                 if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
                     continue;
 
-                wait_echo = false;
+                waiting_echo = false;
                 tick = 0.0f;
             }
 
