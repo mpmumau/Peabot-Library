@@ -139,6 +139,8 @@ static void *usd_sensor_main(void *arg)
             is_transmit = true;
         }
     }
+
+    return (void *) NULL;
 }
 
 #endif
