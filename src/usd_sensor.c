@@ -78,7 +78,7 @@ static void *usd_sensor_main(void *arg)
         
         tick += diff;
 
-        printf("tick: %f\n", tick);
+        printf("diff: %f | tick: %f\n", diff, tick);
 
         if (tick < 1.0f)
             continue; 
