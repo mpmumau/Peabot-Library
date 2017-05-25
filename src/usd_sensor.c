@@ -88,8 +88,7 @@ static void *usd_sensor_main(void *arg)
         if (tick < 1.0f)
             continue; 
 
-        tick = 0.0f;
-        diff = 0.0f;
+
         initial_delay = false;   
     }
 
@@ -98,7 +97,9 @@ static void *usd_sensor_main(void *arg)
     bool waiting_echo = true;
     float transmit_time = 0.000002f;
 
-    
+    tick = 0.0f;
+    diff = 0.0f;
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
 
     while (running)
     {
