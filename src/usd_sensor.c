@@ -92,10 +92,11 @@ static void *usd_sensor_main(void *arg)
         initial_delay = false;   
     }
 
-    bool is_transmit = true;
-    bool transmit_on = false;
-    bool waiting_echo = true;
-    float transmit_time = 0.000001f;
+    bool echo_init = false;
+    float echo_init_limit = 0.001f;
+
+    bool echo_end = false;
+    float echo_end_limit = 0.001f;
 
     tick = 0.0f;
     diff = 0.0f;
@@ -108,11 +109,56 @@ static void *usd_sensor_main(void *arg)
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
  
         //Wait for echo start
-        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW);
- 
+        clock_gettime(CLOCK_MONOTONIC, &last_time);
+        while (echo_init)
+        {
+            clock_gettime(CLOCK_MONOTONIC, &time);
+            diff = utils_timediff(time, last_time);
+            last_time = time;
+
+            tick += diff;
+         
+            if (tick < echo_init_limit)
+            {
+                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
+                {
+                    continue;
+                }
+                else {
+                    echo_init = true;
+                }
+            }
+
+            tick = 0.0f;
+        }
+
         //Wait for echo end
         long startTime = micros();
-        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH);
+
+        clock_gettime(CLOCK_MONOTONIC, &last_time);
+        while (echo_end)
+        {
+            clock_gettime(CLOCK_MONOTONIC, &time);
+            diff = utils_timediff(time, last_time);
+            last_time = time;
+
+            tick += diff;
+         
+            if (tick < echo_end_limit)
+            {
+                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+                {
+                    continue;
+                }
+                else {
+                    echo_end = true;
+                }
+            }
+
+            tick = 0.0f;
+        }        
+
+
         long travelTime = micros() - startTime;
  
         //Get distance in cm
