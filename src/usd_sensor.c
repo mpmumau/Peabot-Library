@@ -102,72 +102,123 @@ static void *usd_sensor_main(void *arg)
     diff = 0.0f;
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
+    //
+
+    long ping      = 0;
+    long pong      = 0;
+    float ddistance = 0;
+    long timeout   = 500000; // 0.5 sec ~ 171 m
+
     while (running)
     {
-        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
-        delayMicroseconds(20);
-        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+
+    
+
+    
+    // Ensure trigger is low.
+    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+    delay(50);
+    
+    // Trigger the ping.
+    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+    delayMicroseconds(10); 
+    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+    
+    // Wait for ping response, or timeout.
+    while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW && micros() < timeout) {
+    }
+    
+    // Cancel on timeout.
+    if (micros() > timeout) {
+        printf("Out of range.\n");
+        return 0;
+    }
+    
+    ping = micros();
+    
+    // Wait for pong response, or timeout.
+    while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH && micros() < timeout) {
+    }
+    
+    // Cancel on timeout.
+    if (micros() > timeout) {
+        printf("Out of range.\n");
+        return 0;
+    }
+    
+    pong = micros();
+    
+    // Convert ping duration to distance.
+    distance = (float) (pong - ping) * 0.017150;
+    
+    printf("Distance: %.2f cm.\n", distance);
+    
+
+
+        // digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+        // delayMicroseconds(20);
+        // digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
  
-        //Wait for echo start
-        clock_gettime(CLOCK_MONOTONIC, &last_time);
-        while (echo_init)
-        {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
+        // //Wait for echo start
+        // clock_gettime(CLOCK_MONOTONIC, &last_time);
+        // while (echo_init)
+        // {
+        //     clock_gettime(CLOCK_MONOTONIC, &time);
+        //     diff = utils_timediff(time, last_time);
+        //     last_time = time;
 
-            tick += diff;
+        //     tick += diff;
          
-            if (tick < echo_init_limit)
-            {
-                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
-                {
-                    continue;
-                }
-                else {
-                    echo_init = true;
-                }
-            }
+        //     if (tick < echo_init_limit)
+        //     {
+        //         if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
+        //         {
+        //             continue;
+        //         }
+        //         else {
+        //             echo_init = true;
+        //         }
+        //     }
 
-            tick = 0.0f;
-        }
+        //     tick = 0.0f;
+        // }
 
-        //Wait for echo end
-        long startTime = micros();
+        // //Wait for echo end
+        // long startTime = micros();
 
-        clock_gettime(CLOCK_MONOTONIC, &last_time);
-        while (echo_end)
-        {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
+        // clock_gettime(CLOCK_MONOTONIC, &last_time);
+        // while (echo_end)
+        // {
+        //     clock_gettime(CLOCK_MONOTONIC, &time);
+        //     diff = utils_timediff(time, last_time);
+        //     last_time = time;
 
-            tick += diff;
+        //     tick += diff;
          
-            if (tick < echo_end_limit)
-            {
-                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
-                {
-                    continue;
-                }
-                else {
-                    echo_end = true;
-                }
-            }
+        //     if (tick < echo_end_limit)
+        //     {
+        //         if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+        //         {
+        //             continue;
+        //         }
+        //         else {
+        //             echo_end = true;
+        //         }
+        //     }
 
-            tick = 0.0f;
-        }        
+        //     tick = 0.0f;
+        // }        
 
-        echo_end = false;
-        echo_end = false;
-        tick = 0.0f;
+        // echo_end = false;
+        // echo_end = false;
+        // tick = 0.0f;
 
-        long travelTime = micros() - startTime;
+        // long travelTime = micros() - startTime;
  
-        //Get distance in cm
-        int distance = travelTime / 58;
-        if (distance != 0)
-            printf("distance: %d\n", distance);
+        // //Get distance in cm
+        // int distance = travelTime / 58;
+        // if (distance != 0)
+        //     printf("distance: %d\n", distance);
 
         // clock_gettime(CLOCK_MONOTONIC, &time);
         // diff = utils_timediff(time, last_time);
