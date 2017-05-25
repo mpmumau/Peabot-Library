@@ -166,7 +166,8 @@ static void *usd_sensor_main(void *arg)
  
         //Get distance in cm
         int distance = travelTime / 58;
-        printf("distance: %d\n", distance);
+        if (distance != 0)
+            printf("distance: %d\n", distance);
 
         // clock_gettime(CLOCK_MONOTONIC, &time);
         // diff = utils_timediff(time, last_time);
