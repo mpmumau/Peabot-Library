@@ -16,6 +16,9 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+/* Raspberry Pi includes */
+#include <wiringPi.h>
+
 /* Application includes */
 #include "config.h"
 #include "log.h"
@@ -101,6 +104,8 @@ int main(int argc, char *argv[])
 
     console_h("Peabot Server Console"); 
     console_event("Server started");
+
+    wiringPiSetup();
 
     robot_init();
 

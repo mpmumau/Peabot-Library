@@ -21,7 +21,7 @@
 /* Header */
 #include "http_response.h"
 
-void http_response_set(HTTPResponse *http_response, int code, char *msg, char *body)
+void http_response_parse(HTTPResponse *http_response, int code, char *msg, char *body)
 {
     http_response->code = code;
     http_response->msg = msg;

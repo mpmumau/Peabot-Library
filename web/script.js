@@ -7,9 +7,9 @@ function click_button()
 
     xml.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText); 
+            console.log(JSON.parse(this.responseText)); 
         }
     };
-    xml.open("GET", "http://ML_DEVNET_PIBOT:9976", true);
+    xml.open("GET", "http://ML_DEVNET_PIBOT:9976/whazupbitch", true);
     xml.send();    
 }

@@ -48,8 +48,6 @@ static void robot_destroy();
 
 void robot_init()
 {
-    wiringPiSetup();
-
     int *pca_9685_pin_base = (int *) config_get(CONF_PCA_9685_PIN_BASE);
     int *pca_9685_hertz = (int *) config_get(CONF_PCA_9685_HERTZ);
 

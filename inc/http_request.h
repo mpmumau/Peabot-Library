@@ -13,4 +13,13 @@
 #define HTTP_UPDATE 2
 #define HTTP_DELETE 3
 
+typedef struct HTTPRequest {
+    char *ip_addr;
+    int method;
+    char *uri;
+    char *data;
+} HTTPRequest;
+
+void http_request_parse(HTTPRequest *http_request, char *raw)
+
 #endif
