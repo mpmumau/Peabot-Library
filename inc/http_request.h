@@ -20,6 +20,6 @@ typedef struct HTTPRequest {
     char *data;
 } HTTPRequest;
 
-void http_request_parse(HTTPRequest *http_request, char *raw)
+void http_request_parse(HTTPRequest *http_request, char *raw);
 
 #endif
