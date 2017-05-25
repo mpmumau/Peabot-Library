@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <time.h>
