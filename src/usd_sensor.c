@@ -47,7 +47,7 @@ void usd_sensor_init()
     digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
 }
 
-void usd_halt()
+void usd_sensor_halt()
 {
     int error = pthread_join(usd_thread, NULL);
     if (error)
