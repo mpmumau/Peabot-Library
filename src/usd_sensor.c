@@ -101,8 +101,6 @@ static void *usd_sensor_main(void *arg)
     bool waiting_echo = true;
     float transmit_time = 0.1f;
 
-    running = false;
-
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
