@@ -31,7 +31,7 @@
 /* Forward decs */
 static void *usd_sensor_main(void *arg);
 
-static bool running;
+static bool running = true;
 static float distance;
 static pthread_t usd_thread;
 
@@ -49,6 +49,7 @@ void usd_sensor_init()
 
 void usd_sensor_halt()
 {
+    running = false;
     int error = pthread_join(usd_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from USD sensor thread.");
