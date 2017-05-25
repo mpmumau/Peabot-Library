@@ -111,6 +111,7 @@ static void *usd_sensor_main(void *arg)
 
         if (is_transmit)
         {
+            printf("diff: %f | tick: %f\n", diff, tick);
             printf("is transmit\n");
             if (tick < transmit_time)
             {
