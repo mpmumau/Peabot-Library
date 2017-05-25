@@ -106,21 +106,21 @@ static void *usd_sensor_main(void *arg)
         
         tick += diff;
 
-        printf("[first] diff: %f | tick: %f\n", diff, tick);
-
-
         if (is_transmit)
         {
+            printf("is transmit\n");
             if (tick < transmit_time)
             {
                 if (transmit_on == false)
                 {
+                    printf("transmit on\n");
                     digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
                     transmit_on = true;
                 }
                 continue;
             }
 
+            printf("transmit off\n");
             digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
             transmit_on = false;
 
@@ -131,9 +131,11 @@ static void *usd_sensor_main(void *arg)
         {
             if (waiting_echo)
             {
+                printf("waiting echo\n");
                 if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
                     continue;
 
+                printf("got echo\n");
                 waiting_echo = false;
                 tick = 0.0f;
             }
