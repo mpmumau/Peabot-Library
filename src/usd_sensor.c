@@ -93,10 +93,10 @@ static void *usd_sensor_main(void *arg)
     }
 
     bool echo_init = false;
-    float echo_init_limit = 0.001f;
+    float echo_init_limit = 1.0f;
 
     bool echo_end = false;
-    float echo_end_limit = 0.001f;
+    float echo_end_limit = 1.0f;
 
     tick = 0.0f;
     diff = 0.0f;
