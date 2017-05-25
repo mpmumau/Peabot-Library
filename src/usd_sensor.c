@@ -131,30 +131,30 @@ static void *usd_sensor_main(void *arg)
             tick = 0.0f;
             is_transmit = false;
         }
-        else
-        {
-            if (waiting_echo)
-            {
-                printf("waiting echo\n");
-                if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
-                    continue;
+        // else
+        // {
+        //     if (waiting_echo)
+        //     {
+        //         printf("waiting echo\n");
+        //         if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
+        //             continue;
 
-                printf("got echo\n");
-                waiting_echo = false;
-            }
+        //         printf("got echo\n");
+        //         waiting_echo = false;
+        //     }
 
-            if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
-                continue;
+        //     if (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+        //         continue;
 
-            waiting_echo = true;
+        //     waiting_echo = true;
 
-            distance = (tick * 0.000000001) / 58;
+        //     distance = (tick * 0.000000001) / 58;
 
-            printf("USD Distance: %f\n", distance);
+        //     printf("USD Distance: %f\n", distance);
 
-            tick = 0.0f;
-            is_transmit = true;
-        }
+        //     tick = 0.0f;
+        //     is_transmit = true;
+        // }
     }
 
     return (void *) NULL;
