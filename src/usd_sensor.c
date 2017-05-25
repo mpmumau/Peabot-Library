@@ -23,6 +23,7 @@
 #include "config_defaults.h"
 #include "utils.h"
 #include "main.h"
+#include "log.h"
 
 /* Header */
 #include "usd_sensor.h"
