@@ -113,45 +113,39 @@ static void *usd_sensor_main(void *arg)
     {
 
     
-
-    
-    // Ensure trigger is low.
-    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
-    delay(50);
-    
-    // Trigger the ping.
-    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
-    delayMicroseconds(10); 
-    digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
-    
-    // Wait for ping response, or timeout.
-    while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW && micros() < timeout) {
-    }
-    
-    // Cancel on timeout.
-    if (micros() > timeout) {
-        printf("Out of range.\n");
-        return 0;
-    }
-    
-    ping = micros();
-    
-    // Wait for pong response, or timeout.
-    while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH && micros() < timeout) {
-    }
-    
-    // Cancel on timeout.
-    if (micros() > timeout) {
-        printf("Out of range.\n");
-        return 0;
-    }
-    
-    pong = micros();
-    
-    // Convert ping duration to distance.
-    distance = (float) (pong - ping) * 0.017150;
-    
-    printf("Distance: %.2f cm.\n", distance);
+        // Trigger the ping.
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+        delayMicroseconds(10); 
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+        
+        // Wait for ping response, or timeout.
+        while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW && micros() < timeout) {
+        }
+        
+        // Cancel on timeout.
+        if (micros() > timeout) {
+            printf("Out of range.\n");
+            return 0;
+        }
+        
+        ping = micros();
+        
+        // Wait for pong response, or timeout.
+        while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH && micros() < timeout) {
+        }
+        
+        // Cancel on timeout.
+        if (micros() > timeout) {
+            printf("Out of range.\n");
+            return 0;
+        }
+        
+        pong = micros();
+        
+        // Convert ping duration to distance.
+        distance = (float) (pong - ping) * 0.017150;
+        
+        printf("Distance: %.2f cm.\n", distance);
     
 
 
