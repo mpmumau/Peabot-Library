@@ -98,12 +98,13 @@ static void *usd_sensor_main(void *arg)
 
     while (running)
     {
-        printf("USD running\n");
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
         last_time = time;
         
         tick += diff;
+
+        printf("diff: %f | tick: %f\n", diff, tick);
 
         if (is_transmit)
         {
