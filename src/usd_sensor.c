@@ -21,7 +21,7 @@
 #include "utils.h"
 
 /* Header */
-#include "usd.sensor.h"
+#include "usd_sensor.h"
 
 /* Forward decs */
 static void *usd_sensor_main(void *arg);
