@@ -125,7 +125,7 @@ static void *usd_sensor_main(void *arg)
         // Cancel on timeout.
         if (micros() > timeout) {
             printf("Out of range.\n");
-            return 0;
+            continue;
         }
         
         ping = micros();
@@ -137,7 +137,7 @@ static void *usd_sensor_main(void *arg)
         // Cancel on timeout.
         if (micros() > timeout) {
             printf("Out of range.\n");
-            return 0;
+            continue;
         }
         
         pong = micros();
