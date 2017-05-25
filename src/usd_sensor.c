@@ -152,6 +152,7 @@ static void *usd_sensor_main(void *arg)
 
             printf("USD Distance: %f\n", distance);
 
+            tick = 0.0f;
             is_transmit = true;
         }
     }
