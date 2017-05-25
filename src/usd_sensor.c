@@ -67,7 +67,7 @@ static void *usd_sensor_main(void *arg)
     struct timespec time;
     struct timespec last_time;
 
-    float tick = 1.0f;
+    float tick = 0.0f;
     float diff = 0.0f;
 
     // bool initial_delay = true;

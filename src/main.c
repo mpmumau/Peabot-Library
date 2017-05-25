@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     
     prompt_init();
 
-    http_init();
+    //http_init();
 
     while (app_running) {}
 
