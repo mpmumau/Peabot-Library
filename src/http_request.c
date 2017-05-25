@@ -13,7 +13,7 @@
 #include <string.h>
 
 /* Application headers */
-#include "str_utils.h"
+#include "string_utils.h"
 
 /* Header */
 #include "http_request.h"
