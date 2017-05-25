@@ -19,6 +19,7 @@
 /* Application includes */
 #include "config_defaults.h"
 #include "utils.h"
+#include "main.h"
 
 /* Header */
 #include "usd_sensor.h"
