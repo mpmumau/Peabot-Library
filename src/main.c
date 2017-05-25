@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
     wiringPiSetup();
 
-    usd_sensor_init();
+    //usd_sensor_init();
 
     robot_init();
 
