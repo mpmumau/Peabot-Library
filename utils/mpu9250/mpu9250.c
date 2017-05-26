@@ -23,15 +23,12 @@ static uint8_t mpu_9250_read(uint8_t addr);
 
 static bool mpu_9250_write(uint8_t addr, uint8_t data)
 {
-    uint8_t buffer;
-    buffer = data;
-    printf("[W TO: %d] Before writing, buffer was: %d\n", addr, buffer);
+    uint8_t buffer = data;
 
     wiringPiI2CWriteReg8(mpu_9250.fd, addr, buffer);
     delay(10);
-
     buffer = mpu_9250_read(addr);
-    printf("[W TO: %d] After writing, buffer was: %d\n", addr, buffer);
+    printf("[W-%d] data: %d | buffer: %d\n", addr, data, buffer);
     return buffer == data;
 }
 
@@ -49,9 +46,10 @@ int main(int argc, char *argv[])
     printf("Starting MPU-9250...\n");
     printf("MPU-9250 Linux file descriptor ID: %d\n", mpu_9250.fd);
 
-    if (!mpu_9250_write(MPU_9250_PWR_MGMNT_1, MPU_9250_RESET))
-        printf("Could not reset pwr.\n");
+    mpu_9250_write(MPU_9250_PWR_MGMNT_1, MPU_9250_RESET);
     delay(200);
+
+    mpu_9250_write(MPU_9250_PWR_MGMNT_1, MPU_9250_CLOCK_SEL_PLL);
 
     mpu_9250.who_am_i = (uint8_t) wiringPiI2CReadReg8(mpu_9250.fd, MPU_9250_REG_WHO_AM_I);
     printf("MPU-9250 - Who Am I: %d\n", mpu_9250.who_am_i);

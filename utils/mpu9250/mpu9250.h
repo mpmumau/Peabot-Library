@@ -7,7 +7,7 @@
 #define MPU_9250_PWR_MGMNT_1 0x6B
 
 #define MPU_9250_RESET 0x80
-
+#define MPU_9250_CLOCK_SEL_PLL 0x01
 
 typedef struct MPU_9250 {
     int fd;
