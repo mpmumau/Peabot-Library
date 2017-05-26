@@ -56,6 +56,10 @@ int main(int argc, char *argv[])
     mpu_9250.who_am_i = (uint8_t) wiringPiI2CReadReg8(mpu_9250.fd, MPU_9250_REG_WHO_AM_I);
     printf("MPU-9250 - Who Am I: %d\n", mpu_9250.who_am_i);
 
+    writeRegister(MPU_9250_USER_CTRL, MPU_9250_I2C_MST_EN);
+
+    writeRegister(MPU_9250_I2C_MST_CTRL, MPU_9250_I2C_MST_CLK);
+
     // AK8963
     mpu_9250_write(MPU_9250_I2C_SLV0_ADDR, AK8963_I2C_ADDR | MPU_9250_I2C_READ_FLAG); 
     mpu_9250_write(MPU_9250_I2C_SLV0_REG, MPU_9250_AK8963_WHO_AM_I); 
