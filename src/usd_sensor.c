@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <time.h>
 #include <pthread.h>
+#include <string.h>
 
 /* Raspberry Pi includes */
 #include <wiringPi.h>
@@ -73,9 +74,9 @@ static void *usd_sensor_main(void *arg)
     unsigned int timeout, max_timeout;
     max_timeout = 10000000;
 
-    FILE *logfile = NULL;
-    char *filename = "/opt/peabot/usd.log";
-    logfile = fopen(filename, "w");
+    FILE *usd_logfile = NULL;
+    char *usd_filename = "/opt/peabot/usd.log";
+    usd_logfile = fopen(usd_filename, "w");
     if (!logfile)
         app_exit("[ERROR!] Could not open USD logfile!", 1);
 
@@ -110,12 +111,12 @@ static void *usd_sensor_main(void *arg)
         timeout = 0;
 
         distance = travelTime / 58.0;
-        fprintf(logfile, "%f,%f\n", tick, distance);
+        fprintf(usd_logfile, "%f,%f\n", tick, distance);
         printf("Log added: %f,%f\n", tick, distance);
         delayMicroseconds(100000);
     }
 
-    fclose(logfile);
+    fclose(usd_logfile);
 
     return (void *) NULL;
 }
