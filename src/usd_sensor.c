@@ -120,7 +120,7 @@ static void *usd_sensor_main(void *arg)
 
         tick = 0.0;
 
-        distance = travel_time / 58.0;
+        distance = (travel_time / 58.0) * 1000000;
         printf("distance: %f\n", distance);
 
         while (tick < 0.1)
