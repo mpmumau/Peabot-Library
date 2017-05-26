@@ -110,7 +110,7 @@ static void *usd_sensor_main(void *arg)
                 break;
         }
         clock_gettime(CLOCK_MONOTONIC, &time);
-        travelTime = utils_timespec_to_secs(time) - start_time;
+        travel_time = utils_timespec_to_secs(time) - start_time;
 
         tick = 0.0;
 
