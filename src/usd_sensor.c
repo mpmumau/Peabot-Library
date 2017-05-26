@@ -80,7 +80,7 @@ static void *usd_sensor_main(void *arg)
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
 
         
-        while(digitalRead(ECHO) == LOW)
+        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
         {
             echo_start_timeout++;
             if (echo_start_timeout > timeout)
