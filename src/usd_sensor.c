@@ -33,7 +33,7 @@
 static void *usd_sensor_main(void *arg);
 
 static bool running = true;
-static float distance;
+static double distance;
 static pthread_t usd_thread;
 
 void usd_sensor_init()
@@ -56,7 +56,7 @@ void usd_sensor_halt()
         log_event("[ERROR!] Could not rejoin from USD sensor thread.");
 }
 
-float usd_sensor_getdist()
+double usd_sensor_getdist()
 {
     return distance;
 }
@@ -69,13 +69,41 @@ static void *usd_sensor_main(void *arg)
     float tick = 0.0f;
     float diff;
 
+    int echo_start_timeout, echo_end_timeout;
+
+    int timeout = 1000000;
+
     while (running)
     {
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        diff = utils_timediff(time, last_time);
-        last_time = time;
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
+        delayMicroseconds(20);
+        digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
+
         
-        tick += diff;
+        while(digitalRead(ECHO) == LOW)
+        {
+            echo_start_timeout++;
+            if (echo_start_timeout > timeout)
+                break;
+        }
+
+        long startTime = micros();
+        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+        {
+            echo_end_time++;
+            if (echo_end_timeout > timeout)
+                break;
+        }
+        long travelTime = micros() - startTime;
+
+        echo_start_timeout = 0;
+        echo_end_timeout = 0;
+
+        distance = travelTime / 58.0;
+
+        delayMicroseconds(1000000);
+
+        printf("Distance: %12.12f\n", distance);
     }
 
     return (void *) NULL;
