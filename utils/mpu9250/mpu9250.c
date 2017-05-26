@@ -14,17 +14,6 @@
 
 static MPU_9250 mpu_9250;
 
-uint8_t mpu9250_whoAmI()
-{
-    uint8_t buff[1];
-
-    // read the WHO AM I register
-    readRegisters(WHO_AM_I,sizeof(buff),&buff[0]);
-
-    // return the register value
-    return buff[0];
-}
-
 int main(int argc, char *argv[])
 {
     mpu_9250.fd = wiringPiI2CSetup(MPU_9250_ADDR);
