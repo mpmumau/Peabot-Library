@@ -71,7 +71,7 @@ static void *usd_sensor_main(void *arg)
 
     int echo_start_timeout, echo_end_timeout;
 
-    int timeout = 10000000;
+    int timeout = 1000000;
 
     while (running)
     {
