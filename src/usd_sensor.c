@@ -96,8 +96,7 @@ static void *usd_sensor_main(void *arg)
         long travelTime = micros() - startTime;
         timeout = 0;
 
-        timeout = 1;
-        while (timeout != 0)
+        while (timeout < max_timeout)
         {
             timeout++;
             printf("Timeout: %d\n", timeout);
