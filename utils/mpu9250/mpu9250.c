@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 
     mpu_9250_write(MPU_9250_PWR_MGMNT_1, MPU_9250_CLOCK_SEL_PLL);
 
+    mpu_9250_write(MPU_9250_PWR_MGMNT_2, MPU_9250_SENSORS_ENABLE);
+
     mpu_9250.who_am_i = (uint8_t) wiringPiI2CReadReg8(mpu_9250.fd, MPU_9250_REG_WHO_AM_I);
     printf("MPU-9250 - Who Am I: %d\n", mpu_9250.who_am_i);
 }
