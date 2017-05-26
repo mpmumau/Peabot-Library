@@ -66,7 +66,7 @@ double usd_sensor_getdist()
 static void *usd_sensor_main(void *arg)
 {
     int timeout, max_timeout;
-    max_timeout = 1000000;
+    max_timeout = 10000;
 
     bool timeout_error = false;
 
