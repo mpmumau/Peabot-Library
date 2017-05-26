@@ -69,7 +69,8 @@ static void *usd_sensor_main(void *arg)
     float tick = 0.0f;
     float diff;
 
-    unsigned int timeout;
+    unsigned int timeout, max_timeout;
+    max_timeout = 1000;
 
     while (running)
     {
@@ -80,7 +81,7 @@ static void *usd_sensor_main(void *arg)
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
         {
             timeout++;
-            if (timeout == 0)
+            if (timeout == max_timeout)
                 break;
         }
         timeout = 0;
@@ -89,7 +90,7 @@ static void *usd_sensor_main(void *arg)
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
         {
             timeout++;
-            if (timeout == 0)
+            if (timeout == max_timeout)
                 break;
         }
         long travelTime = micros() - startTime;
