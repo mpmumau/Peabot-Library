@@ -25,11 +25,13 @@ static bool mpu_9250_write(uint8_t addr, uint8_t data)
 {
     uint8_t buffer;
     buffer = data;
+    printf("Before writing, buffer was: %d\n", buffer);
 
     wiringPiI2CWriteReg8(mpu_9250.fd, addr, buffer);
     delay(10);
 
     buffer = mpu_9250_read(addr);
+    printf("After writing, buffer was: %d\n", buffer);
     return buffer == data;
 }
 
