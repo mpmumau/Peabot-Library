@@ -110,7 +110,7 @@ static void *usd_sensor_main(void *arg)
 
         delayMicroseconds(100000);
 
-        fprintf(logfile, "%f,%f", tick, distance);
+        fprintf(logfile, "%f,%f\n", tick, distance);
     }
 
     fclose(logfile);
