@@ -74,12 +74,6 @@ static void *usd_sensor_main(void *arg)
     unsigned int timeout, max_timeout;
     max_timeout = 10000000;
 
-    FILE *usd_logfile = NULL;
-    char *usd_filename = "/opt/peabot/usd.log";
-    usd_logfile = fopen(usd_filename, "r+");
-    if (!usd_logfile)
-        app_exit("[ERROR!] Could not open USD logfile!", 1);
-
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
@@ -113,11 +107,7 @@ static void *usd_sensor_main(void *arg)
         distance = travelTime / 58.0;
         delayMicroseconds(100000);
 
-        if (distance < 100.0)
-        {
-            fprintf(usd_logfile, "%f,%f\n", tick, distance);
-            fflush(usd_logfile);
-        }
+        printf("Tick: %16.16f\n");
     }
 
     fclose(usd_logfile);
