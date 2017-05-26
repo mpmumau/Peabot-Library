@@ -110,10 +110,9 @@ static void *usd_sensor_main(void *arg)
         timeout = 0;
 
         distance = travelTime / 58.0;
-
-        delayMicroseconds(100000);
-
         fprintf(logfile, "%f,%f\n", tick, distance);
+        printf("Log added: %f,%f\n", tick, distance);
+        delayMicroseconds(100000);
     }
 
     fclose(logfile);
