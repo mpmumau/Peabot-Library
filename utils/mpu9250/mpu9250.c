@@ -12,11 +12,28 @@
 /* Header */
 #include "mpu9250.h"
 
+static MPU_9250 mpu_9250;
+
+uint8_t mpu9250_whoAmI()
+{
+    uint8_t buff[1];
+
+    // read the WHO AM I register
+    readRegisters(WHO_AM_I,sizeof(buff),&buff[0]);
+
+    // return the register value
+    return buff[0];
+}
+
 int main(int argc, char *argv[])
 {
-    int setup = wiringPiI2CSetup(MPU_9250_ADDR);
+    mpu_9250.fd = wiringPiI2CSetup(MPU_9250_ADDR);
 
-    printf("Setup: %d\n", setup);
+    printf("Starting MPU-9250...\n");
+    printf("MPU-9250 Linux file descriptor ID: %d\n", mpu_9250.fd);
+
+    mpu_9250.who_am_i = (uint8_t) wiringPiI2CReadReg8(mpu_9250.fd, MPU_9250_REG_WHO_AM_I);
+    printf("MPU-9250 - Who Am I: %d\n", mpu_9250.who_am_i);
 }
 
 #endif
