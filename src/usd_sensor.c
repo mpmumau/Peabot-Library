@@ -66,14 +66,24 @@ static void *usd_sensor_main(void *arg)
     struct timespec time;
     struct timespec last_time;
 
-    float tick = 0.0f;
-    float diff;
+    double tick = 0.0;
+    double diff = 0.0;
 
     unsigned int timeout, max_timeout;
     max_timeout = 10000000;
 
+    FILE *logfile = NULL;
+    char *filename = "/opt/peabot/usd.log";
+    logfile = fopen(filename, "w");
+
     while (running)
     {
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
+        
+        tick += diff;
+
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
         delayMicroseconds(20);
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
@@ -99,8 +109,11 @@ static void *usd_sensor_main(void *arg)
         distance = travelTime / 58.0;
 
         delayMicroseconds(100000);
-        printf("Distance: %f\n", distance);
+
+        fprintf(logfile, "%f,%f", tick, distance);
     }
+
+    fclose(logfile);
 
     return (void *) NULL;
 }
