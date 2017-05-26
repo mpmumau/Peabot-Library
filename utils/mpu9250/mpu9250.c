@@ -4,6 +4,7 @@
 
 /* System includes */
 #include <stdio.h>
+#include <stdint.h>
 
 /* Raspberry Pi includes */
 #include <wiringPi.h>
