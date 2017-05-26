@@ -111,10 +111,13 @@ static void *usd_sensor_main(void *arg)
         timeout = 0;
 
         distance = travelTime / 58.0;
-        fprintf(usd_logfile, "%f,%f\n", tick, distance);
-        fflush(usd_logfile);
-        printf("Log added: %f,%f\n", tick, distance);
         delayMicroseconds(100000);
+
+        if (distance < 100.0)
+        {
+            fprintf(usd_logfile, "%f,%f\n", tick, distance);
+            fflush(usd_logfile);
+        }
     }
 
     fclose(usd_logfile);
