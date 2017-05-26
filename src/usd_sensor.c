@@ -65,6 +65,8 @@ double usd_sensor_getdist()
 
 static void *usd_sensor_main(void *arg)
 {
+    double new_distance;
+
     int timeout, max_timeout;
     max_timeout = 1000000;
 
@@ -100,7 +102,11 @@ static void *usd_sensor_main(void *arg)
         //Get distance in cm
         if (!timeout_error)
         {
-            distance = travel_time / 58.0;
+            new_distance = travel_time / 58.0;
+            if (new_distance <= 200.0)
+            {
+                distance = new_distance;
+            }
             printf("distance: %32.32f\n", distance);
         }
 
