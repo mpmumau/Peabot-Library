@@ -14,7 +14,9 @@
 
 int main(int argc, char *argv[])
 {
-    printf("This is a test.\n");
+    int setup = wiringPiI2CSetup(MPU_9250_ADDR);
+
+    printf("Setup: %d\n", setup);
 }
 
 #endif
