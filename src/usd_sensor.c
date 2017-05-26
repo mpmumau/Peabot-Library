@@ -93,7 +93,10 @@ static void *usd_sensor_main(void *arg)
             tick += diff;  
 
             if (tick > 0.5)
+            {
+                printf("timeout waiting for echo pin to start\n");
                 break;
+            }
         }
         tick = 0.0;
 
@@ -107,7 +110,10 @@ static void *usd_sensor_main(void *arg)
             tick += diff;  
 
             if (tick > 0.5)
+            {
+                printf("timeout waiting for echo pin to stop\n");
                 break;
+            }
         }
         clock_gettime(CLOCK_MONOTONIC, &time);
         travel_time = utils_timespec_to_secs(time) - start_time;
