@@ -92,7 +92,7 @@ static void *usd_sensor_main(void *arg)
             last_time = time;
             tick += diff;  
 
-            if (tick > 0.5)
+            if (tick > 0.1)
             {
                 printf("timeout waiting for echo pin to start\n");
                 break;
@@ -109,7 +109,7 @@ static void *usd_sensor_main(void *arg)
             last_time = time;
             tick += diff;  
 
-            if (tick > 0.5)
+            if (tick > 0.1)
             {
                 printf("timeout waiting for echo pin to stop\n");
                 break;
