@@ -103,7 +103,7 @@ static void *usd_sensor_main(void *arg)
         if (!timeout_error)
         {
             new_distance = travel_time / 58.0;
-            if (new_distance <= 200.0)
+            if (new_distance <= 400.0)
             {
                 distance = new_distance;
             }
