@@ -81,7 +81,7 @@ static void *usd_sensor_main(void *arg)
  
         while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW && !timeout_error)
         {
-            timeout++
+            timeout++;
             if (timeout > max_timeout)
                 timeout_error = true;
         }
