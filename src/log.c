@@ -41,6 +41,7 @@ void log_write(char *line)
     if (!logfile || !line)
         return;
     fprintf(logfile, "%s\n", line);
+    fflush (logfile);
 }
 
 void log_close()

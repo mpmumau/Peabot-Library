@@ -43,10 +43,9 @@ static HTTPServer http;
 void http_init()
 {  
     bool *http_enabled = (bool *) config_get(CONF_HTTP_ENABLED);
-    int *http_port = (int *) config_get(CONF_HTTP_PORT);
-
     if (!*http_enabled)
         return;
+    int *http_port = (int *) config_get(CONF_HTTP_PORT);
 
     http.running = true;
     http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
@@ -59,8 +58,7 @@ void http_init()
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
     http.srv_addr.sin_port = htons(*http_port);
 
-    if (bind(http.socket, (struct sockaddr *) &http.srv_addr, sizeof(http.srv_addr))
-        < 0)
+    if (bind(http.socket, (struct sockaddr *) &http.srv_addr, sizeof(http.srv_addr)) < 0)
     {
         app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
     }
@@ -75,21 +73,23 @@ void http_halt()
 static void *http_main(void *arg)
 {
     struct timespec time, last_time;
-    float tick = 0.0f, diff = 0.0f, max_tick = 0.25f;
+    double tick = 0.0, diff = 0.0, max_tick = 0.25;
 
     socklen_t client_length = (socklen_t) sizeof(http.cli_addr);
     int last_socket = -1;
 
     HTTPRequest http_request;
     HTTPResponse http_response;
-    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
     char log_connection_msg[128];
     char client_ip_str[INET6_ADDRSTRLEN];
 
+    //tmp
+    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
+
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
     while (http.running)
     {
-        // Timing mechanism
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
         last_time = time;
@@ -97,8 +97,7 @@ static void *http_main(void *arg)
         tick += diff;
         if (tick < max_tick)
             continue;
-
-        tick = 0.0f;
+        tick = 0.0;
 
         // Loop start 
         listen(http.socket, DEFAULT_HTTP_MAX_CONNS);
