@@ -38,4 +38,9 @@ double utils_timediff(struct timespec end_time, struct timespec start_time)
     return diff;
 }
 
+double utils_timespec_to_secs(struct timespec ts)
+{
+    return ((double) ts.tv_sec) + ((double) ((double) ts.tv_nsec / 1000000000.0));
+}
+
 #endif

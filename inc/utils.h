@@ -21,4 +21,6 @@ void utils_mkresponsetime(time_t time, char *string);
 /* Get the difference in seconds between the timespecs; nano-second precision) */
 double utils_timediff(struct timespec end_time, struct timespec start_time);
 
+double utils_timespec_to_secs(struct timespec ts);
+
 #endif
