@@ -65,86 +65,46 @@ double usd_sensor_getdist()
 
 static void *usd_sensor_main(void *arg)
 {
-    struct timespec time;
-    struct timespec last_time;
+    int timeout, max_timeout;
+    max_timeout = 1000000;
 
-    double tick, timeout, tick_max, diff, start_time, travel_time;
-    timeout = 0.01;
-    tick_max = 0.1;
+    bool timeout_error = false;
 
-    bool timeout_error;
-
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
     while (running)
     {
+        timeout = 0;
         timeout_error = false;
-        tick = 0.0;
-        diff = 0.0f;
 
-        // Send the trigger signal for 20 microseconds
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, HIGH);
-        while (tick < (20 * 0.000001))
-        {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
-            tick += diff;            
-        }
+        delayMicroseconds(20);
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
-        
-        // Wait for low signal on echo pin to change.
-        tick = 0.0;
-        while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
+ 
+        while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW && !timeout_error)
         {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
-            tick += diff;  
-
-            if (tick > timeout)
-            {
+            timeout++
+            if (timeout > max_timeout)
                 timeout_error = true;
-                break;
-            }
         }
+        timeout = 0;
 
-        // Wait for high signal on echo pin to change.
-        tick = 0.0;
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        start_time = utils_timespec_to_secs(time);
-        while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
+        //Wait for echo end
+        long start_time = micros();
+        while (digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH && !timeout_error)
         {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
-            tick += diff;  
-
-            if (tick > timeout)
-            {
+            timeout++;
+            if (timeout > max_timeout)
                 timeout_error = true;
-                break;
-            }
         }
-        
-        // Calculate the distance.
+        long travel_time = micros() - start_time;
+ 
+        //Get distance in cm
         if (!timeout_error)
         {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            travel_time = utils_timespec_to_secs(time) - start_time;
-            distance = (travel_time / 58.0) * 1000000;            
+            distance = travel_time / 58.0;
+            printf("distance: %32.32f\n", distance);
         }
 
-        // Wait to do the next tick.
-        tick = 0.0;
-        while (tick < tick_max)
-        {
-            clock_gettime(CLOCK_MONOTONIC, &time);
-            diff = utils_timediff(time, last_time);
-            last_time = time;
-            tick += diff;              
-        }
-
-        printf("distance: %f\n", distance);
+        delayMicroseconds(500000);
     }
 
     return (void *) NULL;
