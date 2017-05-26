@@ -69,7 +69,7 @@ static void *usd_sensor_main(void *arg)
     float tick = 0.0f;
     float diff;
 
-    unsigned int echo_start_timeout, echo_end_timeout;
+    unsigned int timeout;
 
     while (running)
     {
@@ -79,22 +79,21 @@ static void *usd_sensor_main(void *arg)
 
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
         {
-            echo_start_timeout++;
-            if (echo_start_timeout == 0)
+            timeout++;
+            if (timeout == 0)
                 break;
         }
+        timeout = 0;
 
         long startTime = micros();
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
         {
-            echo_end_timeout++;
-            if (echo_end_timeout == 0)
+            timeout++;
+            if (timeout == 0)
                 break;
         }
         long travelTime = micros() - startTime;
-
-        echo_start_timeout = 0;
-        echo_end_timeout = 0;
+        timeout = 0;
 
         distance = travelTime / 58.0;
 
