@@ -70,7 +70,7 @@ static void *usd_sensor_main(void *arg)
     float diff;
 
     unsigned int timeout, max_timeout;
-    max_timeout = 1000000;
+    max_timeout = 10000000;
 
     while (running)
     {
