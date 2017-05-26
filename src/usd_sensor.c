@@ -107,7 +107,7 @@ static void *usd_sensor_main(void *arg)
         distance = travelTime / 58.0;
         delayMicroseconds(100000);
 
-        printf("Tick: %32.32f\n", tick);
+        printf("Tick: %18.18f\n", tick);
     }
 
     return (void *) NULL;
