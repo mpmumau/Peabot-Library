@@ -71,7 +71,7 @@ static void *usd_sensor_main(void *arg)
 
     int echo_start_timeout, echo_end_timeout;
 
-    int timeout = 1000000;
+    int timeout = 10000000;
 
     while (running)
     {
@@ -79,7 +79,6 @@ static void *usd_sensor_main(void *arg)
         delayMicroseconds(20);
         digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
 
-        
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == LOW)
         {
             echo_start_timeout++;
@@ -102,8 +101,6 @@ static void *usd_sensor_main(void *arg)
         distance = travelTime / 58.0;
 
         delayMicroseconds(200000);
-
-        printf("Distance: %12.12f\n", distance);
     }
 
     return (void *) NULL;
