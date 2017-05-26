@@ -104,7 +104,7 @@ static void *usd_sensor_main(void *arg)
             printf("distance: %32.32f\n", distance);
         }
 
-        delayMicroseconds(500000);
+        delayMicroseconds(100000);
     }
 
     return (void *) NULL;
