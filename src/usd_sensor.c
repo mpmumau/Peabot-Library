@@ -96,16 +96,9 @@ static void *usd_sensor_main(void *arg)
         long travelTime = micros() - startTime;
         timeout = 0;
 
-        while (timeout < max_timeout)
-        {
-            timeout++;
-            printf("Timeout: %d\n", timeout);
-        }
-
-
         distance = travelTime / 58.0;
 
-        delayMicroseconds(200000);
+        delayMicroseconds(100000);
         printf("Distance: %f\n", distance);
     }
 
