@@ -110,8 +110,6 @@ static void *usd_sensor_main(void *arg)
         printf("Tick: %16.16f\n");
     }
 
-    fclose(usd_logfile);
-
     return (void *) NULL;
 }
 
