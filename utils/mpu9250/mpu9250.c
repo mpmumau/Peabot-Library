@@ -55,6 +55,19 @@ int main(int argc, char *argv[])
 
     mpu_9250.who_am_i = (uint8_t) wiringPiI2CReadReg8(mpu_9250.fd, MPU_9250_REG_WHO_AM_I);
     printf("MPU-9250 - Who Am I: %d\n", mpu_9250.who_am_i);
+
+    // AK8963
+    mpu_9250_write(MPU_9250_I2C_SLV0_ADDR, AK8963_I2C_ADDR | MPU_9250_I2C_READ_FLAG); 
+    mpu_9250_write(MPU_9250_I2C_SLV0_REG, MPU_9250_AK8963_WHO_AM_I); 
+    mpu_9250_write(MPU_9250_I2C_SLV0_CTRL, MPU_9250_I2C_SLV0_EN | 0x01); 
+    delayMicroseconds(100);
+    mpu_9250.ak8963_who_am_i = mpu_9250_read(MPU_9250_EXT_SENS_DATA_00);
+
+    printf("MPU-9250 AK8963 Who Am I: %d\n", mpu_9250.ak8963_who_am_i);
+
+    delayMicroseconds(100); 
+    
+    mpu_9250_read(EXT_SENS_DATA_00,count,dest);   
 }
 
 #endif
