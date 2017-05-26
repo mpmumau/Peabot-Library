@@ -107,7 +107,6 @@ static void *usd_sensor_main(void *arg)
             {
                 distance = new_distance;
             }
-            printf("distance: %32.32f\n", distance);
         }
 
         delayMicroseconds(100000);
