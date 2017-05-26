@@ -122,8 +122,9 @@ static void *robot_main(void *arg)
     struct timespec time;
     struct timespec last_time;
 
-    float tick = 0.0f;
-    float diff;
+    double tick = 0.0f;
+    double diff;
+    
     float *robot_tick = (float *) config_get(CONF_ROBOT_TICK);
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 

@@ -156,7 +156,7 @@ static void *keyhandler_main(void *arg)
 {
     struct timespec time;
     struct timespec last_time;
-    float next = 0.0f;
+    double next = 0.0;
     
     Keyframe *keyfr;
     ServoPos *servo_pos;
@@ -174,7 +174,7 @@ static void *keyhandler_main(void *arg)
 
         if (!keyframes)
         {
-            next = 0.0f;
+            next = 0.0;
             continue;       
         }
 
@@ -195,10 +195,10 @@ static void *keyhandler_main(void *arg)
                 
                 perc = (next - begin_time) / adjusted_duration;
 
-                if (perc < 0.0f)
-                    perc = 0.0f;
-                if (perc > 1.0f)
-                    perc = 1.0f;
+                if (perc < 0.0)
+                    perc = 0.0;
+                if (perc > 1.0)
+                    perc = 1.0;
 
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
                 
@@ -215,7 +215,7 @@ static void *keyhandler_main(void *arg)
                 log_event(msg);
             }     
 
-            next = 0.0f;
+            next = 0.0;
 
             if (keyfr->is_delay) 
             {

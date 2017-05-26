@@ -31,10 +31,10 @@ void utils_mkresponsetime(time_t time, char *string)
     strftime(string, UTILS_DATETIME_MAXLEN, "%a, %b %Y %H:%M:%S %Z", ltime);
 }
 
-float utils_timediff(struct timespec end_time, struct timespec start_time)
+double utils_timediff(struct timespec end_time, struct timespec start_time)
 {
-    float diff = ((float) end_time.tv_sec - (float) start_time.tv_sec) +
-        ((float) end_time.tv_nsec - (float) start_time.tv_nsec) / 1000000000.0f;
+    double diff = ((double) (end_time.tv_sec - start_time.tv_sec)) +
+        ((double) (end_time.tv_nsec - start_time.tv_nsec) / 1000000000.0);
     return diff;
 }
 
