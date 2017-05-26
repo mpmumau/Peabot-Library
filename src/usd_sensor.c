@@ -90,7 +90,7 @@ static void *usd_sensor_main(void *arg)
         long startTime = micros();
         while(digitalRead(DEFAULT_HRC_SR04_ECHO_PIN) == HIGH)
         {
-            echo_end_time++;
+            echo_end_timeout++;
             if (echo_end_timeout > timeout)
                 break;
         }
