@@ -76,7 +76,7 @@ static void *usd_sensor_main(void *arg)
 
     FILE *usd_logfile = NULL;
     char *usd_filename = "/opt/peabot/usd.log";
-    usd_logfile = fopen(usd_filename, "w");
+    usd_logfile = fopen(usd_filename, "r+");
     if (!logfile)
         app_exit("[ERROR!] Could not open USD logfile!", 1);
 
