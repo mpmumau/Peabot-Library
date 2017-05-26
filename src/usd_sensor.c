@@ -21,6 +21,7 @@
 #include <wiringPi.h>
 
 /* Application includes */
+#include "main.h"
 #include "config_defaults.h"
 #include "utils.h"
 #include "main.h"
@@ -75,6 +76,8 @@ static void *usd_sensor_main(void *arg)
     FILE *logfile = NULL;
     char *filename = "/opt/peabot/usd.log";
     logfile = fopen(filename, "w");
+    if (!logfile)
+        app_exit("[ERROR!] Could not open USD logfile!", 1);
 
     while (running)
     {
