@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <time.h>
 #include <sys/types.h> 
+#include <strings.h>
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
