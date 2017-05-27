@@ -52,7 +52,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
 
     char *body_str = strstr(buffer_cpy, "\r\n\r\n");
-    printf(["body]\n%s\n", body_str);
+    printf("[body]\n%s\n", body_str);
 
 
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
