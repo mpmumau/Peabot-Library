@@ -71,7 +71,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     char *tmp_str;
     for (int p = 0; p < lines_added; p++)
     {
-        printf( "Line [%d]: %s\n", p, lines[i]);
+        printf( "Line [%d]: %s\n", p, lines[p]);
     }
 }
 
