@@ -4,6 +4,7 @@ function click_button()
     el.style.background = "red";
 
     var xml = new XMLHttpRequest();
+    
 
     xml.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
@@ -11,5 +12,6 @@ function click_button()
         }
     };
     xml.open("GET", "http://ML_DEVNET_PIBOT:9976/whazupbitch", true);
-    xml.send();    
+    xml.setRequestHeader("Content-Type", "application/json");
+    xml.send(JSON.stringify({name:"John Rambo", time:"2pm"}));    
 }
