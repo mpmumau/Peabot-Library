@@ -148,7 +148,7 @@ static void http_server_log_connect(char *ipaddr)
 {
     char log_connection_msg[128];
     snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", ipaddr);   
-    console_event(log_connection_msg);    
+    log_event(log_connection_msg);  
 }
 
 #endif
