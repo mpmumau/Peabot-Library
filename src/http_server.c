@@ -106,17 +106,15 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        printf("last socket: %d\n", last_socket);
-
         http_server_log_connection();
 
-        bzero(http.buffer, (size_t) DEFAULT_HTTP_MAX_BUFFER);
+        memset((void *) http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
 
         if (read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
 
         //tmp
-        printf("%s", http.buffer);
+        printf("http buffer: %s\n", http.buffer);
 
         http_request_parse(&http_request, http.buffer);
 

@@ -35,7 +35,6 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     
     if (add_extra_line)
         max_lines++;
-    printf ("Max lines: %d\n", max_lines);
 
     HTTPRequestLine lines[max_lines];
 
