@@ -37,7 +37,7 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
-static void http_server_log_connection();
+static void http_server_ipstr(char *str, int str_size)
 
 static HTTPServer http;
 static socklen_t client_length;
@@ -106,15 +106,16 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        http_server_log_connection();
+        char ip_addr[INET6_ADDRSTRLEN];
+        http_server_ipstr(ip_addr, sizeof(ip_addr));
+        http_server_log_connect(ip_addr);
+
 
         memset((void *) http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
 
         if (read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
 
-        //tmp
-        printf("http buffer: %s\n", http.buffer);
 
         http_request_parse(&http_request, http.buffer);
 
@@ -129,16 +130,24 @@ static void *http_main(void *arg)
     return NULL;
 }
 
-static void http_server_log_connection()
+static void http_server_ipstr(char *str, int str_size)
+{
+    char client_ip_str[INET6_ADDRSTRLEN];    
+    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
+
+    for (int i = 0; i < str_size; i++)
+    {
+        if (INET6_ADDRSTRLEN < (i + 1))
+            break;
+        str[i] = client_ip_str[i];
+    }
+}
+
+static void http_server_log_connect(char *ipaddr)
 {
     char log_connection_msg[128];
-    char client_ip_str[INET6_ADDRSTRLEN];    
-    
-    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
-    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str);    
-
-    console_event(log_connection_msg);
-    //log_event(log_connection_msg);
+    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str);   
+    console_event(log_connection_msg);    
 }
 
 #endif

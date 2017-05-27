@@ -23,20 +23,15 @@
 /* Forward decs */
 static void http_request_split_body(char *raw, char *first, char *second);
 
-void http_request_parse(HTTPRequest *http_request, char *raw)
+void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
-    if (http_request == NULL || raw == NULL)
+    if (http_request == NULL || raw == NULL || ip_addr == NULL)
         return;
-
-    printf("raw: %s\n", raw);
 
     char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
     memset(buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
     memcpy(buffer_cpy, raw, DEFAULT_HTTP_MAX_BUFFER - 1);
     buffer_cpy[DEFAULT_HTTP_MAX_BUFFER - 1] = '\0';
-
-    printf("buffer_cpy: %s\n", buffer_cpy);
-
 
     bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
     int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
@@ -47,7 +42,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     HTTPRequestLine lines[max_lines];
 
     int i;
-    char *line_cursor = strtok(buffer_cpy, "\n");
+    char *delim = "\r\n";
+    char *line_cursor = strtok(buffer_cpy, delim);
     char *next_line;
     for (i = 0; i < max_lines; i++)
     {
@@ -59,21 +55,13 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
         memset(next_line, '\0', DEFAULT_HTTP_LINE_LEN);
         memcpy(next_line, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
 
-        printf("attemped to add: %s\n", next_line);
-        printf("is now: %s\n", lines[i]);
-
-        line_cursor = strtok(NULL, "\n");
+        line_cursor = strtok(NULL, delim);
     }
 
     int lines_added = i + 1;
-    printf("Lines added: %d\n", lines_added);
 
-    char *tmp_str;
     for (int p = 0; p < lines_added; p++)
     {
-        tmp_str = lines[p];
-        if (tmp_str[0] == '\0')
-            continue;
         printf( "Line [%d]: %s\n", p, lines[p]);
     }
 }
