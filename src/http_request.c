@@ -52,10 +52,11 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     printf("body: %s\n", body_p);
 
-    char *p2 = strstr(buffer_cpy, "\r\n\r\n");
-    while(p2 != NULL){
-        printf("%.*s\n", p2 - buffer_cpy, buffer_cpy);
-        buffer_cpy = p2;
+    char *p1 = buffer_cpy;
+    char *p2 = strstr(response, "\r\n\r\n");
+    while(NULL != p2){
+        printf("%.*s\n", p2 - p1, p1);
+        p1 = p2;
         p2 = strstr(p2 + 1, "\r\n\r\n");
     }
 
