@@ -33,6 +33,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     
     if (add_extra_line)
         max_lines++;
+    printf ("Max lines: %d\n", max_lines);
 
     HTTPRequestLine lines[max_lines];
 
@@ -40,7 +41,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     memset((void *) buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
     memcpy(raw, buffer_cpy, DEFAULT_HTTP_MAX_BUFFER);
 
-    const char *delim = "\n";
+    const char delim[1];
+    delim[0] = '\n';
 
     char *line_cursor;
 
