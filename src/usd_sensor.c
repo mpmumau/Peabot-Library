@@ -109,7 +109,7 @@ static void *usd_sensor_main(void *arg)
             }
         }
 
-        printf("Distance: %f\n", distance);
+        //printf("Distance: %f\n", distance);
 
         delayMicroseconds(100000);
     }

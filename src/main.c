@@ -61,7 +61,7 @@ void app_exit(char *message, int retval)
 
     robot_halt();
 
-    usd_sensor_halt();
+    //usd_sensor_halt();
 
     log_event("[APP_EXIT] Robot shutdown complete.");
 
@@ -110,7 +110,7 @@ int main(int argc, char *argv[])
 
     wiringPiSetup();
 
-    usd_sensor_init();
+   //usd_sensor_init();
 
     robot_init();
 
