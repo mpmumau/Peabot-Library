@@ -108,7 +108,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     if (strcmp(line_cursor, "GET") == 0)
         http_request->method = HTTP_GET;
     if (strcmp(line_cursor, "PUT") == 0)
-        http_request->method = HTTP_UPDATE;
+        http_request->method = HTTP_PUT;
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_DELETE;
 
