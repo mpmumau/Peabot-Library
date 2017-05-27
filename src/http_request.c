@@ -64,7 +64,12 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
         printf("[body:%d]\n%s\n", body_count, body);
     }
     
-    int header_count = buffer_cpy_size - 
+    int header_len = buffer_cpy_size - body_count;
+    char header_str[header_len];
+    memset(header_str, '\0', header_len);
+    memcpy(header_str, &(buffer_cpy[0]), header_len);
+
+    printf("[header:%d]\n%s\n", header_len, header_str);
 
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
     // HTTPRequestLine *next_line;
