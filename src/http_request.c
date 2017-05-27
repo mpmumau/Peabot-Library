@@ -45,7 +45,6 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     unsigned int i;
     char *body_delim = "\r\n\r\n";
     char *header_lines_p = strtok(buffer_cpy, body_delim);
-    char *body_lines_p = strtok(NULL, body_delim);
 
     printf("header lines: %s\n", header_lines_p);
     printf("body lines: %s\n", buffer_cpy);
