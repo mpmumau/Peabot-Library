@@ -53,8 +53,9 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
         if (line_cursor == NULL)
             break;
 
-        memset(&lines[i], '\0', DEFAULT_HTTP_LINE_LEN);
-        memcpy(&lines[i], line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
+        memset(lines, '\0', DEFAULT_HTTP_LINE_LEN);
+        memcpy(lines, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
+        lines++;
 
         line_cursor = strtok(NULL, "\n");
     }
