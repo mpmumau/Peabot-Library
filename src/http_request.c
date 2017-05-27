@@ -34,6 +34,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     memcpy(buffer_cpy, raw, DEFAULT_HTTP_MAX_BUFFER - 1);
     buffer_cpy[DEFAULT_HTTP_MAX_BUFFER - 1] = '\0'; 
 
+    printf("buffer_cpy: %s\n", buffer_cpy);
+
     bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
     int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
     
@@ -48,7 +50,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     char *body_p = strstr(buffer_cpy, body_delim);
     //body_p = body_p + 4;
 
-    printf("buffer_cpy: %s\n", buffer_cpy);
+    
     printf("body: %s\n", body_p);
 
 
