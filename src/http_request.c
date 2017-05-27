@@ -44,7 +44,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     int i;
     char *delim = "\r\n";
     char *line_cursor = strtok(buffer_cpy, delim);
-    char *next_line;
+    HTTPRequestLine *next_line;
     for (i = 0; i < max_lines; i++)
     {
         if (line_cursor == NULL)
