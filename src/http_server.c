@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#define _POSIX_C_SOURCE 199309L
+
 /* System includes */
 #include <stdio.h>
 #include <stdlib.h>
@@ -109,6 +111,8 @@ static void *http_main(void *arg)
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
+
+        printf("last socket: %d\n", last_socket);
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
