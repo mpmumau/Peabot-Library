@@ -22,6 +22,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <errno.h>
 
 /* Application includes */
 #include "config.h"
