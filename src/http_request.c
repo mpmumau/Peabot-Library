@@ -72,7 +72,7 @@ static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine
     if (lines == NULL || !size)
         return;
 
-    http_request_handle_request_line(http_request, lines[0]);
+    http_request_handle_request_line(http_request, &(lines[0]));
 
     if (size == 1)
         return;
