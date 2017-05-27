@@ -43,25 +43,31 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     HTTPRequestLine lines[max_lines];
 
     unsigned int i;
-    char *delim = "\r\n";
-    char *line_cursor = strtok(buffer_cpy, delim);
-    HTTPRequestLine *next_line;
-    for (i = 0; i < max_lines; i++)
-    {
-        if (line_cursor == NULL)
-            break;
+    char *body_delim = "\r\n\r\n";
+    char *header_lines_p = strtok(buffer_cpy, body_delim);
+    char *body_lines_p = strtok(NULL, body_delim);
 
-        next_line = &(lines[i]);
+    printf("header lines: %s\n", header_lines_p);
+    printf("body lines: %s\n", body_lines_p);
 
-        memset(next_line, '\0', DEFAULT_HTTP_LINE_LEN);
-        memcpy(next_line, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
 
-        line_cursor = strtok(NULL, delim);
-    }
+    // HTTPRequestLine *next_line;
+    // for (i = 0; i < max_lines; i++)
+    // {
+    //     if (line_cursor == NULL)
+    //         break;
 
-    http_request->total_lines = i + 1;
+    //     next_line = &(lines[i]);
 
-    http_request_handle_lines(http_request, lines, http_request->total_lines);
+    //     memset(next_line, '\0', DEFAULT_HTTP_LINE_LEN);
+    //     memcpy(next_line, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
+
+    //     line_cursor = strtok(NULL, delim);
+    // }
+
+    // http_request->total_lines = i + 1;
+
+    // http_request_handle_lines(http_request, lines, http_request->total_lines);
 }
 
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size)
@@ -101,7 +107,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
         http_request->method = HTTP_POST;    
     if (strcmp(line_cursor, "GET") == 0)
         http_request->method = HTTP_GET;
-    if (strcmp(line_cursor, "UPDATE") == 0)
+    if (strcmp(line_cursor, "PUT") == 0)
         http_request->method = HTTP_UPDATE;
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_DELETE;

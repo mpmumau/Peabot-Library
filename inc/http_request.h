@@ -11,7 +11,7 @@
 #define HTTP_BADREQUEST 0
 #define HTTP_POST 1
 #define HTTP_GET 2
-#define HTTP_UPDATE 3
+#define HTTP_PUT 3
 #define HTTP_DELETE 4
 
 /* System includes */
