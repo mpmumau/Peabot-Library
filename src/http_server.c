@@ -115,7 +115,9 @@ static void *http_main(void *arg)
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
-        http_request.ip_addr = ip_addr;
+        
+        memset(http_request.ip_addr, '\0', INET6_ADDRSTRLEN);
+        memcpy(http_request.ip_addr, ip_addr, INET6_ADDRSTRLEN);
 
         read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER);
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
