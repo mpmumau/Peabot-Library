@@ -27,7 +27,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     if (http_request == NULL || raw == NULL)
         return;
 
-    printf("raw: %s\n");
+    printf("raw: %s\n", raw);
 
     char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
     memset(buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
