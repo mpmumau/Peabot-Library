@@ -8,19 +8,26 @@
  Author:        Matt Mumau
  */
 
-#define HTTP_POST 0
-#define HTTP_GET 1
-#define HTTP_UPDATE 2
-#define HTTP_DELETE 3
+#define HTTP_BADREQUEST 0
+#define HTTP_POST 1
+#define HTTP_GET 2
+#define HTTP_UPDATE 3
+#define HTTP_DELETE 4
 
-typedef char HTTPRequestLine[256];
+/* System includes */
+#include <netinet/in.h>
+
+/* Application includes */
+#include "http_server.h"
+
+typedef char HTTPRequestLine[DEFAULT_HTTP_LINE_LEN];
 
 typedef struct HTTPRequest {
-    char *ip_addr;
+    char ip_addr[INET6_ADDRSTRLEN];
     int total_lines;
     int method;
-    char *uri;
-    char *data;
+    char uri[DEFAULT_HTTP_URI_LEN];
+    char data[DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN)];
 } HTTPRequest;
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size);

@@ -21,6 +21,8 @@
 #include "http_request.h"
 
 /* Forward decs */
+static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int size);
+static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
@@ -63,6 +65,58 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     {
         printf("[%d] %s\n", p, lines[p]);
     }
+}
+
+static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size)
+{
+    if (lines == NULL || !size)
+        return;
+
+    http_request_handle_request_line(http_request, lines[0]);
+
+    if (size == 1)
+        return;
+
+    for (int i = 1; i++; i < size)
+    {
+        //lines[i];
+    }
+}
+
+
+#define HTTP_POST 0
+#define HTTP_GET 1
+#define HTTP_UPDATE 2
+#define HTTP_DELETE 3
+
+static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line)
+{
+    if (line == NULL)
+        return;
+
+    char line_cpy[DEFAULT_HTTP_LINE_LEN];
+    memset(line_cpy, '\0', DEFAULT_HTTP_LINE_LEN);
+    memcpy(line_cpy, line, DEFAULT_HTTP_LINE_LEN - 1);
+
+    char *line_cursor;
+    char delim[] = " ";
+    
+    line_cursor = strtok(line, delim);
+    if (line_cursor == NULL)
+        return;
+    if (strcmp(line_cursor, "POST") == 0)
+        http_request->method = HTTP_POST;    
+    if (strcmp(line_cursor, "GET") == 0)
+        http_request->method = HTTP_GET;
+    if (strcmp(line_cursor, "UPDATE") == 0)
+        http_request->method = HTTP_UPDATE;
+    if (strcmp(line_cursor, "DELETE") == 0)
+        http_request->method = HTTP_DELETE;
+
+    line_cursor = strtok(NULL, delim);
+    if (line_cursor == NULL)
+        return;
+    
 }
 
 #endif
