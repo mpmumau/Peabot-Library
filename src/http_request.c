@@ -46,12 +46,11 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     printf("buffer_cpy: %s\n", buffer_cpy);
 
-    //const char body_delim[4] = "\r\n\r\n";
-    //char *body_p = strstr(buffer_cpy, body_delim);
+    const char body_delim[4] = "\r\n\r\n";
+    char *body_p = strstr(buffer_cpy, body_delim);
     //body_p = body_p + 4;
 
-    
-    //printf("body: %s\n", body_p);
+    printf("body: %s\n", body_p);
 
 
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
