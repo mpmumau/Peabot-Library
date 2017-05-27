@@ -95,7 +95,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     char *line_cursor;
     char delim[] = " ";
     
-    line_cursor = strtok(line, delim);
+    line_cursor = strtok((char *) line, delim);
     if (line_cursor == NULL)
         return;
     if (strcmp(line_cursor, "POST") == 0)
