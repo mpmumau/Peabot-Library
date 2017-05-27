@@ -46,19 +46,17 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
 
     HTTPRequestLine lines[max_lines];
 
-
-
     int i;
-    char *line_cursor = strtok(buffer_cpy, "\r\n");
+    char *line_cursor = strtok(buffer_cpy, "\n");
     for (i = 0; i < max_lines; i++)
     {
         if (line_cursor == NULL)
             break;
 
-        memset((void *) &lines[i], '\0', DEFAULT_HTTP_LINE_LEN);
-        memcpy(line_cursor, &lines[i], (size_t) DEFAULT_HTTP_LINE_LEN - 1);
+        memset(&lines[i], '\0', DEFAULT_HTTP_LINE_LEN);
+        memcpy(&lines[i], line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
 
-        line_cursor = strtok(NULL, "\r\n");
+        line_cursor = strtok(NULL, "\n");
     }
 
     int lines_added = i + 1;
