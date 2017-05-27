@@ -81,7 +81,7 @@ static void *http_main(void *arg)
     if (http.socket < 0)
         app_exit("[ERROR!] Could not create socket (http_init).", 1);
 
-    if (bind(http.socket, (struct sockaddr *) &http.srv_addr, sizeof(http.srv_addr)) < 0)
+    if (bind(http.socket, (struct sockaddr *) &(http.srv_addr), sizeof(http.srv_addr)) < 0)
         app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
 
     listen(http.socket, DEFAULT_HTTP_MAX_CONNS);    
@@ -109,7 +109,10 @@ static void *http_main(void *arg)
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
+        {
+            printf("Accepted bad socket!\n");
             continue;
+        }
 
         char ip_addr[INET6_ADDRSTRLEN];
         http_server_ipstr(ip_addr, sizeof(ip_addr));
