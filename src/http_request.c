@@ -23,54 +23,49 @@
 /* Forward decs */
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
+static int http_request_max_body_len();
+static void http_request_copy_buffer(char *dest, char *src, size_t size);
+static int http_request_copy_body(char *dest, char *src, size_t size);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
     if (http_request == NULL || raw == NULL)
         return;
 
+    int max_body_len = http_request_max_body_len();
+
     char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
-    memset(buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
-    memcpy(buffer_cpy, raw, DEFAULT_HTTP_MAX_BUFFER - 1);
-    buffer_cpy[DEFAULT_HTTP_MAX_BUFFER - 1] = '\0'; 
-
-    int buffer_cpy_size = strlen(buffer_cpy);
-    printf("\n[buffer_cpy:%d]\n%s\n", buffer_cpy_size, buffer_cpy);
-
-    bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
-    int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
-    
-    if (add_extra_line)
-        max_lines++;
-
-    HTTPRequestLine lines[max_lines];
-
-    int max_body_len = DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN);
-
-    unsigned int i;
-
     char body_str[max_body_len];
-    memset(body_str, '\0', max_body_len);
-    char *body_substr = strstr(buffer_cpy, "\r\n\r\n");
-    memcpy(body_str, &(body_substr[4]), max_body_len);
-    body_str[max_body_len - 1] = '\0';
 
-    int body_count = strlen(body_str);
-    char *body = NULL;
+    int buffer_cpy_len = http_request_copy_buffer(buffer_cpy, raw, sizeof(buffer_cpy));
+    printf("\n[buffer_cpy:%d]\n%s\n", buffer_cpy_len, buffer_cpy);
 
-    if (body_count > 4)
-    {
-        body = &(body_str[4]);
-        printf("[body:%d]\n%s\n", body_count, body);
-    }
+    int body_len = http_request_copy_body(body_str, buffer_cpy, max_body_len);
+    printf("\n[body:%d]\n%s\n", body_len, body_str);
+
+    // unsigned int i;
+    // HTTPRequestLine lines[max_lines];
+    // bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
+    // int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
     
-    int header_len = buffer_cpy_size - body_count;
-    char header_str[header_len];
-    memset(header_str, '\0', header_len);
-    memcpy(header_str, &(buffer_cpy[0]), header_len);
-    header_str[header_len - 1] = '\0';
+    // if (add_extra_line)
+    //     max_lines++;    
 
-    printf("[header:%d]\n%s\n", header_len, header_str);
+    // char *body = NULL;
+
+    // if (body_count > 4)
+    // {
+    //     body = &(body_str[4]);
+    //     printf("[body:%d]\n%s\n", body_count, body);
+    // }
+    
+    // int header_len = buffer_cpy_size - body_count;
+    // char header_str[header_len];
+    // memset(header_str, '\0', header_len);
+    // memcpy(header_str, &(buffer_cpy[0]), header_len);
+    // header_str[header_len - 1] = '\0';
+
+    // printf("[header:%d]\n%s\n", header_len, header_str);
 
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
     // HTTPRequestLine *next_line;
@@ -147,6 +142,39 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
 
     if (strcmp(line_cursor, "HTTP/1.1") == 0)
         http_request->v11 = true;
+}
+
+static int http_request_copy_buffer(char *dest, char *src, size_t size)
+{
+    memset(dest, '\0', size);
+    memcpy(dest, src, size - 1);
+    buffer_cpy[size - 1] = '\0';     
+
+    return strlen(dest);
+}
+
+static int http_request_max_body_len()
+{
+    return DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN);
+}
+
+static int http_request_copy_body(char *dest, char *src, size_t size)
+{
+    char copy[size];
+    memset(copy, '\0', size);
+    memcpy(copy, src, size - 1);
+    copy[size - 1] = '\0';
+
+    char *body_substr = strstr(copy, "\r\n\r\n");
+
+    if (body_substr == NULL)
+        return -1;
+
+    memset(dest, '\0', size);
+    memcpy(dest, &(copy[4]), size);
+    dest[size - 1] = '\0';    
+
+    return strlen(dest);
 }
 
 #endif
