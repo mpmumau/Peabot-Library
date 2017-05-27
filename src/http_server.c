@@ -42,22 +42,39 @@ static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
 
 static HTTPServer http;
-static socklen_t client_length;
 
 void http_init()
 {  
     bool *http_enabled = (bool *) config_get(CONF_HTTP_ENABLED);
     if (!*http_enabled)
         return;
-    int *http_port = (int *) config_get(CONF_HTTP_PORT);
+    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
+}
 
-    client_length = (socklen_t) sizeof(http.cli_addr);
+void http_halt()
+{
+    http.running = false;
+    int error = pthread_join(http.thread, NULL);
+    if (error)
+        log_event("[ERROR!] Could not rejoin from HTTP thread.");
+}
 
+static void *http_main(void *arg)
+{
     http.running = true;
+
+    int *http_port = (int *) config_get(CONF_HTTP_PORT);
 
     http.srv_addr.sin_family = AF_INET;
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
-    http.srv_addr.sin_port = htons(*http_port);    
+    http.srv_addr.sin_port = htons(*http_port);      
+
+    int last_socket = -1;
+
+    HTTPRequest http_request;
+    HTTPResponse http_response;
+
+    socklen_t client_length = (socklen_t) sizeof(http.cli_addr);    
 
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
@@ -68,31 +85,14 @@ void http_init()
 
     listen(http.socket, DEFAULT_HTTP_MAX_CONNS);    
 
-    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
-}
+    //tmp
+    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
-void http_halt()
-{
-    http.running = false;
-    int error = pthread_join(http.thread, NULL);
-    if (error)
-        log_event("[ERROR!] Could not rejoin from robot thread.");
-}
-
-static void *http_main(void *arg)
-{
     struct timespec time, last_time;
     double tick, diff, max_tick;
-
-    int last_socket = -1;
-
-    HTTPRequest http_request;
-    HTTPResponse http_response;
-
-    //tmp
-    char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
-
+    max_tick = 1.0;
     clock_gettime(CLOCK_MONOTONIC, &last_time);
+    
     while (http.running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
@@ -104,6 +104,8 @@ static void *http_main(void *arg)
             continue;
         tick = 0.0;
 
+        memset(http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
+
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
@@ -112,15 +114,10 @@ static void *http_main(void *arg)
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
-        memset((void *) http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
-        if (read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER - 1) < 0)
-            app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
-
+        read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER);
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
-        if (write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
-            app_exit("[ERROR!] Could not send return message to socket (http_main).", 1);
-
+        write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         close(last_socket);
     }
 
