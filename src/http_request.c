@@ -44,22 +44,15 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     unsigned int i;
 
-    printf("buffer_cpy: %s\n", buffer_cpy);
-
-    const char body_delim[4] = "\r\n\r\n";
-    char *body_p = strstr(buffer_cpy, body_delim);
-    //body_p = body_p + 4;
-
-
     char *body_str = strstr(buffer_cpy, "\r\n\r\n");
     if (body_str != NULL)
     {
         body_str = body_str + 4;
         printf("[body]\n%s\n", body_str);
     }
+
+    printf("what is this?: %s\n", buffer_cpy - body_str);
     
-
-
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
     // HTTPRequestLine *next_line;
     // for (i = 0; i < max_lines; i++)
