@@ -76,6 +76,7 @@ static void *http_main(void *arg)
     //HTTPResponse http_response;
 
     int client_length = sizeof(http.cli_addr);    
+    printf("client length: %d\n", client_length);
 
     char ip_addr[INET6_ADDRSTRLEN];
 
