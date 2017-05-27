@@ -106,6 +106,8 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
+        printf("last socket: %d\n", last_socket);
+
         http_server_log_connection();
 
         bzero(http.buffer, (size_t) DEFAULT_HTTP_MAX_BUFFER);
