@@ -13,5 +13,11 @@ function click_button()
     };
     xml.open("GET", "http://ML_DEVNET_PIBOT:9976/whazupbitch", true);
     xml.setRequestHeader("Content-Type", "application/json");
-    xml.send("akjsdhaksjhdaksjhksja ajsd askjhasdjhaaksjhda kjashdakj hsd");    
+
+    var request_str = JSON.stringify({name:"John Rambo", time:"2pm"});
+    var request_str_len = request_str.len;
+
+    xml.setRequestHeader("Content-Length", request_str_len);
+
+    xml.send(JSON.stringify({name:"John Rambo", time:"2pm"}));    
 }
