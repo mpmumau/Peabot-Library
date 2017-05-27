@@ -165,16 +165,12 @@ static int http_request_copy_body(char *dest, char *src, size_t size)
     memcpy(copy, src, size - 1);
 
     char *body_substr = strstr(copy, "\r\n\r\n");
-
-    printf("body_substr: %s\n", body_substr);
-
     if (body_substr == NULL)
         return -1;
 
     memset(dest, '\0', size);
-    memcpy(dest, &(copy[4]), size);
-    dest[size - 1] = '\0';    
-
+    memcpy(dest, &(body_substr[4]), size - 1);
+   
     return strlen(dest);
 }
 
