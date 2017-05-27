@@ -53,11 +53,6 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     char *p1 = &(buffer_cpy[0]);
     char *p2 = strstr(buffer_cpy, "\r\n\r\n");
-    while(NULL != p2){
-        //printf("o - %.*s\n", p2 - p1, p1);
-        p1 = p2;
-        p2 = strstr(p2 + 1, "\r\n\r\n");
-    }
     printf("p2 - %s\n", p2);
 
 
