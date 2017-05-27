@@ -46,7 +46,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
 
     line_cursor = strtok(buffer_cpy, delim);
 
-    for (int i = 0; i < max_lines; i++)
+    int i = 0;
+    for ( ; i < max_lines; i++)
     {
         if (!line_cursor)
             break;
@@ -58,6 +59,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     }
 
     int lines_added = i + 1;
+    printf("Lines added: %d\n", lines_added);
 
     char *tmp_str;
     for (int p = 0; p < lines_added; p++)
