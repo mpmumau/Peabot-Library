@@ -8,8 +8,6 @@
  Author:        Matt Mumau
  */
 
-#define _POSIX_C_SOURCE 199309L
-
 /* System includes */
 #include <stdio.h>
 #include <stdlib.h>
@@ -120,7 +118,7 @@ static void *http_main(void *arg)
 
         write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);
-        
+
         close(last_socket);
     }
 
