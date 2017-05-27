@@ -55,15 +55,13 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     body_str[max_body_len - 1] = '\0';
 
     int body_count = strlen(body_str);
-    printf("size of body: %d\n", body_count);
+    char *body = NULL;
 
-    if (body_str != NULL)
+    if (body_count > 4)
     {
-        char *body = &(body_str[4]);
-        printf("[body]\n%s\n", body);
+        body = &(body_str[4]);
+        printf("[body:%d]\n%s\n", body_count, body);
     }
-
-    printf("what is this?: %d\n", body_str - buffer_cpy);
     
     //char *header_lines_p = strtok(buffer_cpy, body_delim);
     // HTTPRequestLine *next_line;
