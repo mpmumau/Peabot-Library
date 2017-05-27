@@ -13,16 +13,15 @@
 /* System includes */
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h> 
+#include <string.h>
+#include <stdbool.h>
+#include <time.h>
+#include <pthread.h>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <stdbool.h>
-#include <pthread.h>
-#include <time.h>
-#include <sys/types.h> 
-#include <strings.h>
-#include <string.h>
-#include <unistd.h>
-#include <arpa/inet.h>
 
 /* Application includes */
 #include "config.h"
@@ -77,6 +76,8 @@ static void *http_main(void *arg)
 
     socklen_t client_length = (socklen_t) sizeof(http.cli_addr);    
 
+    char ip_addr[INET6_ADDRSTRLEN];
+
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
         app_exit("[ERROR!] Could not create socket (http_init).", 1);
@@ -109,12 +110,8 @@ static void *http_main(void *arg)
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
-        {
-            printf("Accepted bad socket!\n");
             continue;
-        }
 
-        char ip_addr[INET6_ADDRSTRLEN];
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
@@ -124,8 +121,6 @@ static void *http_main(void *arg)
         write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         close(last_socket);
     }
-
-    close(http.socket);
 
     return NULL;
 }
