@@ -24,7 +24,7 @@ typedef char HTTPRequestLine[DEFAULT_HTTP_LINE_LEN];
 
 typedef struct HTTPRequest {
     char ip_addr[INET6_ADDRSTRLEN];
-    int total_lines;
+    unsigned int total_lines;
     int method;
     char uri[DEFAULT_HTTP_URI_LEN];
     char data[DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN)];

@@ -42,7 +42,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     HTTPRequestLine lines[max_lines];
 
-    int i;
+    unsigned int i;
     char *delim = "\r\n";
     char *line_cursor = strtok(buffer_cpy, delim);
     HTTPRequestLine *next_line;
@@ -61,15 +61,12 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     http_request->total_lines = i + 1;
 
-    for (int p = 0; p < http_request->total_lines; p++)
-    {
-        printf("[%d] %s\n", p, lines[p]);
-    }
+    http_request_handle_lines(http_request, lines, http_request->total_lines);
 }
 
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size)
 {
-    if (lines == NULL || !size)
+    if (lines == NULL || size <= 0)
         return;
 
     http_request_handle_request_line(http_request, &(lines[0]));
