@@ -106,7 +106,6 @@ static void *usd_sensor_main(void *arg)
             if (new_distance <= 400.0)
             {
                 distance = new_distance;
-                printf("Distance: %fcm\n", distance);
             }
         }
 
