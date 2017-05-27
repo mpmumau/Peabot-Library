@@ -28,6 +28,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     if (http_request == NULL || raw == NULL)
         return;
 
+    printf("raw: %s\n", raw);
+
     bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
     int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
     
