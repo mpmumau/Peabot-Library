@@ -11,8 +11,10 @@
 /* System headers */
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* Application headers */
+#include "http_server.h"
 #include "string_utils.h"
 
 /* Header */
@@ -23,9 +25,48 @@ static void http_request_split_body(char *raw, char *first, char *second);
 
 void http_request_parse(HTTPRequest *http_request, char *raw)
 {
-    char first[1024];
-    char second[32768];
-    //http_request_split_body(char *raw, first, second);
+    if (http_request == NULL || raw == NULL)
+        return;
+
+    bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
+    int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
+    
+    if (add_extra_line)
+        max_lines++;
+
+    HTTPRequestLine lines[max_lines];
+
+    char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
+    memset((void *) buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
+    memcpy(raw, buffer_cpy, DEFAULT_HTTP_MAX_BUFFER);
+
+    const char *delim = "\n";
+
+    char *line_cursor;
+
+    line_cursor = strtok(buffer_cpy, delim);
+
+    for (int i = 0; i < max_lines; i++)
+    {
+        if (!line_cursor)
+            break;
+
+        memset((void *) &lines[i], '\0', DEFAULT_HTTP_LINE_LEN);
+        memcpy(line_cursor, &lines[i], (size_t) DEFAULT_HTTP_LINE_LEN);
+
+        line_cursor = strtok(NULL, delim);
+    }
+
+    int lines_added = i + 1;
+
+    char *tmp_str;
+    for (int p = 0; p < lines_added; p++)
+    {
+        tmp_str = &lines[p];
+        if(tmp_str[0] == '\0')
+            continue;
+        printf( "Line [%d]: %s\n", p, lines[i]);
+    }
 }
 
 static void http_request_split_body(char *raw, char *first, char *second)

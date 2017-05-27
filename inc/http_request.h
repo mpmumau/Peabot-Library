@@ -13,6 +13,8 @@
 #define HTTP_UPDATE 2
 #define HTTP_DELETE 3
 
+typedef char HTTPRequestLine[256];
+
 typedef struct HTTPRequest {
     char *ip_addr;
     int method;

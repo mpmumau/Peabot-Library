@@ -83,7 +83,7 @@ static void *http_main(void *arg)
     double tick, diff, max_tick;
 
     int last_socket = -1;
-    
+
     HTTPRequest http_request;
     HTTPResponse http_response;
 
@@ -115,6 +115,8 @@ static void *http_main(void *arg)
 
         //tmp
         printf("%s", http.buffer);
+
+        http_request_parse(&http_request, http.buffer);
 
         if (write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
             app_exit("[ERROR!] Could not send return message to socket (http_main).", 1);
