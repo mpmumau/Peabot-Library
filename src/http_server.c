@@ -37,7 +37,8 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
-static void http_server_ipstr(char *str, int str_size)
+static void http_server_ipstr(char *str, int str_size);
+static void http_server_log_connect(char *ipaddr);
 
 static HTTPServer http;
 static socklen_t client_length;
