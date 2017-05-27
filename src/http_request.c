@@ -36,14 +36,15 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     int MAX_BODY_LEN = http_request_max_body_len();
 
     char buffer[DEFAULT_HTTP_MAX_BUFFER];
-    char body[MAX_BODY_LEN];
-
     int buffer_len = http_request_copy_buffer(buffer, raw, sizeof(buffer));
-    int body_len = http_request_copy_body(body, buffer, MAX_BODY_LEN);
 
-    int MAX_HEADER_LEN = DEFAULT_HTTP_MAX_BUFFER - body_len;
+    char body[MAX_BODY_LEN];
+    int body_len = http_request_copy_body(body, buffer, sizeof(body));
+
+    int MAX_HEADER_LEN = buffer_len - body_len;
+    
     char header[MAX_HEADER_LEN];
-    int header_len = http_request_copy_header(header, buffer, MAX_HEADER_LEN);
+    int header_len = http_request_copy_header(header, buffer, sizeof(header));
 
     printf("\n[buffer:%d]\n%s\n", buffer_len, buffer);
     printf("\n[header:%d]\n%s\n", header_len, header);
@@ -172,7 +173,7 @@ static int http_request_copy_body(char *dest, char *src, size_t size)
 
     char *body_substr = strstr(copy, "\r\n\r\n");
     if (body_substr == NULL)
-        return -1;
+        return 0;
 
     memset(dest, '\0', size);
     memcpy(dest, &(body_substr[4]), size - 1);
