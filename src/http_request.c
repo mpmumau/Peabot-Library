@@ -31,8 +31,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
     printf("raw: %s\n", raw);
 
     char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
-    memset((void *) buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
-    memcpy(raw, buffer_cpy, DEFAULT_HTTP_MAX_BUFFER - 1);
+    memset(buffer_cpy, '\0', DEFAULT_HTTP_MAX_BUFFER);
+    memcpy(buffer_cpy, raw, DEFAULT_HTTP_MAX_BUFFER - 1);
     buffer_cpy[DEFAULT_HTTP_MAX_BUFFER - 1] = '\0';
 
     printf("buffer_cpy: %s\n", buffer_cpy);
