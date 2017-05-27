@@ -17,6 +17,7 @@ typedef char HTTPRequestLine[256];
 
 typedef struct HTTPRequest {
     char *ip_addr;
+    int total_lines;
     int method;
     char *uri;
     char *data;

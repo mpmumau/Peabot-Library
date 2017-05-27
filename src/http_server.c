@@ -72,7 +72,7 @@ static void *http_main(void *arg)
     int last_socket = -1;
 
     HTTPRequest http_request;
-    HTTPResponse http_response;
+    //HTTPResponse http_response;
 
     socklen_t client_length = (socklen_t) sizeof(http.cli_addr);    
 

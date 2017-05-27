@@ -58,12 +58,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
         line_cursor = strtok(NULL, delim);
     }
 
-    int lines_added = i + 1;
-
-    for (int p = 0; p < lines_added; p++)
-    {
-        printf( "Line [%d]: %s\n", p, lines[p]);
-    }
+    http_request->total_lines = i + 1;
 }
 
 static void http_request_split_body(char *raw, char *first, char *second)
