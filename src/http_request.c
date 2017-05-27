@@ -52,7 +52,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
             break;
 
         memset((void *) &lines[i], '\0', DEFAULT_HTTP_LINE_LEN);
-        memcpy(line_cursor, &lines[i], (size_t) DEFAULT_HTTP_LINE_LEN);
+        memcpy(line_cursor, &lines[i], (size_t) DEFAULT_HTTP_LINE_LEN - 1);
 
         line_cursor = strtok(NULL, "\r\n");
     }
