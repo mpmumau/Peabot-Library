@@ -68,6 +68,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     char header_str[header_len];
     memset(header_str, '\0', header_len);
     memcpy(header_str, &(buffer_cpy[0]), header_len);
+    header_str[header_len - 1] = '\0';
 
     printf("[header:%d]\n%s\n", header_len, header_str);
 
