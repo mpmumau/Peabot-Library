@@ -95,6 +95,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     line_cursor = strtok((char *) line, delim);
     if (line_cursor == NULL)
         return;
+    http_request->method = HTTP_BADREQUEST;
     if (strcmp(line_cursor, "POST") == 0)
         http_request->method = HTTP_POST;    
     if (strcmp(line_cursor, "GET") == 0)
