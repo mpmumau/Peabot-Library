@@ -59,7 +59,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
         memset(next_line, '\0', DEFAULT_HTTP_LINE_LEN);
         memcpy(next_line, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
 
-        printf("attemped to added: %s\n", next_line);
+        printf("attemped to add: %s\n", next_line);
+        printf("is now: %s\n", lines[i]);
 
         line_cursor = strtok(NULL, "\n");
     }
