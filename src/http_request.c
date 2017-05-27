@@ -21,7 +21,7 @@
 #include "http_request.h"
 
 /* Forward decs */
-static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int size);
+static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
