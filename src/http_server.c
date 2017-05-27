@@ -118,7 +118,7 @@ static void *http_main(void *arg)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
 
 
-        http_request_parse(&http_request, http.buffer);
+        http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         if (write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
             app_exit("[ERROR!] Could not send return message to socket (http_main).", 1);
