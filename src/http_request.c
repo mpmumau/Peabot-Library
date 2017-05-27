@@ -44,9 +44,19 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     HTTPRequestLine lines[max_lines];
 
+    int max_body_len = DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN);
+
     unsigned int i;
 
-    char *body_str = strstr(buffer_cpy, "\r\n\r\n");
+    char body_str[max_body_len];
+    char *body_substr = strstr(buffer_cpy, "\r\n\r\n");
+    memset(body_str, '\0', max_body_len);
+    memcpy(body_str, body_substr, max_body_len);
+    body_str[max_body_len - 1] = '\0';
+
+    int body_count = strlen(body_str);
+    printf("size of body: %d\n", body_count);
+
     if (body_str != NULL)
     {
         body_str = body_str + 4;
