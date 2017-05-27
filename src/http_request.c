@@ -59,8 +59,8 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     if (body_str != NULL)
     {
-        body_str = body_str + 4;
-        printf("[body]\n%s\n", body_str);
+        char *body = &(body_str[4]);
+        printf("[body]\n%s\n", body);
     }
 
     printf("what is this?: %d\n", body_str - buffer_cpy);
