@@ -148,7 +148,7 @@ static int http_request_copy_buffer(char *dest, char *src, size_t size)
 {
     memset(dest, '\0', size);
     memcpy(dest, src, size - 1);
-    buffer_cpy[size - 1] = '\0';     
+    dest[size - 1] = '\0';     
 
     return strlen(dest);
 }
