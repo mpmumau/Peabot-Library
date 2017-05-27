@@ -44,9 +44,6 @@ void prompt_init()
 void prompt_halt()
 {
     running = false;
-    int error = pthread_join(prompt_thread, NULL);
-    if (error)
-        log_event("[ERROR!] Could not rejoin from prompt thread.");
 }
 
 static void *prompt_main(void *arg)
