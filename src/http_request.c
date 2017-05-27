@@ -48,14 +48,18 @@ void http_request_parse(HTTPRequest *http_request, char *raw)
 
     int i;
     char *line_cursor = strtok(buffer_cpy, "\n");
+    char *next_line;
     for (i = 0; i < max_lines; i++)
     {
         if (line_cursor == NULL)
             break;
 
-        memset(lines, '\0', DEFAULT_HTTP_LINE_LEN);
-        memcpy(lines, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
-        lines++;
+        next_line = &(lines[i]);
+
+        memset(next_line, '\0', DEFAULT_HTTP_LINE_LEN);
+        memcpy(next_line, line_cursor, (size_t) DEFAULT_HTTP_LINE_LEN - 1);
+
+        printf("attemped to added: %s\n", next_line);
 
         line_cursor = strtok(NULL, "\n");
     }
