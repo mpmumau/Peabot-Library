@@ -122,7 +122,7 @@ static void *http_main(void *arg)
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         if (write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
-            printf("errno: %d", errno);
+            printf("err[%d]: %s\n", errno, strerror(errno));
         fsync(last_socket);
 
         close(last_socket);
