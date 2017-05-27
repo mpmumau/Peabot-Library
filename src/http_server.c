@@ -37,8 +37,10 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
+static void http_server_log_connection();
 
 static HTTPServer http;
+static socklen_t client_length;
 
 void http_init()
 {  
@@ -47,42 +49,43 @@ void http_init()
         return;
     int *http_port = (int *) config_get(CONF_HTTP_PORT);
 
+    client_length = (socklen_t) sizeof(http.cli_addr);
+
     http.running = true;
-    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
-    
+
+    http.srv_addr.sin_family = AF_INET;
+    http.srv_addr.sin_addr.s_addr = INADDR_ANY;
+    http.srv_addr.sin_port = htons(*http_port);    
+
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
         app_exit("[ERROR!] Could not create socket (http_init).", 1);
 
-    http.srv_addr.sin_family = AF_INET;
-    http.srv_addr.sin_addr.s_addr = INADDR_ANY;
-    http.srv_addr.sin_port = htons(*http_port);
-
     if (bind(http.socket, (struct sockaddr *) &http.srv_addr, sizeof(http.srv_addr)) < 0)
-    {
         app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
-    }
+
+    listen(http.socket, DEFAULT_HTTP_MAX_CONNS);    
+
+    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
 }
 
 void http_halt()
 {
     http.running = false;
-    pthread_join(http.thread, NULL);
+    int error = pthread_join(http.thread, NULL);
+    if (error)
+        log_event("[ERROR!] Could not rejoin from robot thread.");
 }
 
 static void *http_main(void *arg)
 {
     struct timespec time, last_time;
-    double tick = 0.0, diff = 0.0, max_tick = 0.25;
+    double tick, diff, max_tick;
 
-    socklen_t client_length = (socklen_t) sizeof(http.cli_addr);
     int last_socket = -1;
-
+    
     HTTPRequest http_request;
     HTTPResponse http_response;
-
-    char log_connection_msg[128];
-    char client_ip_str[INET6_ADDRSTRLEN];
 
     //tmp
     char *response_buffer = "HTTP/1.1 200 OK\r\nDate: Wed, May 23 2017 10:38:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
@@ -99,31 +102,19 @@ static void *http_main(void *arg)
             continue;
         tick = 0.0;
 
-        // Loop start 
-        listen(http.socket, DEFAULT_HTTP_MAX_CONNS);
-
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
 
-        inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
-        snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str);
-        console_event(log_connection_msg);
-        //log_event(log_connection_msg);
+        http_server_log_connection();
 
-        bzero(http.buffer, (size_t) DEFAULT_HTTP_BUFFER_SIZE);
+        bzero(http.buffer, (size_t) DEFAULT_HTTP_MAX_BUFFER);
 
-        if (read(last_socket, http.buffer, DEFAULT_HTTP_BUFFER_SIZE - 1) < 0)
+        if (read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
 
-        printf("\n------------------------------------------------------------------\n");
+        //tmp
         printf("%s", http.buffer);
-        printf("\n------------------------------------------------------------------\n");
-
-        // http_response_set(&http_response, 200, "OK", "{ 'an_object': 'set_to_this' }");
-        // response_buffer = http_response_tobuffer(&http_response);
-
-        printf(response_buffer);
 
         if (write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
             app_exit("[ERROR!] Could not send return message to socket (http_main).", 1);
@@ -134,6 +125,18 @@ static void *http_main(void *arg)
     close(http.socket);
 
     return NULL;
+}
+
+static void http_server_log_connection()
+{
+    char log_connection_msg[128];
+    char client_ip_str[INET6_ADDRSTRLEN];    
+    
+    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
+    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str);    
+
+    console_event(log_connection_msg);
+    //log_event(log_connection_msg);
 }
 
 #endif
