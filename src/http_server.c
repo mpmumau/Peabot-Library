@@ -89,7 +89,7 @@ static void *http_main(void *arg)
 
     listen(http.socket, DEFAULT_HTTP_MAX_CONNS);    
 
-    //tmp
+    //tmp - note this must be an array, not a pointer
     char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
     struct timespec time, last_time;
@@ -114,18 +114,13 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        printf("last socket: %d\n", last_socket);
-
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
         read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER);
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
-        printf("response buffer: %s\n", response_buffer);
-
-        if (write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
-            printf("err[%d]: %s\n", errno, strerror(errno));
+        write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);
 
         close(last_socket);
