@@ -75,7 +75,7 @@ static void *http_main(void *arg)
     HTTPRequest http_request;
     //HTTPResponse http_response;
 
-    socklen_t client_length = sizeof(http.cli_addr);    
+    int client_length = sizeof(http.cli_addr);    
 
     char ip_addr[INET6_ADDRSTRLEN];
 
