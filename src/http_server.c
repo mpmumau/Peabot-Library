@@ -119,8 +119,12 @@ static void *http_main(void *arg)
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         write(last_socket, response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
+        fsync(last_socket);
+        
         close(last_socket);
     }
+
+    close(http.socket);
 
     return NULL;
 }
