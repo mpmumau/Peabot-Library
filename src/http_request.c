@@ -74,7 +74,7 @@ static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine
     if (size == 1)
         return;
 
-    for (int i = 1; i++; i < size)
+    for (int i = 1; i < size; i++)
     {
         printf("[HEADER]: %s\n", lines[i]);
     }
