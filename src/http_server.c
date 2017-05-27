@@ -147,7 +147,7 @@ static void http_server_ipstr(char *str, int str_size)
 static void http_server_log_connect(char *ipaddr)
 {
     char log_connection_msg[128];
-    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", client_ip_str);   
+    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", ipaddr);   
     console_event(log_connection_msg);    
 }
 
