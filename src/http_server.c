@@ -110,7 +110,7 @@ static void *http_main(void *arg)
 
         memset(http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
 
-        last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
+        last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), &client_length);
         if (last_socket < 0) 
             continue;
 
