@@ -76,7 +76,8 @@ static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine
 
     for (int i = 1; i < size; i++)
     {
-        printf("[HEADER]: %s\n", lines[i]);
+        // todo: handle headers as neccessary
+        printf("[H#%d]: %s\n", i, lines[i]);
     }
 }
 
