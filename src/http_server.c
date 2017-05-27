@@ -124,7 +124,7 @@ static void *http_main(void *arg)
 
         printf("response buffer: %s\n", response_buffer);
 
-        if (write(last_socket, (const void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE) < 0)
+        if (write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE - 1) < 0)
             printf("err[%d]: %s\n", errno, strerror(errno));
         fsync(last_socket);
 
