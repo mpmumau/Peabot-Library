@@ -92,10 +92,10 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     char *line_cursor;
     char delim[] = " ";
     
+    http_request->method = HTTP_BADREQUEST;
     line_cursor = strtok((char *) line, delim);
     if (line_cursor == NULL)
         return;
-    http_request->method = HTTP_BADREQUEST;
     if (strcmp(line_cursor, "POST") == 0)
         http_request->method = HTTP_POST;    
     if (strcmp(line_cursor, "GET") == 0)
@@ -105,10 +105,19 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_DELETE;
 
+    memset(http_request->uri, '\0', DEFAULT_HTTP_URI_LEN);
+    line_cursor = strtok(NULL, delim);
+    if (line_cursor == NULL)
+        return;
+    memcpy(http_request->uri, line_cursor, DEFAULT_HTTP_URI_LEN);
+
+    http_request->v11 = false;
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)
         return;
 
+    if (strcmp(line_cursor, "HTTP/1.1") == 0)
+        http_request->v11 = true;
 }
 
 #endif

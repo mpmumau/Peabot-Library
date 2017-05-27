@@ -115,11 +115,15 @@ static void *http_main(void *arg)
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
+        http_request.ip_addr = ip_addr;
 
         read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER);
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
-        printf("request method: %d\n", http_request.method);
+        printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
+        printf("[REQUEST] method: %d\n", http_request.method);
+        printf("[REQUEST] uri: %s\n", http_request.uri);
+        printf("[REQUEST] v11: %d\n", http_request.v11);
 
         write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);

@@ -28,6 +28,7 @@ typedef struct HTTPRequest {
     int method;
     char uri[DEFAULT_HTTP_URI_LEN];
     char data[DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN)];
+    bool v11;
 } HTTPRequest;
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size);
