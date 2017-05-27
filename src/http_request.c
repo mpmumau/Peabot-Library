@@ -83,12 +83,6 @@ static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine
     }
 }
 
-
-#define HTTP_POST 0
-#define HTTP_GET 1
-#define HTTP_UPDATE 2
-#define HTTP_DELETE 3
-
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line)
 {
     if (line == NULL)
@@ -116,7 +110,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)
         return;
-    
+
 }
 
 #endif
