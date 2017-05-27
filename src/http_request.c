@@ -21,7 +21,6 @@
 #include "http_request.h"
 
 /* Forward decs */
-static void http_request_split_body(char *raw, char *first, char *second);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
@@ -59,11 +58,6 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     }
 
     http_request->total_lines = i + 1;
-}
-
-static void http_request_split_body(char *raw, char *first, char *second)
-{
-    
 }
 
 #endif
