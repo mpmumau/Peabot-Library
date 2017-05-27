@@ -25,7 +25,7 @@ static void http_request_split_body(char *raw, char *first, char *second);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
-    if (http_request == NULL || raw == NULL || ip_addr == NULL)
+    if (http_request == NULL || raw == NULL)
         return;
 
     char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
