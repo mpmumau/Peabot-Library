@@ -34,17 +34,17 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     memcpy(buffer_cpy, raw, DEFAULT_HTTP_MAX_BUFFER - 1);
     buffer_cpy[DEFAULT_HTTP_MAX_BUFFER - 1] = '\0'; 
 
-    printf("buffer_cpy: %s\n", buffer_cpy);
-
-    // bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
-    // int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
+    bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
+    int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
     
-    // if (add_extra_line)
-    //     max_lines++;
+    if (add_extra_line)
+        max_lines++;
 
-    //HTTPRequestLine lines[max_lines];
+    HTTPRequestLine lines[max_lines];
 
-    //unsigned int i;
+    unsigned int i;
+
+    printf("buffer_cpy: %s\n", buffer_cpy);
 
     //const char body_delim[4] = "\r\n\r\n";
     //char *body_p = strstr(buffer_cpy, body_delim);
