@@ -112,12 +112,9 @@ static void *http_main(void *arg)
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
-
         memset((void *) http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
-
         if (read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER - 1) < 0)
             app_exit("[ERROR!] Could not read from last_socket (http_main).", 1);
-
 
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
