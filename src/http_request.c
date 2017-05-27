@@ -26,22 +26,29 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
 static int http_request_max_body_len();
 static int http_request_copy_buffer(char *dest, char *src, size_t size);
 static int http_request_copy_body(char *dest, char *src, size_t size);
+static int http_request_copy_header(char *dest, char *src, size_t size);
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
     if (http_request == NULL || raw == NULL)
         return;
 
-    int max_body_len = http_request_max_body_len();
+    int MAX_BODY_LEN = http_request_max_body_len();
 
-    char buffer_cpy[DEFAULT_HTTP_MAX_BUFFER];
-    char body_str[max_body_len];
+    char buffer[DEFAULT_HTTP_MAX_BUFFER];
+    char body[MAX_BODY_LEN];
 
-    int buffer_cpy_len = http_request_copy_buffer(buffer_cpy, raw, sizeof(buffer_cpy));
-    printf("\n[buffer_cpy:%d]\n%s\n", buffer_cpy_len, buffer_cpy);
+    int buffer_len = http_request_copy_buffer(buffer, raw, sizeof(buffer));
+    int body_len = http_request_copy_body(body, buffer, MAX_BODY_LEN);
 
-    int body_len = http_request_copy_body(body_str, buffer_cpy, max_body_len);
-    printf("\n[body:%d]\n%s\n", body_len, body_str);
+    int MAX_HEADER_LEN = DEFAULT_HTTP_MAX_BUFFER - body_len;
+    char header[MAX_HEADER_LEN];
+    int header_len = http_request_copy_header(char *dest, char *src, size_t size);
+
+
+    printf("\n[buffer:%d]\n%s\n", buffer_len, buffer);
+    printf("\n[header:%d]\n%s\n", header_len, header);
+    printf("\n[body:%d]\n%s\n", body_len, body);
 
     // unsigned int i;
     // HTTPRequestLine lines[max_lines];
@@ -171,6 +178,14 @@ static int http_request_copy_body(char *dest, char *src, size_t size)
     memset(dest, '\0', size);
     memcpy(dest, &(body_substr[4]), size - 1);
    
+    return strlen(dest);
+}
+
+static int http_request_copy_header(char *dest, char *src, size_t size)
+{
+    memset(dest, '\0', size);
+    memcpy(dest, &(src[0]), size - 1);
+
     return strlen(dest);
 }
 
