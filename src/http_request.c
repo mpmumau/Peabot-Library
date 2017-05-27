@@ -43,8 +43,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     int MAX_HEADER_LEN = DEFAULT_HTTP_MAX_BUFFER - body_len;
     char header[MAX_HEADER_LEN];
-    int header_len = http_request_copy_header(char *dest, char *src, size_t size);
-
+    int header_len = http_request_copy_header(header, buffer, MAX_HEADER_LEN);
 
     printf("\n[buffer:%d]\n%s\n", buffer_len, buffer);
     printf("\n[header:%d]\n%s\n", header_len, header);
