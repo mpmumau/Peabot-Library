@@ -84,7 +84,7 @@ void *httprhnd_handle_request(void *data)
     // free(http_request);   
     // free(request_thread_data);
 
-    pthread_exit();
+    pthread_exit(NULL);
 }
 
 static void httprhnd_handle_get(HTTPRequest *http_request)
