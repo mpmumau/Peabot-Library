@@ -120,15 +120,14 @@ static void *http_main(void *arg)
     if (request_handler_process == 0)
     {
         close(http.socket);
-        return NULL;
     }
 
-    exit(0);
+    return NULL;
 }
 
 static void http_server_handle_request(HTTPRequest *http_request)
 {
-    printf("Handling request...\n");
+    printf("\nHandling request...\n");
     httpreq_print(http_request);
 }
 
