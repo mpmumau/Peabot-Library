@@ -45,19 +45,19 @@ void *httprhnd_handle_request(void *data)
     char uri_cpy[sizeof(http_request->uri)];
     str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
 
-    printf("[URI] %s\n", uri_cpy);
+    // printf("[URI] %s\n", uri_cpy);
 
     char *uri_p;
     if (uri_cpy[0] == '/')
         uri_p = &(uri_cpy[1]);
 
-    char *model_name = strtok(uri_p, "/");
-    char *controller_name = strtok(NULL, "?");
-    char *query_string = strtok(NULL, "\0");
+    // char *model_name = strtok(uri_p, "/");
+    // char *controller_name = strtok(NULL, "?");
+    // char *query_string = strtok(NULL, "\0");
 
     //int model = httprhnd_get_model(model_name);
 
-    printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
+    // printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
 
     void (*request_cb)(HTTPRequest *http_request);
     request_cb = NULL;
