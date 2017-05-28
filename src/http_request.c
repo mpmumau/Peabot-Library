@@ -82,7 +82,7 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
     if (lines == NULL || lines_len <= 0)
         return;
 
-    http_request_handle_request_line(http_request, &(lines[0]));
+    httpreq_handle_request_line(http_request, &(lines[0]));
 
     if (lines_len == 1)
         return;
