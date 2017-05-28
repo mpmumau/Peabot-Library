@@ -35,7 +35,7 @@ typedef struct HTTPServer {
 typedef struct HTTPRequestThreadData {
     HTTPRequest *http_request;
     int socket_fd;
-}
+} HTTPRequestThreadData;
 
 /* Initialize the HTTP server component of Peabot. */
 void http_init();
