@@ -112,7 +112,7 @@ static void *http_main(void *arg)
         request_thread_data->http_request = http_request;
         request_thread_data->socket_fd = last_socket;
 
-        pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) &request_thread_data);
+        pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) request_thread_data);
     }
 
     close(http.socket);
