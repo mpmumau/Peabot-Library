@@ -22,7 +22,7 @@
 /* System includes */
 #include <netinet/in.h>
 
-typedef char HTTPRequestLine[DEFAULT_HTTP_LINE_LEN];
+typedef char HTTPRequestLine[HTTP_REQ_LINE_LEN];
 
 typedef struct HTTPRequest {
     char    ip_addr[INET6_ADDRSTRLEN];
