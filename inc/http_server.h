@@ -8,8 +8,8 @@
  Author:        Matt Mumau
  */
 
-#define DEFAULT_HTTP_MAX_CONNS 32
-#define HTTP_BUFFER_MAX (256*1024) // 256kb
+#define HTTP_SERVER_MAX_CONNS 32
+#define HTTP_SERVER_BUFFER_MAX (256*1024) // 256kb
 
 #define DEFAULT_HTTP_RESPONSE_SIZE 32768
 

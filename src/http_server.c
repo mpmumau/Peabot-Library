@@ -63,7 +63,6 @@ void http_halt()
 static void *http_main(void *arg)
 {
     http.running = true;
-
     int *http_port = (int *) config_get(CONF_HTTP_PORT);
 
     http.srv_addr.sin_family = AF_INET;
@@ -71,9 +70,6 @@ static void *http_main(void *arg)
     http.srv_addr.sin_port = htons(*http_port);      
 
     int last_socket = -1;
-
-    HTTPRequest http_request;
-    //HTTPResponse http_response;
 
     int client_length = sizeof(http.cli_addr);    
 
@@ -86,30 +82,15 @@ static void *http_main(void *arg)
     if (bind(http.socket, (struct sockaddr *) &(http.srv_addr), sizeof(http.srv_addr)) < 0)
         app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
 
-    listen(http.socket, DEFAULT_HTTP_MAX_CONNS);    
+    listen(http.socket, HTTP_SERVER_MAX_CONNS);    
 
-    //tmp - note this must be an array, not a pointer
+    //tmp
     char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
-    struct timespec time, last_time;
-    double tick, diff, max_tick;
-    max_tick = 1.0;
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
-    
     while (http.running)
     {
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        diff = utils_timediff(time, last_time);
-        last_time = time;
-
-        tick += diff;
-        if (tick < max_tick)
+        if (!http_check_throttle())
             continue;
-        tick = 0.0;
-
-        httpreq_reset_request(&http_request);
-
-        memset(http.buffer, '\0', HTTP_BUFFER_MAX);
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
@@ -117,12 +98,13 @@ static void *http_main(void *arg)
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
-        
-        memset(http_request.ip_addr, '\0', INET6_ADDRSTRLEN);
-        memcpy(http_request.ip_addr, ip_addr, INET6_ADDRSTRLEN);
 
-        read(last_socket, http.buffer, HTTP_BUFFER_MAX);
-        httpreq_parse(&http_request, http.buffer, sizeof(http.buffer));
+        memset(http.buffer, '\0', sizeof(http.buffer));   
+        read(last_socket, http.buffer, sizeof(http.buffer));
+
+        HTTPRequest *http_request = calloc(sizeof(HTTPRequest));
+        httpreq_reset_request(http_request);   
+        httpreq_parse(&http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
         // debug
         httpreq_print(http_request);
@@ -156,6 +138,23 @@ static void http_server_log_connect(char *ipaddr)
     char log_connection_msg[128];
     snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", ipaddr);   
     log_event(log_connection_msg);  
+}
+
+static bool http_check_throttle()
+{
+    static struct timespec time, last_time;
+    static double tick = 0.0, diff = 0.0, max_tick = 1.0;
+
+    clock_gettime(CLOCK_MONOTONIC, &time);
+    diff = utils_timediff(time, last_time);
+    last_time = time;
+
+    tick += diff;
+    if (tick < max_tick)
+        return false;
+
+    tick = 0.0;    
+    return true;
 }
 
 #endif

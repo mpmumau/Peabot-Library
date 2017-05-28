@@ -44,10 +44,9 @@ void httpreq_reset_request(HTTPRequest *request)
     memset(request->body, '\0', sizeof(request->body));
 }
 
-void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
+void httpreq_parse(HTTPRequest *http_request, char *ip_addr, char *raw, int buff_size)
 {
-    if (http_request == NULL || raw == NULL)
-        return;
+    memcpy(http_request->id_addr, ip_addr, sizeof(http_request->id_addr));
 
     char buffer[HTTP_REQ_BUFFER_LEN];
     int buffer_len = httpreq_copy_buffer(buffer, raw, sizeof(buffer));
