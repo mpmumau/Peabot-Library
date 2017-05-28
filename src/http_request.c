@@ -105,7 +105,7 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
         http_request->body_len = atoi(val);
 
     if (strcmp(key, "Content-Type") == 0)
-        http_request->hdr_content_type = httpreq_parse_content_type(char *val);
+        http_request->hdr_content_type = httpreq_parse_content_type(val);
 
     // etc...
 }
