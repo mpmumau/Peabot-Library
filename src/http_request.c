@@ -46,9 +46,9 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     int header_len = http_request_copy_header(header, buffer, sizeof(header));
 
     HTTPRequestLine lines[HTTP_REQ_MAX_HEADERS];
-    http_request_split_lines(lines, sizeof(lines), header, sizeof(header));
+    int lines_added = http_request_split_lines(lines, sizeof(lines), header, sizeof(header));
 
-    for(int i = 0; i < sizeof(lines); i++)
+    for(int i = 0; i < lines_added; i++)
         printf("[L%d] %s\n", i, lines[i]);
 
     // char *body = NULL;
