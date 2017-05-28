@@ -73,6 +73,7 @@ static void *http_main(void *arg)
 
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
+    int fork_pid;
     char ip_addr[INET6_ADDRSTRLEN];
     HTTPRequest *http_request;
 
@@ -107,7 +108,12 @@ static void *http_main(void *arg)
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
-        http_server_handle_request(http_request, last_socket);
+        fork_pid = fork();
+        if (fork_pid == 0)
+        {  
+            http_server_handle_request(http_request, last_socket);
+            exit(0);
+        }
     }
 
     close(http.socket);
