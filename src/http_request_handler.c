@@ -46,7 +46,7 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     char *controller_name = strtok(NULL, "?");
 
-    char *query_string = strtok(NULL, '\0');
+    char *query_string = strtok(NULL, "\0");
 
     printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
 
