@@ -27,6 +27,7 @@ static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLi
 static int httpreq_copy_buffer(char *dest, char *src, size_t size);
 static int httpreq_copy_body(char *dest, char *src, size_t size);
 static int httpreq_copy_header(char *dest, char *src, size_t size);
+static int httpreq_parse_content_type(char *val);
 
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
@@ -101,6 +102,9 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
 
     if (strcmp(key, "content-length") == 0)
         http_request->body_len = atoi(val);
+
+    if (strcmp(key, "Content-Type") == 0)
+        http_request->hdr_content_type = httpreq_parse_content_type(char *val);
 
     // etc...
 }
@@ -185,6 +189,12 @@ static int httpreq_get_max_lines()
     if (add_extra_line)
         max_lines++;           
     return max_lines;
+}
+
+static int httpreq_parse_content_type(char *val)
+{
+    if (strcmp(val, "application/json") == 0)
+        return HTTP_CONTENT_TYPE_JSON;
 }
 
 #endif
