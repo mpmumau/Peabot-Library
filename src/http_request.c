@@ -34,7 +34,7 @@ void httpreq_reset_request(HTTPRequest *request)
 {
     memset(request->ip_addr, '\0', sizeof(request->ip_addr));
     request->v11 = false;
-    request->method = HTTP_BADREQUEST;
+    request->method = HTTP_METHOD_BADREQUEST;
     memset(request->uri, '\0', sizeof(request->uri));
     request->hdr_content_type = 0;
     memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
