@@ -39,6 +39,7 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
+static void http_server_handle_request(HTTPRequest *http_request);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
 static bool http_check_throttle();
@@ -70,11 +71,11 @@ static void *http_main(void *arg)
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
     http.srv_addr.sin_port = htons(*http_port);      
 
+    int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
-
-    int client_length = sizeof(http.cli_addr);    
-
+    pid_t request_handler_process; 
     char ip_addr[INET6_ADDRSTRLEN];
+    HTTPRequest *http_request;
 
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
@@ -103,23 +104,32 @@ static void *http_main(void *arg)
         memset(http.buffer, '\0', sizeof(http.buffer));   
         read(last_socket, http.buffer, sizeof(http.buffer));
 
-        HTTPRequest *http_request = calloc(1, sizeof(HTTPRequest));
+        http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
-        // debug
-        httpreq_print(http_request);
+        request_handler_process = fork();
 
-        write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
-        fsync(last_socket);
+        if (request_handler_process == 0)
+            continue;
 
-        free(http_request);
-        close(last_socket);
+        http_server_handle_request(http_request);
+        break;
     }
 
-    close(http.socket);
+    if (request_handler_process == 0)
+    {
+        close(http.socket);
+        return NULL;
+    }
 
-    return NULL;
+    exit(0);
+}
+
+static void http_server_handle_request(HTTPRequest *http_request)
+{
+    printf("Handling request...\n");
+    httpreq_print(http_request);
 }
 
 static void http_server_ipstr(char *str, int str_size)
