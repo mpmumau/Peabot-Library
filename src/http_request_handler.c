@@ -29,8 +29,12 @@ static void httprhnd_handle_delete(HTTPRequest *http_request);
 static void httprhnd_handle_options(HTTPRequest *http_request);
 static int httprhnd_get_model(char *model_str);
 
-void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
+void *httprhnd_handle_request(void *data)
 {
+    HTTPRequestThreadData *request_thread_data = (HTTPRequestThreadData) data;
+    HTTPRequest *http_request = request_thread_data->http_request;
+    int socket_fd = request_thread_data->socket_fd;
+
     printf("\nHandling request...\n");
 
     //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
@@ -72,6 +76,12 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     if (request_cb != NULL)
         (*request_cb)(http_request);
+
+    close(last_socket);
+    free(http_request);   
+    free(request_thread_data);
+
+    exit(0); 
 }
 
 static void httprhnd_handle_get(HTTPRequest *http_request)
@@ -97,7 +107,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request)
 
     for (int i = 0; i++; i < 99999999)
     {
-        
+
     }      
 }
 

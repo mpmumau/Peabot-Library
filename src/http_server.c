@@ -77,6 +77,9 @@ static void *http_main(void *arg)
     char ip_addr[INET6_ADDRSTRLEN];
     HTTPRequest *http_request;
 
+    HTTPRequestThreadData *request_thread_data;
+    pthread_t last_request_thread;
+
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
         app_exit("[ERROR!] Could not create socket (http_init).", 1);
@@ -105,14 +108,13 @@ static void *http_main(void *arg)
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
-        // fork_pid = fork();
-        // if (fork_pid == 0)
-        // {  
-            httprhnd_handle_request(http_request, last_socket);
-            close(last_socket);
-            free(http_request);
-        //     exit(0);
-        // }
+        request_thread_data = calloc(1, sizeof(HTTPRequestThreadData))
+        {
+            request_thread_data->http_request = http_request;
+            request_thread_data->socket_fd = last_socket;
+        }
+
+        pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) &request_thread_data);
     }
 
     close(http.socket);

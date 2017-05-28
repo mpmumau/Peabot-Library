@@ -31,6 +31,11 @@ typedef struct HTTPServer {
     char        buffer[HTTP_SERVER_BUFFER_MAX];
 } HTTPServer;
 
+typedef struct HTTPRequestThreadData {
+    HTTPRequest *http_request;
+    int socket_fd;
+}
+
 /* Initialize the HTTP server component of Peabot. */
 void http_init();
 

@@ -16,6 +16,6 @@
 /* Application includes */
 #include "http_request.h"
 
-void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd);
+void *httprhnd_handle_request(void *data);
 
 #endif
