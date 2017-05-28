@@ -21,6 +21,7 @@
 
 /* Application includes */
 #include "config_defaults.h"
+#include "http_request.h"
 
 typedef struct HTTPServer {
     bool        running;
