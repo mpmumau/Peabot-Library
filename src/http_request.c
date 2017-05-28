@@ -60,7 +60,7 @@ void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     int MAX_HEADER_LEN = buffer_len - body_len;
     char header[MAX_HEADER_LEN];
-    int header_len = httpreq_copy_header(header, buffer, sizeof(header));
+    httpreq_copy_header(header, buffer, sizeof(header));
     
     HTTPRequestLine header_lines[HTTP_REQ_MAX_HEADERS + 1];
     int lines_added = httpreq_split_header(header_lines, sizeof(header_lines), header, sizeof(header));
