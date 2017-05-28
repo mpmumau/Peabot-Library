@@ -105,12 +105,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request)
     EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
     walk_data->cycles = 1;
     walk_data->duration = 2.0;   
-    event_add(EVENT_WALK, (void *) walk_data); 
-
-    for (int i = 0; i++; i < 99999999)
-    {
-
-    }      
+    event_add(EVENT_WALK, (void *) walk_data);    
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request)
