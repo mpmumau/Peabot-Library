@@ -32,7 +32,7 @@ static int httprhnd_get_model(char *model_str);
 
 void *httprhnd_handle_request(void *data)
 {
-    HTTPRequestThreadData *request_thread_data = (HTTPRequestThreadData) data;
+    HTTPRequestThreadData *request_thread_data = (HTTPRequestThreadData *) data;
     HTTPRequest *http_request = request_thread_data->http_request;
     int socket_fd = request_thread_data->socket_fd;
 
