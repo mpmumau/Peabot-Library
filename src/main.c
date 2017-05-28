@@ -39,7 +39,7 @@ static int exit_val = 0;
 /* Forward decs */
 static void signal_handler(int signum);
 
-List *events = calloc(1024, sizeof(List));
+List *events;
 
 void app_exit(char *message, int retval)
 {
@@ -118,6 +118,7 @@ int main(int argc, char *argv[])
 
     keyhandler_init();
 
+    events = calloc(1024, sizeof(List));
     event_init(events);
     
     prompt_init();
