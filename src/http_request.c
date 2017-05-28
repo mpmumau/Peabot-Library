@@ -29,14 +29,25 @@ static int httpreq_copy_buffer(char *dest, char *src, size_t size);
 static int httpreq_copy_body(char *dest, char *src, size_t size);
 static int httpreq_copy_header(char *dest, char *src, size_t size);
 static int httpreq_parse_content_type(char *val);
-static void httpreq_init_request(HTTPRequest *request);
+
+void httpreq_init_request(HTTPRequest *request)
+{
+    memset(request->ip_addr, '\0', sizeof(request->ip_addr));
+    request->v11 = false;
+    request->method = HTTP_BADREQUEST;
+    memset(request->uri, '\0', sizeof(request->uri));
+    request->hdr_content_type = 0;
+    memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
+    request->hdr_keep_alive = false;
+    request->body_len = 0;
+    request->body_len_actual = 0;
+    memset(request->body, '\0', sizeof(request->body));
+}
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
     if (http_request == NULL || raw == NULL)
         return;
-
-    httpreq_init_request(http_request);
 
     char buffer[HTTP_REQ_BUFFER_LEN];
     int buffer_len = httpreq_copy_buffer(buffer, raw, sizeof(buffer));
@@ -201,21 +212,6 @@ static int httpreq_parse_content_type(char *val)
         return HTTP_CONTENT_TYPE_JSON;
 
     return 0;
-}
-
-static void httpreq_init_request(HTTPRequest *request)
-{
-    memset(request->ip_addr, '\0', sizeof(request->ip_addr));
-    request->v11 = false;
-    request->method = HTTP_BADREQUEST;
-    memset(request->uri, '\0', sizeof(request->uri));
-    request->hdr_content_type = 0;
-    memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
-    request->hdr_keep_alive = false;
-    request->body_len = 0;
-    request->body_len_actual = 0;
-    memset(request->body, '\0', sizeof(request->body));
-
 }
 
 #endif
