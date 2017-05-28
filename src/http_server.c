@@ -42,7 +42,6 @@
 static void *http_main(void *arg);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
-static bool http_check_throttle();
 
 static HTTPServer http;
 
@@ -91,9 +90,6 @@ static void *http_main(void *arg)
 
     while (http.running)
     {
-        if (!http_check_throttle())
-            continue;
-
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
             continue;
@@ -137,23 +133,6 @@ static void http_server_log_connect(char *ipaddr)
     char log_connection_msg[128];
     snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", ipaddr);   
     log_event(log_connection_msg);  
-}
-
-static bool http_check_throttle()
-{
-    static struct timespec time, last_time;
-    static double tick = 0.0, diff = 0.0, max_tick = 1.0;
-
-    clock_gettime(CLOCK_MONOTONIC, &time);
-    diff = utils_timediff(time, last_time);
-    last_time = time;
-
-    tick += diff;
-    if (tick < max_tick)
-        return false;
-
-    tick = 0.0;    
-    return true;
 }
 
 #endif

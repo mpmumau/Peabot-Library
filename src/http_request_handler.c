@@ -38,8 +38,6 @@ void *httprhnd_handle_request(void *data)
     HTTPRequest *http_request = request_thread_data->http_request;
     int socket_fd = request_thread_data->socket_fd;
 
-    printf("\nHandling request...\n");
-
     //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
     char uri_cpy[sizeof(http_request->uri)];
@@ -76,15 +74,7 @@ void *httprhnd_handle_request(void *data)
         request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
-    {
-        printf("Has cb\n");
         (*request_cb)(http_request);
-    } 
-    else
-    {
-        printf("does not have callback? [method] %d\n", http_request->method);
-
-    }
 
     close(socket_fd);
     free(http_request);   
