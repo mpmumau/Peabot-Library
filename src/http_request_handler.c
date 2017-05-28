@@ -129,13 +129,13 @@ static int httprhnd_get_model(char *model_str)
     if (model_str == NULL)
         return model;
 
-    if (strcmp(model_str, "event"))
+    if (strcmp(model_str, "event") == 0)
         model = MODEL_EVENT;
 
-    if (strcmp(model_str, "usd"))
+    if (strcmp(model_str, "usd") == 0)
         model = MODEL_USD;
 
-    if (strcmp(model_str, "position"))
+    if (strcmp(model_str, "position") == 0)
         model = MODEL_POSITION;
 
     return model;
