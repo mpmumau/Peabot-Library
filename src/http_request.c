@@ -82,7 +82,7 @@ static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *
 static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
 {
     char line_cpy[line_len];
-    memset(line_cpy '\0', sizeof(line_cpy));
+    memset(line_cpy, '\0', sizeof(line_cpy));
     memcpy(line_cpy, line, sizeof(line_cpy) - 1);
 
     char delim[1] = ":";
