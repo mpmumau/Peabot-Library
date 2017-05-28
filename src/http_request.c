@@ -52,7 +52,7 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     for (int i = 0; i < lines_added; i++)
         printf("[L%d] %s\n", i, header_lines[i]);
 
-    printf("[body]\n%s\n", body);
+    printf("[body]\n%s\n", http_request->body);
 }
 
 static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
