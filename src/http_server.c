@@ -108,7 +108,7 @@ static void *http_main(void *arg)
         fork_pid = fork();
         if (fork_pid == 0)
         {  
-            httprhnd_handle_request(http_request, last_socket);
+            httprhnd_handle_request(http_request);
             close(last_socket);
             free(http_request);
             exit(0);

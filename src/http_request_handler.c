@@ -18,33 +18,52 @@
 /* Header */
 #include "http_request_handler.h"
 
-void httprhnd_handle_request(HTTPRequest *http_request, int last_socket)
+/* Forward decs */
+static void httprhnd_handle_get(HTTPRequest *http_request);
+static void httprhnd_handle_post(HTTPRequest *http_request);
+static void httprhnd_handle_put(HTTPRequest *http_request);
+static void httprhnd_handle_delete(HTTPRequest *http_request);
+static void httprhnd_handle_option(HTTPRequest *http_request);
+
+void httprhnd_handle_request(HTTPRequest *http_request)
 {
     printf("\nHandling request...\n");
 
     //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
-    switch (http_request->method)
-    {
-        case HTTP_METHOD_GET:
-            printf("\n[GET REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_POST:
-            printf("\n[POST REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_PUT:
-            printf("\n[PUT REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_DELETE:
-            printf("\n[DELETE REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_OPTIONS:
-            printf("\n[OPTIONS REQUEST DETECTED]\n");
-            break;    
-        default:
-            printf("\n[BAD REQUEST DETECTED]\n");
-            break;                       
-    }
+    void (*request_cb)(HTTPRequest *http_request);
+    request_cb = NULL;
+
+    if (http_request->method == HTTP_METHOD_GET)
+        request_cb = httprhnd_handle_get;
+
+    if (request_cb != NULL)
+        (*request_cb)(http_request);
+}
+
+static void httprhnd_handle_get(HTTPRequest *http_request)
+{
+    printf("\n[GET REQUEST DETECTED]\n");
+}
+
+static void httprhnd_handle_post(HTTPRequest *http_request)
+{
+    printf("\n[POST REQUEST DETECTED]\n");
+}
+
+static void httprhnd_handle_put(HTTPRequest *http_request)
+{
+    printf("\n[PUT REQUEST DETECTED]\n");
+}
+
+static void httprhnd_handle_delete(HTTPRequest *http_request)
+{
+    printf("\n[DELETE REQUEST DETECTED]\n");
+}
+
+static void httprhnd_handle_option(HTTPRequest *http_request)
+{
+    printf("\n[OPTION REQUEST DETECTED]\n");
 }
 
 #endif
