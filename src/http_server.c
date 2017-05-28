@@ -128,7 +128,7 @@ static void *http_main(void *arg)
         printf("[REQUEST] uri: %s\n", http_request.uri);
         printf("[REQUEST] v11: %d\n", http_request.v11);
         printf("[REQUEST] hdr_user_agent: %s\n", http_request.hdr_user_agent);
-        printf("[REQUEST] hdr_content_type: %s\n", http_request.hdr_content_type);
+        printf("[REQUEST] hdr_content_type: %d\n", http_request.hdr_content_type);
         printf("[REQUEST] body_len: %d\n", http_request.body_len);
         printf("[REQUEST] body_len_actual: %d\n", http_request.body_len_actual);
         printf("[REQUEST] body: %s\n", http_request.body);
