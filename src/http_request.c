@@ -94,7 +94,7 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
     if (val == NULL)
         return;
 
-    printf("[KEY] %s [VAL] %s\n", key, val);
+    printf("[KEY]%s[VAL]%s\n", key, val);
 }
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
