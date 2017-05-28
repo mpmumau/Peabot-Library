@@ -120,7 +120,7 @@ static void *http_main(void *arg)
         memcpy(http_request.ip_addr, ip_addr, INET6_ADDRSTRLEN);
 
         read(last_socket, http.buffer, HTTP_BUFFER_MAX);
-        http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
+        httpreq_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         // printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
         // printf("[REQUEST] method: %d\n", http_request.method);

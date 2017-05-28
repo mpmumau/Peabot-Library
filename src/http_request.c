@@ -21,41 +21,40 @@
 #include "http_request.h"
 
 /* Forward decs */
-static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
-static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len);
-static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
-static int http_request_copy_buffer(char *dest, char *src, size_t size);
-static int http_request_copy_body(char *dest, char *src, size_t size);
-static int http_request_copy_header(char *dest, char *src, size_t size);
+static int httpreq_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
+static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len);
+static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
+static int httpreq_copy_buffer(char *dest, char *src, size_t size);
+static int httpreq_copy_body(char *dest, char *src, size_t size);
+static int httpreq_copy_header(char *dest, char *src, size_t size);
 
 
-void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
+void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
     if (http_request == NULL || raw == NULL)
         return;
 
     char buffer[HTTP_REQ_BUFFER_LEN];
-    int buffer_len = http_request_copy_buffer(buffer, raw, sizeof(buffer));
+    int buffer_len = httpreq_copy_buffer(buffer, raw, sizeof(buffer));
 
     char body[HTTP_REQ_BODY_LEN];
-    int body_len = http_request_copy_body(body, buffer, sizeof(body));
+    int body_len = httpreq_copy_body(body, buffer, sizeof(body));
+    http_request->body_len_actual = body_len;
     memset(http_request->body, '\0', sizeof(http_request->body));
     memcpy(http_request->body, body, sizeof(http_request->body)); 
 
     int MAX_HEADER_LEN = buffer_len - body_len;
     char header[MAX_HEADER_LEN];
-    int header_len = http_request_copy_header(header, buffer, sizeof(header));
+    int header_len = httpreq_copy_header(header, buffer, sizeof(header));
     HTTPRequestLine header_lines[HTTP_REQ_MAX_HEADERS + 1];
-    int lines_added = http_request_split_header_lines(header_lines, sizeof(header_lines), header, sizeof(header));
+    int lines_added = httpreq_split_header_lines(header_lines, sizeof(header_lines), header, sizeof(header));
 
     printf("\n");
     for (int i = 0; i < lines_added; i++)
         printf("[L%d] %s\n", i, header_lines[i]);
-
-    printf("[body]\n%s\n", http_request->body);
 }
 
-static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
+static int httpreq_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
 {
     char raw_cpy[raw_len];
     memset(raw_cpy, '\0', sizeof(raw_cpy));
@@ -78,7 +77,7 @@ static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_
     return lines_added;
 }
 
-static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len)
+static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len)
 {
     if (lines == NULL || lines_len <= 0)
         return;
@@ -95,7 +94,7 @@ static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequ
     }
 }
 
-static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line)
+static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line)
 {
     if (line == NULL)
         return;
@@ -135,7 +134,7 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
         http_request->v11 = true;
 }
 
-static int http_request_copy_buffer(char *dest, char *src, size_t size)
+static int httpreq_copy_buffer(char *dest, char *src, size_t size)
 {
     memset(dest, '\0', size);
     memcpy(dest, src, size - 1);
@@ -144,7 +143,7 @@ static int http_request_copy_buffer(char *dest, char *src, size_t size)
     return strlen(dest);
 }
 
-static int http_request_copy_body(char *dest, char *src, size_t size)
+static int httpreq_copy_body(char *dest, char *src, size_t size)
 {
     char copy[size];
     memset(copy, '\0', size);
@@ -160,7 +159,7 @@ static int http_request_copy_body(char *dest, char *src, size_t size)
     return strlen(dest);
 }
 
-static int http_request_copy_header(char *dest, char *src, size_t size)
+static int httpreq_copy_header(char *dest, char *src, size_t size)
 {
     memset(dest, '\0', size);
     memcpy(dest, &(src[0]), size - 1);
@@ -168,7 +167,7 @@ static int http_request_copy_header(char *dest, char *src, size_t size)
     return strlen(dest);
 }
 
-static int http_request_get_max_lines()
+static int httpreq_get_max_lines()
 {
     int max_lines = (HTTP_REQ_BUFFER_LEN - (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN)) / HTTP_REQ_LINE_LEN;     
     bool add_extra_line = (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN) > 0;

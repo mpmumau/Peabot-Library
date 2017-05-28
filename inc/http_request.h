@@ -30,8 +30,10 @@ typedef struct HTTPRequest {
     int     method;
     char    uri[HTTP_REQ_LINE_LEN];
     char    body[HTTP_REQ_BODY_LEN];
+    int     body_len;
+    int     body_len_actual;
 } HTTPRequest;
 
-void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size);
+void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size);
 
 #endif
