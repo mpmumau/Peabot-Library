@@ -43,7 +43,7 @@ typedef struct EventTurnData {
 } EventTurnData;
 
 /* Initialize the event handler thread. */
-void event_init();
+void event_init(List *events_p);
 
 /* End the event handler thread and stop processing events. */
 void event_halt();
