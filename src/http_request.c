@@ -101,6 +101,8 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
 
     if (strcmp(key, "content-length") == 0)
         http_request->body_len = atoi(val);
+
+    // etc...
 }
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)

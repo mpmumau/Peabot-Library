@@ -14,6 +14,8 @@
 #define HTTP_PUT 3
 #define HTTP_DELETE 4
 
+#define HTTP_CONTENT_JSON 0
+
 #define HTTP_REQ_BUFFER_LEN (256 * 1024) //256kb
 #define HTTP_REQ_LINE_LEN 256
 #define HTTP_REQ_MAX_HEADERS 31
@@ -29,10 +31,11 @@ typedef struct HTTPRequest {
     bool    v11;
     int     method;
     char    uri[HTTP_REQ_LINE_LEN];
-    char    body[HTTP_REQ_BODY_LEN];
+    int     hdr_content_type;
+    char    hdr_user_agent[HTTP_REQ_LINE_LEN];
     int     body_len;
     int     body_len_actual;
-    char    hdr_user_agent[HTTP_REQ_LINE_LEN];
+    char    body[HTTP_REQ_BODY_LEN];
 } HTTPRequest;
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size);
