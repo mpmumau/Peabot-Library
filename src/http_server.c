@@ -112,7 +112,7 @@ static void *http_main(void *arg)
             close(last_socket);
             free(http_request);
             // exit(0);
-        }
+        //}
     }
 
     close(http.socket);
