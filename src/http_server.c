@@ -105,14 +105,14 @@ static void *http_main(void *arg)
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
-        // fork_pid = fork();
-        // if (fork_pid == 0)
-        // {  
+        fork_pid = fork();
+        if (fork_pid == 0)
+        {  
             httprhnd_handle_request(http_request, last_socket);
             close(last_socket);
             free(http_request);
-            // exit(0);
-        //}
+            exit(0);
+        }
     }
 
     close(http.socket);

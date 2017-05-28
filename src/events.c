@@ -44,7 +44,6 @@ void event_init()
 void event_halt()
 {
     running = false;
-    free(events);
     int error = pthread_join(event_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from robot thread.");
@@ -91,13 +90,13 @@ static void *event_main(void *arg)
         free(event);
     }
 
+    free(events);
     return (void *) NULL;
 }
 
 void event_add(int event_type, void *data)
 {
     Event *event = calloc(1, sizeof(Event));
-
     event->type = event_type;
     event->data = data;
 
