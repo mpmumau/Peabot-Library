@@ -10,6 +10,8 @@
 
 #include <stdbool.h>
 
+#include "list.h"
+
 #define EVENT_RESET 0
 #define EVENT_DELAY 1
 #define EVENT_ELEVATE 2
