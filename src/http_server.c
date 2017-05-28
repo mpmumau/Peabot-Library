@@ -103,7 +103,7 @@ static void *http_main(void *arg)
         memset(http.buffer, '\0', sizeof(http.buffer));   
         read(last_socket, http.buffer, sizeof(http.buffer));
 
-        HTTPRequest *http_request = calloc(sizeof(HTTPRequest));
+        HTTPRequest *http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
         httpreq_parse(&http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
@@ -113,6 +113,7 @@ static void *http_main(void *arg)
         write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);
 
+        free(http_request);
         close(last_socket);
     }
 
