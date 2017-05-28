@@ -21,7 +21,7 @@
 #include "http_request.h"
 
 /* Forward decs */
-static int http_request_split_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
+static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
 static int http_request_copy_buffer(char *dest, char *src, size_t size);
@@ -39,20 +39,21 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
     char body[HTTP_REQ_BODY_LEN];
     int body_len = http_request_copy_body(body, buffer, sizeof(body));
+    memset(http_request->body, '\0', sizeof(http_request->body));
+    memcpy(http_request->body, body, sizeof(http_request->body)); 
 
     int MAX_HEADER_LEN = buffer_len - body_len;
-
     char header[MAX_HEADER_LEN];
     int header_len = http_request_copy_header(header, buffer, sizeof(header));
+    HTTPRequestLine header_lines[HTTP_REQ_MAX_HEADERS + 1];
+    int lines_added = http_request_split_lines(header_lines, sizeof(lines), header, sizeof(header));
 
-    HTTPRequestLine lines[HTTP_REQ_MAX_HEADERS + 1];
-    int lines_added = http_request_split_lines(lines, sizeof(lines), header, sizeof(header));
-
-    for(int i = 0; i < lines_added; i++)
-        printf("\n[L%2d] %s\n", i, lines[i]);
+    printf("\n");
+    for (int i = 0; i < lines_added; i++)
+        printf("[L%d] %s\n", i, header_lines[i]);
 }
 
-static int http_request_split_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
+static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
 {
     char raw_cpy[raw_len];
     memset(raw_cpy, '\0', sizeof(raw_cpy));
