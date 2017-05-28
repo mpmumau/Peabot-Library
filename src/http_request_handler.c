@@ -87,8 +87,8 @@ void *httprhnd_handle_request(void *data)
     }
 
     close(socket_fd);
-    // free(http_request);   
-    // free(request_thread_data);
+    free(http_request);   
+    free(request_thread_data);
 
     pthread_exit(NULL);
 }
