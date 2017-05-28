@@ -70,19 +70,19 @@ void httpreq_parse(HTTPRequest *http_request, char *ip_addr, char *raw, int buff
         httpreq_handle_header(http_request, &(header_lines[i]), sizeof(header_lines[i]));
 }
 
-void httpreq_print(HTTPRequest http_request)
+void httpreq_print(HTTPRequest *http_request)
 {
     printf("\n");
-    printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
-    printf("[REQUEST] method: %d\n", http_request.method);
-    printf("[REQUEST] uri: %s\n", http_request.uri);
-    printf("[REQUEST] v11: %d\n", http_request.v11);
-    printf("[REQUEST] hdr_user_agent: %s\n", http_request.hdr_user_agent);
-    printf("[REQUEST] hdr_content_type: %d\n", http_request.hdr_content_type);
-    printf("[REQUEST] hdr_keep_alive: %d\n", http_request.hdr_keep_alive);
-    printf("[REQUEST] body_len: %d\n", http_request.body_len);
-    printf("[REQUEST] body_len_actual: %d\n", http_request.body_len_actual);
-    printf("[REQUEST] body: %s\n", http_request.body);    
+    printf("[REQUEST] ip_addr: %s\n", http_request->ip_addr);
+    printf("[REQUEST] method: %d\n", http_request->method);
+    printf("[REQUEST] uri: %s\n", http_request->uri);
+    printf("[REQUEST] v11: %d\n", http_request->v11);
+    printf("[REQUEST] hdr_user_agent: %s\n", http_request->hdr_user_agent);
+    printf("[REQUEST] hdr_content_type: %d\n", http_request->hdr_content_type);
+    printf("[REQUEST] hdr_keep_alive: %d\n", http_request->hdr_keep_alive);
+    printf("[REQUEST] body_len: %d\n", http_request->body_len);
+    printf("[REQUEST] body_len_actual: %d\n", http_request->body_len_actual);
+    printf("[REQUEST] body: %s\n", http_request->body);    
 }
 
 static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
