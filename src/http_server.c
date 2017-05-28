@@ -123,11 +123,27 @@ static void *http_main(void *arg)
 static void http_server_handle_request(HTTPRequest *http_request, int last_socket)
 {
     printf("\nHandling request...\n");
-    httpreq_print(http_request);
 
     switch (http_request->method)
     {
-        case 
+        case HTTP_METHOD_GET:
+            printf("\n[GET REQUEST DETECTED]\n");
+            break;
+        case HTTP_METHOD_POST:
+            printf("\n[POST REQUEST DETECTED]\n");
+            break;
+        case HTTP_METHOD_PUT:
+            printf("\n[PUT REQUEST DETECTED]\n");
+            break;
+        case HTTP_METHOD_DELETE:
+            printf("\n[POST REQUEST DETECTED]\n");
+            break;
+        case HTTP_METHOD_OPTION:
+            printf("\n[OPTION REQUEST DETECTED]\n");
+            break;    
+        default:
+            printf("\n[BAD REQUEST DETECTED]\n");
+            break;                       
     }
     
     close(last_socket);
