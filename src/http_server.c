@@ -41,6 +41,7 @@
 static void *http_main(void *arg);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
+static bool http_check_throttle();
 
 static HTTPServer http;
 
