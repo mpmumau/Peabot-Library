@@ -123,6 +123,7 @@ static void *http_main(void *arg)
         httpreq_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         // debug
+        printf("\n");
         printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
         printf("[REQUEST] method: %d\n", http_request.method);
         printf("[REQUEST] uri: %s\n", http_request.uri);
