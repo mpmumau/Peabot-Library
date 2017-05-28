@@ -17,6 +17,7 @@
 #include "http_request.h"
 #include "string_utils.h"
 #include "events.h"
+#include "http_server.h"
 
 /* Header */
 #include "http_request_handler.h"

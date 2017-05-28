@@ -73,7 +73,7 @@ static void *http_main(void *arg)
 
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
-    int fork_pid;
+    //int fork_pid;
     char ip_addr[INET6_ADDRSTRLEN];
     HTTPRequest *http_request;
 
