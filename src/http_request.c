@@ -21,20 +21,18 @@
 #include "http_request.h"
 
 /* Forward decs */
+static int http_request_split_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
-static int http_request_max_body_len();
-static int http_request_get_max_lines();
 static int http_request_copy_buffer(char *dest, char *src, size_t size);
 static int http_request_copy_body(char *dest, char *src, size_t size);
 static int http_request_copy_header(char *dest, char *src, size_t size);
+
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
 {
     if (http_request == NULL || raw == NULL)
         return;
-
-    int MAX_BODY_LEN = http_request_max_body_len();
 
     char buffer[DEFAULT_HTTP_MAX_BUFFER];
     int buffer_len = http_request_copy_buffer(buffer, raw, sizeof(buffer));
@@ -47,15 +45,12 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     char header[MAX_HEADER_LEN];
     int header_len = http_request_copy_header(header, buffer, sizeof(header));
 
-    int MAX_LINES = http_request_get_max_lines();
+    HTTPRequestLine lines[HTTP_REQ_MAX_HEADERS];
+    http_request_split_lines(lines, sizeof(lines), header, sizeof(header));
 
-    HTTPRequestLine lines[MAX_LINES];
-    
-    printf("size of one line: %d\n", sizeof(lines[0]));
-    for (int i = 0; i < MAX_LINES; i++)
-    {
-        //memset(&(lines[i]), '\0', DEFAULT_HTTP_LINE_LEN);
-    }
+    for(int i = 0; i < sizeof(lines); i++)
+        printf("[L%d] %s\n", i, lines[i]);
+
     // char *body = NULL;
 
     // if (body_count > 4)
@@ -90,6 +85,29 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     // http_request->total_lines = i + 1;
 
     // http_request_handle_lines(http_request, lines, http_request->total_lines);
+}
+
+static int http_request_split_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
+{
+    char raw_cpy[raw_len];
+    memset(raw_cpy, '\0', sizeof(raw_cpy));
+    memcpy(raw_cpy, raw, sizeof(raw_cpy) - 1);
+
+    int lines_added;
+    char line_delim[2] = "\r\n";
+
+    char *token = strtok(raw_cpy, line_delim);
+
+    for (lines_added = 0; lines_added < lines_len; lines_added++)
+    {
+        if (token == NULL)
+            break;
+        memset(&(lines[lines_added]), '\0', HTTP_REQ_LINE_LEN);
+        memcpy(&(lines[lines_added]), token, HTTP_REQ_LINE_LEN - 1); 
+        token = strtok(NULL, line_delim);
+    }
+
+    return lines_added + 1;
 }
 
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size)
@@ -156,11 +174,6 @@ static int http_request_copy_buffer(char *dest, char *src, size_t size)
     dest[size - 1] = '\0';     
 
     return strlen(dest);
-}
-
-static int http_request_max_body_len()
-{
-    return DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN);
 }
 
 static int http_request_copy_body(char *dest, char *src, size_t size)

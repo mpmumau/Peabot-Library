@@ -14,21 +14,22 @@
 #define HTTP_PUT 3
 #define HTTP_DELETE 4
 
+#define HTTP_REQ_BUFFER_LEN (256 * 1024) //256kb
+#define HTTP_REQ_LINE_LEN 256
+#define HTTP_REQ_MAX_HEADERS 31
+#define HTTP_REQ_BODY_LEN (HTTP_REQ_BUFFER_LEN - ((HTTP_REQ_MAX_HEADERS + 1) * HTTP_REQ_LINE_LEN))
+
 /* System includes */
 #include <netinet/in.h>
-
-/* Application includes */
-#include "http_server.h"
 
 typedef char HTTPRequestLine[DEFAULT_HTTP_LINE_LEN];
 
 typedef struct HTTPRequest {
-    char ip_addr[INET6_ADDRSTRLEN];
-    unsigned int total_lines;
-    int method;
-    char uri[DEFAULT_HTTP_URI_LEN];
-    char data[DEFAULT_HTTP_MAX_BUFFER - ((DEFAULT_HTTP_MAX_HEADERS + 1) * DEFAULT_HTTP_LINE_LEN)];
-    bool v11;
+    char    ip_addr[INET6_ADDRSTRLEN];
+    bool    v11;
+    int     method;
+    char    uri[HTTP_REQ_LINE_LEN];
+    char    body[HTTP_REQ_BODY_LEN];
 } HTTPRequest;
 
 void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size);
