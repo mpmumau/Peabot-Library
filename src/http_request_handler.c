@@ -15,6 +15,7 @@
 
 /* Application includes */
 #include "http_request.h"
+#include "string_utils.h"
 
 /* Header */
 #include "http_request_handler.h"
@@ -33,8 +34,7 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
     //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
     char uri_cpy[sizeof(http_request->uri)];
-    memset(uri_cpy, '\0', sizeof(uri_cpy));
-    memcpy(uri_cpy, http_request->uri, sizeof(uri_cpy) - 1);
+    str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
 
     printf("[URI] %s\n", uri_cpy);
 
@@ -43,8 +43,6 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
         uri_p = &(uri_cpy[1]);
 
     char *model_name = strtok(uri_p, "/");
-    if (model_name == NULL)
-        return;
 
     char *controller_name = strtok(NULL, "?");
 
