@@ -94,6 +94,8 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
     if (val == NULL)
         return;
 
+    printf("[HDR_KEY] %s [HDR_VAL] %s\n", key, val);
+
     if(strcmp(key, "User-Agent") == 0)
         str_clearcopy(http_request->hdr_user_agent, val, sizeof(http_request->hdr_user_agent));
 }
