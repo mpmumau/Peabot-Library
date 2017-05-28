@@ -25,7 +25,7 @@ static void httprhnd_handle_put(HTTPRequest *http_request);
 static void httprhnd_handle_delete(HTTPRequest *http_request);
 static void httprhnd_handle_options(HTTPRequest *http_request);
 
-void httprhnd_handle_request(HTTPRequest *http_request)
+void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 {
     printf("\nHandling request...\n");
 
@@ -51,11 +51,14 @@ void httprhnd_handle_request(HTTPRequest *http_request)
 
     if (request_cb != NULL)
         (*request_cb)(http_request);
+
+
 }
 
 static void httprhnd_handle_get(HTTPRequest *http_request)
 {
     printf("\n[GET REQUEST DETECTED]\n");
+    printf("URI: %s\n", http_request->uri);
 }
 
 static void httprhnd_handle_post(HTTPRequest *http_request)
