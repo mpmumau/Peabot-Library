@@ -31,6 +31,25 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
 
+    char uri_cpy[sizeof(http_request->uri)];
+    memset(uri_cpy, '\0', sizeof(uri_cpy));
+    memcpy(uri_cpy, http_request->uri, sizeof(uri_cpy));
+
+    char *uri_p
+    if (uri_cpy[0] == '/')
+        urp_p = &(uri_cpy[1]);
+
+    char *model_name = strtok(uri_p, "/");
+    if (model_name == NULL)
+        return;
+
+    char *controller_name = strtok(NULL, "?");
+
+    char *query_string = strtok(NULL, '\0');
+
+    printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
+
+
     void (*request_cb)(HTTPRequest *http_request);
     request_cb = NULL;
 
@@ -51,8 +70,6 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     if (request_cb != NULL)
         (*request_cb)(http_request);
-
-
 }
 
 static void httprhnd_handle_get(HTTPRequest *http_request)
