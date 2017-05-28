@@ -107,6 +107,10 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
     if (strcmp(key, "Content-Type") == 0)
         http_request->hdr_content_type = httpreq_parse_content_type(val);
 
+    if (strcmp(key, "Connection") == 0)
+        http_request->hdr_keep_alive = 1;
+    else
+        http_request->hdr_keep_alive = 0;
     // etc...
 }
 

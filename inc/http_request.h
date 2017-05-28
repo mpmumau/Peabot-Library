@@ -33,6 +33,7 @@ typedef struct HTTPRequest {
     char    uri[HTTP_REQ_LINE_LEN];
     int     hdr_content_type;
     char    hdr_user_agent[HTTP_REQ_LINE_LEN];
+    bool    hdr_keep_alive;
     int     body_len;
     int     body_len_actual;
     char    body[HTTP_REQ_BODY_LEN];
