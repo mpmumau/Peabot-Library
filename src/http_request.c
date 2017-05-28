@@ -148,6 +148,8 @@ static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLi
         http_request->method = HTTP_METHOD_PUT;
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_METHOD_DELETE;
+    if (strcmp(line_cursor, "OPTIONS") == 0)
+        http_request->method = HTTP_METHOD_OPTIONS;    
 
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)

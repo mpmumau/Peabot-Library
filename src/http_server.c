@@ -136,10 +136,10 @@ static void http_server_handle_request(HTTPRequest *http_request, int last_socke
             printf("\n[PUT REQUEST DETECTED]\n");
             break;
         case HTTP_METHOD_DELETE:
-            printf("\n[POST REQUEST DETECTED]\n");
+            printf("\n[DELETE REQUEST DETECTED]\n");
             break;
-        case HTTP_METHOD_OPTION:
-            printf("\n[OPTION REQUEST DETECTED]\n");
+        case HTTP_METHOD_OPTIONS:
+            printf("\n[OPTIONS REQUEST DETECTED]\n");
             break;    
         default:
             printf("\n[BAD REQUEST DETECTED]\n");
