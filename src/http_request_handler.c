@@ -48,8 +48,7 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
     char *controller_name = strtok(NULL, "?");
     char *query_string = strtok(NULL, "\0");
 
-    int model = httprhnd_get_model(model_name);
-
+    //int model = httprhnd_get_model(model_name);
 
     printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
 
@@ -89,7 +88,12 @@ static void httprhnd_handle_post(HTTPRequest *http_request)
     EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
     elevate_data->duration = 5.0;
     elevate_data->reverse = false;
-    event_add(EVENT_ELEVATE, (void *) elevate_data);        
+    event_add(EVENT_ELEVATE, (void *) elevate_data);     
+
+    EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
+    walk_data->cycles = 1;
+    walk_data->duration = 2.0;   
+    event_add(EVENT_WALK, (void *) walk_data);       
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request)
