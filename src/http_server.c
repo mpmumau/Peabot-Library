@@ -105,7 +105,7 @@ static void *http_main(void *arg)
 
         HTTPRequest *http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
-        httpreq_parse(&http_request, ip_addr, http.buffer, sizeof(http.buffer));
+        httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
         // debug
         httpreq_print(http_request);
