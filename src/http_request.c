@@ -209,7 +209,7 @@ static void httpreq_init_request(HTTPRequest *request)
     request->v11 = false;
     request->method = HTTP_BADREQUEST;
     memset(request->uri, '\0', sizeof(request->uri));
-    request->hd_content_type = 0;
+    request->hdr_content_type = 0;
     memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
     request->hdr_keep_alive = false;
     request->body_len = 0;
