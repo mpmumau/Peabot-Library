@@ -39,7 +39,7 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
-static void http_server_handle_request(HTTPRequest *http_request);
+static void http_server_handle_request(HTTPRequest *http_request, int last_socket);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
 static bool http_check_throttle();
@@ -113,7 +113,7 @@ static void *http_main(void *arg)
         if (request_handler_process == 0)
             continue;
 
-        http_server_handle_request(http_request);
+        http_server_handle_request(http_request, last_socket);
         break;
     }
 
@@ -125,10 +125,13 @@ static void *http_main(void *arg)
     return NULL;
 }
 
-static void http_server_handle_request(HTTPRequest *http_request)
+static void http_server_handle_request(HTTPRequest *http_request, int last_socket)
 {
     printf("\nHandling request...\n");
     httpreq_print(http_request);
+    
+    close(last_socket);
+    free(http_request);
 }
 
 static void http_server_ipstr(char *str, int str_size)
