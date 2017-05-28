@@ -47,6 +47,7 @@ _DEPS = main.h \
 	http_server.h \
 	http_request.h \
 	http_response.h \
+	http_response_handler.h \
 	usd_sensor.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
@@ -73,6 +74,7 @@ _OBJ = main.o \
 	http_server.o \
 	http_request.o \
 	http_response.o \
+	http_response_handler.o \
 	usd_sensor.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 

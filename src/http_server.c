@@ -33,6 +33,7 @@
 #include "utils.h"
 #include "http_request.h"
 #include "http_response.h"
+#include "http_response_handler.h"
 
 /* Header */
 #include "http_server.h"
@@ -86,9 +87,6 @@ static void *http_main(void *arg)
 
     listen(http.socket, HTTP_SERVER_MAX_CONNS);    
 
-    //tmp
-    //char response_buffer[DEFAULT_HTTP_RESPONSE_SIZE] = "HTTP/1.1 200 OK\r\nDate: Wed, May 27 2017 12:49:15 EST\r\nContent-Type: application/json\r\nAccess-Control-Allow-Origin: *\r\nAccess-Control-Allow-Headers: content-type\r\nContent-Length:30\r\n\r\n{ \"an_object\": \"set_to_this\" }\r\n\r\n";
-
     while (http.running)
     {
         if (!http_check_throttle())
@@ -111,43 +109,13 @@ static void *http_main(void *arg)
         fork_pid = fork();
         if (fork_pid == 0)
         {  
-            http_server_handle_request(http_request, last_socket);
+            httprhnd_handle_request(http_request, last_socket);
             exit(0);
         }
     }
 
     close(http.socket);
     return NULL;
-}
-
-static void http_server_handle_request(HTTPRequest *http_request, int last_socket)
-{
-    printf("\nHandling request...\n");
-
-    switch (http_request->method)
-    {
-        case HTTP_METHOD_GET:
-            printf("\n[GET REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_POST:
-            printf("\n[POST REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_PUT:
-            printf("\n[PUT REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_DELETE:
-            printf("\n[DELETE REQUEST DETECTED]\n");
-            break;
-        case HTTP_METHOD_OPTIONS:
-            printf("\n[OPTIONS REQUEST DETECTED]\n");
-            break;    
-        default:
-            printf("\n[BAD REQUEST DETECTED]\n");
-            break;                       
-    }
-    
-    close(last_socket);
-    free(http_request);
 }
 
 static void http_server_ipstr(char *str, int str_size)
