@@ -84,6 +84,12 @@ static void httprhnd_handle_post(HTTPRequest *http_request)
 {
     printf("\n[POST REQUEST DETECTED]\n");
 
+    robot_init();
+
+    keyhandler_init();
+
+    event_init();
+
     // tmp
     EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
     elevate_data->duration = 5.0;
