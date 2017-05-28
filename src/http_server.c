@@ -124,6 +124,11 @@ static void http_server_handle_request(HTTPRequest *http_request, int last_socke
 {
     printf("\nHandling request...\n");
     httpreq_print(http_request);
+
+    switch (http_request->method)
+    {
+        case 
+    }
     
     close(last_socket);
     free(http_request);

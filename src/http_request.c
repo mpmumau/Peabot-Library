@@ -140,7 +140,7 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
 {
-    http_request->method = HTTP_BADREQUEST;
+    http_request->method = HTTP_METHOD_BADREQUEST;
     memset(http_request->uri, '\0', sizeof(http_request->uri));
     http_request->v11 = false;
 
@@ -156,13 +156,13 @@ static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLi
         return;
 
     if (strcmp(line_cursor, "POST") == 0)
-        http_request->method = HTTP_POST;    
+        http_request->method = HTTP_METHOD_POST;    
     if (strcmp(line_cursor, "GET") == 0)
-        http_request->method = HTTP_GET;
+        http_request->method = HTTP_METHOD_GET;
     if (strcmp(line_cursor, "PUT") == 0)
-        http_request->method = HTTP_PUT;
+        http_request->method = HTTP_METHOD_PUT;
     if (strcmp(line_cursor, "DELETE") == 0)
-        http_request->method = HTTP_DELETE;
+        http_request->method = HTTP_METHOD_DELETE;
 
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)

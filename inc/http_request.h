@@ -8,11 +8,12 @@
  Author:        Matt Mumau
  */
 
-#define HTTP_BADREQUEST 0
-#define HTTP_POST 1
-#define HTTP_GET 2
-#define HTTP_PUT 3
-#define HTTP_DELETE 4
+#define HTTP_METHOD_BADREQUEST 0
+#define HTTP_METHOD_POST 1
+#define HTTP_METHOD_GET 2
+#define HTTP_METHOD_PUT 3
+#define HTTP_METHOD_DELETE 4
+#define HTTP_METHOD_OPTION 5
 
 #define HTTP_CONTENT_TYPE_JSON 1
 
