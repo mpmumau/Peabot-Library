@@ -16,6 +16,7 @@
 /* Application includes */
 #include "http_request.h"
 #include "string_utils.h"
+#include "events.h"
 
 /* Header */
 #include "http_request_handler.h"
@@ -26,6 +27,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request);
 static void httprhnd_handle_put(HTTPRequest *http_request);
 static void httprhnd_handle_delete(HTTPRequest *http_request);
 static void httprhnd_handle_options(HTTPRequest *http_request);
+static int httprhnd_get_model(char *model_str);
 
 void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 {
@@ -43,10 +45,11 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
         uri_p = &(uri_cpy[1]);
 
     char *model_name = strtok(uri_p, "/");
-
     char *controller_name = strtok(NULL, "?");
-
     char *query_string = strtok(NULL, "\0");
+
+    int model = httprhnd_get_model(char *model_name);
+
 
     printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
 
@@ -81,6 +84,12 @@ static void httprhnd_handle_get(HTTPRequest *http_request)
 static void httprhnd_handle_post(HTTPRequest *http_request)
 {
     printf("\n[POST REQUEST DETECTED]\n");
+
+    // tmp
+    EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
+    elevate_data->duration = 5.0;
+    elevate_data->reverse = false;
+    event_add(EVENT_ELEVATE, (void *) elevate_data);        
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request)
@@ -96,6 +105,25 @@ static void httprhnd_handle_delete(HTTPRequest *http_request)
 static void httprhnd_handle_options(HTTPRequest *http_request)
 {
     printf("\n[OPTIONS REQUEST DETECTED]\n");
+}
+
+static int httprhnd_get_model(char *model_str)
+{
+    int model = MODEL_NONE;
+
+    if (model_str == NULL)
+        return model;
+
+    if (strcmp(model_str, "event"))
+        model = MODEL_EVENT;
+
+    if (strcmp(model_str, "usd"))
+        model = MODEL_USD;
+
+    if (strcmp(model_str, "position"))
+        model = MODEL_POSITION;
+
+    return model;
 }
 
 #endif
