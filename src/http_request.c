@@ -80,15 +80,15 @@ static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_
 
 static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len)
 {
-    if (lines == NULL || size <= 0)
+    if (lines == NULL || lines_len <= 0)
         return;
 
     http_request_handle_request_line(http_request, &(lines[0]));
 
-    if (size == 1)
+    if (lines_len == 1)
         return;
 
-    for (int i = 1; i < size; i++)
+    for (int i = 1; i < lines_len; i++)
     {
         // todo: handle headers as neccessary
         printf("[H#%d]: %s\n", i, lines[i]);
