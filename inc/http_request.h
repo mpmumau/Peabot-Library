@@ -14,7 +14,7 @@
 #define HTTP_PUT 3
 #define HTTP_DELETE 4
 
-#define HTTP_CONTENT_JSON 0
+#define HTTP_CONTENT_JSON 1
 
 #define HTTP_REQ_BUFFER_LEN (256 * 1024) //256kb
 #define HTTP_REQ_LINE_LEN 256
