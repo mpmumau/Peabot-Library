@@ -22,8 +22,8 @@
 
 /* Forward decs */
 static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
-static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len);
-static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
+static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *line, int line_len);
+static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len);
 static int httpreq_copy_buffer(char *dest, char *src, size_t size);
 static int httpreq_copy_body(char *dest, char *src, size_t size);
 static int httpreq_copy_header(char *dest, char *src, size_t size);
@@ -46,12 +46,14 @@ void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
     int MAX_HEADER_LEN = buffer_len - body_len;
     char header[MAX_HEADER_LEN];
     int header_len = httpreq_copy_header(header, buffer, sizeof(header));
+    
     HTTPRequestLine header_lines[HTTP_REQ_MAX_HEADERS + 1];
     int lines_added = httpreq_split_header(header_lines, sizeof(header_lines), header, sizeof(header));
 
-    printf("\n");
-    for (int i = 0; i < lines_added; i++)
-        printf("[L%d] %s\n", i, header_lines[i]);
+    httpreq_handle_request_line(http_request, &(header_lines[0]), sizeof(header_lines[0]));
+
+    for (int i = 1; i < lines_added; i++)            
+        httpreq_handle_header(http_request, &(header_lines[i]), sizeof(header_lines[i]));
 }
 
 static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
@@ -77,39 +79,28 @@ static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *
     return lines_added;
 }
 
-static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len)
+static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
 {
-    if (lines == NULL || lines_len <= 0)
-        return;
-
-    httpreq_handle_request_line(http_request, &(lines[0]));
-
-    if (lines_len == 1)
-        return;
-
-    for (int i = 1; i < lines_len; i++)
-    {
-        // todo: handle headers as neccessary
-        printf("[H#%d]: %s\n", i, lines[i]);
-    }
+    printf("[HH]: %s\n", line);
 }
 
-static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line)
+static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
 {
-    if (line == NULL)
-        return;
+    http_request->method = HTTP_BADREQUEST;
+    memset(http_request->uri, '\0', sizeof(http_request->uri));
+    http_request->v11 = false;
 
-    char line_cpy[HTTP_REQ_LINE_LEN];
-    memset(line_cpy, '\0', HTTP_REQ_LINE_LEN);
-    memcpy(line_cpy, line, HTTP_REQ_LINE_LEN - 1);
+    char line_cpy[line_len];
+    memset(line_cpy, '\0', sizeof(line_cpy));
+    memcpy(line_cpy, line, sizeof(line_cpy) - 1);
 
     char *line_cursor;
     char delim[] = " ";
-    
-    http_request->method = HTTP_BADREQUEST;
-    line_cursor = strtok((char *) line, delim);
+
+    line_cursor = strtok(line_cpy, delim);
     if (line_cursor == NULL)
         return;
+
     if (strcmp(line_cursor, "POST") == 0)
         http_request->method = HTTP_POST;    
     if (strcmp(line_cursor, "GET") == 0)
@@ -119,13 +110,12 @@ static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLi
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_DELETE;
 
-    memset(http_request->uri, '\0', HTTP_REQ_LINE_LEN);
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)
         return;
-    memcpy(http_request->uri, line_cursor, HTTP_REQ_LINE_LEN);
 
-    http_request->v11 = false;
+    memcpy(http_request->uri, line_cursor, sizeof(http_request->uri) - 1);
+
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)
         return;
