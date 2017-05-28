@@ -35,6 +35,7 @@ static char *event_getname(int event_type);
 
 void event_init()
 {
+    events = calloc(1024, sizeof(List));
     int error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not create event thread.", 1);
@@ -43,6 +44,7 @@ void event_init()
 void event_halt()
 {
     running = false;
+    free(events);
     int error = pthread_join(event_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from robot thread.");
