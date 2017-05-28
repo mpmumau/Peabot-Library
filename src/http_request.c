@@ -212,15 +212,6 @@ static int httpreq_copy_header(char *dest, char *src, size_t size)
     return strlen(dest);
 }
 
-static int httpreq_get_max_lines()
-{
-    int max_lines = (HTTP_REQ_BUFFER_LEN - (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN)) / HTTP_REQ_LINE_LEN;     
-    bool add_extra_line = (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN) > 0;
-    if (add_extra_line)
-        max_lines++;           
-    return max_lines;
-}
-
 static int httpreq_parse_content_type(char *val)
 {
     if (strcmp(val, "application/json") == 0)
