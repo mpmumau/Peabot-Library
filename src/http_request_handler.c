@@ -34,7 +34,9 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     char uri_cpy[sizeof(http_request->uri)];
     memset(uri_cpy, '\0', sizeof(uri_cpy));
-    memcpy(uri_cpy, http_request->uri, sizeof(uri_cpy));
+    memcpy(uri_cpy, http_request->uri, sizeof(uri_cpy) - 1);
+
+    printf("[URI] %s\n", uri_cpy);
 
     char *uri_p;
     if (uri_cpy[0] == '/')
@@ -49,7 +51,6 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
     char *query_string = strtok(NULL, "\0");
 
     printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
-
 
     void (*request_cb)(HTTPRequest *http_request);
     request_cb = NULL;
