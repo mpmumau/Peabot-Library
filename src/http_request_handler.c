@@ -47,7 +47,7 @@ void httprhnd_handle_request(HTTPRequest *http_request)
         request_cb = httprhnd_handle_delete;           
 
     if (http_request->method == HTTP_METHOD_OPTIONS)
-        request_cb = httprhnd_handle_delete;                   
+        request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
         (*request_cb)(http_request);
