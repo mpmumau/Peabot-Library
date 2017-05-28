@@ -122,6 +122,7 @@ static void *http_main(void *arg)
         read(last_socket, http.buffer, HTTP_BUFFER_MAX);
         httpreq_parse(&http_request, http.buffer, sizeof(http.buffer));
 
+        // debug
         printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
         printf("[REQUEST] method: %d\n", http_request.method);
         printf("[REQUEST] uri: %s\n", http_request.uri);
@@ -129,7 +130,6 @@ static void *http_main(void *arg)
         printf("[REQUEST] body_len: %d\n", http_request.body_len);
         printf("[REQUEST] body_len_actual: %d\n", http_request.body_len_actual);
         printf("[REQUEST] body: %s\n", http_request.body);
-
 
         write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);

@@ -81,7 +81,20 @@ static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *
 
 static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
 {
-    printf("[HH]: %s\n", line);
+    char line_cpy[line_len];
+    memset(line_cpy '\0', sizeof(line_cpy));
+    memcpy(line_cpy, line, sizeof(line_cpy) - 1);
+
+    char delim[1] = ":";
+    char *key = strtok(line_cpy, delim);
+    if (key == NULL)
+        return;
+
+    char *val = strtok(NULL, delim);
+    if (val == NULL)
+        return;
+
+    printf("[KEY] %s [VAL] %s\n", key, val);
 }
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
