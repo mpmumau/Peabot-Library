@@ -126,6 +126,10 @@ static void *http_main(void *arg)
         printf("[REQUEST] method: %d\n", http_request.method);
         printf("[REQUEST] uri: %s\n", http_request.uri);
         printf("[REQUEST] v11: %d\n", http_request.v11);
+        printf("[REQUEST] body_len: %d\n", http_request.body_len);
+        printf("[REQUEST] body_len_actual: %d\n", http_request.body_len_actual);
+        printf("[REQUEST] body: %s\n", http_request.body);
+
 
         write(last_socket, (void *) response_buffer, DEFAULT_HTTP_RESPONSE_SIZE);
         fsync(last_socket);
