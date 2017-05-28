@@ -23,7 +23,7 @@ static void httprhnd_handle_get(HTTPRequest *http_request);
 static void httprhnd_handle_post(HTTPRequest *http_request);
 static void httprhnd_handle_put(HTTPRequest *http_request);
 static void httprhnd_handle_delete(HTTPRequest *http_request);
-static void httprhnd_handle_option(HTTPRequest *http_request);
+static void httprhnd_handle_options(HTTPRequest *http_request);
 
 void httprhnd_handle_request(HTTPRequest *http_request)
 {
@@ -36,6 +36,18 @@ void httprhnd_handle_request(HTTPRequest *http_request)
 
     if (http_request->method == HTTP_METHOD_GET)
         request_cb = httprhnd_handle_get;
+
+    if (http_request->method == HTTP_METHOD_POST)
+        request_cb = httprhnd_handle_post; 
+
+    if (http_request->method == HTTP_METHOD_PUT)
+        request_cb = httprhnd_handle_put;
+
+    if (http_request->method == HTTP_METHOD_DELETE)
+        request_cb = httprhnd_handle_delete;           
+
+    if (http_request->method == HTTP_METHOD_OPTIONS)
+        request_cb = httprhnd_handle_delete;                   
 
     if (request_cb != NULL)
         (*request_cb)(http_request);
@@ -61,9 +73,9 @@ static void httprhnd_handle_delete(HTTPRequest *http_request)
     printf("\n[DELETE REQUEST DETECTED]\n");
 }
 
-static void httprhnd_handle_option(HTTPRequest *http_request)
+static void httprhnd_handle_options(HTTPRequest *http_request)
 {
-    printf("\n[OPTION REQUEST DETECTED]\n");
+    printf("\n[OPTIONS REQUEST DETECTED]\n");
 }
 
 #endif
