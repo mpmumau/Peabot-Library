@@ -36,7 +36,7 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
     memset(uri_cpy, '\0', sizeof(uri_cpy));
     memcpy(uri_cpy, http_request->uri, sizeof(uri_cpy));
 
-    char *uri_p
+    char *uri_p;
     if (uri_cpy[0] == '/')
         urp_p = &(uri_cpy[1]);
 
