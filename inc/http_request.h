@@ -43,4 +43,6 @@ void httpreq_reset_request(HTTPRequest *request);
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size);
 
+void httpreq_print(HTTPRequest http_request);
+
 #endif
