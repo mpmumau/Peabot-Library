@@ -73,6 +73,7 @@ void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size)
 
 void httpreq_print(HTTPRequest http_request)
 {
+    printf("\n");
     printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
     printf("[REQUEST] method: %d\n", http_request.method);
     printf("[REQUEST] uri: %s\n", http_request.uri);
