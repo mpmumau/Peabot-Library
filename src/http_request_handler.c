@@ -38,7 +38,7 @@ void httprhnd_handle_request(HTTPRequest *http_request, int socket_fd)
 
     char *uri_p;
     if (uri_cpy[0] == '/')
-        urp_p = &(uri_cpy[1]);
+        uri_p = &(uri_cpy[1]);
 
     char *model_name = strtok(uri_p, "/");
     if (model_name == NULL)
