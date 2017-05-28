@@ -24,6 +24,7 @@
 static void http_request_handle_lines(HTTPRequest *http_request, HTTPRequestLine *lines, unsigned int size);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
 static int http_request_max_body_len();
+static int http_request_get_max_lines();
 static int http_request_copy_buffer(char *dest, char *src, size_t size);
 static int http_request_copy_body(char *dest, char *src, size_t size);
 static int http_request_copy_header(char *dest, char *src, size_t size);
@@ -42,22 +43,19 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     int body_len = http_request_copy_body(body, buffer, sizeof(body));
 
     int MAX_HEADER_LEN = buffer_len - body_len;
-    
+
     char header[MAX_HEADER_LEN];
     int header_len = http_request_copy_header(header, buffer, sizeof(header));
 
-    printf("\n[buffer:%d]\n%s\n", buffer_len, buffer);
-    printf("\n[header:%d]\n%s\n", header_len, header);
-    printf("\n[body:%d]\n%s\n", body_len, body);
+    int MAX_LINES = http_request_get_max_lines();
 
-    // unsigned int i;
-    // HTTPRequestLine lines[max_lines];
-    // bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
-    // int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;
+    HTTPRequestLine lines[MAX_LINES];
     
-    // if (add_extra_line)
-    //     max_lines++;    
-
+    printf("size of one line: %d\n", sizeof(lines[0]));
+    for (int i = 0; i < MAX_LINES; i++)
+    {
+        //memset(&(lines[i]), '\0', DEFAULT_HTTP_LINE_LEN);
+    }
     // char *body = NULL;
 
     // if (body_count > 4)
@@ -187,6 +185,15 @@ static int http_request_copy_header(char *dest, char *src, size_t size)
     memcpy(dest, &(src[0]), size - 1);
 
     return strlen(dest);
+}
+
+static int http_request_get_max_lines()
+{
+    int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;     
+    bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
+    if (add_extra_line)
+        max_lines++;           
+    return max_lines;
 }
 
 #endif
