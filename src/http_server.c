@@ -107,7 +107,7 @@ static void *http_main(void *arg)
             continue;
         tick = 0.0;
 
-        memset(http.buffer, '\0', DEFAULT_HTTP_MAX_BUFFER);
+        memset(http.buffer, '\0', HTTP_BUFFER_MAX);
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
@@ -119,7 +119,7 @@ static void *http_main(void *arg)
         memset(http_request.ip_addr, '\0', INET6_ADDRSTRLEN);
         memcpy(http_request.ip_addr, ip_addr, INET6_ADDRSTRLEN);
 
-        read(last_socket, http.buffer, DEFAULT_HTTP_MAX_BUFFER);
+        read(last_socket, http.buffer, HTTP_BUFFER_MAX);
         http_request_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         // printf("[REQUEST] ip_addr: %s\n", http_request.ip_addr);
