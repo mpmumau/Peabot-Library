@@ -100,7 +100,7 @@ static int http_request_split_lines(HTTPRequestLine *lines, size_t lines_len, ch
 
     for (lines_added = 0; lines_added < lines_len; lines_added++)
     {
-        if (token == NULL)
+        if (token == NULL || token[0] == '\0' || token[0] == '\r')
             break;
         memset(&(lines[lines_added]), '\0', HTTP_REQ_LINE_LEN);
         memcpy(&(lines[lines_added]), token, HTTP_REQ_LINE_LEN - 1); 
