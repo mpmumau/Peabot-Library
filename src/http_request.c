@@ -196,6 +196,8 @@ static int httpreq_parse_content_type(char *val)
 {
     if (strcmp(val, "application/json") == 0)
         return HTTP_CONTENT_TYPE_JSON;
+
+    return 0;
 }
 
 #endif
