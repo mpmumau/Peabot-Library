@@ -9,6 +9,7 @@
  */
 
 #define DEFAULT_HTTP_MAX_CONNS 32
+#define HTTP_BUFFER_MAX (256*1024) // 256kb
 
 #define DEFAULT_HTTP_RESPONSE_SIZE 32768
 
@@ -27,7 +28,7 @@ typedef struct HTTPServer {
     int         socket;
     struct      sockaddr_in srv_addr;
     struct      sockaddr_in cli_addr;
-    char        buffer[DEFAULT_HTTP_MAX_BUFFER];
+    char        buffer[HTTP_BUFFER_MAX];
 } HTTPServer;
 
 /* Initialize the HTTP server component of Peabot. */
