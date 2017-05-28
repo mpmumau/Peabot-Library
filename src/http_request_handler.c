@@ -82,7 +82,8 @@ void *httprhnd_handle_request(void *data)
     } 
     else
     {
-        printf("does not have callback?\n");
+        printf("does not have callback? [method] %d\n", http_request->method);
+
     }
 
     close(socket_fd);
