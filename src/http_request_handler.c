@@ -76,7 +76,14 @@ void *httprhnd_handle_request(void *data)
         request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
+    {
+        printf("Has cb\n");
         (*request_cb)(http_request);
+    } 
+    else
+    {
+        printf("does not have callback?\n");
+    }
 
     close(socket_fd);
     // free(http_request);   
