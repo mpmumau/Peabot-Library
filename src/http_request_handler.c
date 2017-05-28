@@ -11,6 +11,7 @@
 /* System includes */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* Application includes */
 #include "http_request.h"
