@@ -23,6 +23,7 @@
 #define HTTP_REQ_BODY_LEN (HTTP_REQ_BUFFER_LEN - ((HTTP_REQ_MAX_HEADERS + 1) * HTTP_REQ_LINE_LEN))
 
 /* System includes */
+#include <stdbool.h>
 #include <netinet/in.h>
 
 typedef char HTTPRequestLine[HTTP_REQ_LINE_LEN];
