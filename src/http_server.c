@@ -40,7 +40,6 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
-static void http_server_handle_request(HTTPRequest *http_request, int last_socket);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
 static bool http_check_throttle();
