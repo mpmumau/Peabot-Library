@@ -46,7 +46,7 @@ void httpreq_reset_request(HTTPRequest *request)
 
 void httpreq_parse(HTTPRequest *http_request, char *ip_addr, char *raw, int buff_size)
 {
-    memcpy(http_request->id_addr, ip_addr, sizeof(http_request->id_addr));
+    memcpy(http_request->ip_addr, ip_addr, sizeof(http_request->id_addr));
 
     char buffer[HTTP_REQ_BUFFER_LEN];
     int buffer_len = httpreq_copy_buffer(buffer, raw, sizeof(buffer));
