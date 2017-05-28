@@ -39,7 +39,7 @@ typedef struct HTTPRequest {
     char    body[HTTP_REQ_BODY_LEN];
 } HTTPRequest;
 
-void httpreq_init_request(HTTPRequest *request);
+void httpreq_reset_request(HTTPRequest *request);
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size);
 

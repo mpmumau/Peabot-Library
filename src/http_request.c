@@ -30,7 +30,7 @@ static int httpreq_copy_body(char *dest, char *src, size_t size);
 static int httpreq_copy_header(char *dest, char *src, size_t size);
 static int httpreq_parse_content_type(char *val);
 
-void httpreq_init_request(HTTPRequest *request)
+void httpreq_reset_request(HTTPRequest *request)
 {
     memset(request->ip_addr, '\0', sizeof(request->ip_addr));
     request->v11 = false;

@@ -107,6 +107,8 @@ static void *http_main(void *arg)
             continue;
         tick = 0.0;
 
+        httpreq_reset_request(&http_request);
+
         memset(http.buffer, '\0', HTTP_BUFFER_MAX);
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
@@ -120,7 +122,6 @@ static void *http_main(void *arg)
         memcpy(http_request.ip_addr, ip_addr, INET6_ADDRSTRLEN);
 
         read(last_socket, http.buffer, HTTP_BUFFER_MAX);
-        httpreq_init_request(&http_request);
         httpreq_parse(&http_request, http.buffer, sizeof(http.buffer));
 
         // debug
