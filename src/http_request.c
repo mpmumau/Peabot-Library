@@ -132,9 +132,9 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     if (line == NULL)
         return;
 
-    char line_cpy[DEFAULT_HTTP_LINE_LEN];
-    memset(line_cpy, '\0', DEFAULT_HTTP_LINE_LEN);
-    memcpy(line_cpy, line, DEFAULT_HTTP_LINE_LEN - 1);
+    char line_cpy[HTTP_REQ_LINE_LEN];
+    memset(line_cpy, '\0', HTTP_REQ_LINE_LEN);
+    memcpy(line_cpy, line, HTTP_REQ_LINE_LEN - 1);
 
     char *line_cursor;
     char delim[] = " ";
@@ -152,11 +152,11 @@ static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequ
     if (strcmp(line_cursor, "DELETE") == 0)
         http_request->method = HTTP_DELETE;
 
-    memset(http_request->uri, '\0', DEFAULT_HTTP_URI_LEN);
+    memset(http_request->uri, '\0', HTTP_REQ_LINE_LEN);
     line_cursor = strtok(NULL, delim);
     if (line_cursor == NULL)
         return;
-    memcpy(http_request->uri, line_cursor, DEFAULT_HTTP_URI_LEN);
+    memcpy(http_request->uri, line_cursor, HTTP_REQ_LINE_LEN);
 
     http_request->v11 = false;
     line_cursor = strtok(NULL, delim);
@@ -202,8 +202,8 @@ static int http_request_copy_header(char *dest, char *src, size_t size)
 
 static int http_request_get_max_lines()
 {
-    int max_lines = (DEFAULT_HTTP_MAX_BUFFER - (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN)) / DEFAULT_HTTP_LINE_LEN;     
-    bool add_extra_line = (DEFAULT_HTTP_MAX_BUFFER % DEFAULT_HTTP_LINE_LEN) > 0;
+    int max_lines = (HTTP_REQ_BUFFER_LEN - (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN)) / HTTP_REQ_LINE_LEN;     
+    bool add_extra_line = (HTTP_REQ_BUFFER_LEN % HTTP_REQ_LINE_LEN) > 0;
     if (add_extra_line)
         max_lines++;           
     return max_lines;
