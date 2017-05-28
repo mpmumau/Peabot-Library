@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+
 /* Application includes */
 #include "http_request.h"
 
