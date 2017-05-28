@@ -22,7 +22,7 @@
 
 /* Forward decs */
 static int http_request_split_header_lines(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len);
-static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len)
+static void http_request_handle_header_lines(HTTPRequest *http_request, HTTPRequestLine *lines, int lines_len);
 static void http_request_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line);
 static int http_request_copy_buffer(char *dest, char *src, size_t size);
 static int http_request_copy_body(char *dest, char *src, size_t size);
