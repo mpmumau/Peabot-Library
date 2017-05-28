@@ -78,7 +78,7 @@ void *httprhnd_handle_request(void *data)
     if (request_cb != NULL)
         (*request_cb)(http_request);
 
-    close(last_socket);
+    close(socket_fd);
     free(http_request);   
     free(request_thread_data);
 
