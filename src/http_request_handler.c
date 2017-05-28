@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 
 /* Application includes */
 #include "http_request.h"
@@ -80,10 +81,10 @@ void *httprhnd_handle_request(void *data)
         (*request_cb)(http_request);
 
     close(socket_fd);
-    free(http_request);   
-    free(request_thread_data);
+    // free(http_request);   
+    // free(request_thread_data);
 
-    exit(0); 
+    pthread_exit();
 }
 
 static void httprhnd_handle_get(HTTPRequest *http_request)
