@@ -97,7 +97,7 @@ static void *event_main(void *arg)
 
 void event_add(int event_type, void *data)
 {
-    static List *events_pp = &events;
+    static List **events_pp = &events;
 
     Event *event = calloc(1, sizeof(Event));
     event->type = event_type;
