@@ -25,4 +25,6 @@ char *str_after_spaces(char *string, int limit);
 
 bool str_empty(char *string);
 
+void str_clearcopy(char *dest, char *src, size_t len);
+
 #endif

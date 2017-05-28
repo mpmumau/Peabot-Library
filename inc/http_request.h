@@ -32,6 +32,7 @@ typedef struct HTTPRequest {
     char    body[HTTP_REQ_BODY_LEN];
     int     body_len;
     int     body_len_actual;
+    char    hdr_user_agent[HTTP_REQ_LINE_LEN];
 } HTTPRequest;
 
 void httpreq_parse(HTTPRequest *http_request, char *raw, int buff_size);
