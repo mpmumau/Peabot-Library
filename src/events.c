@@ -33,9 +33,9 @@ static List *events;
 static void *event_main(void *arg);
 static char *event_getname(int event_type);
 
-void event_init(List *events_p)
+void event_init()
 {
-    events = events_p;
+    events = calloc(1024, sizeof(List));
     int error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not create event thread.", 1);
@@ -47,6 +47,7 @@ void event_halt()
     int error = pthread_join(event_thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from robot thread.");
+    free(events);
 }
 
 static void *event_main(void *arg)
@@ -96,6 +97,8 @@ static void *event_main(void *arg)
 
 void event_add(int event_type, void *data)
 {
+    static List *events_pp = &events;
+
     Event *event = calloc(1, sizeof(Event));
     event->type = event_type;
     event->data = data;
@@ -108,7 +111,7 @@ void event_add(int event_type, void *data)
         log_event(log_msg);
     }
 
-    list_push(&events, (void *) event);
+    list_push(events_pp, (void *) event);
 }
 
 static char *event_getname(int event_type)

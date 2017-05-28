@@ -10,8 +10,6 @@
 
 #include <stdbool.h>
 
-#include "list.h"
-
 #define EVENT_RESET 0
 #define EVENT_DELAY 1
 #define EVENT_ELEVATE 2
@@ -45,7 +43,7 @@ typedef struct EventTurnData {
 } EventTurnData;
 
 /* Initialize the event handler thread. */
-void event_init(List *events_p);
+void event_init();
 
 /* End the event handler thread and stop processing events. */
 void event_halt();
