@@ -34,10 +34,10 @@ void http_request_parse(HTTPRequest *http_request, char *raw, int buff_size)
     if (http_request == NULL || raw == NULL)
         return;
 
-    char buffer[DEFAULT_HTTP_MAX_BUFFER];
+    char buffer[HTTP_REQ_BUFFER_LEN];
     int buffer_len = http_request_copy_buffer(buffer, raw, sizeof(buffer));
 
-    char body[MAX_BODY_LEN];
+    char body[HTTP_REQ_BODY_LEN];
     int body_len = http_request_copy_body(body, buffer, sizeof(body));
 
     int MAX_HEADER_LEN = buffer_len - body_len;
