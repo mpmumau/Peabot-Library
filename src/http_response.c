@@ -31,7 +31,8 @@ void http_response_parse(HTTPResponse *http_response, int code, char *msg, char 
 
 char *http_response_tobuffer(HTTPResponse *http_response)
 {
-    static char output[DEFAULT_HTTP_MAX_BUFFER]; // limits http_responses to max 256kb
+    char *output = NULL;
+    //static char output[DEFAULT_HTTP_MAX_BUFFER]; // limits http_responses to max 256kb
 
     // for (int u = 0; u < DEFAULT_HTTP_MAX_BUFFER; u++)
     //     output[u] = 0; 
