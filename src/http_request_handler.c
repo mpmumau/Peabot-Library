@@ -45,19 +45,17 @@ void *httprhnd_handle_request(void *data)
     char uri_cpy[sizeof(http_request->uri)];
     str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
 
-    // printf("[URI] %s\n", uri_cpy);
-
     char *uri_p;
     if (uri_cpy[0] == '/')
         uri_p = &(uri_cpy[1]);
 
-    // char *model_name = strtok(uri_p, "/");
-    // char *controller_name = strtok(NULL, "?");
-    // char *query_string = strtok(NULL, "\0");
+    char *model_name = strtok(uri_p, "/");
+    char *controller_name = strtok(NULL, "?");
+    char *query_string = strtok(NULL, "\0");
 
-    //int model = httprhnd_get_model(model_name);
+    int model = httprhnd_get_model(model_name);
 
-    // printf("[Model] %s [Controller] %s [Query] %s\n", model_name, controller_name, query_string);
+    printf("[Model] %d [Controller] %s [Query] %s\n", model, controller_name, query_string);
 
     void (*request_cb)(HTTPRequest *http_request);
     request_cb = NULL;
@@ -90,23 +88,23 @@ void *httprhnd_handle_request(void *data)
 static void httprhnd_handle_get(HTTPRequest *http_request)
 {
     printf("\n[GET REQUEST DETECTED]\n");
-    printf("URI: %s\n", http_request->uri);
+    //printf("URI: %s\n", http_request->uri);
 }
 
 static void httprhnd_handle_post(HTTPRequest *http_request)
 {
     printf("\n[POST REQUEST DETECTED]\n");
 
-    // tmp
-    EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
-    elevate_data->duration = 5.0;
-    elevate_data->reverse = false;
-    event_add(EVENT_ELEVATE, (void *) elevate_data);     
+    // // tmp
+    // EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
+    // elevate_data->duration = 5.0;
+    // elevate_data->reverse = false;
+    // event_add(EVENT_ELEVATE, (void *) elevate_data);     
 
-    EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
-    walk_data->cycles = 1;
-    walk_data->duration = 2.0;   
-    event_add(EVENT_WALK, (void *) walk_data);    
+    // EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
+    // walk_data->cycles = 1;
+    // walk_data->duration = 2.0;   
+    // event_add(EVENT_WALK, (void *) walk_data);    
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request)
