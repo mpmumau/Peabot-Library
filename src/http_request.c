@@ -98,6 +98,9 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
 
     if(strcmp(key, "User-Agent") == 0)
         str_clearcopy(http_request->hdr_user_agent, val, sizeof(http_request->hdr_user_agent));
+
+    if (strcmp(key, "content-length") == 0)
+        http_request->body_len = atoi(val);
 }
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)
