@@ -12,66 +12,149 @@
 #include <stdio.h>
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
 
 /* Application includes */
-#include "config_defaults.h"
-#include "main.h"
 #include "utils.h"
-#include "http_server.h"
+#include "string_utils.h"
 
 /* Header */
 #include "http_response.h"
 
-void http_response_parse(HTTPResponse *http_response, int code, char *msg, char *body)
+/* Forward decs */
+static void http_response_appd_response_line(int code, char *output, size_t *len);
+static void http_response_appd_date_line(char *output, size_t *len);
+static void http_response_appd_ac_aoa(char *output, size_t *len);
+static void http_response_appd_ac_ah(HTTPResponse http_response, char *output, size_t *len);
+static void http_response_set_msg_from_code(int code, char *msg, size_t len);
+
+void http_response_init(HTTPResponse *http_response)
 {
-    http_response->code = code;
-    http_response->msg = msg;
-    http_response->body = body;
+    http_response->code = HTTP_RC_UNKNOWN;
+    memset(http_response->body, '\0', sizeof(http_response->body));
+    http_response->hdr_ac_allow_origin_all = false;
+    http_response->hdr_ac_allow_hdrs_content_type = false;
 }
 
-char *http_response_tobuffer(HTTPResponse *http_response)
+void http_response_tostring(HTTPResponse *http_response, char *response_str, size_t len)
 {
-    char *output = NULL;
-    //static char output[DEFAULT_HTTP_MAX_BUFFER]; // limits http_responses to max 256kb
+    int full_len = len;
+    char output[len];
+    memset(output, '\0', sizeof(output));
 
-    // for (int u = 0; u < DEFAULT_HTTP_MAX_BUFFER; u++)
-    //     output[u] = 0; 
+    http_response_appd_response_line(http_response->code, output, &len);
 
-    // time_t current_time = time(NULL);
-    // char time_string[64];
-    // utils_mkresponsetime(current_time, time_string);
+    http_response_appd_date_line(output, &len);
 
-    // char *http_line_fmt = "HTTP/1.0 %d %s\n";
-    // int http_line_size = snprintf(NULL, 128, http_line_fmt, http_response->code, http_response->msg) + 1;
-    // char http_line[http_line_size];
-    // snprintf(http_line, http_line_size, http_line_fmt, http_response->code, http_response->msg);
+    if (http_response->hdr_ac_allow_origin_all)
+        http_response_appd_ac_aoa(output, &len);
 
-    // char *date_line_fmt = "Date: %s\n";
-    // int date_line_size = snprintf(NULL, 128, date_line_fmt, time_string) + 1;
-    // char date_line[date_line_size];
-    // snprintf(date_line, date_line_size, date_line_fmt, time_string);
+    if (http_response->hdr_ac_allow_hdrs_content_type) // add OR clauses for other content types
+        http_response_appd_ac_ah(http_response, output, &len);
 
-    // char *content_type_line= "Content-Type: application/json\n";
+    if (http_response->body[0] != '\0')
+        http_response_appd_body(http_response->body, output, &len);
 
-    // int max_body_size = DEFAULT_HTTP_MAX_BUFFER / 2;
-    // int body_size = 0;
-    // for ( ; body_size < max_body_size; body_size++)
-    // {
-    //     if (http_response->body + body_size == '\0')
-    //         break;
-    // }
-    // body_size++;
+    str_clearcopy(response_str, output, full_len);
+}
 
-    // char *content_length_line_fmt = "Content-Length: %d\n";
-    // int content_length_line_size = snprintf(NULL, 128, content_length_line_fmt, body_size);
-    // char content_length_line[content_length_line_size];
-    // snprintf(NULL, 128, content_length_line_fmt, body_size);
+static void http_response_appd_response_line(int code, char *output, size_t *len)
+{
+    int added_len = 0;
 
-    // char *buffer_format = "%s%s%s%s%s%s";
-    // snprintf(output, DEFAULT_HTTP_RESPONSE_SIZE, buffer_format, http_line, date_line, content_type_line, 
-    //     content_length_line, "\r\n", http_response->body);
+    char response_msg[128];
+    http_response_set_msg_from_code(code, response_msg, sizeof(response_msg));
 
-    return output;
+    char response_line[HTTP_RES_LINE_LEN];
+    added_len = snprintf(response_line, sizeof(response_line), "HTTP/1.1 %d %s\r\n", code, response_msg);
+    strncat(output, response_line, *len - 1);    
+
+    *len = *len - (added_len + 1);
+}
+
+static void http_response_appd_date_line(char *output, size_t *len)
+{
+    int added_len = 0;
+
+    char response_time[128];
+    utils_mkresponsetime(response_time, sizeof(response_time));    
+    
+    char date_line[HTTP_RES_LINE_LEN];
+    added_len = snprintf(date_line, sizeof(date_line), "Date: %s\r\n", response_time);
+    strncat(output, date_line, *len); 
+
+    *len = *len - (added_len + 1);  
+}
+
+static void http_response_appd_ac_aoa(char *output, size_t *len)
+{
+    char hdr_ac_aoa[] = "Access-Control-Allow-Origin: *\r\n";
+    strncat(output, hdr_ac_aoa, *len);   
+
+    *len = *len - sizeof(hdr_ac_aoa);  
+}
+
+static void http_response_appd_ac_ah(HTTPResponse http_response, char *output, size_t *len)
+{
+    char hdr_ac_ah[HTTP_RES_LINE_LEN];
+    strncat(hdr_ac_ah, "Access-Control-Allow-Headers:", sizeof(hdr_ac_ah));
+
+    if (http_response->hdr_ac_allow_hdrs_content_type)
+        strncat(hdr_ac_ah, " content-type", sizeof(hdr_ac_ah));
+
+    strncat(hdr_ac_ah, "\r\n", sizeof(hdr_ac_ah));
+
+    int added_len = strlen(hdr_ac_ah);
+
+    strncat(output, hdr_ac_ah, *len);   
+
+    *len = *len - (added_len + 1); 
+}
+
+static void http_response_appd_body(char *body, char *output, size_t *len)
+{
+    if (body == NULL || body[0] == '\0')
+        return;
+
+    strncat(output, "\r\n", 2);
+
+    char body_str[HTTP_RES_BODY_LEN];
+    memset(body_str, '\0', sizeof(body_str));
+    memcpy(body_str, body, sizeof(body_str) - 1);
+
+    strncat(output, body_str, *len);
+}
+
+static void http_response_set_msg_from_code(int code, char *msg, size_t len)
+{
+    char *tmp_msg;
+
+    switch (code)
+    {
+        case HTTP_RC_UNKNOWN:
+            tmp_msg = "Unknown";
+            break;
+        case HTTP_RC_OK: 
+            tmp_msg = "OK";
+            break;
+        case HTTP_RC_BAD_REQUEST:
+            tmp_msg = "Bad Request";
+            break;
+        case HTTP_RC_FORBIDDEN: 
+            tmp_msg = "Forbidden";
+            break;
+        case HTTP_RC_NOT_FOUND:
+            tmp_msg = "Not Found";
+            break;
+        case HTTP_RC_INTERNAL_SERVER_ERROR:
+            tmp_msg = "Internal Server Error";
+            break;
+        default:
+            tmp_msg = "Response Code Error";
+            break;
+    }
+
+    str_clearcopy(msg, tmp_msg, len);
 }
 
 #endif

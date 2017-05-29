@@ -23,12 +23,12 @@ void utils_mktime(time_t time, char *string)
     strftime(string, UTILS_DATETIME_MAXLEN, "%b %d, %Y %H:%M:%S", ltime);
 }
 
-void utils_mkresponsetime(time_t time, char *string)
+void utils_mkresponsetime(char *string, size_t len)
 {
+    time_t time = time(NULL);
     struct tm *ltime;
     ltime = localtime(&time);
-
-    strftime(string, UTILS_DATETIME_MAXLEN, "%a, %b %Y %H:%M:%S %Z", ltime);
+    strftime(string, len, "%a, %b %Y %H:%M:%S %Z", ltime);
 }
 
 double utils_timediff(struct timespec end_time, struct timespec start_time)
