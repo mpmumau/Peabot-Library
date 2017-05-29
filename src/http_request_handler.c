@@ -15,6 +15,9 @@
 #include <unistd.h>
 #include <pthread.h>
 
+/* Libraries */
+#include "cJSON.h"
+
 /* Application includes */
 #include "http_request.h"
 #include "string_utils.h"
@@ -93,6 +96,9 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
     post_cb = NULL;
 
     void *model_data = NULL;
+
+    cJSON *data_js = cJSON_Parse(http_request->body);
+    char * js_out = cJSON_Print(data_js);
 
     switch (model)
     {
