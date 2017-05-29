@@ -10,6 +10,7 @@
 
 /* System includes */
 #include <stdio.h>
+#include <stdlib.h>
 
 /* Libraries */
 #include "cJSON.h"
