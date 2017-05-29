@@ -143,9 +143,9 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
         (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
 
     char *tmp = cJSON_Print(res_data_p);
-    //str_clearcopy(http_response->body, cJSON_Print(res_data_p), sizeof(http_response->body));
+    str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
 
-    printf("http_response->body: \n%s\n", tmp);
+    printf("http_response->body: \n%s\n", http_response->body);
 
     cJSON_Delete(req_data_p);
     cJSON_Delete(res_data_p);
