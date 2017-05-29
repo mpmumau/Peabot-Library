@@ -98,7 +98,8 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
     void *model_data = NULL;
 
     cJSON *data_js = cJSON_Parse(http_request->body);
-    char * js_out = cJSON_Print(data_js);
+    char *js_out = cJSON_Print(data_js);
+    printf("[JSON]\n%s\n", js_out);
 
     switch (model)
     {
