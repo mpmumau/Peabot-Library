@@ -78,8 +78,8 @@ _OBJ = main.o \
 	http_response.o \
 	http_request_handler.o \
 	usd_sensor.o \
-	controller_event.c \
-	cJSON.c
+	controller_event.o \
+	cJSON.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
