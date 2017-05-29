@@ -152,8 +152,6 @@ void cntlevent_elevate(HTTPRequest *http_request, HTTPResponse *http_response, c
 
 void cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
 {
-    printf("in cntlevent_extend\n");
-
     if (model_data == NULL)
     {
         http_response->code = HTTP_RC_BAD_REQUEST;
@@ -191,6 +189,8 @@ void cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJ
     event_add(EVENT_EXTEND, (void *) event_extend_data); 
 
     cJSON_AddTrueToObject(resjs, "success");    
+
+    printf("did cntlevent_extend\n");
 }
 
 void cntlevent_delay(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
