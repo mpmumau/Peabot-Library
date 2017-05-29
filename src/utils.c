@@ -28,9 +28,9 @@ void utils_mktime(time_t time, char *string)
 
 void utils_mkresponsetime(char *string, size_t len)
 {
-    time_t time = time(NULL);
+    time_t ttime = time(NULL);
     struct tm *ltime;
-    ltime = localtime(&time);
+    ltime = localtime(&ttime);
     strftime(string, len, "%a, %b %Y %H:%M:%S %Z", ltime);
 }
 
