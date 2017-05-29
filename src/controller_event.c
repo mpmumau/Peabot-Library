@@ -34,13 +34,13 @@ void cntlevent_walk(HTTPRequest *http_request, void *model_data)
     if (!event_walk_data)
         app_exit("[ERROR!] Could not allocate memory for event_walk_data (cntlevent_walk).", 1);
 
-    cJSON *cycles_jp = cJSON_GetObjectItem(cjson_p, "cycles");
+    cJSON *cycles_jp = cJSON_GetObjectItem(json_p, "cycles");
     if (!cycles_jp || !cJSON_IsNumber(cycles_jp))
         return;
     event_walk_data->cycles = (int) cycles_jp->valuedouble;
     
 
-    cJSON *duration_jp = cJSON_GetObjectItem(cjson_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return;
     event_walk_data->duration = duration_jp->valuedouble;
