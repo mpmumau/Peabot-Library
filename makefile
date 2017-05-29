@@ -48,7 +48,9 @@ _DEPS = main.h \
 	http_request.h \
 	http_response.h \
 	http_request_handler.h \
-	usd_sensor.h
+	usd_sensor.h \
+	controller_event.h \
+	cJSON.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -75,7 +77,9 @@ _OBJ = main.o \
 	http_request.o \
 	http_response.o \
 	http_request_handler.o \
-	usd_sensor.o
+	usd_sensor.o \
+	controller_event.c \
+	cJSON.c
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)

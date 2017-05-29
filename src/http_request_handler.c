@@ -92,17 +92,6 @@ static void httprhnd_handle_get(HTTPRequest *http_request)
 static void httprhnd_handle_post(HTTPRequest *http_request)
 {
     printf("\n[POST REQUEST DETECTED]\n");
-
-    // // tmp
-    EventElevateData *elevate_data = calloc(1, sizeof(EventElevateData));
-    elevate_data->duration = 5.0;
-    elevate_data->reverse = false;
-    event_add(EVENT_ELEVATE, (void *) elevate_data);     
-
-    EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
-    walk_data->cycles = 1;
-    walk_data->duration = 2.0;   
-    event_add(EVENT_WALK, (void *) walk_data);    
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request)
