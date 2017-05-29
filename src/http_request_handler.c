@@ -45,7 +45,7 @@ void *httprhnd_handle_request(void *data)
     HTTPRequest *http_request   = request_thread_data->http_request;
 
     HTTPResponse http_response;
-    http_response_init(http_response);
+    http_response_init(&http_response);
     char http_response_str[HTTP_RES_MAX_LEN]; //...suspect; needed?    
 
     char uri_cpy[sizeof(http_request->uri)];
