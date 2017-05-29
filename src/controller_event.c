@@ -189,8 +189,6 @@ void cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJ
     event_add(EVENT_EXTEND, (void *) event_extend_data); 
 
     cJSON_AddTrueToObject(resjs, "success");    
-
-    printf("did cntlevent_extend\n");
 }
 
 void cntlevent_delay(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)

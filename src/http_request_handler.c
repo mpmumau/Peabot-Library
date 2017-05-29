@@ -142,6 +142,8 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     if (post_cb != NULL)
         (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
 
+    printf("did cntlevent_extend\n");
+
     str_clearcopy(http_response->body, cJSON_Print(res_data_p), sizeof(http_response->body));
 
     cJSON_Delete(req_data_p);
