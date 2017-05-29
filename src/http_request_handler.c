@@ -76,8 +76,6 @@ void *httprhnd_handle_request(void *data)
     if (http_request->method == HTTP_METHOD_OPTIONS)
         request_cb = httprhnd_handle_options;                   
 
-    printf("right before handle request\n");
-
     if (request_cb != NULL)
         (*request_cb)(http_request, &http_response, model, controller_name);
 
@@ -107,6 +105,8 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     cJSON *res_data_p = cJSON_CreateObject();
 
     cJSON_AddStringToObject(res_data_p, "method", "post");
+
+    printf("post, right before selecting model\n");
 
     switch (model)
     {
