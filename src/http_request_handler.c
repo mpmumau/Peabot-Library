@@ -20,16 +20,17 @@
 #include "string_utils.h"
 #include "events.h"
 #include "http_server.h"
+#include "controller_event.h"
 
 /* Header */
 #include "http_request_handler.h"
 
 /* Forward decs */
-static void httprhnd_handle_get(HTTPRequest *http_request);
-static void httprhnd_handle_post(HTTPRequest *http_request);
-static void httprhnd_handle_put(HTTPRequest *http_request);
-static void httprhnd_handle_delete(HTTPRequest *http_request);
-static void httprhnd_handle_options(HTTPRequest *http_request);
+static void httprhnd_handle_get(HTTPRequest *http_request, int model, char *controller);
+static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *controller);
+static void httprhnd_handle_put(HTTPRequest *http_request, int model, char *controller);
+static void httprhnd_handle_delete(HTTPRequest *http_request, int model, char *controller);
+static void httprhnd_handle_options(HTTPRequest *http_request, int model, char *controller);
 static int httprhnd_get_model(char *model_str);
 
 void *httprhnd_handle_request(void *data)
@@ -48,14 +49,10 @@ void *httprhnd_handle_request(void *data)
         uri_p = &(uri_cpy[1]);
 
     char *model_name = strtok(uri_p, "/");
-    char *controller_name = strtok(NULL, "?");
-    char *query_string = strtok(NULL, "\0");
-
     int model = httprhnd_get_model(model_name);
+    char *controller_name = strtok(NULL, "?");
 
-    printf("[Model] %d [Controller] %s [Query] %s\n", model, controller_name, query_string);
-
-    void (*request_cb)(HTTPRequest *http_request);
+    void (*request_cb)(HTTPRequest *http_request, int model, char *controller);
     request_cb = NULL;
 
     if (http_request->method == HTTP_METHOD_GET)
@@ -74,7 +71,7 @@ void *httprhnd_handle_request(void *data)
         request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
-        (*request_cb)(http_request);
+        (*request_cb)(http_request, model, controller_name);
 
     close(socket_fd);
     free(http_request);   
@@ -83,28 +80,51 @@ void *httprhnd_handle_request(void *data)
     pthread_exit(NULL);
 }
 
-static void httprhnd_handle_get(HTTPRequest *http_request)
+static void httprhnd_handle_get(HTTPRequest *http_request, int model, char *controller)
 {
     printf("\n[GET REQUEST DETECTED]\n");
-    //printf("URI: %s\n", http_request->uri);
 }
 
-static void httprhnd_handle_post(HTTPRequest *http_request)
+static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *controller)
 {
     printf("\n[POST REQUEST DETECTED]\n");
+
+    void (*post_cb)(HTTPRequest *http_request, void *model_data);
+    post_cb = NULL;
+
+    void *model_data = NULL;
+
+    switch (model)
+    {
+        case MODEL_EVENT:
+            if (strcmp(controller, "walk"))
+                post_cb = cntlevent_walk;
+            if (strcmp(controller, "turn"))
+                post_cb = cntlevent_turn;
+            if (strcmp(controller, "elevate"))
+                post_cb = cntlevent_elevate;
+            if (strcmp(controller, "extend"))
+                post_cb = cntlevent_extend;            
+            if (strcmp(controller, "delay"))
+                post_cb = cntlevent_extend;  
+            break;
+    }
+
+    if (post_cb != NULL)
+        (*post_cb)(http_request, model_data);
 }
 
-static void httprhnd_handle_put(HTTPRequest *http_request)
+static void httprhnd_handle_put(HTTPRequest *http_request, int model, char *controller)
 {
     printf("\n[PUT REQUEST DETECTED]\n");
 }
 
-static void httprhnd_handle_delete(HTTPRequest *http_request)
+static void httprhnd_handle_delete(HTTPRequest *http_request, int model, char *controller)
 {
     printf("\n[DELETE REQUEST DETECTED]\n");
 }
 
-static void httprhnd_handle_options(HTTPRequest *http_request)
+static void httprhnd_handle_options(HTTPRequest *http_request, int model, char *controller)
 {
     printf("\n[OPTIONS REQUEST DETECTED]\n");
 }

@@ -11,4 +11,29 @@
 /* Header */
 #include "controller_event.h"
 
+void cntlevent_walk(HTTPRequest *http_request, void *model_data)
+{
+    printf("WALK\n");
+}
+
+void cntlevent_turn(HTTPRequest *http_request, void *model_data)
+{
+    printf("TURN\n");    
+}
+
+void cntlevent_elevate(HTTPRequest *http_request, void *model_data)
+{
+    printf("ELEVATE\n");    
+}
+
+void cntlevent_extend(HTTPRequest *http_request, void *model_data)
+{
+    printf("EXTEND\n");    
+}
+
+void cntlevent_delay(HTTPRequest *http_request, void *model_data)
+{
+    printf("DELAY\n");    
+}
+
 #endif

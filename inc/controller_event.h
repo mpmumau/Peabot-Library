@@ -8,4 +8,14 @@
  Author:        Matt Mumau
  */
 
+void cntlevent_walk(HTTPRequest *http_request, void *model_data);
+
+void cntlevent_turn(HTTPRequest *http_request, void *model_data);
+
+void cntlevent_elevate(HTTPRequest *http_request, void *model_data);
+
+void cntlevent_extend(HTTPRequest *http_request, void *model_data);
+
+void cntlevent_delay(HTTPRequest *http_request, void *model_data);
+
 #endif
