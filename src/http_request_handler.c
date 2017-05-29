@@ -140,7 +140,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     }
 
     if (post_cb != NULL)
-        (*post_cb)(http_request, http_response, res_data_p, (void *) data_p);
+        (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
 
     memset(http_response->body, '\0', sizeof(http_response->body));
     memcpy(http_response->body, cJSON_Print(res_data_p), sizeof(http_response->body) - 1);
