@@ -54,6 +54,8 @@ void *httprhnd_handle_request(void *data)
     if (uri_cpy[0] == '/')
         uri_p = &(uri_cpy[1]);
 
+    printf("%s\n", uri_cpy);
+
     char *model_name = strtok(uri_p, "/");
     int model = httprhnd_get_model(model_name);
     char *controller_name = strtok(NULL, "?");
