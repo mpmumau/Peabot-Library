@@ -72,7 +72,6 @@ static void *http_main(void *arg)
 
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
-    //int fork_pid;
     char ip_addr[INET6_ADDRSTRLEN];
     HTTPRequest *http_request;
 
@@ -107,6 +106,9 @@ static void *http_main(void *arg)
         request_thread_data = calloc(1, sizeof(HTTPRequestThreadData));        
         request_thread_data->http_request = http_request;
         request_thread_data->socket_fd = last_socket;
+
+        // dbg
+        printf("[HTTP RAW REQUEST]\n%s\n", http.buffer);
 
         pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) request_thread_data);
     }
