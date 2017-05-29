@@ -106,8 +106,6 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
 
     cJSON_AddStringToObject(res_data_p, "method", "post");
 
-    printf("post, right before selecting model\n");
-
     switch (model)
     {
         case MODEL_EVENT:
