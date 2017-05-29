@@ -8,6 +8,12 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+
+/* Application includes */
+#include "http_request.h"
+
 /* Header */
 #include "controller_event.h"
 
