@@ -25,7 +25,7 @@
 static void http_response_appd_response_line(int code, char *output, size_t *len);
 static void http_response_appd_date_line(char *output, size_t *len);
 static void http_response_appd_ac_aoa(char *output, size_t *len);
-static void http_response_appd_ac_ah(HTTPResponse http_response, char *output, size_t *len);
+static void http_response_appd_ac_ah(HTTPResponse *http_response, char *output, size_t *len);
 static void http_response_set_msg_from_code(int code, char *msg, size_t len);
 
 void http_response_init(HTTPResponse *http_response)
@@ -94,7 +94,7 @@ static void http_response_appd_ac_aoa(char *output, size_t *len)
     *len = *len - sizeof(hdr_ac_aoa);  
 }
 
-static void http_response_appd_ac_ah(HTTPResponse http_response, char *output, size_t *len)
+static void http_response_appd_ac_ah(HTTPResponse *http_response, char *output, size_t *len)
 {
     char hdr_ac_ah[HTTP_RES_LINE_LEN];
     strncat(hdr_ac_ah, "Access-Control-Allow-Headers:", sizeof(hdr_ac_ah));
