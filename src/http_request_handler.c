@@ -54,8 +54,6 @@ void *httprhnd_handle_request(void *data)
     if (uri_cpy[0] == '/')
         uri_p = &(uri_cpy[1]);
 
-    printf("%s\n", uri_cpy);
-
     char *model_name = strtok(uri_p, "/");
     int model = httprhnd_get_model(model_name);
     char *controller_name = strtok(NULL, "?");
@@ -143,6 +141,9 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
 
     if (post_cb != NULL)
         (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
+
+    printf("HTTP_RES_BODY_LEN: %d\n", HTTP_RES_BODY_LEN);
+    printf("sizeof(http_response->body): %d\n", sizeof(http_response->body));
 
     char *tmp = cJSON_Print(res_data_p);
     str_clearcopy(http_response->body, "abc123", sizeof(http_response->body));
