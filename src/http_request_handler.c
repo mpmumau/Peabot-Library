@@ -97,15 +97,15 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
     switch (model)
     {
         case MODEL_EVENT:
-            if (strcmp(controller, "walk"))
+            if (strcmp(controller, "walk") == 0)
                 post_cb = cntlevent_walk;
-            if (strcmp(controller, "turn"))
+            if (strcmp(controller, "turn") == 0)
                 post_cb = cntlevent_turn;
-            if (strcmp(controller, "elevate"))
+            if (strcmp(controller, "elevate") == 0)
                 post_cb = cntlevent_elevate;
-            if (strcmp(controller, "extend"))
+            if (strcmp(controller, "extend") == 0)
                 post_cb = cntlevent_extend;            
-            if (strcmp(controller, "delay"))
+            if (strcmp(controller, "delay") == 0)
                 post_cb = cntlevent_extend;  
             break;
     }
