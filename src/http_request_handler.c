@@ -106,7 +106,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
             if (strcmp(controller, "extend") == 0)
                 post_cb = cntlevent_extend;            
             if (strcmp(controller, "delay") == 0)
-                post_cb = cntlevent_extend;  
+                post_cb = cntlevent_delay;  
             break;
     }
 
