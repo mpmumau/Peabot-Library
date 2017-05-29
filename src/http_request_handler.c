@@ -80,6 +80,8 @@ void *httprhnd_handle_request(void *data)
         (*request_cb)(http_request, &http_response, model, controller_name);
 
     http_response_tostring(&http_response, http_response_str, sizeof(http_response_str));
+
+    printf("response_string: %s\n", http_response_str);
     
     write(socket_fd, http_response_str, strlen(http_response_str));
     close(socket_fd);
@@ -146,7 +148,6 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     cJSON_PrintPreallocated(res_data_p, tmp, sizeof(tmp), false);
 
     str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
-    printf("http_response->body: \n%s\n", http_response->body);
 
     cJSON_Delete(req_data_p);
     cJSON_Delete(res_data_p);
