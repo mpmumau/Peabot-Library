@@ -95,20 +95,12 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
     void (*post_cb)(HTTPRequest *http_request, void *model_data);
     post_cb = NULL;
 
-    void *model_data = NULL;
-
-    printf("[R->body]\n%s\n", http_request->body);
-
-    cJSON *data_js = cJSON_Parse(http_request->body);
-
-    cJSON *el = cJSON_GetObjectItem(data_js, "rodone");
-
-    if (cJSON_IsNumber(el))
-        printf("rodone is a number\n");
+    void *data_p = NULL;
 
     switch (model)
     {
         case MODEL_EVENT:
+            data_p = (void *) cJSON_Parse(http_request->body);
             if (strcmp(controller, "walk") == 0)
                 post_cb = cntlevent_walk;
             if (strcmp(controller, "turn") == 0)
@@ -123,7 +115,7 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
     }
 
     if (post_cb != NULL)
-        (*post_cb)(http_request, model_data);
+        (*post_cb)(http_request, data_p);
 }
 
 static void httprhnd_handle_put(HTTPRequest *http_request, int model, char *controller)
