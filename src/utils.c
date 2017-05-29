@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#define _POSIX_C_SOURCE 199309L
+
 /* System includes */
 #include <stdio.h>
 #include <time.h>
