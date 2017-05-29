@@ -81,7 +81,7 @@ bool str_empty(char *string)
 void str_clearcopy(char *dest, char *src, size_t len)
 {
     memset(dest, '\0', len);
-    memcpy(dest, src, len - 1);
+    memcpy(&(dest[0]), src, len - 1);
 }
 
 #endif
