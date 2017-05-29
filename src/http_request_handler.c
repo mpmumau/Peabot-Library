@@ -79,7 +79,7 @@ void *httprhnd_handle_request(void *data)
     if (request_cb != NULL)
         (*request_cb)(http_request, &http_response, model, controller_name);
 
-    http_response_tostring(http_response, http_response_str, sizeof(http_response_str));
+    http_response_tostring(&http_response, http_response_str, sizeof(http_response_str));
     
     write(socket_fd, http_response_str, strlen(http_response_str));
     close(socket_fd);
