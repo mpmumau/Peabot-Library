@@ -97,9 +97,14 @@ static void httprhnd_handle_post(HTTPRequest *http_request, int model, char *con
 
     void *model_data = NULL;
 
+    printf("[R->body]\n%s\n", http_request->body);
+
     cJSON *data_js = cJSON_Parse(http_request->body);
-    char *js_out = cJSON_Print(data_js);
-    printf("[JSON]\n%s\n", js_out);
+
+    cJSON *el = cJSON_GetObjectItem(data_js, "rodone");
+
+    if (cJSON_IsNumber(el))
+        printf("rodone is a number\n");
 
     switch (model)
     {
