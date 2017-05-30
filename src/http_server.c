@@ -101,11 +101,11 @@ static void *http_main(void *arg)
     timeout.tv_sec = 3;
     timeout.tv_usec = 0;     
 
-    FD_ZERO(&socket_fd_set);
-    FD_SET(http.socket, &socket_fd_set);       
-
     while (http.running)
     {
+        FD_ZERO(&socket_fd_set);
+        FD_SET(http.socket, &socket_fd_set);    
+        
         socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
         if (socket_select_result == 0)
         {
