@@ -99,7 +99,8 @@ static void *http_main(void *arg)
 
     fd_set socket_fd_set;
     int socket_select_result, iof = -1;
-    struct timeval timeout;    
+    struct timeval timeout;
+    int flags;   
    
     while (running)
     {
@@ -118,6 +119,9 @@ static void *http_main(void *arg)
                 continue;
             }
         }
+
+        flags = fcntl(http.socket, F_GETFL, 0);
+        fcntl(http.socket, F_SETFL, flags | O_NONBLOCK);
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
