@@ -84,7 +84,7 @@ void *httprhnd_handle_request(void *data)
     httrhnd_send_response(&mvc_data, socket_fd);
     
     free(http_request);   
-    mvcdata_destroy(mvc_data);
+    mvcdata_destroy(&mvc_data);
     pthread_exit(NULL);
 }
 
