@@ -124,7 +124,7 @@ void eventcb_walk(void *arg)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
         *duration_p = duration;
         
-        keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i < 1);
+        keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i > 0);
     }
 }
 
