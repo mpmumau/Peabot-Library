@@ -160,10 +160,12 @@ void keyhandler_removeall()
 static void keyhandler_exec_removeall()
 {
     Keyframe *keyfr_popped = NULL;
-    while (keyfr_popped = (Keyframe *) list_pop(&keyframes))
+    keyfr_popped = (Keyframe *) list_pop(&keyframes);
+    while (keyfr_popped != NULL)
     {
         if (keyfr_popped)
             free(keyfr_popped);    
+        keyfr_popped = (Keyframe *) list_pop(&keyframes);
     }
     keyframes = NULL;
 }
