@@ -117,8 +117,8 @@ static void *http_main(void *arg)
         FD_ZERO(&socket_fd_set);
         FD_SET(http.socket, &socket_fd_set);    
 
-        socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
-        if (socket_select_result == 0)
+        socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, NULL);
+        if (socket_select_result < 1)
         {
             if (!FD_ISSET(http.socket, &socket_fd_set)) 
                 continue;
