@@ -56,15 +56,19 @@ void http_init()
         return;
 
     running = true;
-    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
+
+    pthread_attr_t http_thread_attr;
+    pthread_attr_init(&http_thread_attr);
+    pthread_attr_setdetachstate(&http_thread_attr, PTHREAD_CREATE_DETACHED);
+
+    http.thread = pthread_create(&(http.thread), &http_thread_attr, http_main, NULL);
+
+    pthread_attr_destroy(&http_thread_attr);
 }
 
 void http_halt()
 {
     running = false;
-    int error = pthread_join(http.thread, NULL);
-    if (error)
-        log_event("[ERROR!] Could not rejoin from HTTP thread.");
 }
 
 static void *http_main(void *arg)
@@ -114,10 +118,7 @@ static void *http_main(void *arg)
         if (socket_select_result == 0)
         {
             if (!FD_ISSET(http.socket, &socket_fd_set)) 
-            {
-                printf("timeout\n");
                 continue;
-            }
         }
 
         flags = fcntl(http.socket, F_GETFL, 0);

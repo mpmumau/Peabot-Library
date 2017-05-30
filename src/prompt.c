@@ -44,6 +44,8 @@ void prompt_init()
     int error = pthread_create(&prompt_thread, &prompt_thread_attr, prompt_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not initialize prompt thread.", 1);
+
+    pthread_attr_destroy(&prompt_thread_attr);
 }
 
 void prompt_halt()
