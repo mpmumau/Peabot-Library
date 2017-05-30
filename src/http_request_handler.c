@@ -98,8 +98,6 @@ static void httprhnd_handle_get(HTTPRequest *http_request, HTTPResponse *http_re
 
 static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    printf("\n[POST REQUEST DETECTED]\n");
-
     void (*post_cb)(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
     post_cb = NULL;
 
