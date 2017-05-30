@@ -39,7 +39,7 @@ void httpreq_reset_request(HTTPRequest *request)
     request->hdr_content_type = 0;
     memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
     request->hdr_keep_alive = false;
-    request->hdr_access_ctl_allow_meth = false;
+    request->hdr_access_ctl_request_meth = false;
     request->body_len = 0;
     request->body_len_actual = 0;
     memset(request->body, '\0', sizeof(request->body));
