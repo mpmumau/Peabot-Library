@@ -58,7 +58,7 @@ void *httprhnd_handle_request(void *data)
     char *model_name = strtok(uri_p, "/");
     int model = httprhnd_get_model(model_name);
     char *controller_name = strtok(NULL, "?");
-    char *query_string = strtok(NULL, '\0');
+    char *query_string = strtok(NULL, "\0");
 
     printf("query_string: %s\n", query_string);
 
