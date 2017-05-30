@@ -52,12 +52,12 @@ void *httprhnd_handle_request(void *data)
     HTTPResponse http_response;
     httprhnd_response_global_conf(&http_response);
 
-    printf("got here!!!!!!!!!!!!!!\n");
-
     char *model = NULL;
     char *controller = NULL;
     char *query = NULL;
     httprhnd_conf_uri(http_request, model, controller, query);
+
+    printf("got here!!!!!!!!!!!!!!\n");
 
     MVCData mvc_data;
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
