@@ -52,8 +52,8 @@ void http_response_tostring(HTTPResponse *http_response, char *response_str, siz
     if (http_response->content_type[0] != '\0')
         http_response_appd_content_type(http_response->content_type, output, &len);
 
-    if (http_response->body[0] != '\0')
-        http_response_appd_content_length(strlen(http_response->body), output, &len);
+    // if (http_response->body[0] != '\0')
+    //     http_response_appd_content_length(strlen(http_response->body), output, &len);
 
     if (http_response->hdr_ac_allow_origin_all)
         http_response_appd_ac_aoa(output, &len);
