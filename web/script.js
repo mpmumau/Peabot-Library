@@ -67,3 +67,17 @@ function reset_button()
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xml.send();
 }
+
+function halt_button()
+{
+    var xml = new XMLHttpRequest();
+    
+    xml.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.responseText)); 
+        }
+    };
+    xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/halt", true);
+    xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xml.send();
+}
