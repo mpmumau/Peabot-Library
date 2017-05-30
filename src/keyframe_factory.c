@@ -136,7 +136,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
 
 Keyframe *keyfactory_walk(void *data, bool reverse)
 {
-    static bool is_inverted = false;
+    static bool is_inverted = true;
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
