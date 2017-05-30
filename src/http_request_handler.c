@@ -25,17 +25,20 @@
 #include "controller_event.h"
 #include "events.h"
 #include "string_utils.h"
+#include "mvc_data.h"
 
 /* Header */
 #include "http_request_handler.h"
 
 /* Forward decs */
-static void httprhnd_handle_get(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
-static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
-static void httprhnd_handle_put(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
-static void httprhnd_handle_delete(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
-static void httprhnd_handle_options(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
-static int httprhnd_get_model(char *model_str);
+static void httprhnd_response_global_conf(HTTPResponse *http_response);
+static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char *controller_name, char *query_string);
+static void httprhnd_handle_get(MVCData *mvc_data);
+static void httprhnd_handle_post(MVCData *mvc_data);
+static void httprhnd_handle_put(MVCData *mvc_data);
+static void httprhnd_handle_delete(MVCData *mvc_data);
+static void httprhnd_handle_options(MVCData *mvc_data);
+static void httrhnd_send_response(HTTPResponse *http_response, int socket_fd);
 
 void *httprhnd_handle_request(void *data)
 {
@@ -44,25 +47,22 @@ void *httprhnd_handle_request(void *data)
     int socket_fd               = request_thread_data->socket_fd;
     HTTPRequest *http_request   = request_thread_data->http_request;
 
+    free(request_thread_data);
+
     HTTPResponse http_response;
-    http_response_init(&http_response);
-    http_response.hdr_ac_allow_origin_all = true;
-    http_response.hdr_ac_allow_hdrs_content_type = true; 
+    httprhnd_response_global_conf(http_response);
 
-    char *uri_p;
-    char uri_cpy[sizeof(http_request->uri)];
-    str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
-    if (uri_cpy[0] == '/')
-        uri_p = &(uri_cpy[1]);
+    char *uri_p = httprhnd_format_uri(http_request);
 
-    char *model_name = strtok(uri_p, "/");
-    int model = httprhnd_get_model(model_name);
-    char *controller_name = strtok(NULL, "?");
-    char *query_string = strtok(NULL, "\0");
+    char *model;
+    char *controller;
+    char *query;
+    httprhnd_conf_uri(http_request, model, controller, query);
 
-    printf("query_string: %s\n", query_string);
-
-    void (*request_cb)(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
+    MVCData mvc_data;
+    mvcdata_set(mvc_data, http_request, &http_response, model_name, controller_name, query_string);
+    
+    void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;
 
     if (http_request->method == HTTP_METHOD_GET)
@@ -81,127 +81,110 @@ void *httprhnd_handle_request(void *data)
         request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
-        (*request_cb)(http_request, &http_response, model, controller_name);
+        (*request_cb)(mvc_data);
 
-    char http_response_str[HTTP_RES_MAX_LEN];
-    http_response_tostring(&http_response, http_response_str, sizeof(http_response_str));
-    
-    write(socket_fd, http_response_str, strlen(http_response_str));
-    close(socket_fd);
+    httrhnd_send_response(http_response, socket_fd);
     
     free(http_request);   
-    free(request_thread_data);
+    mvcdata_destroy(mvc_data);
     pthread_exit(NULL);
 }
 
-static void httprhnd_handle_get(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
+static void httprhnd_response_global_conf(HTTPResponse *http_response)
 {
-    printf("\n[GET REQUEST DETECTED]\n");
+    http_response_init(http_response);
+    
+    http_response->hdr_ac_allow_origin_all = true;
+    http_response->hdr_ac_allow_hdrs_content_type = true;     
 }
 
-static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
+static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char *controller_name, char *query_string)
 {
-    bool (*post_cb)(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+    char *uri_p;
+    char uri_cpy[sizeof(http_request->uri)];
+    str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
+   
+    if (uri_cpy[0] == '/')
+        uri_p = &(uri_cpy[1]);    
+
+    model_name = strtok(uri_p, "/");
+    controller_name = strtok(NULL, "?");
+    query_string = strtok(NULL, "\0");    
+}
+
+static void httrhnd_send_response(MVCData *mvc_data, int socket_fd)
+{
+    char content_type[17] = "application/json"; 
+    str_clearcopy(mvc_data->http_response->content_type, content_type, sizeof(mvc_data->http_response->content_type));
+
+    char content[sizeof(mvc_data->http_response->body)];
+    cJSON_PrintPreallocated(mvc_data->response_json, content, sizeof(content), true);
+    str_clearcopy(mvc_data->http_response->body, content, sizeof(mvc_data->http_response->body));    
+
+    char http_response_str[HTTP_RES_MAX_LEN];
+    http_response_tostring(mvc_data->http_response, http_response_str, sizeof(http_response_str));
+
+    write(socket_fd, http_response_str, strlen(http_response_str));
+    close(socket_fd);    
+}
+
+static void httprhnd_handle_post(MVCData *mvc_data)
+{
+    bool (*post_cb)(MVCData *mvc_data);
     post_cb = NULL;
-
-    cJSON *req_data_p = cJSON_Parse(http_request->body);
-    cJSON *res_data_p = cJSON_CreateObject();
-
-    cJSON_AddStringToObject(res_data_p, "method", "post");
 
     switch (model)
     {
         case MODEL_EVENT:
-            cJSON_AddStringToObject(res_data_p, "model", "event");
 
-            if (strcmp(controller, "walk") == 0)
-            {
-                cJSON_AddStringToObject(res_data_p, "controller", "walk");
+            if (mvc_data->controller == CONTROLLER_WALK);
                 post_cb = cntlevent_walk;
-            }
-            if (strcmp(controller, "turn") == 0)
-            {
-                cJSON_AddStringToObject(res_data_p, "controller", "turn");
+            if (mvc_data->controller == CONTROLLER_TURN)
                 post_cb = cntlevent_turn;
-            }
-            if (strcmp(controller, "elevate") == 0)
-            {
-                cJSON_AddStringToObject(res_data_p, "controller", "elevate");
+            if (mvc_data->controller == CONTROLLER_ELEVATE)
                 post_cb = cntlevent_elevate;
-            }
-            if (strcmp(controller, "extend") == 0)
-            {
-                cJSON_AddStringToObject(res_data_p, "controller", "extend");
+            if (mvc_data->controller == CONTROLLER_EXTEND)
                 post_cb = cntlevent_extend;            
-            }
-            if (strcmp(controller, "delay") == 0)
-            {
-                cJSON_AddStringToObject(res_data_p, "controller", "delay");
+            if (mvc_data->controller == CONTROLLER_DELAY)
                 post_cb = cntlevent_delay;  
-            }
+            if (mvc_data->controller == CONTROLLER_RESET)
+                post_cb = cntlevent_reset;  
             break;
     }
 
     bool success;
     if (post_cb != NULL)
-        success = (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
+        success = (*post_cb)(mvc_data);
 
-    cJSON_AddBoolToObject(res_data_p, "success", success);
+    cJSON_AddBoolToObject(mvc_data->response_json, "success", success);
 
     if (success)
-    {
         http_response->code = HTTP_RC_OK;
-
-        char tmp[sizeof(http_response->body)];
-        cJSON_PrintPreallocated(res_data_p, tmp, sizeof(tmp), false);
-
-        char content_type[17] = "application/json"; 
-        str_clearcopy(http_response->content_type, content_type, sizeof(http_response->content_type));
-
-        str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
-    }
     else
     {
         if (http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
             http_response->code = HTTP_RC_BAD_REQUEST;
     }
-
-    cJSON_Delete(req_data_p);
-    cJSON_Delete(res_data_p);
 }
 
-static void httprhnd_handle_put(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
-{
-    //printf("\n[PUT REQUEST DETECTED]\n");
-}
-
-static void httprhnd_handle_delete(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
-{
-    //printf("\n[DELETE REQUEST DETECTED]\n");
-}
-
-static void httprhnd_handle_options(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
+static void httprhnd_handle_get(MVCData *mvc_data)
 {
     // nothing for now
 }
 
-static int httprhnd_get_model(char *model_str)
+static void httprhnd_handle_put(MVCData *mvc_data)
 {
-    int model = MODEL_NONE;
+    // nothing for now
+}
 
-    if (model_str == NULL)
-        return model;
+static void httprhnd_handle_delete(MVCData *mvc_data)
+{
+    // nothing for now
+}
 
-    if (strcmp(model_str, "event") == 0)
-        model = MODEL_EVENT;
-
-    if (strcmp(model_str, "usd") == 0)
-        model = MODEL_USD;
-
-    if (strcmp(model_str, "position") == 0)
-        model = MODEL_POSITION;
-
-    return model;
+static void httprhnd_handle_options(MVCData *mvc_data)
+{
+    // nothing for now
 }
 
 #endif

@@ -10,14 +10,16 @@
 
 #include <stdbool.h>
 
-bool cntlevent_walk(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+bool cntlevent_walk(MVCData *mvc_data);
 
-bool cntlevent_turn(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+bool cntlevent_turn(MVCData *mvc_data);
 
-bool cntlevent_elevate(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+bool cntlevent_elevate(MVCData *mvc_data);
 
-bool cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+bool cntlevent_extend(MVCData *mvc_data);
 
-bool cntlevent_delay(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+bool cntlevent_delay(MVCData *mvc_data);
+
+bool cntlevent_reset(MVCData *mvc_data);
 
 #endif

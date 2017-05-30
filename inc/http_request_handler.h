@@ -8,13 +8,6 @@
  Author:        Matt Mumau
  */
 
-#define MODEL_NONE 0
-#define MODEL_EVENT 1
-#define MODEL_USD 2
-#define MODEL_POSITION 3
-
-/* Application includes */
-#include "http_request.h"
 
 void *httprhnd_handle_request(void *data);
 

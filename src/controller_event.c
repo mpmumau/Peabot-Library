@@ -21,29 +21,25 @@
 #include "http_request.h"
 #include "events.h"
 #include "http_response.h"
+#include "mvc_data.h"
 
 /* Header */
 #include "controller_event.h"
 
-bool cntlevent_walk(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
+bool cntlevent_walk(MVCData *mvc_data)
 {
-    if (model_data == NULL)
-        return false;
-
-    cJSON *json_p = (cJSON *) model_data;
-
-    cJSON *cycles_jp = cJSON_GetObjectItem(json_p, "cycles");
+    cJSON *cycles_jp = cJSON_GetObjectItem(mvc_data->request_json, "cycles");
     if (!cycles_jp || !cJSON_IsNumber(cycles_jp))
         return false;
     
-    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
     EventWalkData *event_walk_data = calloc(1, sizeof(EventWalkData));
     if (!event_walk_data)
     {
-        http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
+        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
         return false;
     }
 
@@ -54,25 +50,20 @@ bool cntlevent_walk(HTTPRequest *http_request, HTTPResponse *http_response, cJSO
     return true;
 }
 
-bool cntlevent_turn(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
-{
-    if (model_data == NULL)
-        return false;
-
-    cJSON *json_p = (cJSON *) model_data;
-    
-    cJSON *cycles_jp = cJSON_GetObjectItem(json_p, "cycles");
+bool cntlevent_turn(MVCData *mvc_data)
+{    
+    cJSON *cycles_jp = cJSON_GetObjectItem(mvc_data->request_json, "cycles");
     if (!cycles_jp || !cJSON_IsNumber(cycles_jp))
         return false;
         
-    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
     EventTurnData *event_turn_data = calloc(1, sizeof(EventTurnData));
     if (!event_turn_data)
     {
-        http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
+        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
         return false;
     }
 
@@ -83,24 +74,20 @@ bool cntlevent_turn(HTTPRequest *http_request, HTTPResponse *http_response, cJSO
     return true;
 }
 
-bool cntlevent_elevate(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
+bool cntlevent_elevate(MVCData *mvc_data)
 {
-    if (model_data == NULL)
-        return false;
-    cJSON *json_p = (cJSON *) model_data;
-
-    cJSON *reverse_jp = cJSON_GetObjectItem(json_p, "reverse");
+    cJSON *reverse_jp = cJSON_GetObjectItem(mvc_data->request_json, "reverse");
     if (!reverse_jp || !cJSON_IsBool(reverse_jp))
         return false;
       
-    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
     EventElevateData *event_elevate_data = calloc(1, sizeof(EventElevateData));
     if (!event_elevate_data)
     {
-        http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
+        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
         return false;
     }
 
@@ -111,24 +98,20 @@ bool cntlevent_elevate(HTTPRequest *http_request, HTTPResponse *http_response, c
     return true;
 }
 
-bool cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
+bool cntlevent_extend(MVCData *mvc_data)
 {
-    if (model_data == NULL)
-        return false;
-    cJSON *json_p = (cJSON *) model_data;
-
-    cJSON *reverse_jp = cJSON_GetObjectItem(json_p, "reverse");
+    cJSON *reverse_jp = cJSON_GetObjectItem(mvc_data->request_json, "reverse");
     if (!reverse_jp || !cJSON_IsBool(reverse_jp))
         return false;
        
-    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
     EventExtendData *event_extend_data = calloc(1, sizeof(EventExtendData));
     if (!event_extend_data)
     {
-        http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
+        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
         return false;
     }
 
@@ -139,26 +122,28 @@ bool cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJ
     return true;
 }
 
-bool cntlevent_delay(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data)
+bool cntlevent_delay(MVCData *mvc_data)
 {
-    if (model_data == NULL)
-        return false;
-    cJSON *json_p = (cJSON *) model_data;
-
-    cJSON *duration_jp = cJSON_GetObjectItem(json_p, "duration");
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
 
     float *duration = calloc(1, sizeof(float));
     if (!duration)
     {
-        http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
+        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
         return false;
     }
 
     *duration = (float) duration_jp->valuedouble; 
 
     event_add(EVENT_EXTEND, (void *) duration); 
+    return true;
+}
+
+bool cntlevent_reset(MVCData *mvc_data)
+{
+    event_add(EVENT_RESET, (void *) NULL); 
     return true;
 }
 
