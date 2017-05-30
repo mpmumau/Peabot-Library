@@ -125,7 +125,10 @@ int main(int argc, char *argv[])
 
     http_init();
 
-    while (app_running) {}
+    while (app_running) 
+    {
+        sleep(2);
+    }
 
     exit(exit_val);
     return exit_val;
