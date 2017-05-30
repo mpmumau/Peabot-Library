@@ -157,11 +157,11 @@ static void httprhnd_handle_post(MVCData *mvc_data)
     cJSON_AddBoolToObject(mvc_data->response_json, "success", success);
 
     if (success)
-        http_response->code = HTTP_RC_OK;
+        mvc_data->http_response->code = HTTP_RC_OK;
     else
     {
-        if (http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
-            http_response->code = HTTP_RC_BAD_REQUEST;
+        if (mvc_data->http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
+            mvc_data->http_response->code = HTTP_RC_BAD_REQUEST;
     }
 }
 
