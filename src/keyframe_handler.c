@@ -45,7 +45,6 @@ void keyhandler_init()
 {
     running = true;
     int error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
-    pthread_setname_np(event_thread, "PEABOT_EVENTS");
 }
 
 void keyhandler_halt()
