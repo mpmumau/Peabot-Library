@@ -79,7 +79,7 @@ void *httprhnd_handle_request(void *data)
         request_cb = httprhnd_handle_options;                   
 
     if (request_cb != NULL)
-        (*request_cb)(mvc_data);
+        (*request_cb)(&mvc_data);
 
     httrhnd_send_response(http_response, socket_fd);
     
