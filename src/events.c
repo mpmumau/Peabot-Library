@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#define _GNU_SOURCE
+
 /* System includes */
 #include <stdio.h>
 #include <stdlib.h>
