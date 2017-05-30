@@ -52,7 +52,7 @@ void *httprhnd_handle_request(void *data)
     HTTPResponse http_response;
     httprhnd_response_global_conf(&http_response);
 
-    char *uri_p = httprhnd_format_uri(http_request);
+    char *uri_p = httprhnd_conf_uri(http_request);
 
     char *model;
     char *controller;
