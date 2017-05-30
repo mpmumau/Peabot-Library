@@ -109,13 +109,16 @@ static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char 
         uri_p = &(uri_cpy[1]);    
 
     char *model_name_p = strtok(uri_p, "/");
-    str_clearcopy(model_name, model_name_p, 128);
+    if (model_name_p != NULL)
+        str_clearcopy(model_name, model_name_p, 128);
 
     char *controller_name_p = strtok(NULL, "?");
-    str_clearcopy(controller_name, controller_name_p, 128);
+    if (controller_name_p != NULL)
+        str_clearcopy(controller_name, controller_name_p, 128);
 
     char *query_string_p = strtok(NULL, "\0");    
-    str_clearcopy(query_string, query_string_p, 128);
+    if (query_string_p != NULL)
+        str_clearcopy(query_string, query_string_p, 128);
 }
 
 static void httrhnd_send_response(MVCData *mvc_data, int socket_fd)
