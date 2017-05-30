@@ -61,10 +61,10 @@ void app_exit(char *message, int retval)
     log_event("[APP_EXIT] Keyframe handler shutdown complete.");
 
     robot_halt();
+    log_event("[APP_EXIT] Robot shutdown complete.");
 
     usd_sensor_halt();
-
-    log_event("[APP_EXIT] Robot shutdown complete.");
+    log_event("[APP_EXIT] USD shutdown complete.");
 
     config_destroy();
 
@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 
     wiringPiSetup();
 
-   usd_sensor_init();
+    usd_sensor_init();
 
     robot_init();
 
