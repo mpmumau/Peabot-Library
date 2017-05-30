@@ -1,6 +1,8 @@
 #ifndef MAIN_DEF
 #define MAIN_DEF
 
+#define _GNU_SOURCE
+
 /*
  File:          main.c
  Description:   Main application source for the Peabo application.
