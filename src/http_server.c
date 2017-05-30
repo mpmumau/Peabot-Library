@@ -102,7 +102,7 @@ static void *http_main(void *arg)
     listen(http.socket, HTTP_SERVER_MAX_CONNS);    
 
     fd_set socket_fd_set;
-    int socket_select_result, iof = -1;
+    int socket_select_result;
     struct timeval timeout;
     int flags;   
    
