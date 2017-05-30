@@ -39,6 +39,7 @@ void httpreq_reset_request(HTTPRequest *request)
     request->hdr_content_type = 0;
     memset(request->hdr_user_agent, '\0', sizeof(request->hdr_user_agent));
     request->hdr_keep_alive = false;
+    request->hdr_access_ctl_allow_meth = false;
     request->body_len = 0;
     request->body_len_actual = 0;
     memset(request->body, '\0', sizeof(request->body));
@@ -121,6 +122,9 @@ static void httpreq_handle_header(HTTPRequest *http_request, HTTPRequestLine *li
         http_request->hdr_keep_alive = 1;
     else
         http_request->hdr_keep_alive = 0;
+
+    if (strcmp(key, "Access-Control-Request-Method"))
+        http_request->hdr_access_ctl_request_meth = true;
 }
 
 static void httpreq_handle_request_line(HTTPRequest *http_request, HTTPRequestLine *line, int line_len)

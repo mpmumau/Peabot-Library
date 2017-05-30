@@ -164,7 +164,8 @@ static void httprhnd_handle_delete(HTTPRequest *http_request, HTTPResponse *http
 
 static void httprhnd_handle_options(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    printf("\n[OPTIONS REQUEST DETECTED]\n");
+    if (http_request->hdr_access_ctl_request_meth)
+        http_response->hdr_ac_allow_origin_all = true;
 }
 
 static int httprhnd_get_model(char *model_str)

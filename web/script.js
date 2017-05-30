@@ -11,7 +11,7 @@ function click_button()
             console.log(JSON.parse(this.responseText)); 
         }
     };
-    xml.open("POST", "http://ML_DEVNET_PIBOT:9976/whazupbitch", true);
+    xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/walk", true);
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xml.send(JSON.stringify({ email: "hello@user.com", response: { name: "Tester" } }));
+    xml.send(JSON.stringify({ cycles: 3, duration: 0.35 }));
 }
