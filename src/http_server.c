@@ -109,10 +109,12 @@ static void *http_main(void *arg)
         socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
         if (socket_select_result < 0)
             continue;
-        else if (socket_select_result > 0 && FD_ISSET(http.socket, &socket_fd_set)) {
+        else if (socket_select_result > 0 && FD_ISSET(http.socket, &socket_fd_set))
+        {
           if ((iof = fcntl(http.socket, F_GETFL, 0)) != -1)
              fcntl(http.socket, F_SETFL, iof | O_NONBLOCK);
-
+        }
+        
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
             continue;
