@@ -24,6 +24,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <sys/select.h>
+#include <fcntl.h>
 
 /* Application includes */
 #include "config.h"
