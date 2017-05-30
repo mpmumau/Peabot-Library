@@ -1,6 +1,6 @@
 #ifndef EVENTS_DEF
 #define EVENTS_DEF
-
+#define _GNU_SOURCE
 /*
  File:          events.c
  Description:   Implementations for handling an event loop.
