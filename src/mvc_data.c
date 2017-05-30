@@ -9,6 +9,7 @@
  */
 
 /* System includes */
+#include "string.h"
 
 /* Libraries */
 #include "cJSON.h"
