@@ -28,8 +28,8 @@ void mvcdata_set(MVCData *mvc_data, HTTPRequest *http_request, HTTPResponse *htt
 {
     mvc_data->http_request = http_request;
     mvc_data->http_response = http_response;
-    mvc_data->model = mvc_get_model(model);
-    mvc_data->controller = mvc_get_controller(controller);
+    mvc_data->model = mvcdata_get_model(model);
+    mvc_data->controller = mvcdata_get_controller(controller);
     mvc_data->query_str = query;
     mvc_data->request_json = cJSON_Parse(http_request->body);
     mvc_data->response_json = cJSON_CreateObject();  
