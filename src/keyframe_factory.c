@@ -162,6 +162,8 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     float mod = is_inverted ? -1.0f : 1.0f;
 
+    mod *= reverse ? -1.0 : 1.0;
+
     for (int i = 0; i < *servos_num; i++)
     {
         servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
