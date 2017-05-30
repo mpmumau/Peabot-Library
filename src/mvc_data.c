@@ -29,6 +29,8 @@ static int mvcdata_get_controller(char *controller_str);
 
 void mvcdata_set(MVCData *mvc_data, HTTPRequest *http_request, HTTPResponse *http_response, char *model, char *controller, char *query)
 {
+    printf("model in mvcdata_set: %s\n", model);
+
     mvc_data->http_request = http_request;
     mvc_data->http_response = http_response;
     mvc_data->model = mvcdata_get_model(model);
