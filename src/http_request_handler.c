@@ -49,17 +49,18 @@ void *httprhnd_handle_request(void *data)
     http_response.hdr_ac_allow_origin_all = true;
     http_response.hdr_ac_allow_hdrs_content_type = true; 
 
-    char http_response_str[HTTP_RES_MAX_LEN];
-
+    char *uri_p;
     char uri_cpy[sizeof(http_request->uri)];
     str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
-    char *uri_p;
     if (uri_cpy[0] == '/')
         uri_p = &(uri_cpy[1]);
 
     char *model_name = strtok(uri_p, "/");
     int model = httprhnd_get_model(model_name);
     char *controller_name = strtok(NULL, "?");
+    char *query_string = strtok(NULL, '\0');
+
+    printf("query_string: %s\n", query_string);
 
     void (*request_cb)(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller);
     request_cb = NULL;
@@ -82,6 +83,7 @@ void *httprhnd_handle_request(void *data)
     if (request_cb != NULL)
         (*request_cb)(http_request, &http_response, model, controller_name);
 
+    char http_response_str[HTTP_RES_MAX_LEN];
     http_response_tostring(&http_response, http_response_str, sizeof(http_response_str));
     
     write(socket_fd, http_response_str, strlen(http_response_str));
@@ -141,7 +143,6 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     }
 
     bool success;
-
     if (post_cb != NULL)
         success = (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
 
@@ -171,17 +172,17 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
 
 static void httprhnd_handle_put(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    printf("\n[PUT REQUEST DETECTED]\n");
+    //printf("\n[PUT REQUEST DETECTED]\n");
 }
 
 static void httprhnd_handle_delete(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    printf("\n[DELETE REQUEST DETECTED]\n");
+    //printf("\n[DELETE REQUEST DETECTED]\n");
 }
 
 static void httprhnd_handle_options(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-
+    // nothing for now
 }
 
 static int httprhnd_get_model(char *model_str)
