@@ -57,10 +57,10 @@ void *httprhnd_handle_request(void *data)
     char *query = NULL;
     httprhnd_conf_uri(http_request, model, controller, query);
 
-    printf("got here!!!!!!!!!!!!!!\n");
-
     MVCData mvc_data;
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
+
+    printf("got here!!!!!!!!!!!!!!\n");
     
     void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;
