@@ -52,6 +52,8 @@ void *httprhnd_handle_request(void *data)
     HTTPResponse http_response;
     httprhnd_response_global_conf(&http_response);
 
+    printf("got here!!!!!!!!!!!!!!\n");
+
     char *model = NULL;
     char *controller = NULL;
     char *query = NULL;
