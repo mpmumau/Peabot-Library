@@ -147,6 +147,9 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
     char tmp[sizeof(http_response->body)];
     cJSON_PrintPreallocated(res_data_p, tmp, sizeof(tmp), false);
 
+    char content_type[17] = "application/json"; 
+    str_clearcopy(http_response->content_type, content_type, sizeof(http_response->content_type));
+
     str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
 
     cJSON_Delete(req_data_p);
