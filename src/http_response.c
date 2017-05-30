@@ -24,6 +24,8 @@
 /* Forward decs */
 static void http_response_appd_response_line(int code, char *output, size_t *len);
 static void http_response_appd_date_line(char *output, size_t *len);
+static void http_response_appd_content_type(char *content_type, char *output, size_t *len);
+static void http_response_appd_content_length(int size, char *output, size_t *len);
 static void http_response_appd_ac_aoa(char *output, size_t *len);
 static void http_response_appd_ac_ah(HTTPResponse *http_response, char *output, size_t *len);
 static void http_response_appd_body(char *body, char *output, size_t *len);
@@ -46,6 +48,12 @@ void http_response_tostring(HTTPResponse *http_response, char *response_str, siz
     http_response_appd_response_line(http_response->code, output, &len);
 
     http_response_appd_date_line(output, &len);
+
+    if (http_response->content_type[0] != '\0')
+        http_response_appd_content_type(http_response->content_type, output, &len);
+
+    if (http_response->body[0] != '\0')
+        http_response_appd_content_length(strlen(http_response->body), output, &len);
 
     if (http_response->hdr_ac_allow_origin_all)
         http_response_appd_ac_aoa(output, &len);
@@ -85,6 +93,22 @@ static void http_response_appd_date_line(char *output, size_t *len)
     strncat(output, date_line, *len); 
 
     *len = *len - (added_len + 1);  
+}
+
+static void http_response_appd_content_type(char *content_type, char *output, size_t *len)
+{
+    int added_len = 0;
+
+    char content_type_line[HTTP_RES_LINE_LEN];
+    added_len = snprintf(content_type_line, sizeof(content_type_line), "content-type: %s\r\n", content_type);
+    strncat(output, content_type_line, *len);
+
+    *len = *len - (added_len + 1);  
+}
+
+static void http_response_appd_content_length(int size, char *output, size_t *len)
+{
+
 }
 
 static void http_response_appd_ac_aoa(char *output, size_t *len)
