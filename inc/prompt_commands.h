@@ -32,4 +32,6 @@ void promptcmd_cfg_get(char *args[], int arg_num);
 /* Callback for doing the robot's turn animation. */
 void promptcmd_turn(char *args[], int arg_num);
 
+void promptcmd_halt(char *args[], int arg_num);
+
 #endif
