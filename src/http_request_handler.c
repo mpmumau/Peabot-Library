@@ -9,6 +9,7 @@
  */
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,6 +43,8 @@ static void httprhnd_handle_options(MVCData *mvc_data);
 
 void *httprhnd_handle_request(void *data)
 {
+    prctl(PR_SET_NAME, "PEABOT_HTREQ\0", NULL, NULL, NULL);
+
     HTTPRequestThreadData *request_thread_data = (HTTPRequestThreadData *) data;
     
     int socket_fd               = request_thread_data->socket_fd;
