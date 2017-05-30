@@ -133,7 +133,7 @@ void promptcmd_walk(char *args[], int arg_num)
     EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
-    walk_data->reverse = (bool) ((int) aoti(reverse_string));
+    walk_data->reverse = (bool) ((int) atoi(reverse_string));
 
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
