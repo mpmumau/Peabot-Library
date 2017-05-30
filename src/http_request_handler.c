@@ -59,8 +59,6 @@ void *httprhnd_handle_request(void *data)
 
     MVCData mvc_data;
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
-
-    printf("model-controller-query: %s %s %s\n", model, controller, query);
     
     void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;

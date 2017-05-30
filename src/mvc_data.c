@@ -29,8 +29,6 @@ static int mvcdata_get_controller(char *controller_str);
 
 void mvcdata_set(MVCData *mvc_data, HTTPRequest *http_request, HTTPResponse *http_response, char *model, char *controller, char *query)
 {
-    printf("model in mvcdata_set: %s\n", model);
-
     mvc_data->http_request = http_request;
     mvc_data->http_response = http_response;
     mvc_data->model = mvcdata_get_model(model);
@@ -48,8 +46,6 @@ void mvcdata_destroy(MVCData *mvc_data)
 
 static int mvcdata_get_model(char *model_str)
 {
-    printf("model_str: %s\n", model_str);
-
     if (strcmp(model_str, "event") == 0)
         return MODEL_EVENT;
 
@@ -64,8 +60,6 @@ static int mvcdata_get_model(char *model_str)
 
 static int mvcdata_get_controller(char *controller_str)
 {
-    printf("controller_str: %s\n", controller_str);
-
     if (strcmp(controller_str, "walk") == 0)
         return CONTROLLER_WALK;
 
