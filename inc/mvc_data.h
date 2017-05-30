@@ -21,6 +21,7 @@
 #define CONTROLLER_RESET 5
 #define CONTROLLER_DELAY 6
 #define CONTROLLER_GET 7
+#define CONTROLLER_HALT 8
 
 /* Application includes */
 #include "http_request.h"

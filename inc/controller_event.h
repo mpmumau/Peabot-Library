@@ -26,4 +26,6 @@ bool cntlevent_delay(MVCData *mvc_data);
 
 bool cntlevent_reset(MVCData *mvc_data);
 
+bool cntlevent_halt(MVCData *mvc_data);
+
 #endif

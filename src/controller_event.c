@@ -147,4 +147,10 @@ bool cntlevent_reset(MVCData *mvc_data)
     return true;
 }
 
+bool cntlevent_halt(MVCData *mvc_data)
+{
+    event_add(EVENT_HALT, (void *) NULL);
+    return true;
+}
+
 #endif

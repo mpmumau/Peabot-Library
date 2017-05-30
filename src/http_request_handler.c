@@ -145,8 +145,7 @@ static void httprhnd_handle_post(MVCData *mvc_data)
     switch (mvc_data->model)
     {
         case MODEL_EVENT:
-
-            if (mvc_data->controller == CONTROLLER_WALK);
+            if (mvc_data->controller == CONTROLLER_WALK)
                 post_cb = cntlevent_walk;
             if (mvc_data->controller == CONTROLLER_TURN)
                 post_cb = cntlevent_turn;
@@ -158,6 +157,8 @@ static void httprhnd_handle_post(MVCData *mvc_data)
                 post_cb = cntlevent_delay;  
             if (mvc_data->controller == CONTROLLER_RESET)
                 post_cb = cntlevent_reset;  
+            if (mvc_data->controller == CONTROLLER_HALT)
+                post_cb = cntlevent_halt;  
             break;
     }
 

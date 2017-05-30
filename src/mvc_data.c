@@ -78,6 +78,9 @@ static int mvcdata_get_controller(char *controller_str)
     if (strcmp(controller_str, "get") == 0)
         return CONTROLLER_GET;    
 
+    if (strcmp(controller_str, "halt") == 0)
+        return CONTROLLER_HALT;
+
     return CONTROLLER_NONE;
 }
 
