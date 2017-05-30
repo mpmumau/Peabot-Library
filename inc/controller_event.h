@@ -8,7 +8,11 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
 #include <stdbool.h>
+
+/* Application includes */
+#include "mvc_data.h"
 
 bool cntlevent_walk(MVCData *mvc_data);
 
