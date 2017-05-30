@@ -99,9 +99,7 @@ static void httprhnd_handle_get(HTTPRequest *http_request, HTTPResponse *http_re
 
 static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    http_response->code = HTTP_RC_BAD_REQUEST;
-
-    void (*post_cb)(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
+    bool (*post_cb)(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
     post_cb = NULL;
 
     cJSON *req_data_p = cJSON_Parse(http_request->body);
@@ -142,13 +140,30 @@ static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_r
             break;
     }
 
+    bool success;
+
     if (post_cb != NULL)
-        (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
+        success = (*post_cb)(http_request, http_response, res_data_p, (void *) req_data_p);
 
-    char tmp[sizeof(http_response->body)];
-    cJSON_PrintPreallocated(res_data_p, tmp, sizeof(tmp), false);
+    cJSON_AddBoolToObject(res_data_p, "success", success);
 
-    str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
+    if (success)
+    {
+        http_response->code = HTTP_RC_OK;
+
+        char tmp[sizeof(http_response->body)];
+        cJSON_PrintPreallocated(res_data_p, tmp, sizeof(tmp), false);
+
+        char content_type[17] = "application/json"; 
+        str_clearcopy(http_response->content_type, content_type, sizeof(http_response->content_type));
+
+        str_clearcopy(http_response->body, tmp, sizeof(http_response->body));
+    }
+    else
+    {
+        if (http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
+            http_response->code = HTTP_RC_BAD_REQUEST;
+    }
 
     cJSON_Delete(req_data_p);
     cJSON_Delete(res_data_p);
