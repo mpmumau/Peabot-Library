@@ -131,7 +131,7 @@ static void httprhnd_handle_post(MVCData *mvc_data)
     bool (*post_cb)(MVCData *mvc_data);
     post_cb = NULL;
 
-    switch (model)
+    switch (mvc_data->model)
     {
         case MODEL_EVENT:
 
