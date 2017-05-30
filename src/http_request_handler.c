@@ -33,12 +33,12 @@
 /* Forward decs */
 static void httprhnd_response_global_conf(HTTPResponse *http_response);
 static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char *controller_name, char *query_string);
+static void httrhnd_send_response(MVCData *mvc_data, int socket_fd);
 static void httprhnd_handle_get(MVCData *mvc_data);
 static void httprhnd_handle_post(MVCData *mvc_data);
 static void httprhnd_handle_put(MVCData *mvc_data);
 static void httprhnd_handle_delete(MVCData *mvc_data);
 static void httprhnd_handle_options(MVCData *mvc_data);
-static void httrhnd_send_response(HTTPResponse *http_response, int socket_fd);
 
 void *httprhnd_handle_request(void *data)
 {
