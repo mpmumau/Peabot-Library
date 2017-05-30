@@ -109,8 +109,11 @@ static void *http_main(void *arg)
         socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
         if (socket_select_result == 0)
         {
-            printf("timeout\n");
-            continue;
+            if (!FD_ISSET(http.socket, &socket_fd_set)) 
+            {
+                printf("timeout\n");
+                continue;
+            }
         }
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
