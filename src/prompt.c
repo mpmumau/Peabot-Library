@@ -69,6 +69,8 @@ static void *prompt_main(void *arg)
         prompt_handle_cmd(stdin_buffer);
     }
 
+    pthread_exit(NULL);
+
     return (void *) NULL;
 }
 
