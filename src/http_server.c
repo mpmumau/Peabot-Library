@@ -107,7 +107,7 @@ static void *http_main(void *arg)
     while (http.running)
     {
         socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
-        if (socket_select_result < 0)
+        if (socket_select_result == 0)
         {
             printf("timeout\n");
             continue;
