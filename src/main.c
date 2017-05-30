@@ -9,6 +9,7 @@
  */
 
 /* System dependencies */
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -97,6 +98,8 @@ static void signal_handler(int signum)
 /* Application main */
 int main(int argc, char *argv[])
 {
+    prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
+
     config_init(argc, argv);
 
     log_init();
