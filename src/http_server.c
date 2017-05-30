@@ -98,14 +98,14 @@ static void *http_main(void *arg)
     fd_set socket_fd_set;
     int socket_select_result, iof = -1;
     struct timeval timeout;    
-    timeout.tv_sec = 3;
+    timeout.tv_sec = 30;
     timeout.tv_usec = 0;     
 
     while (http.running)
     {
         FD_ZERO(&socket_fd_set);
         FD_SET(http.socket, &socket_fd_set);    
-        
+
         socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
         if (socket_select_result == 0)
         {
