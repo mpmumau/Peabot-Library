@@ -99,6 +99,8 @@ static void httprhnd_handle_get(HTTPRequest *http_request, HTTPResponse *http_re
 
 static void httprhnd_handle_post(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
+    http_response->code = HTTP_RC_BAD_REQUEST;
+    
     void (*post_cb)(HTTPRequest *http_request, HTTPResponse *http_response, cJSON *resjs, void *model_data);
     post_cb = NULL;
 
