@@ -114,6 +114,8 @@ static void http_response_appd_content_length(int size, char *output, size_t *le
     added_len = snprintf(content_len_line, sizeof(content_len_line), "content-length: %d\r\n", size);
     strncat(output, content_len_line, *len);
 
+    printf("output:\n%s\n", output);
+
     *len = *len - (added_len + 1);  
 }
 
