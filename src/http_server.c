@@ -98,7 +98,7 @@ static void *http_main(void *arg)
     fd_set socket_fd_set;
     int socket_select_result, iof = -1;
     struct timeval timeout;    
-    timeout.tv_sec = 30;
+    timeout.tv_sec = 10;
     timeout.tv_usec = 0;     
 
     while (http.running)
