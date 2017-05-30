@@ -69,6 +69,9 @@ void http_init()
 void http_halt()
 {
     running = false;
+    int error = pthread_join(http.thread, NULL);
+    if (error)
+        log_event("[ERROR!] Could not rejoin from HTTP thread.");   
 }
 
 static void *http_main(void *arg)
