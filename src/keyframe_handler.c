@@ -34,6 +34,7 @@
 
 static pthread_t keyhandler_thread;
 static bool running;
+static bool exec_remove_all = false;
 
 static List *keyframes = NULL;
 static Keyframe *last_keyfr = NULL;  
@@ -41,6 +42,7 @@ static Keyframe *last_keyfr = NULL;
 /* Forward decs */
 static void *keyhandler_main(void *arg);
 static float keyhandler_mappos(float perc, ServoPos *servo_pos);
+static void keyhandler_exec_removeall();
 
 void keyhandler_init()
 {
@@ -150,6 +152,22 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
     }
 }
 
+void keyhandler_removeall()
+{
+    exec_remove_all = true;
+}
+
+static void keyhandler_exec_removeall()
+{
+    Keyframe *keyfr_popped = NULL;
+    while (keyfr_popped = (Keyframe *) list_pop(&keyframes))
+    {
+        if (keyfr_popped)
+            free(keyfr_popped);    
+    }
+    keyframes = NULL;
+}
+
 static void *keyhandler_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_KEYFR\0", NULL, NULL, NULL);
@@ -168,6 +186,13 @@ static void *keyhandler_main(void *arg)
 
     while (running)
     {
+        if (exec_remove_all)
+        {
+            keyhandler_exec_removeall();
+            exec_remove_all = false;
+            continue;
+        }
+
         clock_gettime(CLOCK_MONOTONIC, &time);
         next += utils_timediff(time, last_time);
         last_time = time;        

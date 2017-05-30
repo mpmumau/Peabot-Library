@@ -26,4 +26,6 @@ void eventcb_walk(void *arg);
 /* Event to start the robot's turn animation. */
 void eventcb_turn(void *arg);
 
+void eventcb_halt(void *arg);
+
 #endif

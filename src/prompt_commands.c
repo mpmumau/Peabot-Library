@@ -378,4 +378,8 @@ void promptcmd_turn(char *args[], int arg_num)
     event_add(EVENT_TURN, (void *) turn_data);    
 }
 
+void promptcmd_halt(char *args[], int arg_num)
+{
+    event_add(EVENT_HALT, (void *) NULL);   
+}
 #endif

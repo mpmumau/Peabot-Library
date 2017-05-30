@@ -175,4 +175,9 @@ void eventcb_turn(void *arg)
     }
 }
 
+void eventcb_halt(void *arg)
+{
+    keyhandler_removeall();
+}
+
 #endif

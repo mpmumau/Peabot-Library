@@ -51,6 +51,7 @@ void event_halt()
     if (error)
         log_event("[ERROR!] Could not rejoin from robot thread.");
     free(events);
+    events = NULL;
 }
 
 static void *event_main(void *arg)
@@ -85,6 +86,9 @@ static void *event_main(void *arg)
 
         if (event->type == EVENT_TURN)
             event_callback = eventcb_turn;
+
+        if (event->type == EVENT_HALT)
+            event_callback = eventcb_halt;
 
         if (!event_callback)
             continue;
@@ -135,6 +139,8 @@ static char *event_getname(int event_type)
             return "EVENT_EXTEND";
         case EVENT_TURN:
             return "EVENT_TURN";
+        case EVENT_HALT:
+            return "EVENT_HALT";
     }
 
     return NULL;

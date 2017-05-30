@@ -11,11 +11,12 @@
 #include <stdbool.h>
 
 #define EVENT_RESET 0
-#define EVENT_DELAY 1
-#define EVENT_ELEVATE 2
-#define EVENT_WALK 3
-#define EVENT_EXTEND 4
-#define EVENT_TURN 5
+#define EVENT_HALT 1
+#define EVENT_DELAY 2
+#define EVENT_ELEVATE 3
+#define EVENT_WALK 4
+#define EVENT_EXTEND 5
+#define EVENT_TURN 6
 
 typedef struct Event {
     int type;
