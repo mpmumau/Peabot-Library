@@ -38,7 +38,7 @@ static bool running = true;
 void prompt_init()
 {
     pthread_attr_t prompt_thread_attr;
-    pthread_attr_init(&rprompt_thread_attr);
+    pthread_attr_init(&prompt_thread_attr);
     pthread_attr_setdetachstate(&prompt_thread_attr, PTHREAD_CREATE_DETACHED);
 
     int error = pthread_create(&prompt_thread, &prompt_thread_attr, prompt_main, NULL);
