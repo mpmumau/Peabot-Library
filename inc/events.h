@@ -36,6 +36,7 @@ typedef struct EventExtendData {
 typedef struct EventWalkData {
     int cycles;
     float duration;
+    bool reverse;
 } EventWalkData;
 
 typedef struct EventTurnData {

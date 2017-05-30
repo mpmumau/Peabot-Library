@@ -136,6 +136,8 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
 
 Keyframe *keyfactory_walk(void *data, bool reverse)
 {
+    static bool is_inverted = false;
+
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
@@ -150,19 +152,18 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
     float *knee_pad_a = (float *) config_get(CONF_WALK_KNEE_PAD_A);
     float *knee_pad_b = (float *) config_get(CONF_WALK_KNEE_PAD_B);
 
-    float knee_pad_ax = reverse ? *knee_pad_a : *knee_pad_b;
-    float knee_pad_bx = reverse ? *knee_pad_b : *knee_pad_a;
+    float knee_pad_ax = is_inverted ? *knee_pad_a : *knee_pad_b;
+    float knee_pad_bx = is_inverted ? *knee_pad_b : *knee_pad_a;
 
-    int ease_in = reverse ? EASE_CIRC_IN : EASE_CIRC_OUT;
-    int ease_out = reverse ? EASE_CIRC_OUT : EASE_CIRC_IN;
+    int ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
+    int ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
     float knee_bottom = 0.8f;
 
-    float mod = reverse ? -1.0f : 1.0f;
+    float mod = is_inverted ? -1.0f : 1.0f;
 
     for (int i = 0; i < *servos_num; i++)
     {
-        // tmp debug
         servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
 
         if (i == SERVO_INDEX_BACK_LEFT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
@@ -171,7 +172,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
         if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
             servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta) * mod, *hip_delta * mod, 0.0f, 0.0f };
 
-        if (!reverse)
+        if (!is_inverted)
         {
             if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
                 servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_bx, 0.0f };
@@ -195,6 +196,8 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     keyfr->duration = *duration;
     keyfr->servo_pos = servo_pos;
+
+    is_inverted = !is_inverted;
 
     return keyfr;
 }

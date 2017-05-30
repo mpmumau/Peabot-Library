@@ -120,18 +120,20 @@ void promptcmd_extend(char *args[], int arg_num)
 
 void promptcmd_walk(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 3)
     {
-        console_print("[ERROR] Incorrect number of params. Usage: walk [cycles] [duration]");
+        console_print("[ERROR] Incorrect number of params. Usage: walk [cycles] [duration] [reverse]");
         return;
     }
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];
+    const char *reverse_string = args[2];
 
     EventWalkData *walk_data = calloc(1, sizeof(EventWalkData));
     walk_data->cycles = atoi(cycles_string);
     walk_data->duration = atof(seconds_string);
+    walk_data->reverse = (bool) ((int) aoti(reverse_string));
 
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)
