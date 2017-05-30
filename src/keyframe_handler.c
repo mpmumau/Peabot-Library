@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -155,6 +156,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
 static void *keyhandler_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_KEYFR\0", NULL, NULL, NULL);
+
     struct timespec time;
     struct timespec last_time;
     double next = 0.0;

@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -63,6 +64,8 @@ void http_halt()
 
 static void *http_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_HTTP\0", NULL, NULL, NULL);
+
     http.running = true;
     int *http_port = (int *) config_get(CONF_HTTP_PORT);
 

@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
@@ -119,6 +120,8 @@ float robot_getservo(int pin)
 
 static void *robot_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_ROBOT\0", NULL, NULL, NULL);
+
     struct timespec time;
     struct timespec last_time;
 

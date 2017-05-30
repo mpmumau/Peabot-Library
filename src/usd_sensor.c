@@ -11,6 +11,7 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -65,6 +66,8 @@ double usd_sensor_getdist()
 
 static void *usd_sensor_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_USD\0", NULL, NULL, NULL);
+
     double new_distance;
 
     int timeout, max_timeout;

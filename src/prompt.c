@@ -9,6 +9,7 @@
  */
 
 /* System includes */
+#include <sys/prctl.h>
 #include <string.h>
 #include <stdio.h>
 #include <pthread.h>
@@ -48,6 +49,8 @@ void prompt_halt()
 
 static void *prompt_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_PROMPT\0", NULL, NULL, NULL);
+
     char stdin_buffer[64];
 
     while (running)
