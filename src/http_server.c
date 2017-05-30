@@ -80,6 +80,9 @@ static void *http_main(void *arg)
 
     HTTPRequestThreadData *request_thread_data;
     pthread_t last_request_thread;
+    pthread_attr_t request_thread_attr;
+    pthread_attr_init(&request_thread_attr);
+    pthread_attr_setdetachstate(&request_thread_attr, PTHREAD_CREATE_DETACHED);
 
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
@@ -113,9 +116,10 @@ static void *http_main(void *arg)
         // dbg
         //printf("[HTTP RAW REQUEST]\n%s\n", http.buffer);
 
-        pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) request_thread_data);
+        pthread_create(&last_request_thread, &request_thread_attr, httprhnd_handle_request, (void *) request_thread_data);
     }
 
+    pthread_attr_destroy(&request_thread_attr);
     close(http.socket);
     return NULL;
 }
