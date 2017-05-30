@@ -17,6 +17,7 @@
 /* Application includes */
 #include "http_request.h"
 #include "http_response.h"
+#include "string_utils.h"
 
 /* Header */
 #include "mvc_data.h"
@@ -44,13 +45,16 @@ void mvcdata_destroy(MVCData *mvc_data)
 
 static int mvcdata_get_model(char *model_str)
 {
-    if (strcmp(model_str, "event") == 0)
+    char model_str_tmp[128];
+    str_clearcopy(model_str_tmp, model_str, sizeof(model_str_tmp));
+
+    if (strcmp(model_str_tmp, "event") == 0)
         return MODEL_EVENT;
 
-    if (strcmp(model_str, "usd") == 0)
+    if (strcmp(model_str_tmp, "usd") == 0)
         return MODEL_USD;
 
-    if (strcmp(model_str, "position") == 0)
+    if (strcmp(model_str_tmp, "position") == 0)
         return MODEL_POSITION;
 
     return MODEL_NONE;
@@ -58,22 +62,25 @@ static int mvcdata_get_model(char *model_str)
 
 static int mvcdata_get_controller(char *controller_str)
 {
-    if (strcmp(controller_str, "walk") == 0)
+    char controller_str_tmp[128];
+    str_clearcopy(controller_str_tmp, controller_str, sizeof(controller_str_tmp));
+
+    if (strcmp(controller_str_tmp, "walk") == 0)
         return CONTROLLER_WALK;
 
-    if (strcmp(controller_str, "turn") == 0)
+    if (strcmp(controller_str_tmp, "turn") == 0)
         return CONTROLLER_TURN;
 
-    if (strcmp(controller_str, "elevate") == 0)
+    if (strcmp(controller_str_tmp, "elevate") == 0)
         return CONTROLLER_ELEVATE;
 
-    if (strcmp(controller_str, "extend") == 0)
+    if (strcmp(controller_str_tmp, "extend") == 0)
         return CONTROLLER_EXTEND;
 
-    if (strcmp(controller_str, "reset") == 0)
+    if (strcmp(controller_str_tmp, "reset") == 0)
         return CONTROLLER_RESET;
 
-    if (strcmp(controller_str, "get") == 0)
+    if (strcmp(controller_str_tmp, "get") == 0)
         return CONTROLLER_GET;    
 
     return CONTROLLER_NONE;
