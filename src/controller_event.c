@@ -65,6 +65,7 @@ void cntlevent_walk(HTTPRequest *http_request, HTTPResponse *http_response, cJSO
 
     event_add(EVENT_WALK, (void *) event_walk_data);
 
+    http_response->code = HTTP_RC_OK;
     cJSON_AddTrueToObject(resjs, "success");
 }
 
@@ -106,6 +107,7 @@ void cntlevent_turn(HTTPRequest *http_request, HTTPResponse *http_response, cJSO
 
     event_add(EVENT_TURN, (void *) event_turn_data);
 
+    http_response->code = HTTP_RC_OK;
     cJSON_AddTrueToObject(resjs, "success");
 }
 
@@ -147,6 +149,7 @@ void cntlevent_elevate(HTTPRequest *http_request, HTTPResponse *http_response, c
 
     event_add(EVENT_ELEVATE, (void *) event_elevate_data); 
 
+    http_response->code = HTTP_RC_OK;
     cJSON_AddTrueToObject(resjs, "success");
 }
 
@@ -188,6 +191,7 @@ void cntlevent_extend(HTTPRequest *http_request, HTTPResponse *http_response, cJ
 
     event_add(EVENT_EXTEND, (void *) event_extend_data); 
 
+    http_response->code = HTTP_RC_OK;
     cJSON_AddTrueToObject(resjs, "success");    
 }
 
@@ -220,6 +224,7 @@ void cntlevent_delay(HTTPRequest *http_request, HTTPResponse *http_response, cJS
 
     event_add(EVENT_EXTEND, (void *) duration); 
 
+    http_response->code = HTTP_RC_OK;
     cJSON_AddTrueToObject(resjs, "success"); 
 }
 
