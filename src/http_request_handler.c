@@ -46,7 +46,8 @@ void *httprhnd_handle_request(void *data)
 
     HTTPResponse http_response;
     http_response_init(&http_response);
-    char http_response_str[HTTP_RES_MAX_LEN]; //...suspect; needed?    
+    http_response.hdr_ac_allow_origin_all = true;
+    http_response.hdr_ac_allow_hdrs_content_type = true; 
 
     char uri_cpy[sizeof(http_request->uri)];
     str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
@@ -164,8 +165,7 @@ static void httprhnd_handle_delete(HTTPRequest *http_request, HTTPResponse *http
 
 static void httprhnd_handle_options(HTTPRequest *http_request, HTTPResponse *http_response, int model, char *controller)
 {
-    if (http_request->hdr_access_ctl_request_meth)
-        http_response->hdr_ac_allow_origin_all = true;
+
 }
 
 static int httprhnd_get_model(char *model_str)
