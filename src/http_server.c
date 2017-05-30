@@ -47,18 +47,21 @@ static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
 
 static HTTPServer http;
+static bool running;
 
 void http_init()
 {  
     bool *http_enabled = (bool *) config_get(CONF_HTTP_ENABLED);
     if (!*http_enabled)
         return;
+
+    running = true;
     http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
 }
 
 void http_halt()
 {
-    http.running = false;
+    running = false;
     int error = pthread_join(http.thread, NULL);
     if (error)
         log_event("[ERROR!] Could not rejoin from HTTP thread.");
@@ -68,7 +71,6 @@ static void *http_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_HTTP\0", NULL, NULL, NULL);
 
-    http.running = true;
     int *http_port = (int *) config_get(CONF_HTTP_PORT);
 
     http.srv_addr.sin_family = AF_INET;
@@ -99,10 +101,10 @@ static void *http_main(void *arg)
     int socket_select_result, iof = -1;
     struct timeval timeout;    
    
-    while (http.running)
+    while (running)
     {
-        timeout.tv_sec = 3;
-        timeout.tv_usec = 0;  
+        timeout.tv_sec = 0;
+        timeout.tv_usec = 100000;  
 
         FD_ZERO(&socket_fd_set);
         FD_SET(http.socket, &socket_fd_set);    
