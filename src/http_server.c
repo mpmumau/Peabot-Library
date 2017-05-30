@@ -96,8 +96,8 @@ static void *http_main(void *arg)
     fd_set socket_fd_set;
     int socket_select_result, iof = -1;
     struct timeval timeout;    
-    timeout.tv_sec = 1;
-    timeout.tv_usec = 0; 
+    timeout.tv_sec = 0;
+    timeout.tv_usec = 250000; 
 
     FD_ZERO(&socket_fd_set);
     FD_SET(http.socket, &socket_fd_set);   
@@ -114,7 +114,7 @@ static void *http_main(void *arg)
           if ((iof = fcntl(http.socket, F_GETFL, 0)) != -1)
              fcntl(http.socket, F_SETFL, iof | O_NONBLOCK);
         }
-        
+
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
             continue;
