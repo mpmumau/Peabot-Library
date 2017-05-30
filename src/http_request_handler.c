@@ -58,7 +58,7 @@ void *httprhnd_handle_request(void *data)
     httprhnd_conf_uri(http_request, model, controller, query);
 
     MVCData mvc_data;
-    mvcdata_set(mvc_data, http_request, &http_response, model, controller, query);
+    mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
     
     void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;
