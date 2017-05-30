@@ -32,7 +32,7 @@
 #include "keyframe_handler.h"
 
 static pthread_t keyhandler_thread;
-static bool running = true;
+static bool running;
 
 static List *keyframes = NULL;
 static Keyframe *last_keyfr = NULL;  
@@ -43,7 +43,9 @@ static float keyhandler_mappos(float perc, ServoPos *servo_pos);
 
 void keyhandler_init()
 {
-    pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
+    running = true;
+    int error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
+    pthread_setname_np(event_thread, "PEABOT_EVENTS");
 }
 
 void keyhandler_halt()

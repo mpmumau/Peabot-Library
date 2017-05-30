@@ -39,6 +39,7 @@ void event_init()
     int error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not create event thread.", 1);
+    pthread_setname_np(event_thread, "PEABOT_EVENTS");
 }
 
 void event_halt()

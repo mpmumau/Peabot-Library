@@ -51,6 +51,7 @@ void http_init()
     if (!*http_enabled)
         return;
     http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
+    pthread_setname_np(event_thread, "PEABOT_HTTP");
 }
 
 void http_halt()
