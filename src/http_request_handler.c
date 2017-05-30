@@ -60,6 +60,8 @@ void *httprhnd_handle_request(void *data)
     char query[512];
     httprhnd_conf_uri(http_request, model, controller, query);
 
+    printf("%s %s %s\n", model, controller, query);
+
     MVCData mvc_data;
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
     
