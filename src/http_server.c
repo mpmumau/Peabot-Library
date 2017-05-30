@@ -108,7 +108,7 @@ static void *http_main(void *arg)
         request_thread_data->socket_fd = last_socket;
 
         // dbg
-        printf("[HTTP RAW REQUEST]\n%s\n", http.buffer);
+        //printf("[HTTP RAW REQUEST]\n%s\n", http.buffer);
 
         pthread_create(&last_request_thread, NULL, httprhnd_handle_request, (void *) request_thread_data);
     }
