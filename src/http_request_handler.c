@@ -52,9 +52,9 @@ void *httprhnd_handle_request(void *data)
     HTTPResponse http_response;
     httprhnd_response_global_conf(&http_response);
 
-    char *model;
-    char *controller;
-    char *query;
+    char model[128];
+    char controller[128];
+    char query[512];
     httprhnd_conf_uri(http_request, model, controller, query);
 
     MVCData mvc_data;
