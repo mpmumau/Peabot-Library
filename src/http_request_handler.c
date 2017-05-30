@@ -49,6 +49,8 @@ void *httprhnd_handle_request(void *data)
     http_response.hdr_ac_allow_origin_all = true;
     http_response.hdr_ac_allow_hdrs_content_type = true; 
 
+    char http_response_str[HTTP_RES_MAX_LEN];
+
     char uri_cpy[sizeof(http_request->uri)];
     str_clearcopy(uri_cpy, http_request->uri, sizeof(uri_cpy));
     char *uri_p;
