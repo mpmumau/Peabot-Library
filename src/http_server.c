@@ -61,7 +61,7 @@ void http_init()
     pthread_attr_init(&http_thread_attr);
     pthread_attr_setdetachstate(&http_thread_attr, PTHREAD_CREATE_DETACHED);
 
-    http.thread = pthread_create(&(http.thread), &http_thread_attr, http_main, NULL);
+    http.thread = pthread_create(&(http.thread), NULL, http_main, NULL);
 
     pthread_attr_destroy(&http_thread_attr);
 }
