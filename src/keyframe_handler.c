@@ -52,8 +52,11 @@ void keyhandler_halt()
 {
     running = false;
 
-    free(last_keyfr->servo_pos);
-    free(last_keyfr);
+    if (last_keyfr->servo_pos)
+        free(last_keyfr->servo_pos);
+
+    if (last_keyfr)
+        free(last_keyfr);
 
     pthread_join(keyhandler_thread, NULL);
 }
