@@ -93,16 +93,16 @@ static void *http_main(void *arg)
     if (bind(http.socket, (struct sockaddr *) &(http.srv_addr), sizeof(http.srv_addr)) < 0)
         app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
 
+    listen(http.socket, HTTP_SERVER_MAX_CONNS);    
+
     fd_set socket_fd_set;
     int socket_select_result, iof = -1;
     struct timeval timeout;    
     timeout.tv_sec = 3;
-    timeout.tv_usec = 0; 
+    timeout.tv_usec = 0;     
 
     FD_ZERO(&socket_fd_set);
-    FD_SET(http.socket, &socket_fd_set);   
-
-    listen(http.socket, HTTP_SERVER_MAX_CONNS);    
+    FD_SET(http.socket, &socket_fd_set);       
 
     while (http.running)
     {
@@ -111,11 +111,6 @@ static void *http_main(void *arg)
         {
             printf("timeout\n");
             continue;
-        }
-        else if (socket_select_result > 0 && FD_ISSET(http.socket, &socket_fd_set))
-        {
-          if ((iof = fcntl(http.socket, F_GETFL, 0)) != -1)
-             fcntl(http.socket, F_SETFL, iof | O_NONBLOCK);
         }
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
