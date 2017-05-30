@@ -9,6 +9,7 @@
  */
 
 /* System includes */
+#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -35,11 +36,12 @@ static char *event_getname(int event_type);
 
 void event_init()
 {
+    int error;
+
     events = calloc(1024, sizeof(List));
-    int error = pthread_create(&event_thread, NULL, event_main, NULL);
+    error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
         app_exit("[ERROR!] Could not create event thread.", 1);
-    pthread_setname_np(event_thread, "PEABOT_EVENTS");
 }
 
 void event_halt()
@@ -53,6 +55,8 @@ void event_halt()
 
 static void *event_main(void *arg)
 {
+    prctl(PR_SET_NAME, "PEABOT_EVENTS\0", NULL, NULL, NULL);
+
     Event *event;
     void (*event_callback)(void *arg);
 
