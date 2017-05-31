@@ -24,6 +24,7 @@
 bool cntlusd_getval(MVCData *mvc_data)
 {   
     double distance = usd_sensor_getdist();
+    printf("distance: %f\n", distance);
     cJSON_AddNumberToObject(mvc_data->response_json, "distance" , distance);
     return true;
 }
