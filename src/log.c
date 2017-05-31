@@ -35,8 +35,10 @@ void log_init()
     if (!logfile)
         APP_ERROR("Could not open log file.", 1);
 
-    log_h("Peabot Server" APP_VERSION);
-    log_event("Server started.");
+    char hdr_line[LOG_LINE_LEN];
+    snprintf(hdr_line, sizeof(hdr_line), "Peabot Server: %s", APP_VERSION);
+    log_h(hdr_line);
+    log_event("Peabot server initialized.");
 }
 
 void log_write(char *line)
