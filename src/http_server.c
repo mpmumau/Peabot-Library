@@ -134,7 +134,7 @@ static void *http_main(void *arg)
         memset(http.buffer, '\0', sizeof(http.buffer));   
         read(last_socket, http.buffer, sizeof(http.buffer) - 1);
 
-        printf("size of incoming buffer: %d\n", strlen(http.buffer));
+        printf("size of incoming buffer: %fkb\n", (strlen(http.buffer) / 1024));
 
         http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
