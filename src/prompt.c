@@ -144,7 +144,7 @@ static void prompt_handle_cmd(char *stdin_str, size_t len)
 static int prompt_count_args(char *arg_str, size_t len)
 {
     char tmp_str[len];
-    str_clearcopy(tmp_str, sizeof(tmp_str));
+    str_clearcopy(tmp_str, arg_str, sizeof(tmp_str));
 
     int arg_count = 0;
     char *arg;
