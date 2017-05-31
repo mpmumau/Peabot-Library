@@ -8,11 +8,14 @@
  Author:        Matt Mumau
  */
 
+#define APP_VERSION "v0.1 alpha"
+
 #define APP_ERROR(msg, error_code) app_error(__FILE__, __LINE__, msg, error_code)
 
-/* Exit the application, citing the given message as a reason. */
+/* Exit the application, with the given exit code. */
 void app_exit(int retval);
 
-void app_error(const char *file, int lineno, const char *msg, int error_code);
+/* Exit the application and log an error. */
+void app_error(const char *file, unsigned int lineno, const char *msg, unsigned short error_code);
 
 #endif

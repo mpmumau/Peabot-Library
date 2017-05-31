@@ -34,6 +34,9 @@ void log_init()
     logfile = fopen(filename, "w");
     if (!logfile)
         APP_ERROR("Could not open log file.", 1);
+
+    log_h("Peabot Server" APP_VERSION);
+    log_event("Server started.");
 }
 
 void log_write(char *line)

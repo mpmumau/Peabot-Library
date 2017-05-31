@@ -56,7 +56,7 @@ void app_exit(int retval)
     app_running = false;  
 }
 
-void app_error(const char *file, int lineno, const char *msg, int error_code)
+void app_error(const char *file, unsigned int lineno, const char *msg, unsigned short error_code)
 {
     char err_msg[256];
     snprintf(err_msg, sizeof(err_msg), "[ERROR!] %s [f:%s,l:%d,e:%d]", msg, file, lineno, error_code);
@@ -71,16 +71,8 @@ static void signal_handler(int signum)
 {
     if (signum == SIGINT)
     {
-        prompt_halt();
-        event_halt();
-        keyhandler_halt();
-        robot_halt();
-        config_destroy();
-
-        log_event("POSIX SIGNIT received. Exiting...");
-        log_close();
-
-        exit(0);
+        log_event("POSIX SIGINT received. Exiting...");
+        app_exit(0);
     }
 }
 
@@ -92,8 +84,7 @@ int main(int argc, char *argv[])
     config_init(argc, argv);
 
     log_init();
-    log_h("Peabot Server Logs");
-    log_event("Server started.");
+
 
     printf("---[file: %s line: %d]---\n", __FILE__, __LINE__);
 
