@@ -53,7 +53,7 @@ bool cntlevent_walk(MVCData *mvc_data)
 
     printf("event_walk_data->cycles: %d\n", event_walk_data->cycles);
     printf("event_walk_data->duration: %f\n", event_walk_data->duration);
-    printf("event_walk_data->reverse: %d\n", event_walk_data->reverse);
+    printf("event_walk_data->reverse: %s\n", event_walk_data->reverse ? "true" : "false");
 
     event_add(EVENT_WALK, (void *) event_walk_data);
     return true;
