@@ -123,7 +123,7 @@ static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char 
 
 static void httrhnd_send_response(MVCData *mvc_data, int socket_fd)
 {
-    if (mvc_data->http_response == HTTP_RC_OK)
+    if (mvc_data->http_response->code == HTTP_RC_OK)
     {
         char content_type[17] = "application/json"; 
         str_clearcopy(mvc_data->http_response->content_type, content_type, sizeof(mvc_data->http_response->content_type));
