@@ -70,6 +70,10 @@ bool cntlevent_turn(MVCData *mvc_data)
     cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
+
+    cJSON *reverse_jp = cJSON_GetObjectItem(mvc_data->request_json, "reverse");
+    if (!reverse_jp || !cJSON_IsBool(reverse_jp))
+        return false;        
     
     EventTurnData *event_turn_data = calloc(1, sizeof(EventTurnData));
     if (!event_turn_data)
@@ -80,6 +84,7 @@ bool cntlevent_turn(MVCData *mvc_data)
 
     event_turn_data->cycles = (int) cycles_jp->valuedouble;
     event_turn_data->duration = (float) duration_jp->valuedouble;
+    event_turn_data->reverse = cJSON_IsTrue(reverse_jp);
 
     event_add(EVENT_TURN, (void *) event_turn_data);
     return true;
