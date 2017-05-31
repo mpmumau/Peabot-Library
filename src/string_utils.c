@@ -35,7 +35,7 @@ void str_removenl(const char *str)
 char *str_tabval(char *str, size_t len)
 {
     if (!str || !len)
-        return;
+        return NULL;
 
     unsigned int i;
     for (i = 0; i < len; i++)
