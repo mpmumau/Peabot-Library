@@ -134,6 +134,8 @@ static void *http_main(void *arg)
         memset(http.buffer, '\0', sizeof(http.buffer));   
         read(last_socket, http.buffer, sizeof(http.buffer) - 1);
 
+        printf("size of incoming buffer: %d\n", strlen(http.buffer));
+
         http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
