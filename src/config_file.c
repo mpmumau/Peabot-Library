@@ -29,10 +29,8 @@ void configfile_process(char *config_file_fullpath)
 {
     FILE *config_file = fopen(config_file_fullpath, "r");
     if (!config_file)
-    {
-        printf("wopops!\n");
-        app_exit("[ERROR] Could not open config file.", 1);
-    }
+        APP_ERROR("Could not open config file.", 1);
+
     configfile_parse(config_file);
     fclose(config_file);
 }
@@ -57,7 +55,7 @@ static void configfile_parse(FILE *config_file)
             continue;
      
         str_removenl(buffer);
-        val = str_after_spaces(buffer, buffer_size);  
+        val = str_tabval(buffer, buffer_size);
         arg = strtok(buffer, config_delim);
 
         configfile_handle_line(arg, val);

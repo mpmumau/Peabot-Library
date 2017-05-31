@@ -43,7 +43,7 @@ void usd_sensor_init()
 {
     int error = pthread_create(&usd_thread, NULL, usd_sensor_main, NULL);
     if (error)
-        app_exit("[ERROR!] Could not initialize USD sensor thread.", 1);
+        APP_ERROR("Could not initialize USD sensor thread.", error);
 
     pinMode(DEFAULT_HRC_SR04_TRIGGER_PIN, OUTPUT);
     pinMode(DEFAULT_HRC_SR04_ECHO_PIN, INPUT);    

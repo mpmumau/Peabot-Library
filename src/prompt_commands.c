@@ -26,7 +26,7 @@
 
 void promptcmd_quit(char *args[], int arg_num)
 {
-    app_exit("[Prompt] User requested application shutdown.", 0);
+    app_exit(0);
 }
 
 void promptcmd_reset(char *args[], int arg_num)

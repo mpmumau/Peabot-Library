@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <fcntl.h>
+#include <errno.h>
 
 /* Application includes */
 #include "config.h"
@@ -95,12 +96,13 @@ static void *http_main(void *arg)
 
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
-        app_exit("[ERROR!] Could not create socket (http_init).", 1);
+        APP_ERROR("Could not create socket.", errno);
 
     if (bind(http.socket, (struct sockaddr *) &(http.srv_addr), sizeof(http.srv_addr)) < 0)
-        app_exit("[ERROR!] Could not bind socket to address (http_init).", 1); 
+        APP_ERROR("Could not bind socket to address.", errno);
 
-    listen(http.socket, HTTP_SERVER_MAX_CONNS);    
+    if (listen(http.socket, HTTP_SERVER_MAX_CONNS) < 0);    
+        APP_ERROR("Could not listen on socket.", errno);
 
     fd_set socket_fd_set;
     int socket_select_result;

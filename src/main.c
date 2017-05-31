@@ -40,39 +40,28 @@ static int exit_val = 0;
 /* Forward decs */
 static void signal_handler(int signum);
 
-void app_exit(char *message, int retval)
+void app_exit(int retval)
 {
-    printf("\n");
-    console_br();
-    console_print(message);
-
-    log_event(message);
-
     http_halt();
-    log_event("[APP_EXIT] HTTP server shutdown complete.");
-
     prompt_halt();
-    log_event("[APP_EXIT] Prompt shutdown complete.");
-
     event_halt();
-    log_event("[APP_EXIT] Event handler shutdown complete.");
-
     keyhandler_halt();
-    log_event("[APP_EXIT] Keyframe handler shutdown complete.");
-
     robot_halt();
-    log_event("[APP_EXIT] Robot shutdown complete.");
-
     usd_sensor_halt();
-    log_event("[APP_EXIT] USD shutdown complete.");
-
     config_destroy();
-
-    log_event("[APP_EXIT] Exit sequence complete. Bye!");
+    log_event("[APP] Shutting down. Bye!");
     log_close();
 
     exit_val = retval;
     app_running = false;  
+}
+
+void app_error(const char *file, int lineno, const char *msg, int error_code)
+{
+    char msg[256];
+    snprintf(msg, sizeof(msg), "[ERROR!] %s [f:%s,l:%d,e:%d]", msg, file, lineno, error_code);
+    log_event(message);   
+    app_exit();
 }
 
 /*

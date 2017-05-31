@@ -25,25 +25,30 @@ typedef struct Event {
 
 typedef struct EventElevateData {
     bool reverse;
-    float duration;
+    double duration;
 } EventElevateData;
 
 typedef struct EventExtendData {
     bool reverse;
-    float duration;
+    double duration;
 } EventExtendData;
 
 typedef struct EventWalkData {
-    int cycles;
-    float duration;
+    unsigned short cycles;
+    double duration;
     bool reverse;
 } EventWalkData;
 
 typedef struct EventTurnData {
-    int cycles;
-    float duration;
+    unsigned short cycles;
+    double duration;
     bool reverse;
 } EventTurnData;
+
+typedef struct EventMoveJoint {
+    unsigned short servo;
+    double val;
+}
 
 /* Initialize the event handler thread. */
 void event_init();
@@ -52,6 +57,6 @@ void event_init();
 void event_halt();
 
 /* Add an event and to the event queue. */
-void event_add(int event_type, void *data);
+void event_add(unsigned short event_type, void *data);
 
 #endif

@@ -32,16 +32,17 @@ static List *events;
 
 /* Forward decs */
 static void *event_main(void *arg);
-static char *event_getname(int event_type);
+static char *event_getname(unsigned short event_type);
 
 void event_init()
 {
-    int error;
-
     events = calloc(1024, sizeof(List));
-    error = pthread_create(&event_thread, NULL, event_main, NULL);
+    if (!events)
+        APP_ERROR("Could not calloc", 1);
+
+    int error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
-        app_exit("[ERROR!] Could not create event thread.", 1);
+        APP_ERROR("Could not create thread.", error);
 }
 
 void event_halt()

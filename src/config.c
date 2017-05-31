@@ -263,7 +263,8 @@ static void config_set_defaults()
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
     config.log_fullpath = calloc(full_path_size, sizeof(char));
     if (!config.log_fullpath)
-        app_exit("[ERROR!] Unable to allocate memory for config.log_fullpath (config_set_defaults).", 1);
+        APP_ERROR("Unable to allocate memory", 1);
+
     strcpy(config.log_fullpath, config.log_file_dir);
     strcat(config.log_fullpath, config.log_filename);
 
@@ -326,7 +327,7 @@ static void config_set_defaults()
     // Do these after processing other configs; dependent upon them.
     config.servo_pins = calloc(config.servos_num, sizeof(int));
     if (!config.servo_pins)
-        app_exit("[ERROR!] Could not allocate memory for config.servo_pins (config_init).", 1);
+        APP_ERROR("Unable to allocate memory.", 1);
 
     ServoPinData servo_pin_data;
     int num;
@@ -375,7 +376,7 @@ static void config_set_defaults()
 
     config.servo_limits = calloc(config.servos_num, sizeof(ServoLimit));
     if (!config.servo_pins)
-        app_exit("[ERROR!] Could not allocate memory for config.servo_limits (config_init).", 1);
+        APP_ERROR("Unable to allocate memory.", 1);
 
     ServoLimitData servo_limit_data;
 

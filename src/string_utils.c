@@ -15,50 +15,36 @@
 
 #include "string_utils.h"
 
-bool str_starts(char *string_a, char *string_b)
+bool str_starts(const char *haystack, const char *needle)
 {
-    if (strncmp(string_a, string_b, strlen(string_b)) == 0) 
-        return true;
-    return false;
+    return (bool) (strncmp(haystack, needle, strlen(needle)) == 0);
 }
 
-bool str_equals(char *string_a, char *string_b)
+bool str_equals(const char *str_a, const char *str_b)
 {
-    if (strcmp(string_a, string_b) == 0)
-        return true;
-
-    return false;
+    return (bool) (strcmp(str_a, str_b) == 0);
 }
 
-void str_removenl(char *string)
+void str_removenl(const char *str)
 {
-    char *nl = strchr(string, '\n');
+    char *nl = strchr(str, '\n');
     if (nl != NULL)
         *nl = '\0';
 }
 
-void str_copy(char *dest, char *src)
+char *str_tabval(char *str, size_t len)
 {
-    while (*src) {
-        *dest = *src;
-        src++;
-        dest++;
-    }
-    *dest = '\0';
-}
+    if (!str || !len)
+        return;
 
-char *str_after_spaces(char *string, int limit)
-{
-    int i = 0;
-    for ( ; i < limit; i++)
+    unsigned int i;
+    for (i = 0; i < len; i++)
     {
-        if (!isspace(string[i]))
-            continue;
-        else
+        if (isspace(str[i]))
             break;
     }
 
-    if (!i || i == limit)
+    if (!i)
         return NULL;
 
     for ( ; i < limit; i++)
@@ -71,17 +57,27 @@ char *str_after_spaces(char *string, int limit)
     return NULL;
 }
 
-bool str_empty(char *string)
+bool str_empty(char *str)
 {
-    if (string[0] == '\0')
+    if (!str || str[0] == '\0')
         return true;
     return false;
 }
 
-void str_clearcopy(char *dest, char *src, size_t len)
+void str_clearcopy(char *dest, const char *src, size_t len)
 {
     memset(dest, '\0', len);
     memcpy(dest, src, len - 1);
+}
+
+const char *str_linebreak(size_t len)
+{
+    if (len < 1)
+        return NULL;
+
+    char line_break[len];
+    memset(line_break, '-', len - 1);
+    line_break[len] = '\0';    
 }
 
 #endif

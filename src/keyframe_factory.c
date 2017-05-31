@@ -32,7 +32,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR!] Could not allocate memory for servo_pos (keyfactory_home).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -41,7 +41,7 @@ Keyframe *keyfactory_home(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR!] Could not allocate memory for keyfr (keyfactory_home).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->servo_pos = servo_pos;
 
@@ -54,7 +54,7 @@ Keyframe *keyfactory_delay(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR!] Could not allocate memory for keyfr (keyfactory_delay).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->duration = *duration;
     keyfr->is_delay = true;
@@ -71,7 +71,7 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     float start_pos = -1.0f * mod;
     float end_pos = 1.0f * mod;
@@ -90,7 +90,7 @@ Keyframe *keyfactory_elevate(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR] Could not allocate memory for keyframe. (keyfradd_elevate)", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->duration = *duration;
     keyfr->servo_pos = servo_pos;
@@ -107,7 +107,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR] Could not allocate memory for ServoPos. (keyfradd_elevate)", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     float start_pos = -1.0f * mod;
     float end_pos = 1.0f * mod;
@@ -126,7 +126,7 @@ Keyframe *keyfactory_extend(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR] Could not allocate memory for keyframe. (keyfradd_elevate)", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->duration = *duration;
     keyfr->servo_pos = servo_pos;
@@ -142,7 +142,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR] Could not allocate memory for ServoPos (keyfradd_walk).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     float *duration = (float *) data;
 
@@ -194,7 +194,7 @@ Keyframe *keyfactory_walk(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR] Could not allocate memory for keyframe (keyfradd_walk).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->duration = *duration;
     keyfr->servo_pos = servo_pos;
@@ -220,7 +220,7 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
     if (!servo_pos)
-        app_exit("[ERROR] Could not allocate memory for servo_pos (keyfradd_transition).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -231,7 +231,7 @@ Keyframe *keyfactory_transition(KeyframeTransData trans_data)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR] Could not allocate memory for keyfr (keyfradd_transition).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     keyfr->duration = duration;
     keyfr->servo_pos = servo_pos;
@@ -399,7 +399,7 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 
     Keyframe *keyfr = calloc(1, sizeof(Keyframe));
     if (!keyfr)
-        app_exit("[ERROR] Could not allocate memory for keyfr (keyfactory_turnsegment).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
     keyfr->servo_pos = servo_pos;
     keyfr->duration = *duration;
 

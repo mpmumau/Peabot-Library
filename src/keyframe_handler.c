@@ -49,7 +49,7 @@ void keyhandler_init()
     running = true;
     int error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
     if (error)
-        app_exit("[ERROR!] Could not initialize keyframe thread.", 1);
+        APP_ERROR("Could not initialize keyframe thread.", error);
 }
 
 void keyhandler_halt()

@@ -18,6 +18,7 @@
 #include "config_defaults.h"
 #include "main.h"
 #include "config.h"
+#include "string_utils.h"
 
 /* Header */
 #include "log.h"
@@ -28,19 +29,22 @@ void log_init()
 {
     char *filename = (char *) config_get(CONF_LOG_FULLPATH);
     if (!filename)
-        app_exit("[ERROR!] Could not open logfile!", 1);
+        APP_ERROR("Log file name is null.", 1);
 
     logfile = fopen(filename, "w");
-
     if (!logfile)
-        app_exit("[ERROR!] Could not open logfile!", 1);
+        APP_ERROR("Could not open log file.", 1);
 }
 
 void log_write(char *line)
 {
     if (!logfile || !line)
         return;
-    fprintf(logfile, "%s\n", line);
+
+    char line_cpy[LOG_LINE_LEN];
+    str_clearcopy(line_cpy, line, sizeof(line_cpy));
+
+    fprintf(logfile, "%s\n", line_cpy);
     fflush (logfile);
 }
 
@@ -53,10 +57,7 @@ void log_close()
 
 void log_h(char *val)
 {
-    char line_break[81];
-    for (int i = 0; i < 80 - 1; i++)
-        line_break[i] = '=';
-    line_break[80] = '\0';
+    
 
     log_write(line_break);
     log_write(val);
@@ -73,7 +74,7 @@ void log_br()
     log_write(line_break);
 }
 
-void log_event(char *data)
+void log_event(const char *msg)
 {
     time_t current_time = time(NULL);
     struct tm *ltime = localtime(&current_time);
@@ -82,9 +83,17 @@ void log_event(char *data)
     strftime(timestamp, LOG_TIMESTAMP_MAXLEN, "[%m-%d-%y %H:%M:%S]", ltime);
 
     char buffer[LOG_LINE_MAXLEN];
-    snprintf(buffer, LOG_LINE_MAXLEN, "%s %s", timestamp, data);
+    snprintf(buffer, sizeof(buffer), "%s %s", timestamp, msg);
 
     log_write(buffer);
+}
+
+void log_error(const char *msg, int error_code)
+{
+    char log_msg[LOG_LINE_LEN];
+    snprintf(log_msg, sizeof(log_msg), "[ERROR] %s [e:%d]", msg, error_code);
+
+    log_event(log_msg);
 }
 
 #endif

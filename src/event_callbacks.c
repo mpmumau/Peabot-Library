@@ -43,7 +43,7 @@ void eventcb_delay(void *arg)
 
     float *duration = calloc(1, sizeof(float));
     if (!duration)
-        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_delay).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
     *duration = duration_val;
 
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
@@ -64,7 +64,7 @@ void eventcb_elevate(void *arg)
 
     float *duration = calloc(1, sizeof(float));
     if (!duration)
-        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
     *duration = elevate_data->duration;
 
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
@@ -85,7 +85,7 @@ void eventcb_extend(void *arg)
 
     float *duration = calloc(1, sizeof(float));
     if (!duration)
-        app_exit("[ERROR!] Failed to allocate memory for float (eventcb_elevate).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
     *duration = extend_data->duration;
 
     bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
@@ -121,7 +121,7 @@ void eventcb_walk(void *arg)
     {
         duration_p = calloc(1, sizeof(float));
         if (!duration_p)
-            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_walk).", 1);
+            APP_ERROR("Could not allocate memory.", 1);
         *duration_p = duration;
         
         keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i > 0);
@@ -150,7 +150,7 @@ void eventcb_turn(void *arg)
     {
         duration_p = calloc(1, sizeof(float));
         if (!duration_p)
-            app_exit("[ERROR!] Failed to allocate memory for float (eventcb_turn).", 1);
+            APP_ERROR("Could not allocate memory.", 1);
         *duration_p = duration;
         keyhandler_add(KEYFR_TURN, (void *) duration_p, reverse, i > 0);
     }

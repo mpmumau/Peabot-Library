@@ -54,24 +54,24 @@ void robot_init()
 
     pca_9685_fd = pca9685Setup(*pca_9685_pin_base, 0x40, *pca_9685_hertz);
     if (pca_9685_fd < 0)
-        app_exit("[ERROR!] Could not create PCA-9685 file descriptor.", 1);
+        APP_ERROR("Could not get PCA-9685 file descriptor.", 1);
     pca9685PWMReset(pca_9685_fd);
 
     int error = pthread_create(&robot_thread, NULL, robot_main, NULL);
     if (error)
-        app_exit("[ERROR!] Could not initialize robot thread.", 1);
+        APP_ERROR("Could not initialize robot thread.", error);
 
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
     servo = calloc(*servos_num, sizeof(float));
     if (!servo)
-        app_exit("[ERROR!] Could not allocate memory for servo. (robot_init).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
     servo_limits = calloc(*servos_num, sizeof(ServoLimit));
     if (!servo_limits)
-        app_exit("[ERROR!] Could not allocate memory for servo_limits. (robot_init).", 1);
+        APP_ERROR("Could not allocate memory.", 1);
 
     for (int i = 0; i < *servos_num; i++)
     {
@@ -89,7 +89,7 @@ void robot_halt()
     running = false;
     int error = pthread_join(robot_thread, NULL);
     if (error)
-        log_event("[ERROR!] Could not rejoin from robot thread.");
+        log_error("Could not rejoin from robot thread.", error);
 
     pca9685PWMReset(pca_9685_fd);
 }

@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+#define LOG_LINE_LEN 512
+
 /* Open the given log file for appending. */
 void log_init();
 
@@ -24,6 +26,9 @@ void log_h(char *val);
 void log_br();
 
 /* Write the given data to the log, which will be prepended by a timestamp. */
-void log_event(char *data);
+void log_event(char *msg);
+
+/* Log the message and tag it as an error in the log file. */
+void log_error(const char *msg, int error_code);
 
 #endif
