@@ -136,6 +136,8 @@ static void httrhnd_send_response(MVCData *mvc_data, int socket_fd)
         char content[sizeof(mvc_data->http_response->body)];
         cJSON_PrintPreallocated(mvc_data->response_json, content, sizeof(content), true);
         str_clearcopy(mvc_data->http_response->body, content, sizeof(mvc_data->http_response->body));   
+
+        printf("response_body: \n%s\n", mvc_data->http_response->body);
     } 
 
     char http_response_str[HTTP_RES_MAX_LEN];
