@@ -132,7 +132,7 @@ static void *http_main(void *arg)
         http_server_log_connect(ip_addr);
 
         memset(http.buffer, '\0', sizeof(http.buffer));   
-        read(last_socket, http.buffer, sizeof(http.buffer));
+        read(last_socket, http.buffer, sizeof(http.buffer) - 1);
 
         http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
@@ -141,9 +141,6 @@ static void *http_main(void *arg)
         request_thread_data = calloc(1, sizeof(HTTPRequestThreadData));        
         request_thread_data->http_request = http_request;
         request_thread_data->socket_fd = last_socket;
-
-        // dbg
-        //printf("[HTTP RAW REQUEST]\n%s\n", http.buffer);
 
         pthread_create(&last_request_thread, &request_thread_attr, httprhnd_handle_request, (void *) request_thread_data);
     }
