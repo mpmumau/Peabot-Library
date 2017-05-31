@@ -57,11 +57,9 @@ void log_close()
 
 void log_h(char *val)
 {
-    
-
-    log_write(line_break);
+    log_write(str_linebreak(128));
     log_write(val);
-    log_write(line_break);
+    log_write(str_linebreak(128));
 }
 
 void log_br()
