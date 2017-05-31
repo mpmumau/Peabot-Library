@@ -60,7 +60,7 @@ void app_error(const char *file, int lineno, const char *msg, int error_code)
 {
     char err_msg[256];
     snprintf(err_msg, sizeof(err_msg), "[ERROR!] %s [f:%s,l:%d,e:%d]", msg, file, lineno, error_code);
-    log_event(message);   
+    log_event(err_msg);   
     app_exit();
 }
 
