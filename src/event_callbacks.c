@@ -152,7 +152,7 @@ void eventcb_turn(void *arg)
         if (!duration_p)
             app_exit("[ERROR!] Failed to allocate memory for float (eventcb_turn).", 1);
         *duration_p = duration;
-        keyhandler_add(KEYFR_TURN, (void *) duration_p, reverse, i < 1);
+        keyhandler_add(KEYFR_TURN, (void *) duration_p, reverse, i > 0);
     }
 }
 
