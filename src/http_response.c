@@ -36,6 +36,7 @@ void http_response_init(HTTPResponse *http_response)
     memset(http_response->body, '\0', sizeof(http_response->body));
     http_response->hdr_ac_allow_origin_all = false;
     http_response->hdr_ac_allow_hdrs_content_type = false;
+    memset(http_response->content_type, '\0', sizeof(http_response->content_type));
 }
 
 void http_response_tostring(HTTPResponse *http_response, char *response_str, size_t len)

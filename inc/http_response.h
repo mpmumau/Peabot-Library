@@ -26,7 +26,7 @@
 typedef struct HTTPResponse {
     int     code;
     char    body[HTTP_RES_BODY_LEN];
-    char    content_type[128];
+    char    content_type[256];
     bool    hdr_ac_allow_origin_all;
     bool    hdr_ac_allow_hdrs_content_type;
 } HTTPResponse;
