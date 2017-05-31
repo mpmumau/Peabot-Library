@@ -209,7 +209,11 @@ static void httprhnd_handle_get(MVCData *mvc_data)
         success = (*get_cb)(mvc_data); 
     }
 
-    if (!success)
+    if (success)
+    {
+        mvc_data->http_response->code = HTTP_RC_OK;
+    }
+    else
     {
         if (mvc_data->http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
             mvc_data->http_response->code = HTTP_RC_BAD_REQUEST;
