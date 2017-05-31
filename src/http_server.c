@@ -176,8 +176,8 @@ static void http_server_log_http_request(HTTPRequest *http_request, int buff_siz
     snprintf(log_message, sizeof(log_message)-1, "[HTTP] Req[%s] is %s %.2f%s",
         ipaddr,
         request_type,
-        buffer_size < 1024 ? (double) buffer_size : (double) (buffer_size / 1024.0),
-        buffer_size < 1024 ? "b" : "kb" );
+        buff_size < 1024 ? (double) buff_size : (double) (buff_size / 1024.0),
+        buff_size < 1024 ? "b" : "kb" );
     log_event(log_message);
 }
 
