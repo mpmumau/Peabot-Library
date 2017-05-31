@@ -91,11 +91,11 @@ int main(int argc, char *argv[])
 
     config_init(argc, argv);
 
-    printf("---[file: %s line: %d]---\n", __FILE__, __LINE__);
-
     log_init();
     log_h("Peabot Server Logs");
     log_event("Server started.");
+
+    printf("---[file: %s line: %d]---\n", __FILE__, __LINE__);
 
     signal(SIGINT, signal_handler);
 

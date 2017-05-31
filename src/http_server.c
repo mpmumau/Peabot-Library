@@ -83,6 +83,8 @@ static void *http_main(void *arg)
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
     http.srv_addr.sin_port = htons(*http_port);      
 
+    printf("port: %d\n", (int) *http_port);
+
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
     char ip_addr[INET6_ADDRSTRLEN];
