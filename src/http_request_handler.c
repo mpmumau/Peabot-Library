@@ -123,12 +123,15 @@ static void httprhnd_conf_uri(HTTPRequest *http_request, char *model_name, char 
 
 static void httrhnd_send_response(MVCData *mvc_data, int socket_fd)
 {
-    char content_type[17] = "application/json"; 
-    str_clearcopy(mvc_data->http_response->content_type, content_type, sizeof(mvc_data->http_response->content_type));
+    if (mvc_data->http_response == HTTP_RC_OK)
+    {
+        char content_type[17] = "application/json"; 
+        str_clearcopy(mvc_data->http_response->content_type, content_type, sizeof(mvc_data->http_response->content_type));
 
-    char content[sizeof(mvc_data->http_response->body)];
-    cJSON_PrintPreallocated(mvc_data->response_json, content, sizeof(content), true);
-    str_clearcopy(mvc_data->http_response->body, content, sizeof(mvc_data->http_response->body));    
+        char content[sizeof(mvc_data->http_response->body)];
+        cJSON_PrintPreallocated(mvc_data->response_json, content, sizeof(content), true);
+        str_clearcopy(mvc_data->http_response->body, content, sizeof(mvc_data->http_response->body));   
+    } 
 
     char http_response_str[HTTP_RES_MAX_LEN];
     http_response_tostring(mvc_data->http_response, http_response_str, sizeof(http_response_str));
