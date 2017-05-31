@@ -36,6 +36,6 @@ bool str_empty(char *str);
 void str_clearcopy(char *dest, char *src, size_t len);
 
 /* Returns a hypenated string of size len. */
-const char *str_linebreak(size_t len);
+void str_linebreak(char *str, size_t len);
 
 #endif

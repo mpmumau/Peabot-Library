@@ -70,13 +70,12 @@ void str_clearcopy(char *dest, const char *src, size_t len)
     memcpy(dest, src, len - 1);
 }
 
-const char *str_linebreak(size_t len)
+void str_linebreak(char *str, size_t len)
 {
     if (len < 1)
         return NULL;
 
-    char line_break[len];
-    memset(line_break, '-', len - 1);
+    memset(str, '-', len - 1);
     line_break[len] = '\0';    
 }
 
