@@ -47,7 +47,7 @@ char *str_tabval(char *str, size_t len)
     if (!i)
         return NULL;
 
-    for ( ; i < limit; i++)
+    for ( ; i < len; i++)
     {
         if (isspace(string[i]))
             continue;
