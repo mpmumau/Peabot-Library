@@ -117,7 +117,7 @@ void eventcb_walk(void *arg)
 
     float *duration_p;   
 
-    for (int i = 0; i < cycles - 1; i++)
+    for (int i = 0; i < cycles; i++)
     {
         duration_p = calloc(1, sizeof(float));
         if (!duration_p)
