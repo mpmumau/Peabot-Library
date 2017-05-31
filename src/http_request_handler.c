@@ -53,6 +53,7 @@ void *httprhnd_handle_request(void *data)
     free(request_thread_data);
 
     HTTPResponse http_response;
+    http_response_init(&http_response);
     httprhnd_response_global_conf(&http_response);
 
     char model[128];
