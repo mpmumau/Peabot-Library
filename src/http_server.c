@@ -83,8 +83,6 @@ static void *http_main(void *arg)
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
     http.srv_addr.sin_port = htons(*http_port);      
 
-    printf("port: %d\n", (int) *http_port);
-
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
     char ip_addr[INET6_ADDRSTRLEN];
@@ -103,7 +101,7 @@ static void *http_main(void *arg)
     if (bind(http.socket, (struct sockaddr *) &(http.srv_addr), sizeof(http.srv_addr)) < 0)
         APP_ERROR("Could not bind socket to address.", errno);
 
-    if (listen(http.socket, HTTP_SERVER_MAX_CONNS) < 0);    
+    if (listen(http.socket, HTTP_SERVER_MAX_CONNS) < 0)    
         APP_ERROR("Could not listen on socket.", errno);
 
     fd_set socket_fd_set;
