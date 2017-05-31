@@ -71,6 +71,25 @@ void httpreq_parse(HTTPRequest *http_request, char *ip_addr, char *raw, int buff
         httpreq_handle_header(http_request, &(header_lines[i]), sizeof(header_lines[i]));
 }
 
+const char *httpreq_get_methodstr(HTTPRequest *http_request)
+{
+    switch (http_request->method)
+    {
+        case HTTP_METHOD_POST:
+            return "POST";
+        case HTTP_METHOD_GET:
+            return "GET";
+        case HTTP_METHOD_PUT:
+            return "PUT";
+        case HTTP_METHOD_DELETE:
+            return "DELETE";
+        case HTTP_METHOD_OPTIONS:
+            return "OPTIONS";
+    }
+
+    return "Bad Request";
+}
+
 static int httpreq_split_header(HTTPRequestLine *lines, size_t lines_len, char *raw, size_t raw_len)
 {
     char raw_cpy[raw_len];

@@ -139,6 +139,8 @@ static void *http_main(void *arg)
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
+        http_server_log_http_request(http_request, strlen(http.buffer), ip_addr);
+
         request_thread_data = calloc(1, sizeof(HTTPRequestThreadData));        
         request_thread_data->http_request = http_request;
         request_thread_data->socket_fd = last_socket;
@@ -168,7 +170,15 @@ static void http_server_log_connect(char *ipaddr)
 
 static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr)
 {
+    const char *request_type = httpreq_get_methodstr(http_request);
+
     char log_message[256];
+    snprintf(log_message, sizeof(log_message)-1, "[HTTP] Req[%s] is %s %.2f%s",
+        ipaddr,
+        request_type,
+        buffer_size < 1024 ? (double) buffer_size : (double) (buffer_size / 1024.0),
+        buffer_size < 1024 ? "b" : "kb" );
+    log_event(log_message);
 }
 
 #endif
