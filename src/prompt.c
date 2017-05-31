@@ -29,8 +29,8 @@
 
 /* Forward decs */
 static void *prompt_main(void *arg);
-static void prompt_handle_cmd(char *stdin);
-static int prompt_count_args(char *arg_str);
+static void prompt_handle_cmd(char *stdin_str, size_t len);
+static int prompt_count_args(char *arg_str, size_t len);
 
 static pthread_t prompt_thread;
 static bool running = true;
@@ -66,7 +66,7 @@ static void *prompt_main(void *arg)
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
 
-        prompt_handle_cmd(stdin_buffer);
+        prompt_handle_cmd(stdin_buffer, sizeof(stdin_buffer));
     }
 
     pthread_exit(NULL);
@@ -74,7 +74,7 @@ static void *prompt_main(void *arg)
     return (void *) NULL;
 }
 
-static void prompt_handle_cmd(char *stdin_str)
+static void prompt_handle_cmd(char *stdin_str, size_t len)
 {
     bool *log_stdin = config_get(CONF_LOG_STDIN);
     if (*log_stdin)
@@ -84,7 +84,7 @@ static void prompt_handle_cmd(char *stdin_str)
         log_event(ancmt);
     }
 
-    int arg_count = prompt_count_args(stdin_str);
+    int arg_count = prompt_count_args(stdin_str, size_t len);
     char *args[arg_count];
 
     void (*cmd_callback)(char *args[], int args_num) = NULL;
@@ -141,11 +141,10 @@ static void prompt_handle_cmd(char *stdin_str)
     (*cmd_callback)(&args[1], arg_count);
 }
 
-static int prompt_count_args(char *arg_str)
+static int prompt_count_args(char *arg_str, size_t len)
 {
-    char tmp_str[64];
-
-    str_copy(tmp_str, arg_str);
+    char tmp_str[len];
+    str_clearcopy(tmp_str, sizeof(tmp_str));
 
     int arg_count = 0;
     char *arg;
