@@ -203,7 +203,10 @@ static void httprhnd_handle_get(MVCData *mvc_data)
 
     bool success = false;
     if (get_cb != NULL)
+    {
+        printf("trying\n");
         success = (*get_cb)(mvc_data);  
+    }
 
     if (!success)
     {
