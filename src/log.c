@@ -57,7 +57,7 @@ void log_close()
 
 void log_h(char *val)
 {
-    const char *lb = str_linebreak(128);
+    char *lb = str_linebreak(128);
     log_write(lb);
     log_write(val);
     log_write(lb);
