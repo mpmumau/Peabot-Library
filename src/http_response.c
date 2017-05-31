@@ -48,8 +48,11 @@ void http_response_tostring(HTTPResponse *http_response, char *response_str, siz
 
     http_response_appd_date_line(output, &len);
 
-    if (http_response->content_type[0] != '\0')
+    if (strlen(http_response->content_type))
+    {
+        printf("content-type: %s\n", http_response->content_type);
         http_response_appd_content_type(http_response->content_type, output, &len);
+    }
 
     if (http_response->hdr_ac_allow_origin_all)
         http_response_appd_ac_aoa(output, &len);
