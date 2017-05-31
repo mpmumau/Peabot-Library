@@ -45,6 +45,7 @@
 static void *http_main(void *arg);
 static void http_server_ipstr(char *str, int str_size);
 static void http_server_log_connect(char *ipaddr);
+static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr);
 
 static HTTPServer http;
 static bool running;
@@ -134,8 +135,6 @@ static void *http_main(void *arg)
         memset(http.buffer, '\0', sizeof(http.buffer));   
         read(last_socket, http.buffer, sizeof(http.buffer) - 1);
 
-        printf("size of incoming buffer: %fkb\n", (double) (strlen(http.buffer) / 1024.0));
-
         http_request = calloc(1, sizeof(HTTPRequest));
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
@@ -157,22 +156,19 @@ static void *http_main(void *arg)
 
 static void http_server_ipstr(char *str, int str_size)
 {
-    char client_ip_str[INET6_ADDRSTRLEN];    
-    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), client_ip_str, sizeof(client_ip_str));
-
-    for (int i = 0; i < str_size; i++)
-    {
-        if (INET6_ADDRSTRLEN < (i + 1))
-            break;
-        str[i] = client_ip_str[i];
-    }
+    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), str, str_size);
 }
 
 static void http_server_log_connect(char *ipaddr)
 {
     char log_connection_msg[128];
-    snprintf(log_connection_msg, 127, "[HTTP] Connecting to: %s", ipaddr);   
+    snprintf(log_connection_msg, sizeof(log_connection_msg) - 1, "[HTTP] Incoming request from: %s", ipaddr);   
     log_event(log_connection_msg);  
+}
+
+static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr)
+{
+    char log_message[256];
 }
 
 #endif
