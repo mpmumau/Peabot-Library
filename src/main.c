@@ -89,9 +89,9 @@ int main(int argc, char *argv[])
 {
     prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
 
-    printf("---[got here: file: %s line: %d]---\n", __FILE__, __LINE__);
-
     config_init(argc, argv);
+
+    printf("---[file: %s line: %d]---\n", __FILE__, __LINE__);
 
     log_init();
     log_h("Peabot Server Logs");
