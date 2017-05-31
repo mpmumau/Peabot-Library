@@ -82,16 +82,11 @@ int main(int argc, char *argv[])
     prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
 
     config_init(argc, argv);
-
     log_init();
-
-
-    printf("---[file: %s line: %d]---\n", __FILE__, __LINE__);
 
     signal(SIGINT, signal_handler);
 
-    console_h("Peabot Server Console"); 
-    console_event("Server started");
+    console_h("Peabot Server: " APP_VERSION); 
 
     wiringPiSetup();
 
