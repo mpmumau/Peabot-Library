@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdbool.h>
+
 /* Libraries */
 #include "cJSON.h"
 

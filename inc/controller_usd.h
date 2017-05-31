@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdbool.h>
+
 bool cntlusd_getval(MVCData *mvc_data);
 
 #endif
