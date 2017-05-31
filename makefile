@@ -51,7 +51,8 @@ _DEPS = main.h \
 	usd_sensor.h \
 	controller_event.h \
 	cJSON.h \
-	mvc_data.h
+	mvc_data.h \
+	controller_usd.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -81,7 +82,8 @@ _OBJ = main.o \
 	usd_sensor.o \
 	controller_event.o \
 	cJSON.o \
-	mvc_data.o
+	mvc_data.o \
+	controller_usd.c
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)

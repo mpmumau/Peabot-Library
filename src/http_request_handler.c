@@ -28,6 +28,7 @@
 #include "string_utils.h"
 #include "mvc_data.h"
 #include "log.h"
+#include "controller_usd.h"
 
 /* Header */
 #include "http_request_handler.h"
@@ -189,7 +190,26 @@ static void httprhnd_handle_post(MVCData *mvc_data)
 
 static void httprhnd_handle_get(MVCData *mvc_data)
 {
-    // nothing for now
+    bool (*get_cb)(MVCData *mvc_data);
+    get_cb = NULL;
+
+    switch (mvc_data->model)
+    {
+        case MODEL_USD:
+            if (mvc_data->controller == CONTROLLER_GET)
+                get_cb = cntlusd_getval;
+            break;
+    }
+
+    bool success = false;
+    if (get_cb != NULL)
+        success = (*get_cb)(mvc_data);  
+
+    if (!success)
+    {
+        if (mvc_data->http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
+            mvc_data->http_response->code = HTTP_RC_BAD_REQUEST;
+    }          
 }
 
 static void httprhnd_handle_put(MVCData *mvc_data)
