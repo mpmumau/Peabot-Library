@@ -73,7 +73,7 @@ void str_clearcopy(char *dest, const char *src, size_t len)
 void str_linebreak(char *str, size_t len)
 {
     if (len < 1)
-        return NULL;
+        return;
 
     memset(str, '-', len - 1);
     line_break[len] = '\0';    
