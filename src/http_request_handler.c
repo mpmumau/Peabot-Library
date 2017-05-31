@@ -210,7 +210,7 @@ static void httprhnd_handle_options(MVCData *mvc_data)
 static void httprhnd_log_mvc_route(HTTPRequest *http_request, MVCData *mvc_data)
 {
     const char *model_name = mvcdata_get_modelstr(mvc_data);
-    const char *controller_name = mvcdata_get_controllerstr(MVCData *mvc_data);
+    const char *controller_name = mvcdata_get_controllerstr(mvc_data);
 
     char log_message[256];
     snprintf(log_message, sizeof(log_message) - 1, "[HTTP] Req[%s] MODEL: %s CONTROLLER: %s",
