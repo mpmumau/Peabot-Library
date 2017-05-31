@@ -83,7 +83,7 @@ _OBJ = main.o \
 	controller_event.o \
 	cJSON.o \
 	mvc_data.o \
-	controller_usd.c
+	controller_usd.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
