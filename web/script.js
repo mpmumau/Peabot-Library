@@ -7,7 +7,7 @@ function walk_button()
             console.log(JSON.parse(this.responseText)); 
         }
     };
-    xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/walk", true);
+    xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/walkx", true);
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xml.send(JSON.stringify({ cycles: 13, duration: 0.75, reverse: true }));
 }
@@ -23,7 +23,7 @@ function turn_button()
     };
     xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/turn", true);
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xml.send(JSON.stringify({ cycles: 30, duration: 0.35 }));
+    xml.send(JSON.stringify({ cycles: 30 }));
 }
 
 function elevate_button()
