@@ -89,7 +89,15 @@ function set_usd()
 
 function usd_setter()
 {
-    console.log("test");
+    var xml = new XMLHttpRequest();
+    
+    xml.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(JSON.parse(this.responseText)); 
+        }
+    };
+    xml.open("GET", "http://ML_DEVNET_PIBOT:9976/usd/get", true);
+    xml.send();
 }
 
 window.onload = set_usd;
