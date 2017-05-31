@@ -84,7 +84,7 @@ static void prompt_handle_cmd(char *stdin_str, size_t len)
         log_event(ancmt);
     }
 
-    int arg_count = prompt_count_args(stdin_str, size_t len);
+    int arg_count = prompt_count_args(stdin_str, len);
     char *args[arg_count];
 
     void (*cmd_callback)(char *args[], int args_num) = NULL;
