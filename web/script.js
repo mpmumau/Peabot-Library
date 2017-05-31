@@ -81,3 +81,11 @@ function halt_button()
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xml.send();
 }
+
+function set_usd()
+{
+    var usd_el = document.getElementById("usd");
+    usd.style.background_color = "red"
+}
+
+window.onload = set_usd;
