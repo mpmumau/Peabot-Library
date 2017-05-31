@@ -75,7 +75,7 @@ void str_linebreak(char *str, size_t len)
     if (len < 1)
         return;
 
-    memset(str, '\0', len - 1);
+    memset(str, '-', len - 1);
     str[len - 1] = '\0';
 }
 
