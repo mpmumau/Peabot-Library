@@ -16,6 +16,7 @@
 
 /* Application includes */
 #include "usd_sensor.h"
+#include "mvc_data.h"
 
 /* Header */
 #include "controller_usd.h"
