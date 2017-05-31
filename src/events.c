@@ -124,7 +124,7 @@ void event_add(unsigned short event_type, void *data)
     list_push(events_pp, (void *) event);
 }
 
-static char *event_getname(int event_type)
+static char *event_getname(unsigned short event_type)
 {
     switch (event_type)
     {
