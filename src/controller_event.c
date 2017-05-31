@@ -47,13 +47,15 @@ bool cntlevent_walk(MVCData *mvc_data)
         return false;
     }
 
+    printf("reverse_jp->valuedouble: %f\n", reverse_jp->valuedouble);
+
     event_walk_data->cycles = (int) cycles_jp->valuedouble;
     event_walk_data->duration = (float) duration_jp->valuedouble;
-    event_walk_data->reverse = reverse_jp->valuedouble == 0.0 ? true : false;
+    event_walk_data->reverse = reverse_jp->valuedouble;
 
     printf("event_walk_data->cycles: %d\n", event_walk_data->cycles);
     printf("event_walk_data->duration: %f\n", event_walk_data->duration);
-    printf("event_walk_data->reverse: %s\n", event_walk_data->reverse ? "true" : "false");
+    printf("event_walk_data->reverse: %f\n", event_walk_data->reverse ? "true" : "false");
 
     event_add(EVENT_WALK, (void *) event_walk_data);
     return true;
