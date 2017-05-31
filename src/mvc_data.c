@@ -52,7 +52,7 @@ const char *mvcdata_get_modelstr(MVCData *mvc_data)
             return "EVENT";
         case MODEL_USD:
             return "USD";
-        case "MODEL_POSITION":
+        case MODEL_POSITION:
             return "POSITION";
     }
 
