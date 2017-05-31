@@ -33,7 +33,7 @@ bool str_empty(char *str);
  * Clears all memory in the dest string and copies the src string into it, up to 
  * the size of len.
  */
-void str_clearcopy(char *dest, char *src, size_t len);
+void str_clearcopy(char *dest, const char *src, size_t len);
 
 /* Returns a hypenated string of size len. */
 void str_linebreak(char *str, size_t len);
