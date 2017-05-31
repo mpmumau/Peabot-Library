@@ -44,6 +44,44 @@ void mvcdata_destroy(MVCData *mvc_data)
     cJSON_Delete(mvc_data->response_json);
 }
 
+const char *mvcdata_get_modelstr(MVCData *mvc_data)
+{
+    switch (mvc_data->model)
+    {
+        case MODEL_EVENT:
+            return "EVENT";
+        case MODEL_USD:
+            return "USD";
+        case "MODEL_POSITION":
+            return "POSITION";
+    }
+
+    return "INVALID";
+}
+
+const char *mvcdata_get_controllerstr(MVCData *mvc_data)
+{
+    switch (mvc_data->controller)
+    {
+        case CONTROLLER_WALK:
+            return "WALK";
+        case CONTROLLER_TURN:
+            return "TURN";
+        case CONTROLLER_ELEVATE:
+            return "ELEVATE";
+        case CONTROLLER_EXTEND:
+            return "EXTEND";
+        case CONTROLLER_RESET:
+            return "RESET";
+        case CONTROLLER_GET:
+            return "GET";
+        case CONTROLLER_HALT:
+            return "HALT";
+    }
+
+    return "INVALID";
+}
+
 static int mvcdata_get_model(char *model_str)
 {
     if (strcmp(model_str, "event") == 0)

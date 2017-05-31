@@ -46,4 +46,8 @@ void mvcdata_set(MVCData *mvc_data, HTTPRequest *http_request, HTTPResponse *htt
 
 void mvcdata_destroy(MVCData *mvc_data);
 
+const char *mvcdata_get_modelstr(MVCData *mvc_data);
+
+const char *mvcdata_get_controllerstr(MVCData *mvc_data);
+
 #endif

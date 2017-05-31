@@ -27,6 +27,7 @@
 #include "events.h"
 #include "string_utils.h"
 #include "mvc_data.h"
+#include "log.h"
 
 /* Header */
 #include "http_request_handler.h"
@@ -40,6 +41,7 @@ static void httprhnd_handle_post(MVCData *mvc_data);
 static void httprhnd_handle_put(MVCData *mvc_data);
 static void httprhnd_handle_delete(MVCData *mvc_data);
 static void httprhnd_handle_options(MVCData *mvc_data);
+static void httprhnd_log_mvc_route(HTTPRequest *http_request, MVCData *mvc_data);
 
 void *httprhnd_handle_request(void *data)
 {
@@ -63,6 +65,7 @@ void *httprhnd_handle_request(void *data)
 
     MVCData mvc_data;
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
+    httprhnd_log_mvc_route(http_request, mvc_data);
     
     void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;
@@ -202,6 +205,20 @@ static void httprhnd_handle_delete(MVCData *mvc_data)
 static void httprhnd_handle_options(MVCData *mvc_data)
 {
     // nothing for now
+}
+
+static void httprhnd_log_mvc_route(HTTPRequest *http_request, MVCData *mvc_data)
+{
+    const char *model_name = mvcdata_get_modelstr(mvc_data);
+    const char *controller_name = mvcdata_get_controllerstr(MVCData *mvc_data);
+
+    char log_message[256];
+    snprintf(log_message, sizeof(log_message) - 1, "[HTTP] Req[%s] MODEL: %s CONTROLLER: %s",
+        http_request->ip_addr,
+        model_name,
+        controller_name);
+
+    log_event(log_message);
 }
 
 #endif
