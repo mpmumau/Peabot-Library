@@ -93,7 +93,9 @@ function usd_setter()
     
     xml.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(JSON.parse(this.responseText)); 
+            var data = JSON.parse(this.responseText);
+            console.log(data); 
+            document.getElementById("usd").innerHTML = data.distance;
         }
     };
     xml.open("GET", "http://ML_DEVNET_PIBOT:9976/usd/get", true);
