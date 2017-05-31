@@ -85,7 +85,7 @@ function halt_button()
 function set_usd()
 {
     var usd_el = document.getElementById("usd");
-    usd.style.background_color = "red"
+    usd_el.style.background_color = "red"
 }
 
 window.onload = set_usd;
