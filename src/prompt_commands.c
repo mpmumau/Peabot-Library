@@ -29,7 +29,6 @@ void promptcmd_quit(char *args[], int arg_num)
     app_exit("[Prompt] User requested application shutdown.", 0);
 }
 
-
 void promptcmd_reset(char *args[], int arg_num)
 {
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
@@ -353,21 +352,24 @@ void promptcmd_cfg_get(char *args[], int arg_num)
 
 void promptcmd_turn(char *args[], int arg_num)
 {
-    if (arg_num != 2)
+    if (arg_num != 3)
     {
-        console_print("[ERROR] Incorrect number of params. Usage: turn [cycles] [duration]");
+        console_print("[ERROR] Incorrect number of params. Usage: turn [cycles] [duration] [reverse]");
         return;
     }
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];    
+    const char *reverse_string = args[3];
 
     int cycles = (int) atoi(cycles_string);
     float duration = (float) atof(seconds_string);
+    bool reverse = (bool) ((int) atoi(reverse_string));
 
     EventTurnData *turn_data = calloc(1, sizeof(EventTurnData));
     turn_data->cycles = cycles;
     turn_data->duration = duration;
+    turn_data->reverse = reverse;
 
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (*log_prompt_commands)

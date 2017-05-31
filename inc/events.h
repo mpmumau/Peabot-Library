@@ -42,6 +42,7 @@ typedef struct EventWalkData {
 typedef struct EventTurnData {
     int cycles;
     float duration;
+    bool reverse;
 } EventTurnData;
 
 /* Initialize the event handler thread. */
