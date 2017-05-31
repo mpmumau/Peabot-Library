@@ -160,16 +160,19 @@ static void httprhnd_handle_post(MVCData *mvc_data)
             if (mvc_data->controller == CONTROLLER_HALT)
                 post_cb = cntlevent_halt;  
             break;
+        default:
+            mvc_data->http_response->code = HTTP_RC_BAD_REQUEST;
     }
 
-    bool success;
+    bool success = false;
     if (post_cb != NULL)
         success = (*post_cb)(mvc_data);
 
-    cJSON_AddBoolToObject(mvc_data->response_json, "success", success);
-
     if (success)
+    {
+        cJSON_AddBoolToObject(mvc_data->response_json, "success", success);
         mvc_data->http_response->code = HTTP_RC_OK;
+    }
     else
     {
         if (mvc_data->http_response->code != HTTP_RC_INTERNAL_SERVER_ERROR)
