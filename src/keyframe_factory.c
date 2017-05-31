@@ -286,8 +286,12 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
     float *duration = (float *) data;
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 
-    float turn_delta = 0.9f * (reverse ? -1.0 : 1.0);
-    float knee_delta = 0.4f;
+    double turn_delta = 0.9;
+    double knee_delta = 0.4;
+
+    double mod = reverse ? -1.0 : 1.0;
+
+    turn_delta *= mod;
 
     ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
 
@@ -304,14 +308,14 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
                 {
                     if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
                     {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, -turn_delta, 0.0f, 0.0f };    
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, -turn_delta, 0.0, 0.0 };    
                     }
                     else 
                     {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, turn_delta, 0.0f, 0.0f }; 
+                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, turn_delta, 0.0, 0.0 }; 
                     }
 
-                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0f, 0.0f }; 
+                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0, 0.0 }; 
                 }
                 else
                 {

@@ -360,7 +360,7 @@ void promptcmd_turn(char *args[], int arg_num)
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];    
-    const char *reverse_string = args[3];
+    const char *reverse_string = args[2];
 
     int cycles = (int) atoi(cycles_string);
     float duration = (float) atof(seconds_string);
