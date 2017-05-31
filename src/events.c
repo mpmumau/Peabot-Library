@@ -105,7 +105,7 @@ static void *event_main(void *arg)
     return (void *) NULL;
 }
 
-void event_add(int event_type, void *data)
+void event_add(unsigned short event_type, void *data)
 {
     static List **events_pp = &events;
 
