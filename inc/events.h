@@ -45,11 +45,6 @@ typedef struct EventTurnData {
     bool reverse;
 } EventTurnData;
 
-typedef struct EventMoveJoint {
-    unsigned short servo;
-    double val;
-}
-
 /* Initialize the event handler thread. */
 void event_init();
 
