@@ -9,7 +9,7 @@ function walk_button()
     };
     xml.open("POST", "http://ML_DEVNET_PIBOT:9976/event/walk", true);
     xml.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xml.send(JSON.stringify({ cycles: 1, duration: 1.0, reverse: false }));
+    xml.send(JSON.stringify({ cycles: 13, duration: 0.75, reverse: false }));
 }
 
 function turn_button()
