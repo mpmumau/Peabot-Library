@@ -130,7 +130,7 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
 
     if (cmd_callback == NULL)
     {
-        console_print("[ERROR] Unknown command.");
+        console_error("Unknown command.");
         return;
     }
 
@@ -144,7 +144,7 @@ static int prompt_count_args(const char *str, size_t len)
 
     int arg_count = 0;
     char *arg;
-    char delim[2] = " ";
+    char delim[2] = { ' ', '\0' };
 
     arg = strtok(tmp_str, delim);
     while (arg)
