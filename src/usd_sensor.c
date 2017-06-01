@@ -38,10 +38,11 @@ static void *usd_sensor_main(void *arg);
 static bool running = true;
 static double distance;
 static pthread_t usd_thread;
+static int error;
 
 void usd_sensor_init()
 {
-    int error = pthread_create(&usd_thread, NULL, usd_sensor_main, NULL);
+    error = pthread_create(&usd_thread, NULL, usd_sensor_main, NULL);
     if (error)
         APP_ERROR("Could not initialize USD sensor thread.", error);
 
@@ -54,9 +55,9 @@ void usd_sensor_init()
 void usd_sensor_halt()
 {
     running = false;
-    int error = pthread_join(usd_thread, NULL);
+    error = pthread_join(usd_thread, NULL);
     if (error)
-        log_event("[ERROR!] Could not rejoin from USD sensor thread.");
+        log_error("Could not rejoin from USD sensor thread.", error);
 }
 
 double usd_sensor_getdist()
@@ -70,7 +71,7 @@ static void *usd_sensor_main(void *arg)
 
     double new_distance;
 
-    int timeout, max_timeout;
+    unsigned int timeout, max_timeout;
     max_timeout = 1000000;
 
     bool timeout_error = false;

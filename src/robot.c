@@ -32,62 +32,46 @@
 /* Header */
 #include "robot.h"
 
-static pthread_t robot_thread;
-static bool running = true;
-
-static int pca_9685_fd;
-
-static float *servo;
-static ServoLimit *servo_limits;
-
 /* Forward decs */
 static void *robot_main(void *arg);
-static void robot_mvjoint(int joint, float val);
-static bool robot_jointinv(int joint);
-static int robot_mapsrv(float val, int min, int max);
+static void robot_mvjoint(unsigned short joint, double val);
+static bool robot_jointinv(unsigned short joint);
+static int robot_mapsrv(double val, ServoLimit *servo_limit);
 static void robot_destroy();
+
+static pthread_t    robot_thread;
+static bool         running = true;
+static int          error;
+static int          pca_9685_fd;
+static double       *servo;
 
 void robot_init()
 {
-    int *pca_9685_pin_base = (int *) config_get(CONF_PCA_9685_PIN_BASE);
-    int *pca_9685_hertz = (int *) config_get(CONF_PCA_9685_HERTZ);
+    unsigned int *pca_9685_pin_base = (unsigned int *) config_get(CONF_PCA_9685_PIN_BASE);
+    unsigned int *pca_9685_hertz = (unsigned int *) config_get(CONF_PCA_9685_HERTZ);
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
 
     pca_9685_fd = pca9685Setup(*pca_9685_pin_base, 0x40, *pca_9685_hertz);
     if (pca_9685_fd < 0)
         APP_ERROR("Could not get PCA-9685 file descriptor.", 1);
     pca9685PWMReset(pca_9685_fd);
 
-    int error = pthread_create(&robot_thread, NULL, robot_main, NULL);
-    if (error)
-        APP_ERROR("Could not initialize robot thread.", error);
-
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
-
-    servo = calloc(*servos_num, sizeof(float));
+    servo = calloc(*servos_num, sizeof(double));
     if (!servo)
         APP_ERROR("Could not allocate memory.", 1);
 
-    ServoLimit *servo_limits_conf = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
-
-    servo_limits = calloc(*servos_num, sizeof(ServoLimit));
-    if (!servo_limits)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    for (int i = 0; i < *servos_num; i++)
-    {
-        servo_limits[i].min = servo_limits_conf[i].min;
-        servo_limits[i].max = servo_limits_conf[i].max;
-    }
+    error = pthread_create(&robot_thread, NULL, robot_main, NULL);
+    if (error)
+        APP_ERROR("Could not initialize robot thread.", error);
 }
 
 void robot_halt()
 {   
     robot_reset();
-
     robot_destroy();
-
     running = false;
-    int error = pthread_join(robot_thread, NULL);
+
+    error = pthread_join(robot_thread, NULL);
     if (error)
         log_error("Could not rejoin from robot thread.", error);
 
@@ -96,24 +80,20 @@ void robot_halt()
 
 void robot_reset()
 {
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    if (!servo)
+        return;
 
-    for (int i = 0; i < *servos_num; i++)
-        servo[i] = 0.0f; 
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+    for (unsigned short i = 0; i < *servos_num; i++)
+        servo[i] = 0.0; 
 }
 
-void robot_setservo(int pin, float val)
+void robot_setservo(unsigned short pin, double val)
 {
     servo[pin] = val;
 }
 
-void robot_set_servo_limit(int pin, int min, int max)
-{
-    servo_limits[pin].min = min;
-    servo_limits[pin].max = max;
-}
-
-float robot_getservo(int pin)
+double robot_getservo(unsigned short pin)
 {
     return servo[pin];
 }
@@ -125,11 +105,11 @@ static void *robot_main(void *arg)
     struct timespec time;
     struct timespec last_time;
 
-    double tick = 0.0f;
+    double tick = 0.0;
     double diff;
     
-    float *robot_tick = (float *) config_get(CONF_ROBOT_TICK);
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    double *robot_tick = (double *) config_get(CONF_ROBOT_TICK);
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
 
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
@@ -143,33 +123,33 @@ static void *robot_main(void *arg)
         if (tick < *robot_tick)
             continue;
 
-        tick = 0.0f;
+        tick = 0.0;
 
-        for (int i = 0; i < *servos_num; i++)
+        for (unsigned short i = 0; i < *servos_num; i++)
             robot_mvjoint(i, servo[i]); 
     }
 
     return (void *) NULL;
 }
 
-static void robot_mvjoint(int joint, float val)
+static void robot_mvjoint(unsigned short joint, double val)
 {
     val = robot_jointinv(joint) ? -val : val;
 
-    int *pin_data = (int *) config_get(CONF_SERVO_PINS);
-    int pin = pin_data[joint];
+    unsigned short *pin_data = (unsigned short *) config_get(CONF_SERVO_PINS);
+    unsigned short pin = pin_data[joint];
 
-    ServoLimit *servo_limit = &servo_limits[joint];
+    ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
-    int mapped_val = robot_mapsrv(val, servo_limit->min, servo_limit->max);
+    unsigned short mapped_val = robot_mapsrv(val, &(servo_limits[joint]));
 
-    int *pca_9685_pin_base = (int *) config_get(CONF_PCA_9685_PIN_BASE);
+    unsigned int *pca_9685_pin_base = (unsigned int *) config_get(CONF_PCA_9685_PIN_BASE);
     pin += *pca_9685_pin_base;
 
     pwmWrite(pin, mapped_val);
 }
 
-static bool robot_jointinv(int joint)
+static bool robot_jointinv(unsigned short joint)
 {
     if (joint == SERVO_INDEX_FRONT_LEFT_KNEE ||
         joint == SERVO_INDEX_FRONT_LEFT_HIP ||
@@ -180,34 +160,32 @@ static bool robot_jointinv(int joint)
     return false;
 }
 
-static int robot_mapsrv(float val, int min, int max)
+static unsigned short robot_mapsrv(double val, ServoLimit *servo_limit)
 {
-    if (min >= max)
-        return -1;
+    if (servo_limit->min >= servo_limit->max)
+        return 0.0;
 
-    if (val > 1.0f)
-        val = 1.0f;
-    if (val < -1.0f)
-        val = -1.0f;
+    if (val > 1.0)
+        val = 1.0;
+    if (val < -1.0)
+        val = -1.0;
 
-    float abs = fabs(val);
-    int half = (max - min) / 2;
-    int midway = min + half;
-    int diff = half * abs;
+    double val_abs = fabs(val);
+    double half = (servo_limit->max - servo_limit->min) / 2.0;
+    double midway = (double) servo_limit->min + half;
+    double diff = half * val_abs;
 
-    if (val < 0)
-        return midway - diff;
+    if (val < 0.0)
+        return (unsigned short) round(midway - diff);
     
-    return midway + diff;
+    return (unsigned short) round(midway + diff);
 }
 
 static void robot_destroy()
 {
-    if (servo_limits)
-        free(servo_limits);
-
     if (servo)
         free(servo);
+    servo = NULL;
 }
 
 #endif

@@ -8,27 +8,29 @@
  Author:        Matt Mumau
  */
 
+#include <stdbool.h>
+
 #include "keyframe_handler.h"
 
 /* Get keyframe for resetting the robot to the home position. */
-Keyframe *keyfactory_reset(void *data, bool reverse);
+bool keyfactory_reset(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Adds a delay keyframe, which bypasses servo movement for the given duration. */
-Keyframe *keyfactory_delay(void *data, bool reverse);
+bool keyfactory_delay(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Get keyframe to move all the robot's knees to the fully extended position. */
-Keyframe *keyfactory_elevate(void *data, bool reverse);
+bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Get a keyframe for extending or retracting the hip servos. */
-Keyframe *keyfactory_extend(void *data, bool reverse);
+bool keyfactory_extend(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Get keyframe to add a walk animation. */
-Keyframe *keyfactory_walk(void *data, bool reverse);
-
-/* Get a keyframe for a transition between the src and dest ServoPos objects. */
-Keyframe *keyfactory_transition(KeyframeTransData trans_data);
+bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Get a single segment of a turn animation (one leg). */
-Keyframe *keyfactory_turnsegment(void *data, bool reverse);
+bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool reverse);
+
+/* Get a keyframe for a transition between the src and dest ServoPos objects. */
+bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe *dest);
 
 #endif

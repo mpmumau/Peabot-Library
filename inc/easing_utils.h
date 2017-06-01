@@ -53,6 +53,6 @@
 #define EASE_BOUNCE_OUT 29
 #define EASE_BOUNCE_INOUT 30
 
-float easing_calc(int easing_type, AHFloat p);
+float easing_calc(unsigned short easing_type, AHFloat p);
 
 #endif

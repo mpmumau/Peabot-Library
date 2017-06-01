@@ -12,45 +12,45 @@
 #include "robot.h"
 
 enum ConfigFlag {
-    CONF_LOG_FILE_DIR            = 1 << 0,
-    CONF_LOG_FILENAME            = 1 << 1,
-    CONF_LOG_FULLPATH            = 1 << 2,
+    CONF_LOG_FILE_DIR,
+    CONF_LOG_FILENAME,
+    CONF_LOG_FULLPATH,
 
-    CONF_CONFIG_FILE             = 1 << 3,
+    CONF_CONFIG_FILE,
 
-    CONF_LOG_STDIN               = 1 << 4,
-    CONF_LOG_PROMPT_COMMANDS     = 1 << 5,
-    CONF_LOG_EVENT_ADD           = 1 << 6,
-    CONF_LOG_EVENT_CALLBACKS     = 1 << 7,
-    CONF_LOG_KEYFRAMES           = 1 << 8,
+    CONF_LOG_STDIN,
+    CONF_LOG_PROMPT_COMMANDS,
+    CONF_LOG_EVENT_ADD,
+    CONF_LOG_EVENT_CALLBACKS,
+    CONF_LOG_KEYFRAMES,
 
-    CONF_PCA_9685_PIN_BASE       = 1 << 9,
-    CONF_PCA_9685_MAX_PWM        = 1 << 10,
-    CONF_PCA_9685_HERTZ          = 1 << 11,
+    CONF_PCA_9685_PIN_BASE,
+    CONF_PCA_9685_MAX_PWM,
+    CONF_PCA_9685_HERTZ,
 
-    CONF_SERVOS_NUM              = 1 << 12,
-    CONF_ROBOT_TICK              = 1 << 13,
-    CONF_TRANSITIONS_ENABLE      = 1 << 14,
-    CONF_TRANSITIONS_TIME        = 1 << 15,
-    CONF_SERVO_PINS              = 1 << 16,
-    CONF_SERVO_LIMITS            = 1 << 17,
+    CONF_SERVOS_NUM,
+    CONF_ROBOT_TICK,
+    CONF_TRANSITIONS_ENABLE,
+    CONF_TRANSITIONS_TIME,
+    CONF_SERVO_PINS,
+    CONF_SERVO_LIMITS,
 
-    CONF_WALK_HIP_DELTA          = 1 << 18,
-    CONF_WALK_KNEE_DELTA         = 1 << 19,
-    CONF_WALK_KNEE_PAD_A         = 1 << 20,
-    CONF_WALK_KNEE_PAD_B         = 1 << 21,
+    CONF_WALK_HIP_DELTA,
+    CONF_WALK_KNEE_DELTA,
+    CONF_WALK_KNEE_PAD_A,
+    CONF_WALK_KNEE_PAD_B,
 
-    CONF_HTTP_ENABLED            = 1 << 22,
-    CONF_HTTP_PORT               = 1 << 23
+    CONF_HTTP_ENABLED,
+    CONF_HTTP_PORT
 };
 
 /* Config data struct */
 typedef struct Config {
-    char *log_file_dir;
-    char *log_filename;
-    char *log_fullpath;
+    const char *log_file_dir;
+    const char *log_filename;
+    const char *log_fullpath;
 
-    char *config_file;
+    const char *config_file;
 
     bool log_stdin;
     bool log_prompt_commands;
@@ -58,35 +58,36 @@ typedef struct Config {
     bool log_event_callbacks;
     bool log_keyframes;
 
-    int pca_9685_pin_base;
-    int pca_9685_max_pwm;
-    int pca_9685_hertz;
+    unsigned int pca_9685_pin_base;
+    unsigned int pca_9685_max_pwm;
+    unsigned int pca_9685_hertz;
 
-    int servos_num;
-    float robot_tick;
+    unsigned short servos_num;
+    double robot_tick;
     bool transitions_enable;
-    float transition_time;
-    int *servo_pins;
+    double transition_time;
+    
+    unsigned short *servo_pins;
     ServoLimit *servo_limits;
 
-    float walk_hip_delta;
-    float walk_knee_delta;
-    float walk_knee_pad_a;
-    float walk_knee_pad_b;
+    double walk_hip_delta;
+    double walk_knee_delta;
+    double walk_knee_pad_a;
+    double walk_knee_pad_b;
 
     bool http_enabled;
-    int http_port;
+    unsigned short http_port;
 } Config;
 
 typedef struct ServoPinData {
-    int id;
-    int val;
+    unsigned short id;
+    unsigned short val;
 } ServoPinData;
 
 typedef struct ServoLimitData {
-    int id;
-    int min;
-    int max;
+    unsigned short id;
+    unsigned short min;
+    unsigned short max;
 } ServoLimitData;
 
 /* Initialize the application configuration, setting all variables. */
@@ -96,12 +97,12 @@ void config_init(int argc, char *argv[]);
 void config_destroy();
 
 /* Set the variable correlating the identifier (a value from the ConfigFlag enum) to a data object. */ 
-void config_set(int config_var, void *data, bool is_string);
+void config_set(unsigned short config_var, void *data, bool is_string);
 
 /* Return a generic data object representing the value of the given configuration var identifier. */
-void *config_get(int config_var);
+void *config_get(unsigned short config_var);
 
 /* Get the integer value of a servo index from a string. */
-int config_str_to_servo_index(char *str);
+unsigned short config_str_to_servo_index(const char *str);
 
 #endif

@@ -22,19 +22,19 @@
 
 void configset_log_file_dir(Config *config, void *data, bool is_string)
 {
-    config->log_file_dir = (char *) data;
+    config->log_file_dir = (const char *) data;
     return;
 }
 
 void configset_log_filename(Config *config, void *data, bool is_string)
 {
-    config->log_filename = (char *) data;
+    config->log_filename = (const char *) data;
     return;
 }
 
 void configset_log_configfile(Config *config, void *data, bool is_string)
 {
-    config->config_file = (char *) data;
+    config->config_file = (const char *) data;
     return;
 }
 
@@ -43,9 +43,7 @@ void configset_log_stdin(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -61,9 +59,7 @@ void configset_log_prompt_commands(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -79,9 +75,7 @@ void configset_log_event_add(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -97,9 +91,7 @@ void configset_log_event_callbacks(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -115,9 +107,7 @@ void configset_log_keyframes(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -130,15 +120,13 @@ void configset_log_keyframes(Config *config, void *data, bool is_string)
 
 void configset_pca_9685_pin_base(Config *config, void *data, bool is_string) 
 {
-    int val;
+    unsigned int val;
 
     if (is_string)
-    {
-        val = (int) atoi((char *) data);
-    }
+        val = (unsigned int) atoi((const char *) data);
     else
     {
-        int *data_p = (int *) data;
+        unsigned int *data_p = (unsigned int *) data;
         val = *data_p;
     }
 
@@ -148,15 +136,13 @@ void configset_pca_9685_pin_base(Config *config, void *data, bool is_string)
 
 void configset_pca_9685_max_pwm(Config *config, void *data, bool is_string)
 {
-    int val;
+    unsigned int val;
 
     if (is_string)
-    {
-        val = (int) atoi((char *) data);
-    }
+        val = (unsigned int) atoi((const char *) data);
     else
     {
-        int *data_p = (int *) data;
+        unsigned int *data_p = (unsigned int *) data;
         val = *data_p;
     }
 
@@ -166,15 +152,15 @@ void configset_pca_9685_max_pwm(Config *config, void *data, bool is_string)
 
 void configset_pca_9685_hertz(Config *config, void *data, bool is_string)
 {
-    int val;
+    unsigned int val;
 
     if (is_string)
     {
-        val = (int) atoi((char *) data);
+        val = (unsigned int) atoi((const char *) data);
     }
     else
     {
-        int *data_p = (int *) data;
+        unsigned int *data_p = (unsigned int *) data;
         val = *data_p;
     }
 
@@ -184,15 +170,13 @@ void configset_pca_9685_hertz(Config *config, void *data, bool is_string)
 
 void configset_servos_num(Config *config, void *data, bool is_string)
 {
-    int val;
+    unsigned short val;
 
     if (is_string)
-    {
-        val = (int) atoi((char *) data);
-    }
+        val = (unsigned short) atoi((const char *) data);
     else
     {
-        int *data_p = (int *) data;
+        unsigned short *data_p = (unsigned short *) data;
         val = *data_p;
     }
 
@@ -202,15 +186,13 @@ void configset_servos_num(Config *config, void *data, bool is_string)
 
 void configset_robot_tick(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 
@@ -223,9 +205,7 @@ void configset_transitions_enable(Config *config, void *data, bool is_string)
     bool val;
 
     if (is_string)
-    {
-        val = str_equals((char *) data, "true") ? true : false;
-    }
+        val = str_equals((const char *) data, "true") ? true : false;
     else
     {
         bool *data_p = (bool *) data;
@@ -238,15 +218,13 @@ void configset_transitions_enable(Config *config, void *data, bool is_string)
 
 void configset_transition_time(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 
@@ -256,15 +234,13 @@ void configset_transition_time(Config *config, void *data, bool is_string)
 
 void configset_walk_hip_delta(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 
@@ -274,15 +250,13 @@ void configset_walk_hip_delta(Config *config, void *data, bool is_string)
 
 void configset_walk_knee_delta(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 
@@ -292,15 +266,13 @@ void configset_walk_knee_delta(Config *config, void *data, bool is_string)
 
 void configset_walk_knee_pad_a(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 
@@ -310,15 +282,13 @@ void configset_walk_knee_pad_a(Config *config, void *data, bool is_string)
 
 void configset_walk_knee_pad_b(Config *config, void *data, bool is_string)
 {
-    float val;
+    double val;
 
     if (is_string)
-    {
-        val = (float) atof((char *) data);
-    }
+        val = (double) atof((const char *) data);
     else
     {
-        float *data_p = (float *) data;
+        double *data_p = (double *) data;
         val = *data_p;
     }
 

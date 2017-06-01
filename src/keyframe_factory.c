@@ -11,6 +11,7 @@
 /* System includes */
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 /* Application includes */
 #include "main.h"
@@ -24,248 +25,152 @@
 #include "keyframe_factory.h"
 
 /* Forward decs */
-static bool servopos_matches(ServoPos *src, ServoPos *dest);
+static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len);
+static unsigned short get_knee_from_leg(unsigned short leg);
 
-Keyframe *keyfactory_reset(void *data, bool reverse)
+bool keyfactory_reset(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    for (unsigned short i = 0; i < len; i++)
+        keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    if (!servo_pos)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    for (int i = 0; i < *servos_num; i++)
-    {
-        servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
-    }
-
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    keyfr->servo_pos = servo_pos;
-
-    return keyfr;
+    return true;
 }
 
-Keyframe *keyfactory_delay(void *data, bool reverse)
+bool keyfactory_delay(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    float *duration = (float *) data;
+    if (!data)
+        return false;
 
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
+    double *duration = (double *) data;
     keyfr->duration = *duration;
+
     keyfr->is_delay = true;
 
-    return keyfr;
+    return true;
 }
 
-Keyframe *keyfactory_elevate(void *data, bool reverse)
+bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    float *duration = (float *) data;
-    float mod = reverse ? -1.0f : 1.0f;
+    if (!data)
+        return false;
 
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    double *duration = (double *) data;
+    keyfr->duration = *duration;
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    if (!servo_pos)
-        APP_ERROR("Could not allocate memory.", 1);
+    double mod = reverse ? -1.0 : 1.0;
 
-    float start_pos = -1.0f * mod;
-    float end_pos = 1.0f * mod;
-
-    for (int i = 0; i < *servos_num; i++)
+    for (unsigned short i = 0; i < len; i++)
     {
         if (i == SERVO_INDEX_BACK_RIGHT_KNEE || 
             i == SERVO_INDEX_BACK_LEFT_KNEE || 
             i == SERVO_INDEX_FRONT_RIGHT_KNEE || 
             i == SERVO_INDEX_FRONT_LEFT_KNEE)
 
-            servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
         else
-            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
     }
 
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    keyfr->duration = *duration;
-    keyfr->servo_pos = servo_pos;
-
-    return keyfr;
+    return true;
 }
 
-Keyframe *keyfactory_extend(void *data, bool reverse)
+bool keyfactory_extend(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    float *duration = (float *) data;
-    float mod = reverse ? -1.0f : 1.0f;
+    if (!data)
+        return false;
 
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    double *duration = (double *) data;
+    keyfr->duration = *duration;
+    
+    double mod = reverse ? -1.0 : 1.0;
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    if (!servo_pos)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    float start_pos = -1.0f * mod;
-    float end_pos = 1.0f * mod;
-
-    for (int i = 0; i < *servos_num; i++)
+    for (unsigned short i = 0; i < len; i++)
     {
         if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
             i == SERVO_INDEX_BACK_LEFT_HIP || 
             i == SERVO_INDEX_FRONT_RIGHT_HIP || 
             i == SERVO_INDEX_FRONT_LEFT_HIP)
 
-            servo_pos[i] = (ServoPos) { EASE_SINE_IN, start_pos, end_pos, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
         else
-            servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
     }
 
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    keyfr->duration = *duration;
-    keyfr->servo_pos = servo_pos;
-
-    return keyfr;
+    return true;
 }
 
-Keyframe *keyfactory_walk(void *data, bool reverse)
+bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
+    if (!data)
+        return false;
+
     static bool is_inverted = true;
 
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
+    double *duration = (double *) data;
+    keyfr->duration = *duration;
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    if (!servo_pos)
-        APP_ERROR("Could not allocate memory.", 1);
+    double *knee_delta = (double *) config_get(CONF_WALK_KNEE_DELTA);
+    double *hip_delta = (double *) config_get(CONF_WALK_HIP_DELTA);
+    double *knee_pad_a = (double *) config_get(CONF_WALK_KNEE_PAD_A);
+    double *knee_pad_b = (double *) config_get(CONF_WALK_KNEE_PAD_B);
 
-    float *duration = (float *) data;
+    double knee_pad_ax = is_inverted ? *knee_pad_a : *knee_pad_b;
+    double knee_pad_bx = is_inverted ? *knee_pad_b : *knee_pad_a;
 
-    float *knee_delta = (float *) config_get(CONF_WALK_KNEE_DELTA);
-    float *hip_delta = (float *) config_get(CONF_WALK_HIP_DELTA);
+    unsigned short ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
+    unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
-    float *knee_pad_a = (float *) config_get(CONF_WALK_KNEE_PAD_A);
-    float *knee_pad_b = (float *) config_get(CONF_WALK_KNEE_PAD_B);
+    double knee_bottom = 0.8;
 
-    float knee_pad_ax = is_inverted ? *knee_pad_a : *knee_pad_b;
-    float knee_pad_bx = is_inverted ? *knee_pad_b : *knee_pad_a;
-
-    int ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
-    int ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
-
-    float knee_bottom = 0.8f;
-
-    float mod = is_inverted ? -1.0f : 1.0f;
+    double mod = is_inverted ? -1.0 : 1.0;
 
     mod *= reverse ? -1.0 : 1.0;
 
-    for (int i = 0; i < *servos_num; i++)
+    for (unsigned short i = 0; i < len; i++)
     {
-        servo_pos[i] = (ServoPos) { -1, 0.0f, 0.0f, 0.0f, 0.0f };
+        keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
 
         if (i == SERVO_INDEX_BACK_LEFT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
-            servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? ease_out : ease_in, *hip_delta * mod, -(*hip_delta) * mod, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? ease_out : ease_in, *hip_delta * mod, -(*hip_delta) * mod, 0.0, 0.0 };
 
         if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
-            servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta) * mod, *hip_delta * mod, 0.0f, 0.0f };
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta) * mod, *hip_delta * mod, 0.0, 0.0 };
 
         if (!is_inverted)
         {
             if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_bx, 0.0f };
-
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_bx, 0.0 };
             if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_ax, 0.0f };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_ax, 0.0 };
         }
         else
         {
             if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_bx, 0.0f };
-
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_bx, 0.0 };
             if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_ax, 0.0f };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_ax, 0.0 };
         }
     }
 
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    keyfr->duration = *duration;
-    keyfr->servo_pos = servo_pos;
-
     is_inverted = !is_inverted;
 
-    return keyfr;
+    return true;
 }
 
-Keyframe *keyfactory_transition(KeyframeTransData trans_data)
-{
-    ServoPos *src = trans_data.src;
-    ServoPos *dest = trans_data.dest;
-    float duration = trans_data.duration;
-
-    if (src == NULL || dest == NULL)
-        return NULL;
-
-    if (servopos_matches(src, dest))
-        return NULL;
-
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
-
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-    if (!servo_pos)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    for (int i = 0; i < *servos_num; i++)
-    {
-        servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->end_pos, dest->start_pos, 0.0f, 0.0f };
-        src++;
-        dest++;
-    }
-
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-
-    keyfr->duration = duration;
-    keyfr->servo_pos = servo_pos;
-    
-    return keyfr; 
-}
-
-Keyframe *keyfactory_turnsegment(void *data, bool reverse)
+bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
     if (!data)
-        return NULL;
+        return false;
 
-    static int leg = SERVO_INDEX_FRONT_RIGHT_HIP;
-    int knee;
+    double *duration = (double *) data;
+    keyfr->duration = *duration;
+
+    static unsigned short leg = SERVO_INDEX_FRONT_RIGHT_HIP;
     static bool legs_complete[4];
+    unsigned short knee = get_knee_from_leg(leg);
     
-    switch (leg)
-    {
-        case SERVO_INDEX_FRONT_RIGHT_HIP:
-            knee = SERVO_INDEX_FRONT_RIGHT_KNEE;
-            break;
-        case SERVO_INDEX_BACK_RIGHT_HIP:
-            knee = SERVO_INDEX_BACK_RIGHT_KNEE;
-            break;
-        case SERVO_INDEX_FRONT_LEFT_HIP:
-            knee = SERVO_INDEX_FRONT_LEFT_KNEE;
-            break;
-        case SERVO_INDEX_BACK_LEFT_HIP:
-            knee = SERVO_INDEX_BACK_LEFT_KNEE;
-            break;
-    }
-
     bool all_complete = true;
-    for (int x = 0; x < 4; x++)
+    for (unsigned short x = 0; x < 4; x++)
     {
         if (legs_complete[x] == false)
         {
@@ -276,24 +181,19 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
 
     if (all_complete)
     {
-        for (int e = 0; e < 4; e++)
+        for (unsigned short e = 0; e < 4; e++)
         {
             legs_complete[e] = false;
         }
         leg = SERVO_INDEX_FRONT_LEFT_HIP;
     }
 
-    float *duration = (float *) data;
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
-
     double turn_delta = 0.9 * (reverse ? -1.0 : 1.0);
     double knee_delta = 0.4;
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
-
     if (!all_complete)
     {
-        for (int i = 0; i < *servos_num; i++)
+        for (int i = 0; i < len; i++)
         {
             if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
                 i == SERVO_INDEX_FRONT_RIGHT_HIP ||
@@ -302,16 +202,11 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             {
                 if (i == leg)
                 {
+                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0, 0.0 };
                     if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
-                    {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, -turn_delta, 0.0, 0.0 };    
-                    }
+                        keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, -turn_delta, 0.0, 0.0 };    
                     else 
-                    {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, turn_delta, 0.0, 0.0 }; 
-                    }
-
-                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0, 0.0 }; 
+                        keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, turn_delta, 0.0, 0.0 }; 
                 }
                 else
                 {
@@ -319,27 +214,27 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
                     {
                         case SERVO_INDEX_FRONT_RIGHT_HIP:
                             if (legs_complete[0] == true)
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0, 0.0 };
                             else
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
-                            break;
-                        case SERVO_INDEX_BACK_RIGHT_HIP:
-                            if (legs_complete[1] == true)
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, -turn_delta, 0.0f, 0.0f };
-                            else
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
-                            break;
-                        case SERVO_INDEX_FRONT_LEFT_HIP:
-                            if (legs_complete[2] == true)
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, -turn_delta, 0.0f, 0.0f };
-                            else
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, 0.0, 0.0, 0.0 };    
                             break;
                         case SERVO_INDEX_BACK_LEFT_HIP:
                             if (legs_complete[3] == true)
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0f, 0.0f };
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, turn_delta, 0.0, 0.0 };
                             else
-                                servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0f, 0.0f, 0.0f };    
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0f, 0.0, 0.0, 0.0 };    
+                            break;
+                        case SERVO_INDEX_BACK_RIGHT_HIP:
+                            if (legs_complete[1] == true)
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, -turn_delta, 0.0, 0.0 };
+                            else
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, 0.0, 0.0, 0.0 };    
+                            break;
+                        case SERVO_INDEX_FRONT_LEFT_HIP:
+                            if (legs_complete[2] == true)
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, -turn_delta, 0.0, 0.0 };
+                            else
+                                keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, 0.0, 0.0, 0.0 };    
                             break;
                     }
                 }
@@ -348,14 +243,14 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             {
                 if (i != knee)
                 {
-                    servo_pos[i] = (ServoPos) { -1, 1.0f, 1.0f, 0.0f, 0.0f };
+                    keyfr->servo_pos[i] = (ServoPos) { -1, 1.0, 1.0, 0.0, 0.0 };
                 }
             }       
         }
     }   
     else
     {
-        for (int i = 0; i < *servos_num; i++)
+        for (unsigned int i = 0; i < len; i++)
         {
             if (i == SERVO_INDEX_BACK_RIGHT_HIP || 
                 i == SERVO_INDEX_FRONT_RIGHT_HIP ||
@@ -364,16 +259,16 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             {
                     if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
                     {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, 0.0f, 0.0f, 0.0f };    
+                        keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -turn_delta, 0.0, 0.0, 0.0 };    
                     }
                     else 
                     {
-                        servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, 0.0f, 0.0f, 0.0f }; 
+                        keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, turn_delta, 0.0, 0.0, 0.0 }; 
                     }
             }
             else
             {
-                servo_pos[i] = (ServoPos) { -1, 1.0f, 1.0f, 0.0f, 0.0f };
+                servo_pos[i] = (ServoPos) { -1, 1.0, 1.0, 0.0, 0.0 };
             }            
         }
     }
@@ -396,12 +291,6 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
                 break;
         }
     }    
-
-    Keyframe *keyfr = calloc(1, sizeof(Keyframe));
-    if (!keyfr)
-        APP_ERROR("Could not allocate memory.", 1);
-    keyfr->servo_pos = servo_pos;
-    keyfr->duration = *duration;
 
     switch(leg)
     {
@@ -431,35 +320,54 @@ Keyframe *keyfactory_turnsegment(void *data, bool reverse)
             break;
     }    
 
-    return keyfr;
+    return true;
 }
 
-static bool servopos_matches(ServoPos *src, ServoPos *dest)
+bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe *dest)
 {
     if (src == NULL || dest == NULL)
+        return false;
+
+    if (servopos_matches(src->servo_pos, dest->servo_pos, len))
+        return false;
+
+    for (unsigned short i = 0; i < len; i++)
     {
-        if (src == NULL && dest == NULL)
-            return true;
-        else
-            return false;
+        keyfr->servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->servo_pos[i]->end_pos, dest->servo_pos[i]->start_pos, 0.0, 0.0 };
     }
+    
+    return true; 
+}
 
-    bool matches = true;
-    int *servos_num = (int *) config_get(CONF_SERVOS_NUM);    
-
-    for (int i = 0; i < *servos_num; i++) 
+static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len)
+{
+    for (unsigned short i = 0; i < len; i++) 
     {
         if (src->end_pos != dest->start_pos)
-        {
-            matches = false;
-            break;   
-        }
+            return false;  
 
         src++;
         dest++;
     }
 
-    return matches;
+    return true;
+}
+
+static unsigned short get_knee_from_leg(unsigned short leg)
+{
+    switch (leg)
+    {
+        case SERVO_INDEX_FRONT_RIGHT_HIP:
+            return SERVO_INDEX_FRONT_RIGHT_KNEE;
+        case SERVO_INDEX_BACK_RIGHT_HIP:
+            return SERVO_INDEX_BACK_RIGHT_KNEE;
+        case SERVO_INDEX_FRONT_LEFT_HIP:
+            return SERVO_INDEX_FRONT_LEFT_KNEE;
+        case SERVO_INDEX_BACK_LEFT_HIP:
+            return SERVO_INDEX_BACK_LEFT_KNEE;
+        default:
+            return -1;
+    }
 }
 
 #endif

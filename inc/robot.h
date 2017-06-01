@@ -9,8 +9,8 @@
  */
 
 typedef struct ServoLimit {
-    int min;
-    int max;
+    unsigned short min;
+    unsigned short max;
 } ServoLimit;
 
 /* Initialize the robot device and its resources, and begin its loop. */
@@ -23,12 +23,9 @@ void robot_halt();
 void robot_reset();
 
 /* Set the value of the servo at the given pin; will be mapped between -1.0 and 1.0 */
-void robot_setservo(int pin, float val);
+void robot_setservo(unsigned short pin, double val);
 
 /* Return the current value of a given servo. */
-float robot_getservo(int pin);
-
-/* Sets the min and max servo ranges for the pin. */
-void robot_set_servo_limit(int pin, int min, int max);
+double robot_getservo(unsigned short pin);
 
 #endif

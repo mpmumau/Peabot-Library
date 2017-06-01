@@ -31,6 +31,8 @@
 /* Forward decs */
 static void config_set_defaults();
 static char *config_default_log_filename();
+static void config_default_servo_pin_data();
+static void config_default_servo_limit_data();
 
 static Config config;
 
@@ -40,7 +42,7 @@ void config_init(int argc, char *argv[])
 
     configstdin_pipe(argc, argv);
 
-    char *config_file = (char *) config_get(CONF_CONFIG_FILE);
+    const char *config_file = (const char *) config_get(CONF_CONFIG_FILE);
     if (config_file)
         configfile_process(config_file);
 }
@@ -60,7 +62,7 @@ void config_destroy()
         free(config.servo_limits);
 }
 
-void config_set(int config_var, void *data, bool is_string)
+void config_set(unsigned short config_var, void *data, bool is_string)
 {
     void (*config_set_callback)(Config *config, void *data, bool is_string);
     config_set_callback = NULL;
@@ -223,7 +225,7 @@ void *config_get(int config_var)
     return ret_val;
 }
 
-int config_str_to_servo_index(char *str)
+unsigned short config_str_to_servo_index(const char *str)
 {
     if (str_starts(str, "back_left_knee"))
         return SERVO_INDEX_BACK_LEFT_KNEE;
@@ -254,10 +256,10 @@ int config_str_to_servo_index(char *str)
 
 static void config_set_defaults()
 {
-    char *log_file_dir = DEFAULT_LOG_DIR;
+    const char *log_file_dir = DEFAULT_LOG_DIR;
     config_set(CONF_LOG_FILE_DIR, (void *) log_file_dir, false);
     
-    char *log_filename = config_default_log_filename();
+    const char *log_filename = config_default_log_filename();
     config_set(CONF_LOG_FILENAME, (void *) log_filename, false);
 
     int full_path_size = strlen(config.log_file_dir) + strlen(config.log_filename) + 1;
@@ -285,57 +287,65 @@ static void config_set_defaults()
     bool log_keyframes = DEFAULT_LOG_KEYFRAMES;
     config_set(CONF_LOG_KEYFRAMES, (void *) &log_keyframes, false);
 
-    int pca_9685_pin_base = DEFAULT_PCA_9685_PIN_BASE;
+    unsigned int pca_9685_pin_base = DEFAULT_PCA_9685_PIN_BASE;
     config_set(CONF_PCA_9685_PIN_BASE, (void *) &pca_9685_pin_base, false);
 
-    int pca_9685_max_pwm = DEFAULT_PCA_9685_MAX_PWM;
+    unsigned int pca_9685_max_pwm = DEFAULT_PCA_9685_MAX_PWM;
     config_set(CONF_PCA_9685_MAX_PWM, (void *) &pca_9685_max_pwm, false);
 
-    int pca_9685_hertz = DEFAULT_PCA_9685_HERTZ;
+    unsigned int pca_9685_hertz = DEFAULT_PCA_9685_HERTZ;
     config_set(CONF_PCA_9685_HERTZ, (void *) &pca_9685_hertz, false);
 
-    int servos_num = DEFAULT_SERVOS_NUM;
+    unsigned short servos_num = DEFAULT_SERVOS_NUM;
     config_set(CONF_SERVOS_NUM, (void *) &servos_num, false);
 
-    float robot_tick = DEFAULT_ROBOT_TICK;
+    double robot_tick = DEFAULT_ROBOT_TICK;
     config_set(CONF_ROBOT_TICK, (void *) &robot_tick, false);
 
     bool transitions_enable = DEFAULT_TRANSITIONS_ENABLE;
     config_set(CONF_TRANSITIONS_ENABLE, (void *) &transitions_enable, false);
 
-    float transitions_time = DEFAULT_KEYFRAME_TRANSITION_TIME;
+    double transitions_time = DEFAULT_KEYFRAME_TRANSITION_TIME;
     config_set(CONF_TRANSITIONS_TIME, (void *) &transitions_time, false);
 
-    float walk_hip_delta = DEFAULT_HIP_DELTA;
+    double walk_hip_delta = DEFAULT_HIP_DELTA;
     config_set(CONF_WALK_HIP_DELTA, (void *) &walk_hip_delta, false);
 
-    float walk_knee_delta = DEFAULT_KNEE_DELTA;
+    double walk_knee_delta = DEFAULT_KNEE_DELTA;
     config_set(CONF_WALK_KNEE_DELTA, (void *) &walk_knee_delta, false);
 
-    float walk_knee_pad_a = DEFAULT_KNEE_PAD_A;
+    double walk_knee_pad_a = DEFAULT_KNEE_PAD_A;
     config_set(CONF_WALK_KNEE_PAD_A, (void *) &walk_knee_pad_a, false);
 
-    float walk_knee_pad_b = DEFAULT_KNEE_PAD_B;
+    double walk_knee_pad_b = DEFAULT_KNEE_PAD_B;
     config_set(CONF_WALK_KNEE_PAD_B, (void *) &walk_knee_pad_b, false);
 
     bool http_enabled = DEFAULT_HTTP_ENABLED;
     config_set(CONF_HTTP_ENABLED, (void *) &http_enabled, false);
 
-    int http_port = DEFAULT_HTTP_PORT;
+    unsigned short http_port = DEFAULT_HTTP_PORT;
     config_set(CONF_HTTP_PORT, (void *) &http_port, false);
 
     // Do these after processing other configs; dependent upon them.
-    config.servo_pins = calloc(config.servos_num, sizeof(int));
+    config.servo_pins = calloc(config.servos_num, sizeof(unsigned short));
     if (!config.servo_pins)
         APP_ERROR("Unable to allocate memory.", 1);
 
-    ServoPinData servo_pin_data;
-    int num;
-    
-    for (int i = 0; i < config.servos_num; i++)
-    {  
-        num = -1;
+    config_default_servo_pin_data();
 
+    config.servo_limits = calloc(config.servos_num, sizeof(ServoLimit));
+    if (!config.servo_pins)
+        APP_ERROR("Unable to allocate memory.", 1);
+    config_default_servo_limit_data();
+}
+
+static void config_default_servo_pin_data()
+{
+    ServoPinData servo_pin_data;
+    unsigned short num;
+    
+    for (unsigned short i = 0; i < config.servos_num; i++)
+    {  
         switch (i)
         {
             case SERVO_INDEX_BACK_LEFT_KNEE:
@@ -366,28 +376,24 @@ static void config_set_defaults()
                 continue;       
         }
 
-        if (num < 0)
-            continue;
-
         servo_pin_data.id = i;
         servo_pin_data.val = num;
         config_set(CONF_SERVO_PINS, (void *) &servo_pin_data, false);
-    }
+    }    
+}
 
-    config.servo_limits = calloc(config.servos_num, sizeof(ServoLimit));
-    if (!config.servo_pins)
-        APP_ERROR("Unable to allocate memory.", 1);
-
+static void config_default_servo_limit_data()
+{    
     ServoLimitData servo_limit_data;
 
-    for (int j = 0; j < config.servos_num; j++)
+    for (unsigned short j = 0; j < config.servos_num; j++)
     {
         servo_limit_data.id = j;
-        servo_limit_data.min = DEFAULT_SERVO_DEFAULT_MIN;
-        servo_limit_data.max = DEFAULT_SERVO_DEFAULT_MAX;
+        servo_limit_data.min = DEFAULT_SERVO_MIN;
+        servo_limit_data.max = DEFAULT_SERVO_MAX;
 
         config_set(CONF_SERVO_LIMITS, (void *) &servo_limit_data, false);
-    }    
+    }
 }
 
 static char *config_default_log_filename()

@@ -14,10 +14,10 @@
 /* Header */
 #include "easing_utils.h"
 
-float easing_calc(int easing_type, AHFloat p)
+double easing_calc(unsigned short easing_type, AHFloat p)
 {
     if (easing_type < 0)
-        return (float) p;
+        return (double) p;
 
     AHFloat (*easing_func)(AHFloat p);
 
@@ -124,7 +124,7 @@ float easing_calc(int easing_type, AHFloat p)
     if (easing_type == EASE_BOUNCE_INOUT)
         easing_func = BounceEaseInOut;                              
 
-    return (float) (*easing_func)(p);
+    return (double) (*easing_func)(p);
 }
 
 #endif
