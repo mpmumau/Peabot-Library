@@ -26,7 +26,7 @@
 /* Forward decs */
 static bool servopos_matches(ServoPos *src, ServoPos *dest);
 
-Keyframe *keyfactory_home(void *data, bool reverse)
+Keyframe *keyfactory_reset(void *data, bool reverse)
 {
     int *servos_num = (int *) config_get(CONF_SERVOS_NUM);
 

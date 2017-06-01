@@ -11,7 +11,7 @@
 #include "keyframe_handler.h"
 
 /* Get keyframe for resetting the robot to the home position. */
-Keyframe *keyfactory_home(void *data, bool reverse);
+Keyframe *keyfactory_reset(void *data, bool reverse);
 
 /* Adds a delay keyframe, which bypasses servo movement for the given duration. */
 Keyframe *keyfactory_delay(void *data, bool reverse);

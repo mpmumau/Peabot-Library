@@ -75,8 +75,8 @@ void keyhandler_add(int keyfr_type, void *data, bool reverse, bool skip_transiti
 
     keyfactory_cb = NULL;
 
-    if (keyfr_type == KEYFR_HOME)
-        keyfactory_cb = keyfactory_home;
+    if (keyfr_type == KEYFR_RESET)
+        keyfactory_cb = keyfactory_reset;
 
     if (keyfr_type == KEYFR_DELAY)
         keyfactory_cb = keyfactory_delay;

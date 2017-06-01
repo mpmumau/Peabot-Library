@@ -35,6 +35,7 @@ static List *events;
 /* Forward decs */
 static void *event_main(void *arg);
 static char *event_getname(unsigned short event_type);
+static void event_log_eventadd(Event *event);
 
 void event_init()
 {
@@ -65,10 +66,10 @@ static void *event_main(void *arg)
     while (running)
     {
         event = (Event *) list_pop(&events);
-        event_callback = NULL;
-
         if (!event)
             continue;
+
+        event_callback = NULL;
 
         if (event->type == EVENT_RESET)
             event_callback = eventcb_reset;
@@ -107,21 +108,15 @@ static void *event_main(void *arg)
 
 void event_add(unsigned short event_type, void *data)
 {
-    static List **events_pp = &events;
-
     Event *event = calloc(1, sizeof(Event));
+    if (!event)
+        APP_ERROR("Could not allocate memory.", 1);
+    
     event->type = event_type;
     event->data = data;
 
-    bool *log_event_add = config_get(CONF_LOG_EVENT_ADD);
-    if (*log_event_add)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Added event. (type: %s)", event_getname(event_type));
-        log_event(log_msg);
-    }
-
-    list_push(events_pp, (void *) event);
+    list_push(&events, (void *) event);
+    event_log_eventadd(event);
 }
 
 static char *event_getname(unsigned short event_type)
@@ -145,6 +140,17 @@ static char *event_getname(unsigned short event_type)
     }
 
     return NULL;
+}
+
+static void event_log_eventadd(Event *event)
+{
+    bool *log_event_add = config_get(CONF_LOG_EVENT_ADD);
+    if (!*log_event_add)
+        return;
+
+    char log_msg[LOG_LINE_MAXLEN];
+    snprintf(log_msg, sizeof(log_msg), "[Event] Added event. (type: %s)", event_getname(event->type));
+    log_event(log_msg);  
 }
 
 #endif

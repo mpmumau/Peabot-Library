@@ -23,38 +23,28 @@
 /* Header */
 #include "event_callbacks.h"
 
+/* Forward decs */
+static void eventcb_logcb(const char *msg);
+
 void eventcb_reset(void *arg)
 {
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_HOME keyframe.");
-        log_event(log_msg);
-    }
-
-    keyhandler_add(KEYFR_HOME, (void *) NULL, false, false);
+    keyhandler_add(KEYFR_RESET, (void *) NULL, false, false);
+    eventcb_logcb("Added KEYFR_RESET keyframe.");
 }
 
 void eventcb_delay(void *arg)
 {
-    float *dp = (float *) arg;
-    float duration_val = *dp;
+    double *dp = (double *) arg;
+    double duration_val = *dp;
 
-    float *duration = calloc(1, sizeof(float));
+    double *duration = calloc(1, sizeof(double));
     if (!duration)
         APP_ERROR("Could not allocate memory.", 1);
+
     *duration = duration_val;
 
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_DELAY keyframe. (duration: %f)", *duration);
-        log_event(log_msg);
-    }
-
     keyhandler_add(KEYFR_DELAY, (void *) duration, false, true);
+    eventcb_logcb("Added KEYFR_DELAY keyframe.");
 }
 
 void eventcb_elevate(void *arg)
@@ -62,20 +52,14 @@ void eventcb_elevate(void *arg)
     EventElevateData *elevate_data = (EventElevateData *) arg;
     bool reverse = elevate_data->reverse;
 
-    float *duration = calloc(1, sizeof(float));
+    double *duration = calloc(1, sizeof(double));
     if (!duration)
         APP_ERROR("Could not allocate memory.", 1);
-    *duration = elevate_data->duration;
 
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_ELEVATE keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
-        log_event(log_msg);
-    }    
+    *duration = elevate_data->duration; 
 
     keyhandler_add(KEYFR_ELEVATE, (void *) duration, reverse, false);
+    eventcb_logcb("Added KEYFR_ELEVATE keyframe.");
 }
 
 void eventcb_extend(void *arg)
@@ -83,82 +67,79 @@ void eventcb_extend(void *arg)
     EventExtendData *extend_data = (EventExtendData *) arg;
     bool reverse = extend_data->reverse;
 
-    float *duration = calloc(1, sizeof(float));
+    double *duration = calloc(1, sizeof(double));
     if (!duration)
         APP_ERROR("Could not allocate memory.", 1);
+
     *duration = extend_data->duration;
 
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_EXTEND keyframe. (duration: %f, reverse: %d)", *duration, (int) reverse);
-        log_event(log_msg);
-    }    
-
     keyhandler_add(KEYFR_EXTEND, (void *) duration, reverse, false);
+    eventcb_logcb("Added KEYFR_EXTEND keyframe.");
 }
 
 void eventcb_walk(void *arg)
 {
     EventWalkData *walk_data = (EventWalkData *) arg;
 
-    int cycles = walk_data->cycles;
-    float duration = walk_data->duration;
+    unsigned short cycles = walk_data->cycles;
+    double duration = walk_data->duration;
     bool reverse = walk_data->reverse;
 
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
-    {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_WALK keyframes. (duration: %f, cycles: %d)", duration, cycles);
-        log_event(log_msg);
-    } 
+    double *duration_p;   
 
-    float *duration_p;   
-
-    for (int i = 0; i < cycles; i++)
+    for (unsigned short i = 0; i < cycles; i++)
     {
-        duration_p = calloc(1, sizeof(float));
+        duration_p = calloc(1, sizeof(double));
         if (!duration_p)
             APP_ERROR("Could not allocate memory.", 1);
+
         *duration_p = duration;
         
         keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i > 0);
     }
+
+    eventcb_logcb("Added KEYFR_WALK keyframes.");
 }
 
 void eventcb_turn(void *arg)
 {
     EventTurnData *turn_data = (EventTurnData *) arg;
 
-    int cycles = turn_data->cycles;
-    float duration = turn_data->duration;
+    unsigned short cycles = turn_data->cycles;
+    double duration = turn_data->duration;
     bool reverse = turn_data->reverse;
+   
+    double *duration_p;
 
-    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
-    if (*log_event_callbacks)
+    for (unsigned short i = 0; i < cycles; i++)
     {
-        char log_msg[LOG_LINE_MAXLEN];
-        snprintf(log_msg, LOG_LINE_MAXLEN, "[Event] Adding KEYFR_TURN keyframes. (duration: %f, cycles: %d)", duration, cycles);
-        log_event(log_msg);
-    }     
-
-    float *duration_p;
-
-    for (int i = 0; i < cycles; i++)
-    {
-        duration_p = calloc(1, sizeof(float));
+        duration_p = calloc(1, sizeof(double));
         if (!duration_p)
             APP_ERROR("Could not allocate memory.", 1);
+
         *duration_p = duration;
+        
         keyhandler_add(KEYFR_TURN, (void *) duration_p, reverse, i > 0);
     }
+
+    eventcb_logcb("Added KEYFR_TURN keyframes.");
 }
 
 void eventcb_halt(void *arg)
 {
     keyhandler_removeall();
+    eventcb_logcb("Cleared all keyframes.");
+}
+
+static void eventcb_logcb(const char *msg)
+{
+    bool *log_event_callbacks = config_get(CONF_LOG_EVENT_CALLBACKS);
+    if (!*log_event_callbacks)
+        return;
+
+    char log_msg[LOG_LINE_MAXLEN];
+    snprintf(log_msg, sizeof(log_msg), "[EVNT] %s", msg);
+    log_event(log_msg);
 }
 
 #endif
