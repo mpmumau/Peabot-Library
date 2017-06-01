@@ -142,7 +142,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
     if (!keyfr)
         APP_ERROR("Could not allocate memory.", 1);
 
-    ServoPos *servo_pos = calloc(*servos_num, sizeof(ServoPos));
+    ServoPos *servo_pos = calloc(len, sizeof(ServoPos));
     if (!servo_pos)
         APP_ERROR("Could not allocate memory.", 1); 
 
@@ -161,7 +161,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         last_keyfr->is_delay = trans_keyfr->is_delay;
         last_keyfr->duration = trans_keyfr->duration;
 
-        for (int q = 0; q < *servos_num; q++)
+        for (int q = 0; q < len; q++)
         {
             last_keyfr->servo_pos[q].easing = trans_keyfr->servo_pos[q].easing;
             last_keyfr->servo_pos[q].start_pos = trans_keyfr->servo_pos[q].start_pos;
