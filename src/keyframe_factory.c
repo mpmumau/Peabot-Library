@@ -355,6 +355,9 @@ bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe 
 
 static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len)
 {
+    if (!src || !dest)
+        return true;
+
     printf("=====servopos_matches()=====\n");
     for (unsigned short i = 0; i < len; i++) 
     {
