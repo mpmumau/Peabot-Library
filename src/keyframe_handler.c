@@ -326,7 +326,7 @@ static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
         for (int i = 0; i < len; i++)
         {
             printf("\t[%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
-                i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
+                i, keyfr->servo_pos[i].easing, keyfr->servo_pos[i].start_pos, keyfr->servo_pos[i].end_pos, keyfr->servo_pos[i].begin_pad, keyfr->servo_pos[i].end_pad);
         }
     }   
     else
