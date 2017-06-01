@@ -246,10 +246,12 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
+            printf("---[f:%s,l:%d]---", __FILE__, __LINE__);
+            
             next = 0.0;
             keyhandler_log_keyfr(keyfr);
 
-            printf("---[f:%s,l:%d]---", __FILE__, __LINE__);
+            
 
             if (servo_pos)
                 free(servo_pos);
