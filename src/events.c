@@ -116,10 +116,10 @@ void event_add(unsigned short event_type, void *data)
     if (!event)
         APP_ERROR("Could not allocate memory.", 1);
   
-    void *data = event_get_data_cpy(event_type, data);
+    void *data_cpy = event_get_data_cpy(event_type, data);
 
     event->type = event_type;
-    event->data = data;
+    event->data = data_cpy;
 
     list_push(&events, (void *) event);
     event_log_eventadd(event);
@@ -141,12 +141,15 @@ static void event_destroy(Event *event)
 
 static void *event_get_data_cpy(unsigned short event_type, void *data)
 {
+    if (!data)
+        return NULL;
+
     void *data_p = NULL;
 
     switch (event_type)
     {
         case EVENT_DELAY:
-            data_p = (void *) calloc(1, sizeof(double)); 
+            data_p = (void *) calloc(1, sizeof(double));            
             break;
         case EVENT_ELEVATE:
             data_p = (void *) calloc(1, sizeof(EventElevateData));
@@ -159,11 +162,15 @@ static void *event_get_data_cpy(unsigned short event_type, void *data)
             break;
         case EVENT_TURN:
             data_p = (void *) calloc(1, sizeof(EventTurnData));   
-            break;                                 
+            break;     
+        default:
+            return NULL;                            
     }
 
-    if (data_p)
-        *data_p = *data;
+    if (!data_p)
+        APP_ERROR("Could not allocate memory.", 1);  
+
+    *data_p = *data;
 
     return data_p;
 }
