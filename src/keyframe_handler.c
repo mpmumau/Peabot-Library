@@ -65,8 +65,8 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 {
     static Keyframe last_keyfr;
     static ServoPos last_servopos;
-    if (last_keyfr->servo_pos == NULL)  
-        last_keyfr->servo_pos = &last_servopos;
+    if (last_keyfr.servo_pos == NULL)  
+        last_keyfr.servo_pos = &last_servopos;
 
     unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
