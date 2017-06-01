@@ -39,6 +39,9 @@ static int error;
 
 static List *keyframes = NULL;
 
+static Keyframe last_keyfr;
+static ServoPos last_servopos;
+
 /* Forward decs */
 static void *keyhandler_main(void *arg);
 static double keyhandler_mappos(double perc, ServoPos *servo_pos);
@@ -63,11 +66,6 @@ void keyhandler_halt()
 
 void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool skip_transitions)
 {
-    static Keyframe last_keyfr;
-    static ServoPos last_servopos;
-    if (last_keyfr.servo_pos == NULL)  
-        last_keyfr.servo_pos = &last_servopos;
-
     unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
     bool *transitions_enable = (bool *) config_get(CONF_TRANSITIONS_ENABLE);
     
@@ -124,7 +122,7 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 
     // Remember, the transition should come before the keyframe...
     if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
-        keyhandler_add_transition(*servos_num, keyfr, &last_keyfr);
+        keyhandler_add_transition(*servos_num, &last_keyfr, keyfr);
 
     list_push(&keyframes, (void *) keyfr);
     
@@ -186,6 +184,21 @@ static void *keyhandler_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_KEYFR\0", NULL, NULL, NULL);
 
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+
+    last_keyfr.duration = 0.0;
+    last_keyfr.is_delay = false;
+    last_keyfr.servo_pos = &last_servopos;    
+
+    for (int q = 0; q < *servos_num)
+    {
+        last_keyfr.servo_pos[q].easing = -1;
+        last_keyfr.servo_pos[q].start_pos = 0.0;
+        last_keyfr.servo_pos[q].end_pos = 0.0;
+        last_keyfr.servo_pos[q].begin_pad = 0.0;
+        last_keyfr.servo_pos[q].end_pad = 0.0;
+    }
+
     struct timespec time;
     struct timespec last_time;
     double next = 0.0;
@@ -193,7 +206,6 @@ static void *keyhandler_main(void *arg)
     Keyframe *keyfr;
     Keyframe *tmp_key;
     ServoPos *servo_pos;
-    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
     
     double perc, pos, begin_time, end_time, adjusted_duration;
 
