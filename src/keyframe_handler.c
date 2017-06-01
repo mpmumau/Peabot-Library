@@ -127,6 +127,7 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
     if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
         keyhandler_add_transition(*servos_num, keyfr, &last_keyfr);
 
+    printf("Primary keyfr:\n\n");
     keyhandler_print_keyfr(keyfr, *servos_num);
 
     list_push(&keyframes, (void *) keyfr);
@@ -168,6 +169,9 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
 
         return;
     }
+
+    printf("Transition keyfr:\n\n");
+    keyhandler_print_keyfr(keyfr, len);    
 
     list_push(&keyframes, (void *) keyfr);    
 }
