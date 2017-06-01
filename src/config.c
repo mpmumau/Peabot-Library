@@ -268,7 +268,7 @@ static void config_set_defaults()
         APP_ERROR("Unable to allocate memory", 1);
 
     strcpy((char *) config.log_fullpath, config.log_file_dir);
-    strcat(config.log_fullpath, config.log_filename);
+    strcat((char *) config.log_fullpath, config.log_filename);
 
     config.config_file = NULL;
 
