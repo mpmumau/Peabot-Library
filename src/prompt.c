@@ -65,10 +65,9 @@ static void *prompt_main(void *arg)
 
     char stdin_b[STDIN_BUFFER_LEN]; 
 
+    prompt_print();
     while (running)
     {
-        prompt_print();
-
         fgets(stdin_b, sizeof(stdin_b), stdin);
         str_removenl(stdin_b);
 

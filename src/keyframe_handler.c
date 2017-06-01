@@ -191,6 +191,7 @@ static void *keyhandler_main(void *arg)
     double next = 0.0;
     
     Keyframe *keyfr;
+    Keyframe *tmp_key;
     ServoPos *servo_pos;
     unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
     
@@ -252,7 +253,9 @@ static void *keyhandler_main(void *arg)
                 free(servo_pos);
             servo_pos = NULL; 
 
-            list_pop(&keyframes);
+            tmp_key = (Keyframe *) list_pop(&keyframes);
+            if (tmp_key)
+                free(tmp_key);
         }
     }
 
