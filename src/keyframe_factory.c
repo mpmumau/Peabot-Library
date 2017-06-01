@@ -268,7 +268,7 @@ bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool revers
             }
             else
             {
-                servo_pos[i] = (ServoPos) { -1, 1.0, 1.0, 0.0, 0.0 };
+                keyfr->servo_pos[i] = (ServoPos) { -1, 1.0, 1.0, 0.0, 0.0 };
             }            
         }
     }
