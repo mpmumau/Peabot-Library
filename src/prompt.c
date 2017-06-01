@@ -30,7 +30,7 @@
 /* Forward decs */
 static void *prompt_main(void *arg);
 static void prompt_handle_cmd(const char *stdin_str, size_t len);
-static int prompt_count_args(char *arg_str, size_t len);
+static int prompt_count_args(const char *str, size_t len);
 static void prompt_log_stdin(const char *str);
 
 static pthread_t prompt_thread;
@@ -137,10 +137,10 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
     (*cmd_callback)(&args[1], arg_count);
 }
 
-static int prompt_count_args(char *arg_str, size_t len)
+static int prompt_count_args(const char *str, size_t len)
 {
     char tmp_str[len];
-    str_clearcopy(tmp_str, arg_str, sizeof(tmp_str));
+    str_clearcopy(tmp_str, str, sizeof(tmp_str));
 
     int arg_count = 0;
     char *arg;
