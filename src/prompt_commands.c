@@ -75,7 +75,7 @@ void promptcmd_elevate(char *args[], int arg_num)
     event_add(EVENT_ELEVATE, (void *) &elevate_data);   
 
     char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added elevate event. (duration: %f, reverse %d)", elevate_data.duration, elevate_data.reverse ? "true" : "false");
+    snprintf(log_msg, sizeof(log_msg), "Added elevate event. (duration: %f, reverse %s)", elevate_data.duration, elevate_data.reverse ? "true" : "false");
     promptcmd_log_cmd(log_msg);     
 }
 
