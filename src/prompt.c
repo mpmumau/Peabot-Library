@@ -63,17 +63,18 @@ static void *prompt_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_PROMPT\0", NULL, NULL, NULL);
 
-    char stdin_buffer[STDIN_BUFFER_LEN]; 
+    char stdin_b[STDIN_BUFFER_LEN]; 
 
     while (running)
     {
-        fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
-        str_removenl(stdin_buffer);
-
-        prompt_handle_cmd(stdin_buffer, sizeof(stdin_buffer));
-
-        memset(stdin_buffer, '\0', sizeof(stdin_buffer));
         prompt_print();
+
+        fgets(stdin_b, sizeof(stdin_b), stdin);
+        str_removenl(stdin_b);
+
+        prompt_handle_cmd(stdin_b, sizeof(stdin_b));
+
+        memset(stdin_b, '\0', sizeof(stdin_b));
     }
 
     pthread_exit(NULL);

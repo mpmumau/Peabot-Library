@@ -253,8 +253,6 @@ static void *keyhandler_main(void *arg)
             servo_pos = NULL; 
 
             list_pop(&keyframes);
-
-
         }
     }
 
