@@ -166,7 +166,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         return;
     }
 
-    list_push(&keyframes, (void *) trans_keyfr);    
+    list_push(&keyframes, (void *) keyfr);    
 }
 
 static void keyhandler_exec_removeall()
