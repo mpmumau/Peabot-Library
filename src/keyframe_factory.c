@@ -333,7 +333,7 @@ bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe 
 
     for (unsigned short i = 0; i < len; i++)
     {
-        keyfr->servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->servo_pos[i]->end_pos, dest->servo_pos[i]->start_pos, 0.0, 0.0 };
+        keyfr->servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->servo_pos[i].end_pos, dest->servo_pos[i].start_pos, 0.0, 0.0 };
     }
     
     return true; 
