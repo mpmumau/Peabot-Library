@@ -149,7 +149,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
     keyfr->servo_pos = servo_pos;
 
     double *trans_duration = (double *) config_get(CONF_TRANSITIONS_TIME);
-    keyfr->duration = trans_duration;    
+    keyfr->duration = *trans_duration;    
 
     bool success = keyfactory_transition(keyfr, size_t len, Keyframe *src, Keyframe *dest);
 
