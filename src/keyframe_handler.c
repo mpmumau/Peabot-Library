@@ -123,7 +123,7 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
     }
 
     // Remember, the transition should come before the keyframe...
-    if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions && last_keyfr != NULL)
+    if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
         keyhandler_add_transition(*servos_num, keyfr, &last_keyfr);
 
     list_push(&keyframes, (void *) keyfr);
