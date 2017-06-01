@@ -236,7 +236,6 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
-            printf("*!*!*!*got here*!*!*!*\n");
             tmp_key = (Keyframe *) list_pop(&keyframes);
             keyhandler_log_keyfr(tmp_key);  
             keyhandler_keyfr_destroy(tmp_key);
@@ -246,6 +245,8 @@ static void *keyhandler_main(void *arg)
 
         keyfr = (Keyframe *) keyframes->data;
         servo_pos = keyfr->servo_pos ? keyfr->servo_pos : NULL;
+
+        printf("*!*!*!*got here*!*!*!*\n");
 
         if (!keyfr->is_delay && servo_pos)
             keyhandler_set_robot(keyfr, *servos_num, next);
