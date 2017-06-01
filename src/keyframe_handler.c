@@ -255,11 +255,11 @@ static void *keyhandler_main(void *arg)
                 free(servo_pos);
             servo_pos = NULL; 
 
-            printf("---[f:%s,l:%d]---\n", __FILE__, __LINE__);
-
             tmp_key = (Keyframe *) list_pop(&keyframes);
             if (tmp_key)
                 free(tmp_key);
+
+            printf("---[f:%s,l:%d]---\n", __FILE__, __LINE__);            
         }
     }
 
