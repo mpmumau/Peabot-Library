@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
     prompt_init();
     http_init();
 
-    while (app_running) 
+    while (running) 
         sleep(1);
 
     exit(exit_val);
