@@ -276,6 +276,8 @@ static double keyhandler_mappos(double perc, ServoPos *servo_pos)
     delta = diff * modifier;    
     final = servo_pos->start_pos + delta;
 
+    printf("diff: %f, modifier: %f, delta: %f, final: %f\n", diff, modifier, delta, final);
+
     return final;
 }
 
