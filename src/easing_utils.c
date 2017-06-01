@@ -14,7 +14,7 @@
 /* Header */
 #include "easing_utils.h"
 
-double easing_calc(unsigned short easing_type, AHFloat p)
+double easing_calc(unsigned short easing_type, AHFloat p);
 {
     if (easing_type < 0)
         return (double) p;
