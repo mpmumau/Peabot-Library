@@ -234,6 +234,11 @@ static void *keyhandler_main(void *arg)
             continue;       
         }        
 
+        keyfr = (Keyframe *) keyframes->data;
+        servo_pos = keyfr->servo_pos != NULL ? keyfr->servo_pos : NULL;        
+
+        printf("*!*!*!*got here*!*!*!*\n"); 
+
         if (next > keyfr->duration)
         {
             tmp_key = (Keyframe *) list_pop(&keyframes);
@@ -242,12 +247,6 @@ static void *keyhandler_main(void *arg)
             next = 0.0;
             continue;
         }           
-
-        printf("*!*!*!*got here*!*!*!*\n"); 
-
-        keyfr = (Keyframe *) keyframes->data;
-
-        servo_pos = keyfr->servo_pos != NULL ? keyfr->servo_pos : NULL;
 
         if (!keyfr->is_delay && servo_pos)
             keyhandler_set_robot(keyfr, *servos_num, next);
