@@ -18,10 +18,4 @@ void console_h(const char *msg);
 /* Print the given string to a line on the console. */
 void console_print(const char *msg);
 
-/* Print a single line break. */
-void console_br();
-
-/* Print a message to the console, prepended by a timestamp */
-void console_event(char *data);
-
 #endif
