@@ -212,8 +212,6 @@ static void *keyhandler_main(void *arg)
             continue;
         }
 
-        printf("got here.\n");
-
         clock_gettime(CLOCK_MONOTONIC, &time);
         next += utils_timediff(time, last_time);
         last_time = time;        
@@ -224,6 +222,8 @@ static void *keyhandler_main(void *arg)
             servo_pos = keyfr->servo_pos;
         else 
             servo_pos = NULL;
+
+        printf("got here.\n");
 
         if (!keyfr->is_delay && servo_pos)
         {
