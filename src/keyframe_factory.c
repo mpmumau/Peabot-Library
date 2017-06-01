@@ -66,9 +66,9 @@ bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
             i == SERVO_INDEX_FRONT_RIGHT_KNEE || 
             i == SERVO_INDEX_FRONT_LEFT_KNEE)
 
-            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
+            keyfr->servo_pos[i] = { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
         else
-            keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
+            keyfr->servo_pos[i] = { -1, 0.0, 0.0, 0.0, 0.0 };
     }
 
     return true;
