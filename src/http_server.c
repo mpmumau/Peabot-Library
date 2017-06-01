@@ -81,7 +81,7 @@ static void *http_main(void *arg)
 
     http.srv_addr.sin_family = AF_INET;
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
-    http.srv_addr.sin_port = htons(*http_port);      
+    http.srv_addr.sin_port = (unsigned short) htons(*http_port);      
 
     int client_length = sizeof(http.cli_addr); 
     int last_socket = -1;
