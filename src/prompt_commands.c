@@ -141,7 +141,7 @@ static void promptcmd_log_cmd(const char *msg)
 {
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
     if (!*log_prompt_commands)
-        return
+        return;
 
     char log_msg[LOG_LINE_MAXLEN];
     snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] %s", msg);
