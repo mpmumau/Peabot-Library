@@ -38,7 +38,6 @@ static bool exec_remove_all = false;
 static int error;
 
 static List *keyframes = NULL;
-static Keyframe *last_keyfr = NULL;  
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
