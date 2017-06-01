@@ -77,7 +77,7 @@ static void *http_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_HTTP\0", NULL, NULL, NULL);
 
-    int *http_port = (int *) config_get(CONF_HTTP_PORT);
+    unsigned short *http_port = (unsigned short *) config_get(CONF_HTTP_PORT);
 
     http.srv_addr.sin_family = AF_INET;
     http.srv_addr.sin_addr.s_addr = INADDR_ANY;
