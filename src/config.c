@@ -50,10 +50,10 @@ void config_init(int argc, char *argv[])
 void config_destroy()
 {
     if (config.log_filename)
-        free(config.log_filename);
+        free((char *) config.log_filename);
 
     if (config.log_fullpath)
-        free(config.log_fullpath);
+        free((char *) config.log_fullpath);
 
     if (config.servo_pins)
         free(config.servo_pins);
