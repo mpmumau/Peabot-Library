@@ -153,25 +153,20 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
 
     bool success = keyfactory_transition(keyfr, len, src, dest);
 
-    if (trans_keyfr != NULL)
+    if (!success)
     {
-        list_push(&keyframes, (void *) trans_keyfr);
-        keyhandler_add(keyfr_type, data, reverse, true);
+        if (keyfr)
+            free(keyfr);
+        keyfr = NULL;
 
-        last_keyfr->is_delay = trans_keyfr->is_delay;
-        last_keyfr->duration = trans_keyfr->duration;
-
-        for (int q = 0; q < len; q++)
-        {
-            last_keyfr->servo_pos[q].easing = trans_keyfr->servo_pos[q].easing;
-            last_keyfr->servo_pos[q].start_pos = trans_keyfr->servo_pos[q].start_pos;
-            last_keyfr->servo_pos[q].end_pos = trans_keyfr->servo_pos[q].end_pos;
-            last_keyfr->servo_pos[q].begin_pad = trans_keyfr->servo_pos[q].begin_pad;
-            last_keyfr->servo_pos[q].end_pad = trans_keyfr->servo_pos[q].end_pad;      
-        }
+        if (servo_pos)
+            free(servo_pos);
+        servo_pos = NULL;
 
         return;
     }
+
+    list_push(&keyframes, (void *) trans_keyfr);    
 }
 
 static void keyhandler_exec_removeall()
