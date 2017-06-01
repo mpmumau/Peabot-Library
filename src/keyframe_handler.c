@@ -223,8 +223,6 @@ static void *keyhandler_main(void *arg)
         else 
             servo_pos = NULL;
 
-        printf("got here.\n");
-
         if (!keyfr->is_delay && servo_pos)
         {
             for (unsigned short i = 0; i < *servos_num; i++)
@@ -241,8 +239,9 @@ static void *keyhandler_main(void *arg)
                     perc = 1.0;
 
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
-                
                 robot_setservo(i, pos);
+
+                printf("begin_time: %f, end_time: %f, adjusted_duration: %f, perc: %f, pos: %f\n", begin_time, end_time, adjusted_duration, perc, pos);
             }
         }
 
