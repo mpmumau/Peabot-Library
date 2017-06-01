@@ -202,7 +202,7 @@ bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool revers
             {
                 if (i == leg)
                 {
-                    servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0, 0.0 };
+                    keyfr->servo_pos[knee] = (ServoPos) { EASE_SINE_IN, knee_delta, 1.0, 0.0, 0.0 };
                     if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
                         keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, 0.0, -turn_delta, 0.0, 0.0 };    
                     else 
