@@ -173,27 +173,48 @@ static void *event_get_data_cpy(unsigned short event_type, void *data)
     switch (event_type)
     {
         case EVENT_DELAY:
-            double *delay_p = (double *) data_p;   
-            double *delay_val_p = (double *) data;     
+            double *delay_p; 
+            delay_p = (double *) data_p;   
+            
+            double *delay_val_p;
+            delay_val_p = (double *) data;     
+            
             *delay_p = *delay_val_p;   
             break;
         case EVENT_ELEVATE:
-            EventElevateData *elevate_p = (EventElevateData *) data_p;
-            EventElevateData *elevate_val_p = (EventElevateData *) data;
+            EventElevateData *elevate_p;
+            elevate_p = (EventElevateData *) data_p;
+            
+            EventElevateData *elevate_val_p 
+            elevate_val_p = (EventElevateData *) data;
+            
             *elevate_p = *elevate_val_p;
             break;
         case EVENT_WALK:
-            EventWalkData *walk_p = (EventWalkData *) data_p;
-            EventWalkData *walk_val_p = (EventWalkData *) data;
+            EventWalkData *walk_p;
+            walk_p = (EventWalkData *) data_p;
+            
+            EventWalkData *walk_val_p;
+            walk_val_p = (EventWalkData *) data;
+
             *walk_p = *walk_val_p;
             break;
         case EVENT_EXTEND:
-            EventExtendData *extend_p = (EventExtendData *) data_p;
-            EventExtendData *extend_val_p = (EventExtendData *) data;
+            EventExtendData *extend_p;
+            extend_p = (EventExtendData *) data_p;
+
+            EventExtendData *extend_val_p;
+            extend_val_p = (EventExtendData *) data;
+
+            *extend_p = *extend_val_p;
             break;
         case EVENT_TURN:
-            EventTurnData *turn_p = (EventTurnData *) data_p;
-            EventTurnData *turn_val_p = (EventTurnData *) data;
+            EventTurnData *turn_p;
+            turn_p = (EventTurnData *) data_p;
+
+            EventTurnData *turn_val_p;
+            turn_val_p = (EventTurnData *) data;
+            
             *turn_p = *turn_val_p;
             break;                                
     }    
