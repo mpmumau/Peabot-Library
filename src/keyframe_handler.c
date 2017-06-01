@@ -223,6 +223,13 @@ static void *keyhandler_main(void *arg)
         else 
             servo_pos = NULL;
 
+        // todo: remove
+        for (int i = 0; i < 8; i++)
+        {
+            printf("[ServoPos][%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
+                i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
+        }
+
         if (!keyfr->is_delay && servo_pos)
         {
             for (unsigned short i = 0; i < *servos_num; i++)
@@ -241,7 +248,8 @@ static void *keyhandler_main(void *arg)
                 pos = keyhandler_mappos(perc, &servo_pos[i]);
                 robot_setservo(i, pos);
 
-                printf("begin_time: %f, end_time: %f, adjusted_duration: %f, perc: %f, pos: %f\n", begin_time, end_time, adjusted_duration, perc, pos);
+                // todo: remove
+                //printf("begin_time: %f, end_time: %f, adjusted_duration: %f, perc: %f, pos: %f\n", begin_time, end_time, adjusted_duration, perc, pos);
             }
         }
 
@@ -265,18 +273,6 @@ static void *keyhandler_main(void *arg)
 
 static double keyhandler_mappos(double perc, ServoPos *servo_pos)
 {
-    for (int i = 0; i < 8; i++)
-    {
-        printf("[ServoPos][%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
-            i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
-    }
-
-    // unsigned short easing;
-    // double start_pos;
-    // double end_pos;
-    // double begin_pad; 
-    // double end_pad;  
-
     double diff, modifier, delta, final;
 
     diff = servo_pos->end_pos - servo_pos->start_pos;
@@ -284,7 +280,8 @@ static double keyhandler_mappos(double perc, ServoPos *servo_pos)
     delta = diff * modifier;    
     final = servo_pos->start_pos + delta;
 
-    printf("diff: %f, modifier: %f, delta: %f, final: %f\n", diff, modifier, delta, final);
+    // todo: remove
+    //printf("diff: %f, modifier: %f, delta: %f, final: %f\n", diff, modifier, delta, final);
 
     return final;
 }
@@ -316,7 +313,6 @@ static void keyhandler_log_keyfr(Keyframe *keyfr)
     char msg[LOG_LINE_MAXLEN];
     snprintf(msg, sizeof(msg), "[Keyfr] Completed keyframe. (duration: %f, is_delay: %s)", keyfr->duration, keyfr->is_delay ? "true" : "false");
     log_event(msg);
-  
 }
 
 #endif
