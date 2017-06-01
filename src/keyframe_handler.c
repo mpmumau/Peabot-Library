@@ -254,7 +254,7 @@ static void *keyhandler_main(void *arg)
 
             list_pop(&keyframes);
 
-            printf("\n---[f:%s,l:%d]---\n", __FILE__, __LINE__);
+
         }
     }
 
