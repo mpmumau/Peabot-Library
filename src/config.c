@@ -143,7 +143,7 @@ void config_set(unsigned short config_var, void *data, bool is_string)
     return;
 }
 
-void *config_get(int config_var)
+void *config_get(unsigned short config_var)
 {
     void *ret_val = NULL;
 
