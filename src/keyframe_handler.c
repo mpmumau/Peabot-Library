@@ -208,12 +208,12 @@ static void *keyhandler_main(void *arg)
     struct timespec time;
     struct timespec last_time;
     double next = 0.0;
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
     
     Keyframe *keyfr;
     Keyframe *tmp_key;
     ServoPos *servo_pos;
     
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
     while (running)
     {
         clock_gettime(CLOCK_MONOTONIC, &time);
@@ -241,12 +241,13 @@ static void *keyhandler_main(void *arg)
             keyhandler_keyfr_destroy(tmp_key);
             next = 0.0;
             continue;
-        }            
+        }           
+
+        printf("*!*!*!*got here*!*!*!*\n"); 
 
         keyfr = (Keyframe *) keyframes->data;
-        servo_pos = keyfr->servo_pos ? keyfr->servo_pos : NULL;
 
-        printf("*!*!*!*got here*!*!*!*\n");
+        servo_pos = keyfr->servo_pos != NULL ? keyfr->servo_pos : NULL;
 
         if (!keyfr->is_delay && servo_pos)
             keyhandler_set_robot(keyfr, *servos_num, next);
