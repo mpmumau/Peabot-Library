@@ -36,7 +36,7 @@
 static void *robot_main(void *arg);
 static void robot_mvjoint(unsigned short joint, double val);
 static bool robot_jointinv(unsigned short joint);
-static unsigned short robot_mapsrv(double val, ServoLimit *servo_limit)
+static unsigned short robot_mapsrv(double val, ServoLimit *servo_limit);
 static void robot_destroy();
 
 static pthread_t    robot_thread;
