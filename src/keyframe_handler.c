@@ -50,7 +50,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
 static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
 static void keyhandler_log_keyfr(Keyframe *keyfr);
 static void keyhandler_keyfr_destroy(Keyframe *keyfr);
-static void keyhandler_set_robot(Keyframe *keyfr, size_t len);
+static void keyhandler_set_robot(Keyframe *keyfr, size_t len, double time);
 
 void keyhandler_init()
 {
@@ -242,7 +242,7 @@ static void *keyhandler_main(void *arg)
             servo_pos = NULL;
 
         if (!keyfr->is_delay && servo_pos)
-            keyhandler_set_robot(keyfr, *servos_num);
+            keyhandler_set_robot(keyfr, *servos_num, next);
 
         if (next > keyfr->duration)
         {
@@ -256,7 +256,7 @@ static void *keyhandler_main(void *arg)
     return (void *) NULL;
 }
 
-static void keyhandler_set_robot(Keyframe *keyfr, size_t len)
+static void keyhandler_set_robot(Keyframe *keyfr, size_t len, double time)
 {
     if (!keyfr || !keyfr->servo_pos)
         return;
