@@ -23,7 +23,7 @@
 
 void console_h(char *val)
 {
-    char lb[CONSOLE_LINE_LEN];
+    char lb[80];
     str_fill(lb, '=', sizeof(lb));
     printf("%s\n%s\n%s\n", lb, val, lb);
 }
