@@ -83,8 +83,8 @@ bool cntlevent_elevate(MVCData *mvc_data)
         return false;
     
     EventElevateData event_elevate_data;
-    event_elevate_data->reverse = (bool) cJSON_IsTrue(reverse_jp);  
-    event_elevate_data->duration = (double) duration_jp->valuedouble;
+    event_elevate_data.reverse = (bool) cJSON_IsTrue(reverse_jp);  
+    event_elevate_data.duration = (double) duration_jp->valuedouble;
 
     event_add(EVENT_ELEVATE, (void *) &event_elevate_data); 
     return true;
@@ -101,8 +101,8 @@ bool cntlevent_extend(MVCData *mvc_data)
         return false;
     
     EventExtendData event_extend_data;
-    event_extend_data->reverse = (bool) cJSON_IsTrue(reverse_jp); 
-    event_extend_data->duration = (double) duration_jp->valuedouble;
+    event_extend_data.reverse = (bool) cJSON_IsTrue(reverse_jp); 
+    event_extend_data.duration = (double) duration_jp->valuedouble;
 
     event_add(EVENT_EXTEND, (void *) &event_extend_data); 
     return true;
