@@ -72,6 +72,7 @@ static void *prompt_main(void *arg)
         str_removenl(stdin_buffer);
         prompt_log_stdin(stdin_buffer);
         prompt_handle_cmd(stdin_buffer, sizeof(stdin_buffer));
+        memset(stdin_buffer, '\0', sizeof(stdin_buffer));
     }
 
     pthread_exit(NULL);
