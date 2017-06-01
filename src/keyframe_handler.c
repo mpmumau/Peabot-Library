@@ -196,8 +196,6 @@ static void *keyhandler_main(void *arg)
     
     double perc, pos, begin_time, end_time, adjusted_duration;
 
-    char msg[LOG_LINE_MAXLEN];
-
     while (running)
     {
         if (!keyframes)
