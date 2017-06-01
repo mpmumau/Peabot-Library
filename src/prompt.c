@@ -88,7 +88,7 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
     char *tmp_arg;
     char delim[2] = { ' ', '\0' };
 
-    tmp_arg = strtok(stdin_str, delim);
+    tmp_arg = strtok((char *) stdin_str, delim);
     for (int i = 0; (i < arg_count) && tmp_arg; i++)
     {
         args[i] = tmp_arg;
