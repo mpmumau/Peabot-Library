@@ -343,7 +343,7 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len)
 {
     for (unsigned short i = 0; i < len; i++) 
     {
-        if (src->end_pos != dest->start_pos)
+        if (src[i].end_pos != dest[i].start_pos)
             return false;  
 
         src++;
