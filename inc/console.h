@@ -18,4 +18,7 @@ void console_h(const char *msg);
 /* Print the given string to a line on the console. */
 void console_print(const char *msg);
 
+/* Print an error message to the console. */
+void console_error(const char *msg);
+
 #endif

@@ -35,4 +35,11 @@ void console_print(const char *msg)
     printf("%s\n", msg_cpy);
 }
 
+void console_error(const char *msg)
+{
+    char msg_cpy[CONSOLE_LINE_LEN];
+    snprintf(msg_cpy, sizeof(msg_cpy), "[ERROR] %s", msg);
+    console_print(msg_cpy);
+}
+
 #endif
