@@ -43,4 +43,6 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 
 void keyhandler_removeall();
 
+void keyhandler_print_keyfr(Keyframe *keyfr, size_t len);
+
 #endif

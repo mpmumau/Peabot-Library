@@ -325,6 +325,14 @@ bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool revers
 
 bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe *dest)
 {
+    printf("Making transition keyfr...\n");
+
+    printf("-----SRC KEYFR-----\n");
+    keyhandler_print_keyfr(src, len);
+
+    printf("-----DEST KEYFR-----\n");
+    keyhandler_print_keyfr(dest, len);    
+
     if (src == NULL || dest == NULL)
         return false;
 
@@ -338,6 +346,8 @@ bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe 
     {
         keyfr->servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->servo_pos[i].end_pos, dest->servo_pos[i].start_pos, 0.0, 0.0 };
     }
+
+    
     
     return true; 
 }

@@ -46,7 +46,6 @@ static void keyhandler_exec_removeall();
 static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest);
 static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
 static void keyhandler_log_keyfr(Keyframe *keyfr);
-static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len);
 
 void keyhandler_init()
 {
@@ -127,9 +126,6 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
     if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
         keyhandler_add_transition(*servos_num, keyfr, &last_keyfr);
 
-    printf("====================Primary keyfr====================\n");
-    keyhandler_print_keyfr(keyfr, *servos_num);    
-
     list_push(&keyframes, (void *) keyfr);
     
     keyhandler_copy_keyfr(&last_keyfr, keyfr, *servos_num);
@@ -168,10 +164,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         servo_pos = NULL;
 
         return;
-    }
-
-    printf("\n====================Transition keyfr====================\n");
-    keyhandler_print_keyfr(keyfr, len);    
+    } 
 
     list_push(&keyframes, (void *) keyfr);    
 }
@@ -315,7 +308,7 @@ static void keyhandler_log_keyfr(Keyframe *keyfr)
     log_event(msg);
 }
 
-static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
+void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
 {
     if (!keyfr)
         return;
