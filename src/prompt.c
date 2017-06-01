@@ -67,12 +67,13 @@ static void *prompt_main(void *arg)
 
     while (running)
     {
-        prompt_print();
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
-        prompt_log_stdin(stdin_buffer);
+
         prompt_handle_cmd(stdin_buffer, sizeof(stdin_buffer));
+
         memset(stdin_buffer, '\0', sizeof(stdin_buffer));
+        prompt_print();
     }
 
     pthread_exit(NULL);
@@ -81,6 +82,8 @@ static void *prompt_main(void *arg)
 
 static void prompt_handle_cmd(const char *stdin_str, size_t len)
 {
+    prompt_log_stdin(stdin_buffer);
+
     int arg_count = prompt_count_args(stdin_str, len);
     char *args[arg_count];
 
