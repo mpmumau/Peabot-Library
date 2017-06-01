@@ -212,6 +212,8 @@ static void *keyhandler_main(void *arg)
             continue;
         }
 
+        printf("got here.\n");
+
         clock_gettime(CLOCK_MONOTONIC, &time);
         next += utils_timediff(time, last_time);
         last_time = time;        
