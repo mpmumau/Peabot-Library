@@ -1,12 +1,14 @@
 #ifndef EVENTS_DEF
 #define EVENTS_DEF
-#define _GNU_SOURCE
+
 /*
  File:          events.c
  Description:   Implementations for handling an event loop.
  Created:       May 8, 2017
  Author:        Matt Mumau
  */
+
+#define _GNU_SOURCE
 
 /* System includes */
 #include <sys/prctl.h>
@@ -36,10 +38,6 @@ static char *event_getname(unsigned short event_type);
 
 void event_init()
 {
-    events = calloc(1024, sizeof(List));
-    if (!events)
-        APP_ERROR("Could not calloc", 1);
-
     int error = pthread_create(&event_thread, NULL, event_main, NULL);
     if (error)
         APP_ERROR("Could not create thread.", error);
