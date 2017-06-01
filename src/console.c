@@ -21,16 +21,18 @@
 /* Header */
 #include "console.h"
 
-void console_h(char *val)
+void console_h(const char *msg)
 {
     char lb[80];
     str_fill(lb, '=', sizeof(lb));
-    printf("%s\n%s\n%s\n", lb, val, lb);
+    printf("%s\n%s\n%s\n", lb, msg, lb);
 }
 
-void console_print(char *val)
+void console_print(const char *msg)
 {
-    printf("%s\n", val);
+    char msg_cpy[CONSOLE_LINE_LEN];
+    str_clearcopy(msg_cpy, msg, sizeof(msg_cpy));
+    printf("%s\n", msg_cpy);
 }
 
 void console_br()

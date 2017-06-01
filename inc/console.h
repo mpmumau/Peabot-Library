@@ -13,10 +13,10 @@
 #define TIMESTAMP_MAXLEN 20
 
 /* Print a header message to the console; will be surrounded by two double lines. */
-void console_h(char *val);
+void console_h(const char *msg);
 
 /* Print the given string to a line on the console. */
-void console_print(char *val);
+void console_print(const char *msg);
 
 /* Print a single line break. */
 void console_br();
