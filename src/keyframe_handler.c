@@ -333,7 +333,7 @@ void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
         printf("keyfr->servo_pos:\n");
         for (int i = 0; i < len; i++)
         {
-            printf("\t[%d] easing: %d, \tstart_pos: %8.8f, \tend_pos: %8.8f, \tbegin_pad: %8.8f, \tend_pad: %8.8f\n", 
+            printf("\t[%d] easing: %d, \tstart_pos: %6.6f, \t\tend_pos: %6.6f, \t\tbegin_pad: %6.6f, \t\tend_pad: %6.6f\n", 
                 i, keyfr->servo_pos[i].easing, keyfr->servo_pos[i].start_pos, keyfr->servo_pos[i].end_pos, keyfr->servo_pos[i].begin_pad, keyfr->servo_pos[i].end_pad);
         }
     }   
