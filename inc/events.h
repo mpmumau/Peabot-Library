@@ -19,7 +19,7 @@
 #define EVENT_TURN 6
 
 typedef struct Event {
-    int type;
+    unsigned short type;
     void *data;
 } Event;
 

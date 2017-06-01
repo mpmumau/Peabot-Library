@@ -33,9 +33,11 @@ static bool running = true;
 static List *events;
 
 /* Forward decs */
+static void event_destroy(Event *event);
 static void *event_main(void *arg);
 static char *event_getname(unsigned short event_type);
 static void event_log_eventadd(Event *event);
+static void *event_get_data_cpy(unsigned short event_type, void *data);
 
 void event_init()
 {
@@ -97,12 +99,14 @@ static void *event_main(void *arg)
 
         (*event_callback)(event->data);
 
-        if (event->data)
-            free(event->data);
-        free(event);
+        event_destroy(event);
+        event = NULL;
     }
 
-    free(events);
+    if (events)
+        free(events);
+    events = NULL;
+
     return (void *) NULL;
 }
 
@@ -111,12 +115,57 @@ void event_add(unsigned short event_type, void *data)
     Event *event = calloc(1, sizeof(Event));
     if (!event)
         APP_ERROR("Could not allocate memory.", 1);
-    
+  
+    void *data = event_get_data_cpy(event_type, data);
+
     event->type = event_type;
     event->data = data;
 
     list_push(&events, (void *) event);
     event_log_eventadd(event);
+}
+
+static void event_destroy(Event *event)
+{
+    if (!event)
+        return;
+
+    if (event->data)
+        free(event->data);
+    event->data = NULL;
+
+    if (event)
+        free(event);
+    event = NULL;    
+}
+
+static void *event_get_data_cpy(unsigned short event_type, void *data)
+{
+    void *data_p = NULL;
+
+    switch (event_type)
+    {
+        case EVENT_DELAY:
+            data_p = (void *) calloc(1, sizeof(double)); 
+            break;
+        case EVENT_ELEVATE:
+            data_p = (void *) calloc(1, sizeof(EventElevateData));
+            break;
+        case EVENT_WALK:
+            data_p = (void *) calloc(1, sizeof(EventWalkData));
+            break;
+        case EVENT_EXTEND:
+            data_p = (void *) calloc(1, sizeof(EventExtendData));
+            break;
+        case EVENT_TURN:
+            data_p = (void *) calloc(1, sizeof(EventTurnData));   
+            break;                                 
+    }
+
+    if (data_p)
+        *data_p = *data;
+
+    return data_p;
 }
 
 static char *event_getname(unsigned short event_type)

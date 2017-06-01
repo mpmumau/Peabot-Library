@@ -40,18 +40,12 @@ bool cntlevent_walk(MVCData *mvc_data)
     if (!reverse_jp || !cJSON_IsBool(reverse_jp))
         return false;    
     
-    EventWalkData *event_walk_data = calloc(1, sizeof(EventWalkData));
-    if (!event_walk_data)
-    {
-        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
-        return false;
-    }
+    EventWalkData event_walk_data;
+    event_walk_data.cycles = (unsigned short) cycles_jp->valuedouble;
+    event_walk_data.duration = (double) duration_jp->valuedouble;
+    event_walk_data.reverse = (bool) cJSON_IsTrue(reverse_jp);
 
-    event_walk_data->cycles = (int) cycles_jp->valuedouble;
-    event_walk_data->duration = (float) duration_jp->valuedouble;
-    event_walk_data->reverse = cJSON_IsTrue(reverse_jp);
-
-    event_add(EVENT_WALK, (void *) event_walk_data);
+    event_add(EVENT_WALK, (void *) &event_walk_data);
     return true;
 }
 
@@ -69,18 +63,12 @@ bool cntlevent_turn(MVCData *mvc_data)
     if (!reverse_jp || !cJSON_IsBool(reverse_jp))
         return false;        
     
-    EventTurnData *event_turn_data = calloc(1, sizeof(EventTurnData));
-    if (!event_turn_data)
-    {
-        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
-        return false;
-    }
+    EventTurnData event_turn_data;
+    event_turn_data.cycles = (unsigned short) cycles_jp->valuedouble;
+    event_turn_data.duration = (double) duration_jp->valuedouble;
+    event_turn_data.reverse = (bool) cJSON_IsTrue(reverse_jp);
 
-    event_turn_data->cycles = (int) cycles_jp->valuedouble;
-    event_turn_data->duration = (float) duration_jp->valuedouble;
-    event_turn_data->reverse = cJSON_IsTrue(reverse_jp);
-
-    event_add(EVENT_TURN, (void *) event_turn_data);
+    event_add(EVENT_TURN, (void *) &event_turn_data);
     return true;
 }
 
@@ -94,17 +82,11 @@ bool cntlevent_elevate(MVCData *mvc_data)
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
-    EventElevateData *event_elevate_data = calloc(1, sizeof(EventElevateData));
-    if (!event_elevate_data)
-    {
-        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
-        return false;
-    }
+    EventElevateData event_elevate_data;
+    event_elevate_data->reverse = (bool) cJSON_IsTrue(reverse_jp);  
+    event_elevate_data->duration = (double) duration_jp->valuedouble;
 
-    event_elevate_data->reverse = cJSON_IsTrue(reverse_jp);  
-    event_elevate_data->duration = (float) duration_jp->valuedouble;
-
-    event_add(EVENT_ELEVATE, (void *) event_elevate_data); 
+    event_add(EVENT_ELEVATE, (void *) &event_elevate_data); 
     return true;
 }
 
@@ -118,17 +100,11 @@ bool cntlevent_extend(MVCData *mvc_data)
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
     
-    EventExtendData *event_extend_data = calloc(1, sizeof(EventExtendData));
-    if (!event_extend_data)
-    {
-        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
-        return false;
-    }
+    EventExtendData event_extend_data;
+    event_extend_data->reverse = (bool) cJSON_IsTrue(reverse_jp); 
+    event_extend_data->duration = (double) duration_jp->valuedouble;
 
-    event_extend_data->reverse = cJSON_IsTrue(reverse_jp); 
-    event_extend_data->duration = (float) duration_jp->valuedouble;
-
-    event_add(EVENT_EXTEND, (void *) event_extend_data); 
+    event_add(EVENT_EXTEND, (void *) &event_extend_data); 
     return true;
 }
 
@@ -138,16 +114,9 @@ bool cntlevent_delay(MVCData *mvc_data)
     if (!duration_jp || !cJSON_IsNumber(duration_jp))
         return false;
 
-    float *duration = calloc(1, sizeof(float));
-    if (!duration)
-    {
-        mvc_data->http_response->code = HTTP_RC_INTERNAL_SERVER_ERROR;
-        return false;
-    }
+    double duration = (double) duration_jp->valuedouble;
 
-    *duration = (float) duration_jp->valuedouble; 
-
-    event_add(EVENT_EXTEND, (void *) duration); 
+    event_add(EVENT_EXTEND, (void *) &duration); 
     return true;
 }
 
