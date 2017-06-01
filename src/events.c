@@ -48,8 +48,10 @@ void event_halt()
     running = false;
     int error = pthread_join(event_thread, NULL);
     if (error)
-        log_event("[ERROR!] Could not rejoin from robot thread.");
-    free(events);
+        log_error("Could not rejoin from robot thread.", error);
+
+    if (events != NULL)
+        free(events);
     events = NULL;
 }
 
