@@ -29,8 +29,9 @@
 
 /* Forward decs */
 static void *prompt_main(void *arg);
-static void prompt_handle_cmd(char *stdin_str, size_t len);
+static void prompt_handle_cmd(const char *stdin_str, size_t len);
 static int prompt_count_args(char *arg_str, size_t len);
+static void prompt_log_stdin(const char *str);
 
 static pthread_t prompt_thread;
 static bool running = true;
@@ -53,36 +54,32 @@ void prompt_halt()
     running = false;
 }
 
+void prompt_print()
+{
+    printf("peabot > ");
+}
+
 static void *prompt_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_PROMPT\0", NULL, NULL, NULL);
 
-    char stdin_buffer[64];
+    char stdin_buffer[STDIN_BUFFER_LEN]; 
 
     while (running)
     {
-        printf("peabot > ");
-
+        prompt_print();
         fgets(stdin_buffer, sizeof(stdin_buffer), stdin);
         str_removenl(stdin_buffer);
-
         prompt_handle_cmd(stdin_buffer, sizeof(stdin_buffer));
     }
 
     pthread_exit(NULL);
-
     return (void *) NULL;
 }
 
-static void prompt_handle_cmd(char *stdin_str, size_t len)
+static void prompt_handle_cmd(const char *stdin_str, size_t len)
 {
-    bool *log_stdin = config_get(CONF_LOG_STDIN);
-    if (*log_stdin)
-    {
-        char ancmt[64];
-        snprintf(ancmt, 64, "[Stdin]: %s", stdin_str);
-        log_event(ancmt);
-    }
+    prompt_log_stdin(stdin_str);
 
     int arg_count = prompt_count_args(stdin_str, len);
     char *args[arg_count];
@@ -158,6 +155,17 @@ static int prompt_count_args(char *arg_str, size_t len)
     }   
 
     return arg_count;
+}
+
+static void prompt_log_stdin(const char *str)
+{
+    bool *log_stdin = config_get(CONF_LOG_STDIN);
+    if (!*log_stdin)
+        return;
+
+    char msg[STDIN_BUFFER_LOG_LEN];
+    snprintf(msg, sizeof(msg), "[STDIN]: %s", str);
+    log_event(msg);
 }
 
 #endif
