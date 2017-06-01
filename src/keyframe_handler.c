@@ -164,7 +164,11 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         return;
     } 
 
+    printf("Adding transition keyframe... (no: %d)\n", list_sizeof(keyframes));
+
     list_push(&keyframes, (void *) keyfr);    
+
+    printf("Done. Added transition keyframe (no: %d)\n", list_sizeof(keyframes));
 }
 
 static void keyhandler_exec_removeall()
