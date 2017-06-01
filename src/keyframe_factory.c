@@ -364,9 +364,6 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len)
         printf("Comparing: src.end_pos[%f] to dest.start_pos[%f]\n", src[i].end_pos, dest[i].start_pos);
         if (src[i].end_pos != dest[i].start_pos)
             return false;  
-
-        src++;
-        dest++;
     }
 
     return true;
