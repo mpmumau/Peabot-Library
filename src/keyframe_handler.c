@@ -216,11 +216,9 @@ static void *keyhandler_main(void *arg)
     
     while (running)
     {
-        if (!keyframes)
-        {
-            next = 0.0;
-            continue;       
-        }
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        next += utils_timediff(time, last_time);
+        last_time = time;  
 
         if (exec_remove_all)
         {
@@ -230,19 +228,11 @@ static void *keyhandler_main(void *arg)
             continue;
         }
 
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        next += utils_timediff(time, last_time);
-        last_time = time;        
-
-        keyfr = (Keyframe *) keyframes->data;
-        
-        if (keyfr->servo_pos != NULL)
-            servo_pos = keyfr->servo_pos;
-        else 
-            servo_pos = NULL;
-
-        if (!keyfr->is_delay && servo_pos)
-            keyhandler_set_robot(keyfr, *servos_num, next);
+        if (!keyframes)
+        {
+            next = 0.0;
+            continue;       
+        }        
 
         if (next > keyfr->duration)
         {
@@ -250,7 +240,14 @@ static void *keyhandler_main(void *arg)
             keyhandler_log_keyfr(tmp_key);  
             keyhandler_keyfr_destroy(tmp_key);
             next = 0.0;
-        }
+            continue;
+        }            
+
+        keyfr = (Keyframe *) keyframes->data;
+        servo_pos = keyfr->servo_pos;
+
+        if (!keyfr->is_delay && servo_pos)
+            keyhandler_set_robot(keyfr, *servos_num, next);
     }
 
     return (void *) NULL;
