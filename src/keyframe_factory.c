@@ -328,6 +328,9 @@ bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe 
     if (src == NULL || dest == NULL)
         return false;
 
+    if (src->servo_pos == NULL || dest->servo_pos == NULL)
+        return false;
+
     if (servopos_matches(src->servo_pos, dest->servo_pos, len))
         return false;
 
