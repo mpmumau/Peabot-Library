@@ -237,8 +237,6 @@ static void *keyhandler_main(void *arg)
         keyfr = (Keyframe *) keyframes->data;
         servo_pos = keyfr->servo_pos != NULL ? keyfr->servo_pos : NULL;        
 
-        printf("*!*!*!*got here*!*!*!*\n"); 
-
         if (next > keyfr->duration)
         {
             tmp_key = (Keyframe *) list_pop(&keyframes);
