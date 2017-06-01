@@ -129,7 +129,6 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 
     printf("====================Primary keyfr====================\n");
     keyhandler_print_keyfr(keyfr, *servos_num);    
-    printf("========================================================\n");
 
     list_push(&keyframes, (void *) keyfr);
     
@@ -171,9 +170,8 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         return;
     }
 
-    printf("====================Transition keyfr====================\n");
+    printf("\n====================Transition keyfr====================\n");
     keyhandler_print_keyfr(keyfr, len);    
-    printf("========================================================\n");
 
     list_push(&keyframes, (void *) keyfr);    
 }
@@ -322,7 +320,6 @@ static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
     if (!keyfr)
         return;
 
-    printf("\n[keyfr]\n");
     printf("keyfr->duration: %f\n", keyfr->duration);
     printf("keyfr->is_delay: %s\n", keyfr->is_delay ? "true" : "false");
 
@@ -331,7 +328,7 @@ static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
         printf("keyfr->servo_pos:\n");
         for (int i = 0; i < len; i++)
         {
-            printf("\t[%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
+            printf("\t[%d] easing: %d, \tstart_pos: %8.8f, \tend_pos: %8.8f, \tbegin_pad: %8.8f, \tend_pad: %8.8f\n", 
                 i, keyfr->servo_pos[i].easing, keyfr->servo_pos[i].start_pos, keyfr->servo_pos[i].end_pos, keyfr->servo_pos[i].begin_pad, keyfr->servo_pos[i].end_pad);
         }
     }   
