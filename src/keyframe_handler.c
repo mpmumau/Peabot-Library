@@ -45,6 +45,7 @@ static double keyhandler_mappos(double perc, ServoPos *servo_pos);
 static void keyhandler_exec_removeall();
 static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest);
 static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
+static void keyhandler_log_keyfr(Keyframe *keyfr);
 
 void keyhandler_init()
 {
@@ -246,29 +247,14 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
-            bool *log_keyframes = (bool *) config_get(CONF_LOG_KEYFRAMES);
-            if (*log_keyframes)
-            {
-                snprintf(msg, LOG_LINE_MAXLEN, "[Keyfr] Completed keyframe. (duration: %f, is_delay: %d)", keyfr->duration, (int) keyfr->is_delay);
-                log_event(msg);
-            }     
-
             next = 0.0;
-
-            if (keyfr->is_delay) 
-            {
-                list_pop(&keyframes);
-                continue;
-            }
+            keyhandler_log_keyfr(keyfr);
 
             if (servo_pos)
                 free(servo_pos);
             servo_pos = NULL; 
 
-            Keyframe *keyfr_popped = (Keyframe *) list_pop(&keyframes);
-            if (keyfr_popped)
-                free(keyfr_popped);
-            keyfr_popped = NULL;
+            list_pop(&keyframes);
         }
     }
 
@@ -303,6 +289,18 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len)
 
     for (unsigned short i = 0; i < len; i++)
         dest->servo_pos[i] = src->servo_pos[i];   
+}
+
+static void keyhandler_log_keyfr(Keyframe *keyfr)
+{
+    bool *log_keyframes = (bool *) config_get(CONF_LOG_KEYFRAMES);
+    if (!*log_keyframes)
+        return;
+
+    char msg[LOG_LINE_MAXLEN];
+    snprintf(msg, sizeof(msg), "[Keyfr] Completed keyframe. (duration: %f, is_delay: %s)", keyfr->duration, keyfr->is_delay ? "true" : "false");
+    log_event(msg);
+  
 }
 
 #endif
