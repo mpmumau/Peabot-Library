@@ -247,8 +247,6 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
-            
-
             next = 0.0;
             keyhandler_log_keyfr(keyfr);
 
@@ -258,9 +256,7 @@ static void *keyhandler_main(void *arg)
 
             tmp_key = (Keyframe *) list_pop(&keyframes);
             if (tmp_key)
-                free(tmp_key);
-
-            printf("---[f:%s,l:%d]---\n", __FILE__, __LINE__);            
+                free(tmp_key);       
         }
     }
 
@@ -269,6 +265,18 @@ static void *keyhandler_main(void *arg)
 
 static double keyhandler_mappos(double perc, ServoPos *servo_pos)
 {
+    for (int i = 0; i < 8; i++)
+    {
+        printf("[ServoPos][%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
+            i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
+    }
+
+    // unsigned short easing;
+    // double start_pos;
+    // double end_pos;
+    // double begin_pad; 
+    // double end_pad;  
+
     double diff, modifier, delta, final;
 
     diff = servo_pos->end_pos - servo_pos->start_pos;
