@@ -8,7 +8,9 @@
  Author:        Matt Mumau
  */
 
-/* System includes */
+#include "stdio.h"
+
+/* Library includes */
 #include "easing.h"
 
 /* Header */
