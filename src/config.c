@@ -44,7 +44,7 @@ void config_init(int argc, char *argv[])
 
     const char *config_file = (const char *) config_get(CONF_CONFIG_FILE);
     if (config_file)
-        configfile_process(config_file);
+        configfile_process((char *) config_file);
 }
 
 void config_destroy()
