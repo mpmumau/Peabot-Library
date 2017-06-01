@@ -16,10 +16,11 @@
 
 double easing_calc(unsigned short easing_type, AHFloat p)
 {
-    if (easing_type < 0)
+    if (easing_type == easing_type - 1)
         return (double) p;
 
     AHFloat (*easing_func)(AHFloat p);
+    easing_func = NULL;
 
     if (easing_type == EASE_LINEAR)
         easing_func = LinearInterpolation;
@@ -124,7 +125,10 @@ double easing_calc(unsigned short easing_type, AHFloat p)
     if (easing_type == EASE_BOUNCE_INOUT)
         easing_func = BounceEaseInOut;                              
 
-    return (double) (*easing_func)(p);
+    if (easing_func)
+        return (double) (*easing_func)(p);
+
+    return (double) p;
 }
 
 #endif
