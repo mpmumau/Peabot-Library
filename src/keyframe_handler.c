@@ -270,7 +270,7 @@ static void keyhandler_set_robot(Keyframe *keyfr, size_t len, double time)
         end_time = keyfr->duration * servo_pos[i].end_pad;
         adjusted_duration = keyfr->duration - begin_time - end_time;  
         
-        perc = (next - begin_time) / adjusted_duration;
+        perc = (time - begin_time) / adjusted_duration;
 
         if (perc < 0.0)
             perc = 0.0;
