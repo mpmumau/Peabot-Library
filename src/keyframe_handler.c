@@ -49,6 +49,8 @@ static void keyhandler_exec_removeall();
 static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest);
 static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
 static void keyhandler_log_keyfr(Keyframe *keyfr);
+static void keyhandler_keyfr_destroy(Keyframe *keyfr);
+static void keyhandler_set_robot(Keyframe *keyfr, size_t len);
 
 void keyhandler_init()
 {
@@ -206,13 +208,12 @@ static void *keyhandler_main(void *arg)
     struct timespec time;
     struct timespec last_time;
     double next = 0.0;
+    clock_gettime(CLOCK_MONOTONIC, &last_time);
     
     Keyframe *keyfr;
     Keyframe *tmp_key;
     ServoPos *servo_pos;
     
-    double perc, pos, begin_time, end_time, adjusted_duration;
-
     while (running)
     {
         if (!keyframes)
@@ -225,6 +226,7 @@ static void *keyhandler_main(void *arg)
         {
             keyhandler_exec_removeall();
             exec_remove_all = false;
+            next = 0.0;
             continue;
         }
 
@@ -240,44 +242,56 @@ static void *keyhandler_main(void *arg)
             servo_pos = NULL;
 
         if (!keyfr->is_delay && servo_pos)
-        {
-            for (unsigned short i = 0; i < *servos_num; i++)
-            {
-                begin_time = keyfr->duration * servo_pos[i].begin_pad;
-                end_time = keyfr->duration * servo_pos[i].end_pad;
-                adjusted_duration = keyfr->duration - begin_time - end_time;  
-                
-                perc = (next - begin_time) / adjusted_duration;
-
-                if (perc < 0.0)
-                    perc = 0.0;
-                if (perc > 1.0)
-                    perc = 1.0;
-
-                pos = keyhandler_mappos(perc, &servo_pos[i]);
-                robot_setservo(i, pos);
-
-                // todo: remove
-                //printf("begin_time: %f, end_time: %f, adjusted_duration: %f, perc: %f, pos: %f\n", begin_time, end_time, adjusted_duration, perc, pos);
-            }
-        }
+            keyhandler_set_robot(keyfr, *servos_num);
 
         if (next > keyfr->duration)
         {
-            next = 0.0;
-            keyhandler_log_keyfr(keyfr);
-
-            if (servo_pos)
-                free(servo_pos);
-            servo_pos = NULL; 
-
             tmp_key = (Keyframe *) list_pop(&keyframes);
-            if (tmp_key)
-                free(tmp_key);       
+            keyhandler_log_keyfr(tmp_key);  
+            keyhandler_keyfr_destroy(tmp_key);
+            next = 0.0;
         }
     }
 
     return (void *) NULL;
+}
+
+static void keyhandler_set_robot(Keyframe *keyfr, size_t len)
+{
+    if (!keyfr || !keyfr->servo_pos)
+        return;
+
+    ServoPos * servo_pos = keyfr->servo_pos;
+    double perc, pos, begin_time, end_time, adjusted_duration;
+
+    for (unsigned short i = 0; i < len; i++)
+    {
+        begin_time = keyfr->duration * servo_pos[i].begin_pad;
+        end_time = keyfr->duration * servo_pos[i].end_pad;
+        adjusted_duration = keyfr->duration - begin_time - end_time;  
+        
+        perc = (next - begin_time) / adjusted_duration;
+
+        if (perc < 0.0)
+            perc = 0.0;
+        if (perc > 1.0)
+            perc = 1.0;
+
+        pos = keyhandler_mappos(perc, &servo_pos[i]);
+        robot_setservo(i, pos);
+    }    
+}
+
+static void keyhandler_keyfr_destroy(Keyframe *keyfr)
+{
+    if (!keyfr)
+        return;
+
+    if (keyfr->servo_pos)
+        free(keyfr->servo_pos);
+    keyfr->servo_pos = NULL; 
+
+    free(keyfr);        
 }
 
 static double keyhandler_mappos(double perc, ServoPos *servo_pos)
