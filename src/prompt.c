@@ -31,7 +31,7 @@
 static void *prompt_main(void *arg);
 static void prompt_handle_cmd(const char *stdin_str, size_t len);
 static int prompt_count_args(char *arg_str, size_t len);
-static void prompt_log_stdin(const char *str);
+static void prompt_log_stdin(char *str);
 
 static pthread_t prompt_thread;
 static bool running = true;
@@ -79,7 +79,7 @@ static void *prompt_main(void *arg)
 
 static void prompt_handle_cmd(const char *stdin_str, size_t len)
 {
-    prompt_log_stdin((const char *) stdin_str);
+    prompt_log_stdin(stdin_str);
 
     int arg_count = prompt_count_args(stdin_str, len);
     char *args[arg_count];
@@ -157,7 +157,7 @@ static int prompt_count_args(char *arg_str, size_t len)
     return arg_count;
 }
 
-static void prompt_log_stdin(const char *str)
+static void prompt_log_stdin(char *str)
 {
     bool *log_stdin = config_get(CONF_LOG_STDIN);
     if (!*log_stdin)
