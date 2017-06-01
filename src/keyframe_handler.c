@@ -256,6 +256,8 @@ static void *keyhandler_main(void *arg)
             tmp_key = (Keyframe *) list_pop(&keyframes);
             if (tmp_key)
                 free(tmp_key);
+
+            printf("---[f:%s,l:%d]---", __FILE__, __LINE__);
         }
     }
 
