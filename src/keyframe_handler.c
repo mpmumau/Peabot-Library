@@ -151,7 +151,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
     double *trans_duration = (double *) config_get(CONF_TRANSITIONS_TIME);
     keyfr->duration = *trans_duration;    
 
-    bool success = keyfactory_transition(keyfr, size_t len, Keyframe *src, Keyframe *dest);
+    bool success = keyfactory_transition(keyfr, len, src, dest);
 
     if (trans_keyfr != NULL)
     {
