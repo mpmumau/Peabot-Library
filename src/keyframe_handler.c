@@ -245,6 +245,8 @@ static void *keyhandler_main(void *arg)
 
         if (next > keyfr->duration)
         {
+            printf("\n---[f:%s,l:%d]---\n", __FILE__, __LINE__);
+
             next = 0.0;
             keyhandler_log_keyfr(keyfr);
 
