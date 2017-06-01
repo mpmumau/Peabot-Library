@@ -16,6 +16,7 @@
 
 /* Application includes */
 #include "prompt.h"
+#include "string_utils.h"
 
 /* Header */
 #include "console.h"
