@@ -190,7 +190,7 @@ static void *keyhandler_main(void *arg)
     last_keyfr.is_delay = false;
     last_keyfr.servo_pos = &last_servopos;    
 
-    for (int q = 0; q < *servos_num)
+    for (int q = 0; q < *servos_num; q++)
     {
         last_keyfr.servo_pos[q].easing = -1;
         last_keyfr.servo_pos[q].start_pos = 0.0;
