@@ -46,6 +46,7 @@ static void keyhandler_exec_removeall();
 static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest);
 static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
 static void keyhandler_log_keyfr(Keyframe *keyfr);
+static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len);
 
 void keyhandler_init()
 {
@@ -125,6 +126,8 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
     // Remember, the transition should come before the keyframe...
     if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
         keyhandler_add_transition(*servos_num, keyfr, &last_keyfr);
+
+    keyhandler_print_keyfr(keyfr, *servos_num);
 
     list_push(&keyframes, (void *) keyfr);
     
@@ -223,13 +226,6 @@ static void *keyhandler_main(void *arg)
         else 
             servo_pos = NULL;
 
-        // todo: remove
-        for (int i = 0; i < 8; i++)
-        {
-            printf("[ServoPos][%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
-                i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
-        }
-
         if (!keyfr->is_delay && servo_pos)
         {
             for (unsigned short i = 0; i < *servos_num; i++)
@@ -313,6 +309,30 @@ static void keyhandler_log_keyfr(Keyframe *keyfr)
     char msg[LOG_LINE_MAXLEN];
     snprintf(msg, sizeof(msg), "[Keyfr] Completed keyframe. (duration: %f, is_delay: %s)", keyfr->duration, keyfr->is_delay ? "true" : "false");
     log_event(msg);
+}
+
+static void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
+{
+    if (!keyfr)
+        return;
+
+    printf("\n[keyfr]\n");
+    printf("keyfr->duration: %f\n", keyfr->duration);
+    printf("keyfr->is_delay: %s\n", keyfr->is_delay ? "true" : "false");
+
+    if (keyfr->servo_pos)
+    {
+        printf("keyfr->servo_pos:\n");
+        for (int i = 0; i < len; i++)
+        {
+            printf("\t[%d] easing: %d, start_pos: %f, end_pos: %f, begin_pad: %f, end_pad: %f\n", 
+                i, servo_pos[i].easing, servo_pos[i].start_pos, servo_pos[i].end_pos, servo_pos[i].begin_pad, servo_pos[i].end_pad);
+        }
+    }   
+    else
+    {
+        printf("keyfr->servo_pos: NULL\n");
+    }
 }
 
 #endif
