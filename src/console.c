@@ -22,16 +22,9 @@
 
 void console_h(char *val)
 {
-    char line[CONSOLE_LINE_MAXLEN];
-    for (int i = 0; i < CONSOLE_LINE_MAXLEN - 1; i++)
-    {
-        line[i] = '=';
-    }
-    line[CONSOLE_LINE_MAXLEN - 1] = '\0';
-
-    printf("%s\n", line);
-    printf("%s\n", val);
-    printf("%s\n", line);
+    char lb[CONSOLE_LINE_LEN];
+    str_fill(lb, '=', sizeof(lb));
+    printf("%s\n%s\n%s\n", lb, val, lb);
 }
 
 void console_print(char *val)
@@ -41,12 +34,12 @@ void console_print(char *val)
 
 void console_br()
 {
-    char line[CONSOLE_LINE_MAXLEN];
-    for (int i = 0; i < CONSOLE_LINE_MAXLEN - 1; i++)
+    char line[CONSOLE_LINE_LEN];
+    for (int i = 0; i < CONSOLE_LINE_LEN - 1; i++)
     {
         line[i] = '-';
     }
-    line[CONSOLE_LINE_MAXLEN - 1] = '\0';
+    line[CONSOLE_LINE_LEN - 1] = '\0';
 
     printf("%s\n", line);
 }
@@ -59,8 +52,8 @@ void console_event(char *data)
     char *timestamp = calloc(TIMESTAMP_MAXLEN, sizeof(char));
     strftime(timestamp, TIMESTAMP_MAXLEN, "[%m.%d.%y.%H.%M.%S]", ltime);
 
-    char *buffer = calloc(CONSOLE_LINE_MAXLEN, sizeof(char));
-    snprintf(buffer, CONSOLE_LINE_MAXLEN, "\n%s %s\n", timestamp, data);
+    char *buffer = calloc(CONSOLE_LINE_LEN, sizeof(char));
+    snprintf(buffer, CONSOLE_LINE_LEN, "\n%s %s\n", timestamp, data);
 
     console_print(buffer);
 

@@ -70,12 +70,12 @@ void str_clearcopy(char *dest, const char *src, size_t len)
     memcpy(dest, src, len - 1);
 }
 
-void str_linebreak(char *str, size_t len)
+void str_fill(char *str, char c, size_t len)
 {
     if (len < 1)
         return;
 
-    memset(str, '-', len - 1);
+    memset(str, c, len - 1);
     str[len - 1] = '\0';
 }
 

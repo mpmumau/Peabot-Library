@@ -3,7 +3,7 @@
 
 /*
  File:          main.c
- Description:   Main application source for the Peabo application.
+ Description:   Main object for the Peabot application.
  Created:       May 5, 2017
  Author:        Matt Mumau
  */
@@ -34,8 +34,8 @@
 /* Header */
 #include "main.h"
 
-static bool app_running = true;
-static int exit_val = 0;
+static bool running = true;
+static unsigned short exit_val = 1;
 
 /* Forward decs */
 static void signal_handler(int signum);
@@ -53,7 +53,7 @@ void app_exit(int retval)
     log_close();
 
     exit_val = retval;
-    app_running = false;  
+    running = false;  
 }
 
 void app_error(const char *file, unsigned int lineno, const char *msg, unsigned short error_code)
@@ -80,32 +80,21 @@ static void signal_handler(int signum)
 int main(int argc, char *argv[])
 {
     prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
-
     config_init(argc, argv);
     log_init();
-
     signal(SIGINT, signal_handler);
-
     console_h("Peabot Server: " APP_VERSION); 
-
     wiringPiSetup();
 
     usd_sensor_init();
-
     robot_init();
-
     keyhandler_init();
-
     event_init();
-    
     prompt_init();
-
     http_init();
 
     while (app_running) 
-    {
-        sleep(2);
-    }
+        sleep(1);
 
     exit(exit_val);
     return exit_val;

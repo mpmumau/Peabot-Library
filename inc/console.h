@@ -9,7 +9,7 @@
  Author:        Matt Mumau
  */
 
-#define CONSOLE_LINE_MAXLEN 128
+#define CONSOLE_LINE_LEN 128
 #define TIMESTAMP_MAXLEN 20
 
 /* Print a header message to the console; will be surrounded by two double lines. */

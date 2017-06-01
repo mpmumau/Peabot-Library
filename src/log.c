@@ -64,7 +64,7 @@ void log_close()
 void log_h(char *val)
 {
     char lb[128];
-    str_linebreak(lb, sizeof(lb));
+    str_fill(lb, '-', sizeof(lb));
     
     log_write(lb);
     log_write(val);
