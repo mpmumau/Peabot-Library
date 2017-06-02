@@ -48,7 +48,9 @@ void promptcmd_halt(char *args[], int arg_num)
 
 void promptcmd_delay(char *args[], int arg_num)
 {
-    promptcmd_check_args("delay [duration]", 1, arg_num);
+    bool valid = promptcmd_check_args("delay [duration]", 1, arg_num);
+    if (!valid)
+        return;
 
     const char *seconds_string = args[0];
 
@@ -63,7 +65,9 @@ void promptcmd_delay(char *args[], int arg_num)
 
 void promptcmd_elevate(char *args[], int arg_num)
 {
-    promptcmd_check_args("elevate [duration] [reverse]", 2, arg_num);
+    bool valid = promptcmd_check_args("elevate [duration] [reverse]", 2, arg_num);
+    if (!valid)
+        return;
 
     const char *seconds_string = args[0];
     const char *reverse_string = args[1];
@@ -81,7 +85,9 @@ void promptcmd_elevate(char *args[], int arg_num)
 
 void promptcmd_extend(char *args[], int arg_num)
 {
-    promptcmd_check_args("extend [duration] [reverse]", 2, arg_num);
+    bool valid = promptcmd_check_args("extend [duration] [reverse]", 2, arg_num);
+    if (!valid)
+        return;    
 
     const char *seconds_string = args[0];
     const char *reverse_string = args[1];
@@ -99,7 +105,9 @@ void promptcmd_extend(char *args[], int arg_num)
 
 void promptcmd_walk(char *args[], int arg_num)
 {
-    promptcmd_check_args("walk [cycles] [duration] [reverse]", 3, arg_num);
+    bool valid = promptcmd_check_args("walk [cycles] [duration] [reverse]", 3, arg_num);
+    if (!valid)
+        return;
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];
@@ -119,7 +127,9 @@ void promptcmd_walk(char *args[], int arg_num)
 
 void promptcmd_turn(char *args[], int arg_num)
 {
-    promptcmd_check_args("turn [cycles] [duration] [reverse]", 3, arg_num);
+    bool valid = promptcmd_check_args("turn [cycles] [duration] [reverse]", 3, arg_num);
+    if (!valid)
+        return;
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];    
@@ -139,7 +149,9 @@ void promptcmd_turn(char *args[], int arg_num)
 
 void promptcmd_strafe(char *args[], int arg_num)
 {
-    promptcmd_check_args("strafe [cycles] [duration] [reverse]", 3, arg_num);
+    bool valid = promptcmd_check_args("strafe [cycles] [duration] [reverse]", 3, arg_num);
+    if (!valid)
+        return;    
 
     const char *cycles_string = args[0];
     const char *seconds_string = args[1];    
