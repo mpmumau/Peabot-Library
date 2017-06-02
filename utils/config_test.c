@@ -14,6 +14,9 @@ typedef struct Config
 
 static Config config;
 
+void *config_get(unsigned short arg_name);
+void config_set(unsigned short arg_name, void *val);
+
 int main(int argc, char *argv[])
 {
     config_set(ARG1, 74621);
