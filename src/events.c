@@ -293,7 +293,7 @@ static void event_print_event(Event *event)
             break;
         case EVENT_WALK: ;
             EventWalkData *event_walk_p = (EventWalkData *) event->data;
-            printf("\tEventWalkData [reverse]: %s\n", event_walk_p->reverse ? "true" : "false";)
+            printf("\tEventWalkData [reverse]: %s\n", event_walk_p->reverse ? "true" : "false");
             printf("\tEventWalkData [duration]: %f\n", event_walk_p->duration);
             printf("\tEventWalkData [cycles]: %d\n", event_walk_p->cycles);
             break;
