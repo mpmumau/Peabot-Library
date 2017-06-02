@@ -162,30 +162,43 @@ static void *event_get_data_cpy(unsigned short event_type, void *data)
     switch (event_type)
     {
         case EVENT_DELAY:
-            data_p = (void *) calloc(1, sizeof(double));            
+            data_p = (void *) calloc(1, sizeof(double));  
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);  
+            *((double *) data_p) = *((double *) data);        
             break;
         case EVENT_ELEVATE:
             data_p = (void *) calloc(1, sizeof(EventElevateData));
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);              
+            *((EventElevateData *) data_p) = *((EventElevateData *) data);
             break;
         case EVENT_WALK:
             data_p = (void *) calloc(1, sizeof(EventWalkData));
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);  
+            *((EventWalkData *) data_p) = *((EventWalkData *) data);
             break;
         case EVENT_EXTEND:
             data_p = (void *) calloc(1, sizeof(EventExtendData));
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);  
+            *((EventExtendData *) data_p) = *((EventExtendData *) data);
             break;
         case EVENT_TURN:
-            data_p = (void *) calloc(1, sizeof(EventTurnData));   
+            data_p = (void *) calloc(1, sizeof(EventTurnData));
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);  
+            *((EventTurnData *) data_p) = *((EventTurnData *) data);
             break;     
         case EVENT_STRAFE:
             data_p = (void *) calloc(1, sizeof(EventStrafeData));
+            if (!data_p)
+                APP_ERROR("Could not allocate memory.", 1);  
+            *((EventStrafeData *) data_p) = *((EventStrafeData *) data);
         default:
             return NULL;                            
     }
-
-    if (!data_p)
-        APP_ERROR("Could not allocate memory.", 1);      
-
-    *data_p = *data;
 
     // switch (event_type)
     // {
