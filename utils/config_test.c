@@ -46,7 +46,7 @@ void *config_get(unsigned short arg_name)
     return NULL;
 }
 
-void config_set(unsigned short arg_name, (void *) val)
+void config_set(unsigned short arg_name, void *val)
 {
     switch (arg_name)
     {
