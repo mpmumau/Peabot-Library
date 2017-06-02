@@ -6,13 +6,17 @@ This software controls a custom-built quadruped robot. Namely, this guy (or anyo
 
 ![Pibot photo](images/pibot.jpg)
 
-## Mechanical Features
+## Software Features
+* Full solution for controlling a quadruped robot.
+* Includes many "motions" for moving the robot (walk, turn, extend arms, etc.).
+* Interactive command prompt for sending the robot commands.
+* RESTful web API for controlling the robot through HTTP requests.
+* Multiple configuration options (config file, command line, interactive prompt).
 
-![Pibot photo](images/disassembled.jpg)
-
-Each of the robot's four legs is moved by two separate micro 9G servos. The 
-servos are able to rotate about 165 degrees, although physical joints of 
-the robot are able to rotate somewhat less so. That makes for a total of eight servos.
+## Planned Features
+* Artificial intelligence.
+* Sensor data management and automatic motion stabilization.
+* Additional walk gates, and other movements.
 
 ## Requirements.
 
@@ -21,6 +25,10 @@ Likewise, out of the box, it is presumed that you will use the PCA-9685 PWM bus 
 However, with minimal modifications, it should be capable of running on any hardware
 that supports PWM servo control.
 
+Peabot also assumes you are running the Raspbian operating system.
+
+![Pibot photo](images/disassembled.jpg)
+
 This software is written in such a way that if future contributers would like to use
 more servos on their robots (for example a hexapod, etc.), then they may do so by
 modifying it to their purposes and recompiling. In general, Peabot is a framework
@@ -28,14 +36,25 @@ for handling generic robotic functions; however, for quadrupeds with eight servo
 it's an all-in-one solution. Simply install the application on any Raspberry Pi, 
 and you'll have the ability to get your bot up and walking with minimal configuration.
 
-## Components
+## Mechanical Considerations
+
+In a standard quadruped, each of the robot's four legs is moved by two separate 
+micro 9G servos. That makes for a total of eight servos. Peabot's default 
+animations presume that you will be using an eight-servo robot.
+
+Typical hobby servos are able to rotate about 165 degrees, although 
+physical joints of a robot may rotate somewhat less so. As such, you should be aware
+that your robot may need to be configured such that servo motions can compensate for
+such an offset.
+
+## Electronic Components
+
+The default target electronics for a Peabot robot are presumed to be as such:
 
 ![Pibot components](images/components.jpg)
 
-My recommended robot build (and what I'm testing this software on) is as follows:
-
 ### Raspberry Pi Zero
-The central component of the robot is the ever popular Raspberry Pi, which is a 
+The central component of a Peabot robot is a Raspberry Pi, which is a 
 fully functioning computer, configured to run the Raspbian operating system.
 
 ### Adafruit PCA9685 servo controller breakout
@@ -43,28 +62,30 @@ This controller is able to take I2C input from the Raspberry Pi's applicable
 pins, and multiplex that signal through 16 channels. In this case, the robot 
 uses 8 of the controller's pins, 0-7, to control its 8 servos. 
 
-*Note* A 1000mf capacitor is attached to the servo controller as indicated by 
-the manufacturer in order to provide better power to the servos.
+*Note* A 1000mf capacitor should be soldered to PCA-9685 as indicated by 
+the manufacturer in order to provide consistent power to the servos.
 
 ### RioRand ESO8MA 9G micro servos
-These are the robots source of mechanical movement, allowing for precise 
-rotation of the robot's joints.
+These are the robot's source of mechanical movement, allowing for precise 
+rotation of the robot's joints. Any 9g servos may be used, however.
 
 ### HC-SR04 ultrasonic distance sensor
 In addition to serving as a neato robot face, this sensor detects the distance 
 between itself and any obstructions directly in front of it using ultrasonic 
-echos (like a bat).
+echos (like a bat). Use of the UDS is optional, and configurable.
 
 ### MPU-9250 9DOF sensor breakout
 This sensor is able to capture gyroscopic rotation, magnetic bearing and 
 acceleration of the robot. In future versions of the robot's software, the 
-robot will be able to use this information to navigate on its own.
+robot will be able to use this information to navigate on its own. Use of
+this board is optional, and configurable.
 
-## Wiring and Pins
+## Example Wiring and Pins
 
 ![Pibot components](images/wiring.jpg)
 
-The electronic components of the robot are wired in the following way:
+You may assemble and connect the electronic components of the robot in the 
+following way:
 
 ### Raspberry Pi GPIO Pins:
 
@@ -155,26 +176,26 @@ in a left-to-right orientation.
 
 ## Power
 
-The robot uses two separate power sources to do its work. The Raspberry Pi Zero, 
-the PCA9685, the HC-SR04 and the MPU-9250 all are run from a rechargable 3.4v 
-lipo battery, while the servos are powered from two 18650 batteries, connected 
-in series, for about 8v. This is reduced through a Hobbywing 5V/6V 3A 
-switch-mode UBEC, and wired into the PCA9586's screw terminals. 
+A Peabot robot should use two separate power sources to do its work. The Raspberry Pi Zero, 
+the PCA-9685 (I2C-side), the HC-SR04 and the MPU-9250 may be run from a rechargable 3.4v 
+lipo battery, while the servos may be powered from two 18650 batteries, connected 
+in series, for about 8v. This may be reduced through a Hobbywing 5V/6V 3A 
+switch-mode UBEC (or similar), and wired into the PCA-9586's screw terminals. 
 
-I also have an Adafruit MCP73833 lipo charger installed into the battery pack 
-itself, which allows me to recharge the 3.4v battery inline. The 18650 batteries 
-must be removed and recharged in a separate battery charging device.
+Optionally, you have an Adafruit MCP73833 lipo charger installed into the battery pack 
+itself, which may recharge the 3.4v battery inline. The 18650 batteries 
+should be removed and recharged in a separate battery charging device.
 
 ## 3D Printed Parts
 
-The legs for the robot are from Javier Isabel's Kame robot, which is available 
+Recommended legs for a Peabot robot are from Javier Isabel's Kame robot, which is available 
 on Thingiverse.com:
 
 http://www.thingiverse.com/thing:1265766
 
-The STL models for the body, top and battery compartment which I had customized 
-for this robot are included in the 3d_models directory of this repository. 
-Recommended settings are around .3mm layer height, with temps as per your 
+The STL models for a body, top and battery compartment which I had customized 
+for this robot are included in the 3d_models directory of this repository for 3D printing. 
+Recommended print settings are around .3mm layer height, with temps as per your 
 material of choice.
 
 The battery holder model includes customized support structures, which may be 
@@ -196,10 +217,10 @@ links.
 
 ## Log Files
 
-Log files are stored in `/var/log/peabot` on your system. This directory may
+Log files are stored in `/var/log/peabot` on your system by default. This directory may
 be configured via the application's configuration file. Options are also
 available in the configuration file to log only the information in which you are
-most intestered.
+most interested.
 
 ## Installation
 
@@ -209,6 +230,11 @@ the command line from within the directory of the repository.
 
 To uninstall, type `make full-uninstall` (as root or sudo). This will remove Peabot from your 
 system, while keeping log files in `/var/log/peabot`.
+
+Peabot must be run with permissions to access the Raspberry Pi's GPIO; use `sudo` to
+run peabot if your user does not have permissions to the Raspberry Pi's GPIO.
+
+The command `peabot` may be run after installation to start the program (e.g. `sudo peabot`).
 
 ## Command Prompt
 
@@ -236,6 +262,10 @@ retracted position. Last a total of `time` seconds.
 ### reset
 
 Reset all servos to their "home" position.
+
+### halt
+
+Halt the robot entirely.
 
 ### quit
 
