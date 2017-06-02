@@ -325,8 +325,27 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len)
         return;
     }
 
+    ServoPos *tmp_src_srv;
+    ServoPos *tmp_dest_srv;
     for (unsigned short i = 0; i < len; i++)
-        dest->servo_pos[i] = (double) src->servo_pos[i];   
+    {
+        // typedef struct ServoPos {
+        //     unsigned short easing;
+        //     double start_pos;
+        //     double end_pos;
+        //     double begin_pad; 
+        //     double end_pad;   
+        // } ServoPos;
+
+        tmp_src_srv = (ServoPos *) &(src->servo_pos[i]);
+        tmp_dest_srv = (ServoPos *) &(dest->servo_pos[i]);
+
+        tmp_dest_srv->easing = tmp_src_srv->easing;
+        tmp_dest_srv->start_pos = tmp_src_srv->start_pos;
+        tmp_dest_srv->end_pos = tmp_src_srv->end_pos;
+        tmp_dest_srv->begin_pad = tmp_src_srv->begin_pad;
+        tmp_dest_srv->end_pad = tmp_srv_srv->end_pad; 
+    }
 }
 
 static void keyhandler_log_keyfr(Keyframe *keyfr)
