@@ -131,13 +131,9 @@ void eventcb_strafe(void *arg)
 {
     EventStrafeData *strafe_data = (EventStrafeData *) arg;
 
-    printf("got here\n");
-
     unsigned short cycles = strafe_data->cycles;
     double duration = strafe_data->duration;
     bool reverse = strafe_data->reverse;
-
-
    
     double *duration_p;
 
