@@ -45,7 +45,7 @@
 /* Forward decs */
 static void *http_main(void *arg);
 static void http_server_ipstr(HTTPServer *http, char *str, int len);
-static void http_server_log_connect(char *ipaddr);
+static void http_server_log_connect(const char *ipaddr);
 static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr);
 
 static bool running = true;
