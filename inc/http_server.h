@@ -8,10 +8,8 @@
  Author:        Matt Mumau
  */
 
-#define HTTP_SERVER_MAX_CONNS 32
-#define HTTP_SERVER_BUFFER_MAX (256*1024) // 256kb
-
-#define DEFAULT_HTTP_RESPONSE_SIZE 32768
+#define HTTP_SERVER_MAX_CONNS 1024
+#define HTTP_SERVER_BUFFER_LEN (256*1024) // 256kb
 
 /* System includes */
 #include <stdbool.h>
@@ -24,18 +22,17 @@
 #include "http_request.h"
 
 typedef struct HTTPServer {
-    bool        running;
-    pthread_t   thread;
     int         socket;
     struct      sockaddr_in srv_addr;
     struct      sockaddr_in cli_addr;
-    char        buffer[HTTP_SERVER_BUFFER_MAX];
+    size_t      client_len;
+    char        buffer[HTTP_SERVER_BUFFER_LEN];
 } HTTPServer;
 
-typedef struct HTTPRequestThreadData {
+typedef struct HTTPRequestData {
     HTTPRequest *http_request;
     int socket_fd;
-} HTTPRequestThreadData;
+} HTTPRequestData;
 
 /* Initialize the HTTP server component of Peabot. */
 void http_init();

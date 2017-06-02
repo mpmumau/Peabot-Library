@@ -48,8 +48,10 @@ static void http_server_ipstr(char *str, int len);
 static void http_server_log_connect(char *ipaddr);
 static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr);
 
-static HTTPServer http;
-static bool running;
+static bool running = true;
+static int error;
+static pthread_t http_server_thread;
+static pthread_attr_t detached_thread_attr;
 
 void http_init()
 {  
@@ -57,21 +59,19 @@ void http_init()
     if (!*http_enabled)
         return;
 
-    running = true;
+    pthread_attr_init(&detached_thread_attr);
+    pthread_attr_setdetachstate(&detached_thread_attr, PTHREAD_CREATE_DETACHED);    
 
-    pthread_attr_t http_thread_attr;
-    pthread_attr_init(&http_thread_attr);
-    pthread_attr_setdetachstate(&http_thread_attr, PTHREAD_CREATE_DETACHED);
-
-    http.thread = pthread_create(&(http.thread), &http_thread_attr, http_main, NULL);
-
-    pthread_attr_destroy(&http_thread_attr);
+    error = pthread_create(&detached_thread_attr, &detached_thread_attr, http_main, NULL);
+    if (error)
+        APP_ERROR("Could not initialize HTTP thread.", error);    
 }
 
 void http_halt()
 {
     running = false;
     close(http.socket);
+    pthread_attr_destroy(&http_server_thread_attr);
 }
 
 static void *http_main(void *arg)
@@ -80,20 +80,19 @@ static void *http_main(void *arg)
 
     unsigned short *http_port = (unsigned short *) config_get(CONF_HTTP_PORT);
 
-    http.srv_addr.sin_family = AF_INET;
-    http.srv_addr.sin_addr.s_addr = INADDR_ANY;
-    http.srv_addr.sin_port = (unsigned short) htons(*http_port);      
+    HTTPServer http;
+    http.srv_addr.sin_family        = AF_INET;
+    http.srv_addr.sin_addr.s_addr   = INADDR_ANY;
+    http.srv_addr.sin_port          = htons(*http_port); 
+    http.client_len                 = sizeof(http.cli_addr); 
 
-    int client_length = sizeof(http.cli_addr); 
-    int last_socket = -1;
+    int last_socket;
     char ip_addr[INET6_ADDRSTRLEN];
-    HTTPRequest *http_request;
 
-    HTTPRequestThreadData *request_thread_data;
+    HTTPRequest *http_request;
+    HTTPRequestData *request_data;
+
     pthread_t last_request_thread;
-    pthread_attr_t request_thread_attr;
-    pthread_attr_init(&request_thread_attr);
-    pthread_attr_setdetachstate(&request_thread_attr, PTHREAD_CREATE_DETACHED);
 
     http.socket = socket(AF_INET, SOCK_STREAM, 0);
     if (http.socket < 0)
@@ -107,7 +106,7 @@ static void *http_main(void *arg)
    
     while (running)
     {
-        last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
+        last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &(http.client_len));
         if (last_socket < 0) 
             continue;
 
@@ -118,6 +117,9 @@ static void *http_main(void *arg)
         read(last_socket, http.buffer, sizeof(http.buffer) - 1);
 
         http_request = calloc(1, sizeof(HTTPRequest));
+        if (!http_request)
+            APP_ERROR("Could not allocate memory.", 1);  
+
         httpreq_reset_request(http_request);   
         httpreq_parse(http_request, ip_addr, http.buffer, sizeof(http.buffer));
 
@@ -155,11 +157,11 @@ static void http_server_log_http_request(HTTPRequest *http_request, int buff_siz
     const char *request_type = httpreq_get_methodstr(http_request);
 
     char log_message[256];
-    snprintf(log_message, sizeof(log_message)-1, "[HTTP] Req[%s] is %s %.2f%s",
+    snprintf(log_message, sizeof(log_message)-1, "[HTTP] Request from %s is %s [%.2f %s]",
         ipaddr,
         request_type,
         buff_size < 1024 ? (double) buff_size : (double) (buff_size / 1024.0),
-        buff_size < 1024 ? "b" : "kb" );
+        buff_size < 1024 ? "bytes" : "kb" );
     log_event(log_message);
 }
 
