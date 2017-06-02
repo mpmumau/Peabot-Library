@@ -70,7 +70,7 @@ void keyhandler_init()
     }
 
     printf("-----ORIGINAL KEYFR-----\n");
-    keyhandler_print_keyfr(last_keyfr, *servos_num);    
+    keyhandler_print_keyfr(&last_keyfr, *servos_num);    
 
     running = true;
     error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
