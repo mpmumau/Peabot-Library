@@ -72,7 +72,7 @@ static void *event_main(void *arg)
         if (!event)
             continue;
 
-        printf("-------EVENT TO BE ACTED UPON--------/n");
+        printf("-------EVENT TO BE ACTED UPON--------\n");
         event_print_event(event);
 
         event_callback = NULL;
@@ -268,7 +268,6 @@ static void event_print_event(Event *event)
     if (!event)
         return;
 
-    printf("---Event---\n");
     printf("event->type: %d\n", event->type);
     printf("event->data: %s\n", event->data == NULL ? "NULL" : "ISSET");
 
