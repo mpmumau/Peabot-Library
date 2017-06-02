@@ -29,17 +29,17 @@
 typedef char HTTPRequestLine[HTTP_REQ_LINE_LEN];
 
 typedef struct HTTPRequest {
-    char    ip_addr[INET6_ADDRSTRLEN];
-    bool    v11;
-    int     method;
-    char    uri[HTTP_REQ_LINE_LEN];
-    int     hdr_content_type;
-    char    hdr_user_agent[HTTP_REQ_LINE_LEN];
-    bool    hdr_keep_alive;
-    bool    hdr_access_ctl_request_meth;
-    int     body_len;
-    int     body_len_actual;
-    char    body[HTTP_REQ_BODY_LEN];
+    char                ip_addr[INET6_ADDRSTRLEN];
+    bool                v11;
+    unsigned short      method;
+    char                uri[HTTP_REQ_LINE_LEN];
+    unsigned short      hdr_content_type;
+    char                hdr_user_agent[HTTP_REQ_LINE_LEN];
+    bool                hdr_keep_alive;
+    bool                hdr_access_ctl_request_meth;
+    unsigned int        body_len;
+    unsigned int        body_len_actual;
+    char                body[HTTP_REQ_BODY_LEN];
 } HTTPRequest;
 
 void httpreq_reset_request(HTTPRequest *request);

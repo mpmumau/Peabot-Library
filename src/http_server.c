@@ -125,14 +125,16 @@ static void *http_main(void *arg)
 
         http_server_log_http_request(http_request, strlen(http.buffer), ip_addr);
 
-        request_thread_data = calloc(1, sizeof(HTTPRequestThreadData));        
-        request_thread_data->http_request = http_request;
-        request_thread_data->socket_fd = last_socket;
+        request_data = calloc(1, sizeof(HTTPRequestThreadData)); 
+        if (!request_data)
+            APP_ERROR("Could not allocate memory.", 1);  
 
-        pthread_create(&last_request_thread, &request_thread_attr, httprhnd_handle_request, (void *) request_thread_data);
+        request_data->http_request = http_request;
+        request_data->socket_fd = last_socket;
+
+        pthread_create(&last_request_thread, &detached_thread_attr, httprhnd_handle_request, (void *) request_data);
     }
 
-    pthread_attr_destroy(&request_thread_attr);
     close(http.socket);
 
     pthread_exit(NULL);
@@ -145,7 +147,7 @@ static void http_server_ipstr(char *str, int len)
     inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), str, len);
 }
 
-static void http_server_log_connect(char *ipaddr)
+static void http_server_log_connect(const char *ipaddr)
 {
     char log_connection_msg[128];
     snprintf(log_connection_msg, sizeof(log_connection_msg) - 1, "[HTTP] Incoming request from: %s", ipaddr);   
