@@ -108,8 +108,6 @@ static void *http_main(void *arg)
     int socket_select_result;
     struct timeval timeout;
     int flags;   
-
-    printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
    
     while (running)
     {
@@ -128,6 +126,8 @@ static void *http_main(void *arg)
 
         flags = fcntl(http.socket, F_GETFL, 0);
         fcntl(http.socket, F_SETFL, flags | O_NONBLOCK);
+
+        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
 
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
