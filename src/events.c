@@ -176,6 +176,8 @@ static void *event_get_data_cpy(unsigned short event_type, void *data)
         case EVENT_TURN:
             data_p = (void *) calloc(1, sizeof(EventTurnData));   
             break;     
+        case EVENT_STRAFE:
+            data_p = (void *) calloc(1, sizeof(EventStrafeData));
         default:
             return NULL;                            
     }
@@ -229,7 +231,17 @@ static void *event_get_data_cpy(unsigned short event_type, void *data)
             turn_val_p = (EventTurnData *) data;
 
             *turn_p = *turn_val_p;
-            break;                                
+            break;     
+        case EVENT_STRAFE: ;
+            EventStrafeData *strafe_p = NULL;
+            strafe_p = (EventStrafeData *) data_p;
+
+            EventStrafeData *strafe_val_p = NULL;
+            strafe_val_p = (EventStrafeData *) data;
+
+            *strafe_p = *strafe_val_p;
+            break;  
+
     }    
 
     return data_p;
@@ -253,6 +265,8 @@ static char *event_getname(unsigned short event_type)
             return "EVENT_TURN";
         case EVENT_HALT:
             return "EVENT_HALT";
+        case EVENT_STRAFE:
+            return "EVENT_STRAFE";
     }
 
     return NULL;
@@ -307,6 +321,12 @@ void event_print_event(Event *event)
             printf("\tEventTurnData [reverse]: %s\n", event_turn_p->reverse ? "true" : "false");
             printf("\tEventTurnData [duration]: %f\n", event_turn_p->duration);
             printf("\tEventTurnData [cycles]: %d\n", event_turn_p->cycles);
+        case EVENT_STRAFE: ;
+            EventStrafeData *event_strafe_p = (EventStrafeData *) event->data;
+            printf("\tEventStrafeData [reverse]: %s\n", event_strafe_p->reverse ? "true" : "false");
+            printf("\tEventStrafeData [duration]: %f\n", event_strafe_p->duration);
+            printf("\tEventStrafeData [cycles]: %d\n", event_strafe_p->cycles);
+
             break;                               
     }
 }
