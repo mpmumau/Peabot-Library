@@ -68,8 +68,10 @@ void keyhandler_init()
     keyhandler_resey_keyfr(last_keyfr, *servos_num);
     last_keyfr->servo_pos = last_servopos;
 
+    #ifdef PEABOT_DBG
     printf("-----ORIGINAL KEYFR-----\n");
-    keyhandler_print_keyfr(last_keyfr, *servos_num);    
+    keyhandler_print_keyfr(last_keyfr, *servos_num); 
+    #endif  
 
     running = true;
     error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
@@ -153,8 +155,10 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 
     list_push(&keyframes, (void *) keyfr);
 
+    #ifdef PEABOT_DBG
     printf("-----ACTIVE KEYFR-----\n");
     keyhandler_print_keyfr(keyfr, *servos_num);
+    #endif
     
     keyhandler_copy_keyfr(last_keyfr, keyfr, *servos_num);
 }
@@ -194,11 +198,7 @@ static void keyhandler_add_transition(size_t len, Keyframe *src, Keyframe *dest)
         return;
     } 
 
-    printf("Adding transition keyframe... (no: %d)\n", list_sizeof(keyframes));
-
     list_push(&keyframes, (void *) keyfr);    
-
-    printf("Done. Added transition keyframe (no: %d)\n", list_sizeof(keyframes));
 }
 
 static void keyhandler_exec_removeall()
@@ -339,14 +339,6 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len)
     ServoPos *tmp_dest_srv;
     for (unsigned short i = 0; i < len; i++)
     {
-        // typedef struct ServoPos {
-        //     unsigned short easing;
-        //     double start_pos;
-        //     double end_pos;
-        //     double begin_pad; 
-        //     double end_pad;   
-        // } ServoPos;
-
         tmp_src_srv = (ServoPos *) &(src->servo_pos[i]);
         tmp_dest_srv = (ServoPos *) &(dest->servo_pos[i]);
 

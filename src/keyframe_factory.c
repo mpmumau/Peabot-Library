@@ -325,13 +325,13 @@ bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool revers
 
 bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe *dest)
 {
+    #ifdef PEABOT_DBG
     printf("Making transition keyfr...\n");
-
     printf("-----TRANS SRC KEYFR-----\n");
     keyhandler_print_keyfr(src, len);
-
     printf("-----TRANS DEST KEYFR-----\n");
-    keyhandler_print_keyfr(dest, len);    
+    keyhandler_print_keyfr(dest, len); 
+    #endif   
 
     if (src == NULL || dest == NULL)
         return false;
@@ -347,8 +347,10 @@ bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe 
         keyfr->servo_pos[i] = (ServoPos) { EASE_CIRC_IN, src->servo_pos[i].end_pos, dest->servo_pos[i].start_pos, 0.0, 0.0 };
     }
 
+    #ifdef PEABOT_DBG
     printf("-----TRANS KEYFR-----\n");
-    keyhandler_print_keyfr(keyfr, len);     
+    keyhandler_print_keyfr(keyfr, len);  
+    #endif   
     
     return true; 
 }
@@ -358,10 +360,8 @@ static bool servopos_matches(ServoPos *src, ServoPos *dest, size_t len)
     if (!src || !dest)
         return true;
 
-    printf("=====servopos_matches()=====\n");
     for (unsigned short i = 0; i < len; i++) 
     {
-        printf("Comparing: src.end_pos[%f] to dest.start_pos[%f]\n", src[i].end_pos, dest[i].start_pos);
         if (src[i].end_pos != dest[i].start_pos)
             return false;  
     }

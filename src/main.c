@@ -8,6 +8,8 @@
  Author:        Matt Mumau
  */
 
+//#define PEABOT_DBG
+
 /* System dependencies */
 #include <sys/prctl.h>
 #include <stdio.h>
