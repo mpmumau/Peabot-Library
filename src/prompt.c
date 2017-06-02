@@ -167,7 +167,7 @@ static void prompt_log_stdin(const char *str)
         return;
 
     char msg[STDIN_BUFFER_LOG_LEN];
-    snprintf(msg, sizeof(msg), "[PRMT]: %s", str);
+    snprintf(msg, sizeof(msg), "[PRMT] stdin > %s", str);
     log_event(msg);
 }
 
