@@ -124,7 +124,7 @@ static void *http_main(void *arg)
 
         http_server_log_http_request(http_request, strlen(http.buffer), ip_addr);
 
-        request_data = calloc(1, sizeof(HTTPRequestThreadData)); 
+        request_data = calloc(1, sizeof(HTTPRequestData)); 
         if (!request_data)
             APP_ERROR("Could not allocate memory.", 1);  
 
