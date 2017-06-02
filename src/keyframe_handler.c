@@ -344,7 +344,7 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len)
         tmp_dest_srv->start_pos = tmp_src_srv->start_pos;
         tmp_dest_srv->end_pos = tmp_src_srv->end_pos;
         tmp_dest_srv->begin_pad = tmp_src_srv->begin_pad;
-        tmp_dest_srv->end_pad = tmp_srv_srv->end_pad; 
+        tmp_dest_srv->end_pad = tmp_src_srv->end_pad; 
     }
 }
 
