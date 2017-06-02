@@ -44,7 +44,7 @@
 
 /* Forward decs */
 static void *http_main(void *arg);
-static void http_server_ipstr(char *str, int len);
+static void http_server_ipstr(HTTPServer *http, char *str, int len);
 static void http_server_log_connect(char *ipaddr);
 static void http_server_log_http_request(HTTPRequest *http_request, int buff_size, char *ipaddr);
 
@@ -109,7 +109,7 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        http_server_ipstr(ip_addr, sizeof(ip_addr));
+        http_server_ipstr(&http, ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
         memset(http.buffer, '\0', sizeof(http.buffer));   
@@ -141,9 +141,9 @@ static void *http_main(void *arg)
     return NULL;
 }
 
-static void http_server_ipstr(char *str, int len)
+static void http_server_ipstr(HTTPServer *http, char *str, int len)
 {
-    inet_ntop(AF_INET, (struct sockaddr_in *) &(http.cli_addr.sin_addr), str, len);
+    inet_ntop(AF_INET, (struct sockaddr_in *) &(http->cli_addr.sin_addr), str, len);
 }
 
 static void http_server_log_connect(const char *ipaddr)
