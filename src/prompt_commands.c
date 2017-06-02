@@ -169,7 +169,6 @@ void promptcmd_strafe(char *args[], int arg_num)
     promptcmd_log_cmd(log_msg);        
 }
 
-
 static void promptcmd_log_cmd(const char *msg)
 {
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
