@@ -106,7 +106,7 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
     double *knee_pad_b = (double *) config_get(CONF_WALK_KNEE_PAD_B);
 
     *hip_delta *= mod;
-    *knee_delta *= mod;
+    *knee_delta *= is_inverted ? -1.0 : 1.0;
 
     unsigned short ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
     unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
