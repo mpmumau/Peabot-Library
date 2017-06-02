@@ -68,6 +68,8 @@ void *httprhnd_handle_request(void *data)
     mvcdata_set(&mvc_data, http_request, &http_response, model, controller, query);
     httprhnd_log_mvc_route(http_request, &mvc_data);
     
+    printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
+
     void (*request_cb)(MVCData *mvc_data);
     request_cb = NULL;
 

@@ -127,6 +127,9 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
         keyhandler_add_transition(*servos_num, &last_keyfr, keyfr);
 
     list_push(&keyframes, (void *) keyfr);
+
+    printf("-----ACTIVE KEYFR-----\n");
+    keyhandler_print_keyfr(keyfr, *servos_num);
     
     keyhandler_copy_keyfr(&last_keyfr, keyfr, *servos_num);
 }
