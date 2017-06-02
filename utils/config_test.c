@@ -19,8 +19,11 @@ void config_set(unsigned short arg_name, void *val);
 
 int main(int argc, char *argv[])
 {
-    config_set(ARG1, 74621);
-    config_set(ARG2, 25124);
+    int arg1_init_val = 74621;
+    int arg2_init_val = 25124;
+
+    config_set(ARG1, (void *) &arg1_init_val);
+    config_set(ARG2, (void *) &arg2_init_val);
 
     int *arg1_p = (int *) config_get(ARG1);
     int *arg2_p = (int *) config_get(ARG2);
