@@ -38,7 +38,6 @@ static void *event_main(void *arg);
 static char *event_getname(unsigned short event_type);
 static void event_log_eventadd(Event *event);
 static void *event_get_data_cpy(unsigned short event_type, void *data);
-static void event_print_event(Event *event);
 
 void event_init()
 {
