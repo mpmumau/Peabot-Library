@@ -464,12 +464,12 @@ The RESTful service may be used to send commands to the robot via HTTP, or to re
 data from the robot. This is useful for building a front-end web application to control
 the robot (think: mobile app!)
 
-Typical RESTful requests made to Peabot are either general GET requests for retrieve
-information or POST requests with JSON data in the request body to specify command
-paramters. The format of specific RESTful requests is as follows:
-
 All POST requests return a response with a JSON body, containing the value boolean `success`
 indicating the success of the operation.
+
+Typical RESTful requests made to Peabot are either general GET requests for retrieving
+information or POST requests with JSON data in the request body to specify command
+paramters. The format of specific RESTful requests is as follows:
 
 ### POST /event/walk
 
@@ -530,3 +530,10 @@ No data required.
 Halt all robot movement.
 
 No data required.
+
+### GET /uds/get
+
+Get the current distance indicated by the ultra-sonic distance sensor. Returns:
+
+`{ "distance": 16.51 }`
+
