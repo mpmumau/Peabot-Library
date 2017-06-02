@@ -54,6 +54,21 @@ static void keyhandler_set_robot(Keyframe *keyfr, size_t len, double time);
 
 void keyhandler_init()
 {
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+
+    last_keyfr.duration = 0.0;
+    last_keyfr.is_delay = false;
+    last_keyfr.servo_pos = &last_servopos;    
+
+    for (int q = 0; q < *servos_num; q++)
+    {
+        last_keyfr.servo_pos[q].easing = 0;
+        last_keyfr.servo_pos[q].start_pos = 0.0;
+        last_keyfr.servo_pos[q].end_pos = 0.0;
+        last_keyfr.servo_pos[q].begin_pad = 0.0;
+        last_keyfr.servo_pos[q].end_pad = 0.0;
+    }
+
     running = true;
     error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
     if (error)
@@ -192,21 +207,6 @@ static void keyhandler_exec_removeall()
 static void *keyhandler_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_KEYFR\0", NULL, NULL, NULL);
-
-    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
-
-    last_keyfr.duration = 0.0;
-    last_keyfr.is_delay = false;
-    last_keyfr.servo_pos = &last_servopos;    
-
-    for (int q = 0; q < *servos_num; q++)
-    {
-        last_keyfr.servo_pos[q].easing = -1;
-        last_keyfr.servo_pos[q].start_pos = 0.0;
-        last_keyfr.servo_pos[q].end_pos = 0.0;
-        last_keyfr.servo_pos[q].begin_pad = 0.0;
-        last_keyfr.servo_pos[q].end_pad = 0.0;
-    }
 
     struct timespec time;
     struct timespec last_time;
