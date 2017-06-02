@@ -111,8 +111,6 @@ static void *http_main(void *arg)
         if (last_socket < 0) 
             continue;
 
-        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
-
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
 
@@ -130,6 +128,8 @@ static void *http_main(void *arg)
         request_thread_data->socket_fd = last_socket;
 
         pthread_create(&last_request_thread, &request_thread_attr, httprhnd_handle_request, (void *) request_thread_data);
+
+        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
     }
 
     pthread_attr_destroy(&request_thread_attr);
