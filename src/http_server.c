@@ -70,7 +70,6 @@ void http_init()
 void http_halt()
 {
     running = false;
-    close(http.socket);
     pthread_attr_destroy(&http_server_thread_attr);
 }
 
