@@ -468,9 +468,14 @@ Typical RESTful requests made to Peabot are either general GET requests for retr
 information or POST requests with JSON data in the request body to specify command
 paramters. The format of specific RESTful requests is as follows:
 
+All POST requests return a response with a JSON body, containing the value boolean `success`
+indicating the success of the operation.
+
 ### POST /event/walk
 
-JSON
+Begins the robot's walk animation, up to the given amount of cycles, each lasting "duration" 
+seconds. If reverse, walk backwards.
+
 `
 {
     "cycles": 10,
@@ -481,14 +486,47 @@ JSON
 
 ### POST /event/turn
 
+Begins the robot's turn animation, up to the given amount of cycles, each lasting "duration" 
+seconds. If reverse, turn the opposite direction.
+
+`
+{
+    "cycles": 15,
+    "duration": 0.75,
+    "reverse": true
+}
+`
+
 ### POST /event/elevate
+
+Extends the robot's "knees" to either fully extended or retracted.
+
+`
+{
+    "duration": 0.45,
+    "reverse": false
+}
+`
 
 ### POST /event/extend
 
+Extends the robot's "hips" to either fully extended or retracted.
+
+`
+{
+    "duration": 0.45,
+    "reverse": false
+}
+`
+
 ### POST /event/reset
+
+Reset the robot to its neutral position.
 
 No data required.
 
 ### POST /event/halt
+
+Halt all robot movement.
 
 No data required.
