@@ -62,7 +62,7 @@ void http_init()
     pthread_attr_init(&detached_thread_attr);
     pthread_attr_setdetachstate(&detached_thread_attr, PTHREAD_CREATE_DETACHED);    
 
-    error = pthread_create(&detached_thread_attr, &detached_thread_attr, http_main, NULL);
+    error = pthread_create(&http_server_thread, &detached_thread_attr, http_main, NULL);
     if (error)
         APP_ERROR("Could not initialize HTTP thread.", error);    
 }
