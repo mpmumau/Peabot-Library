@@ -51,11 +51,7 @@ bool keyfactory_delay(Keyframe *keyfr, size_t len, void *data, bool reverse)
 
 bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    if (!data)
-        return false;
-
     keyfr->duration = 0.0;
-
     double mod = reverse ? -1.0 : 1.0;
 
     for (unsigned short i = 0; i < len; i++)
@@ -75,11 +71,7 @@ bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
 
 bool keyfactory_extend(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
-    if (!data)
-        return false;
-
     keyfr->duration = 0.0;
-    
     double mod = reverse ? -1.0 : 1.0;
 
     for (unsigned short i = 0; i < len; i++)
