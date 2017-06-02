@@ -51,7 +51,7 @@ void app_exit(int retval)
     robot_halt();
     usd_sensor_halt();
     config_destroy();
-    log_event("[APP] Shutting down. Bye!");
+    log_event("[MAIN] Shutting down. Bye!");
     log_close();
 
     exit_val = retval;

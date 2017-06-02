@@ -239,7 +239,7 @@ static void httprhnd_log_mvc_route(HTTPRequest *http_request, MVCData *mvc_data)
     const char *controller_name = mvcdata_get_controllerstr(mvc_data);
 
     char log_message[256];
-    snprintf(log_message, sizeof(log_message) - 1, "[HTTP] Req[%s] [MDL] %s [CNTLR] %s",
+    snprintf(log_message, sizeof(log_message) - 1, "[HTTP] Details of request from [%s]: [MODEL] %s [CONTROLLER] %s",
         http_request->ip_addr,
         model_name,
         controller_name);

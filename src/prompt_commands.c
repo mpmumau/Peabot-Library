@@ -144,7 +144,7 @@ static void promptcmd_log_cmd(const char *msg)
         return;
 
     char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, LOG_LINE_MAXLEN, "[Prompt] %s", msg);
+    snprintf(log_msg, LOG_LINE_MAXLEN, "[PRMT] %s", msg);
     log_event(log_msg);    
 }
 
