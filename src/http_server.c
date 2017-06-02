@@ -70,7 +70,7 @@ void http_init()
 void http_halt()
 {
     running = false;
-    pthread_attr_destroy(&http_server_thread_attr);
+    pthread_attr_destroy(&detached_thread_attr);
 }
 
 static void *http_main(void *arg)
