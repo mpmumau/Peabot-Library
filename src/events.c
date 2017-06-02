@@ -125,7 +125,7 @@ void event_add(unsigned short event_type, void *data)
     event->type = event_type;
     event->data = data_cpy;
 
-    printf("-------RAW EVENT--------/n");
+    printf("-------RAW EVENT--------\n");
     event_print_event(event);
 
     list_push(&events, (void *) event);
