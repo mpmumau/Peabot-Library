@@ -98,6 +98,8 @@ void eventcb_walk(void *arg)
         keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i > 0);
     }
 
+    keyhandler_add(KEYFR_RESET, (void *) NULL, false, false);
+
     eventcb_logcb("Added KEYFR_WALK keyframes.");
 }
 
