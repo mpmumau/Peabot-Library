@@ -98,8 +98,9 @@ void eventcb_walk(void *arg)
         keyhandler_add(KEYFR_WALK, (void *) duration_p, reverse, i > 0);
     }
 
-    double el_duration = 0.0;
-    keyhandler_add(KEYFR_ELEVATE, (void *) &el_duration, false, false);
+    double *el_duration = calloc(1, sizeof(double));
+    *el_duration = 0.0;
+    keyhandler_add(KEYFR_ELEVATE, (void *) el_duration, false, false);
 
     eventcb_logcb("Added KEYFR_WALK keyframes.");
 }
