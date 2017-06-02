@@ -137,6 +137,27 @@ void promptcmd_turn(char *args[], int arg_num)
     promptcmd_log_cmd(log_msg);       
 }
 
+void promptcmd_strafe(char *args[], int arg_num)
+{
+    promptcmd_check_args("strafe [cycles] [duration] [reverse]", 3, arg_num);
+
+    const char *cycles_string = args[0];
+    const char *seconds_string = args[1];    
+    const char *reverse_string = args[2];
+
+    EventStrafeData strafe_data;
+    strafe_data.cycles = (unsigned short) atoi(cycles_string);
+    strafe_data.duration = (double) atof(seconds_string);
+    strafe_data.reverse = (bool) ((int) atoi(reverse_string));
+
+    event_add(EVENT_STRAFE, (void *) &strafe_data);
+
+    char log_msg[LOG_LINE_MAXLEN];
+    snprintf(log_msg, sizeof(log_msg), "Added strafe event. (duration: %f, cycles %d, reverse: %s)", strafe_data.duration, strafe_data.cycles, strafe_data.reverse ? "true" : "false");
+    promptcmd_log_cmd(log_msg);        
+}
+
+
 static void promptcmd_log_cmd(const char *msg)
 {
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);

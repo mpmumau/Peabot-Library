@@ -132,6 +132,9 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
     if (str_equals(cmd, "halt"))
         cmd_callback = promptcmd_halt;    
 
+    if (str_equals(cmd, "strafe"))
+        cmd_callback = promptcmd_strafe;
+
     if (cmd_callback == NULL)
     {
         console_error("Unknown command.");

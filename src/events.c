@@ -99,6 +99,9 @@ static void *event_main(void *arg)
         if (event->type == EVENT_HALT)
             event_callback = eventcb_halt;
 
+        if (event->type == EVENT_STRAFE)
+            event_callback = eventcb_strafe;
+
         if (!event_callback)
             continue;
 

@@ -128,6 +128,9 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
     if (keyfr_type == KEYFR_TURN)
         keyfactory_cb = keyfactory_turnsegment;
 
+    if (keyfr_type == KEYFR_STRAFE)
+        keyfactory_cb = keyfactory_strafe;
+
     bool success = false;
     if (keyfactory_cb != NULL)
         success = (*keyfactory_cb)(keyfr, *servos_num, data, reverse);

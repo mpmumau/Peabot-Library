@@ -32,6 +32,10 @@ void promptcmd_cfg_get(char *args[], int arg_num);
 /* Callback for doing the robot's turn animation. */
 void promptcmd_turn(char *args[], int arg_num);
 
+/* Callback for removing all keyframes, effectively halting the robot. */
 void promptcmd_halt(char *args[], int arg_num);
+
+/* Callback to move the robot laterally. */
+void promptcmd_strafe(char *args[], int arg_num);
 
 #endif

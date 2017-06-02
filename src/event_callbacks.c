@@ -127,6 +127,30 @@ void eventcb_turn(void *arg)
     eventcb_logcb("Added KEYFR_TURN keyframes.");
 }
 
+void eventcb_strafe(void *arg)
+{
+    EventStrafeData *strafe_data = (EventStrafeData *) arg;
+
+    unsigned short cycles = strafe_data->cycles;
+    double duration = strafe_data->duration;
+    bool reverse = strafe_data->reverse;
+   
+    double *duration_p;
+
+    for (unsigned short i = 0; i < cycles; i++)
+    {
+        duration_p = calloc(1, sizeof(double));
+        if (!duration_p)
+            APP_ERROR("Could not allocate memory.", 1);
+
+        *duration_p = duration;
+        
+        keyhandler_add(KEYFR_STRAFE, (void *) duration_p, reverse, i > 0);
+    }
+
+    eventcb_logcb("Added KEYFR_STRAFE keyframes.");
+}
+
 void eventcb_halt(void *arg)
 {
     keyhandler_removeall();

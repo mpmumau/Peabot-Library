@@ -147,6 +147,64 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
     return true;
 }
 
+bool keyfactory_strafe(Keyframe *keyfr, size_t len, void *data, bool reverse)
+{
+    if (!data)
+        return false;
+
+    static bool is_inverted = true;
+
+    double *duration = (double *) data;
+    keyfr->duration = *duration;
+
+    double *knee_delta = (double *) config_get(CONF_WALK_KNEE_DELTA);
+    double *hip_delta = (double *) config_get(CONF_WALK_HIP_DELTA);
+    double *knee_pad_a = (double *) config_get(CONF_WALK_KNEE_PAD_A);
+    double *knee_pad_b = (double *) config_get(CONF_WALK_KNEE_PAD_B);
+
+    double knee_pad_ax = is_inverted ? *knee_pad_a : *knee_pad_b;
+    double knee_pad_bx = is_inverted ? *knee_pad_b : *knee_pad_a;
+
+    unsigned short ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
+    unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
+
+    double knee_bottom = 0.8;
+
+    double mod = is_inverted ? -1.0 : 1.0;
+
+    mod *= reverse ? -1.0 : 1.0;
+
+    for (unsigned short i = 0; i < len; i++)
+    {
+        keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
+
+        if (i == SERVO_INDEX_BACK_LEFT_HIP || i == SERVO_INDEX_BACK_RIGHT_HIP)
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? ease_out : ease_in, *hip_delta * mod, -(*hip_delta) * mod, 0.0, 0.0 };
+
+        if (i == SERVO_INDEX_FRONT_LEFT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta) * mod, *hip_delta * mod, 0.0, 0.0 };
+
+        if (!is_inverted)
+        {
+            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_bx, 0.0 };
+            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_ax, 0.0 };
+        }
+        else
+        {
+            if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, knee_pad_bx, 0.0 };
+            if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, knee_pad_ax, 0.0 };
+        }
+    }
+
+    is_inverted = !is_inverted;
+
+    return true;    
+}
+
 bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool reverse)
 {
     if (!data)

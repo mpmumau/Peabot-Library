@@ -17,6 +17,7 @@
 #define EVENT_WALK 4
 #define EVENT_EXTEND 5
 #define EVENT_TURN 6
+#define EVENT_STRAFE 7
 
 typedef struct Event {
     unsigned short type;
@@ -44,6 +45,12 @@ typedef struct EventTurnData {
     double duration;
     bool reverse;
 } EventTurnData;
+
+typedef struct EventStrafeData {
+    unsigned short cycles;
+    double duration;
+    bool reverse;
+} EventStrafeData;
 
 /* Initialize the event handler thread. */
 void event_init();

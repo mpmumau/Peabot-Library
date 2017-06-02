@@ -31,6 +31,9 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse);
 bool keyfactory_turnsegment(Keyframe *keyfr, size_t len, void *data, bool reverse);
 
 /* Get a keyframe for a transition between the src and dest ServoPos objects. */
+bool keyfactory_strafe(Keyframe *keyfr, size_t len, void *data, bool reverse);
+
+/* Get a keyframe for a transition between the src and dest ServoPos objects. */
 bool keyfactory_transition(Keyframe *keyfr, size_t len, Keyframe *src, Keyframe *dest);
 
 #endif
