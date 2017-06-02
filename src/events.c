@@ -73,7 +73,7 @@ static void *event_main(void *arg)
             continue;
 
         printf("-------EVENT TO BE ACTED UPON--------/n");
-        event_print_event(event)
+        event_print_event(event);
 
         event_callback = NULL;
 
