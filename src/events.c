@@ -277,26 +277,31 @@ static void event_print_event(Event *event)
 
     switch (event->type)
     {
-        case EVENT_DELAY:
-            printf("\tduration: %f\n", *((double *) event->data));
+        case EVENT_DELAY: ;
+            double *duration_p = (double *) event->data;
+            printf("\tduration: %f\n", *duration_p);
             break;
-        case EVENT_ELEVATE:
-            printf("\tEventElevateData [reverse]: %s\n", *((EventElevateData *) event->data)).reverse ? "true" : "false";
-            printf("\tEventElevateData [duration]: %f\n", *((EventElevateData *) event->data)).duration;
+        case EVENT_ELEVATE: ;
+            EventElevateData *event_elevate_p = (EventElevateData *) event->data;
+            printf("\tEventElevateData [reverse]: %s\n", event_elevate_p->reverse ? "true" : "false";
+            printf("\tEventElevateData [duration]: %f\n", event_elevate_p->duration;
             break;
-        case EVENT_EXTEND:
-            printf("\tEventExtendData [reverse]: %s\n", *((EventExtendData *) event->data)).reverse ? "true" : "false";
-            printf("\tEventExtendData [duration]: %f\n", *((EventExtendData *) event->data)).duration;
+        case EVENT_EXTEND: ;
+            EventExtendData *event_extend_p = (EventExtendData *) event->data;
+            printf("\tEventExtendData [reverse]: %s\n", event_extend_p->reverse ? "true" : "false";
+            printf("\tEventExtendData [duration]: %f\n", event_extend_p->duration;
             break;
-        case EVENT_WALK:
-            printf("\tEventWalkData [reverse]: %s\n", *((EventWalkData *) event->data)).reverse ? "true" : "false";
-            printf("\tEventWalkData [duration]: %f\n", *((EventWalkData *) event->data)).duration;
-            printf("\tEventWalkData [cycles]: %d\n", *((EventWalkData *) event->data)).cycles;
+        case EVENT_WALK: ;
+            EventWalkData *event_walk_p = (EventWalkData *) event->data;
+            printf("\tEventWalkData [reverse]: %s\n", event_walk_p->reverse ? "true" : "false";
+            printf("\tEventWalkData [duration]: %f\n", event_walk_p->duration;
+            printf("\tEventWalkData [cycles]: %d\n", event_walk_p->cycles;
             break;
-        case EVENT_TURN:
-            printf("\tEventTurnData [reverse]: %s\n", *((EventTurnData *) event->data)).reverse ? "true" : "false";
-            printf("\tEventTurnData [duration]: %f\n", *((EventTurnData *) event->data)).duration;
-            printf("\tEventTurnData [cycles]: %d\n", *((EventTurnData *) event->data)).cycles;
+        case EVENT_TURN: ;
+            EventTurnData *event_turn_p = (EventTurnData *) event->data;
+            printf("\tEventTurnData [reverse]: %s\n", event_turn_p->reverse ? "true" : "false";
+            printf("\tEventTurnData [duration]: %f\n", event_turn_p->duration;
+            printf("\tEventTurnData [cycles]: %d\n", event_turn_p->cycles;
             break;                               
     }
 }
