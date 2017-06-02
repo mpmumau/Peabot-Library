@@ -39,8 +39,8 @@ static int error;
 
 static List *keyframes = NULL;
 
-static Keyframe last_keyfr;
-static ServoPos last_servopos;
+static Keyframe *last_keyfr;
+static ServoPos *last_servopos;
 
 /* Forward decs */
 static void *keyhandler_main(void *arg);
@@ -51,26 +51,25 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len);
 static void keyhandler_log_keyfr(Keyframe *keyfr);
 static void keyhandler_keyfr_destroy(Keyframe *keyfr);
 static void keyhandler_set_robot(Keyframe *keyfr, size_t len, double time);
+static void keyhandler_resey_keyfr(Keyframe *keyfr, size_t len);
 
 void keyhandler_init()
 {
     unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
 
-    last_keyfr.duration = 0.0;
-    last_keyfr.is_delay = false;
-    last_keyfr.servo_pos = &last_servopos;    
+    last_keyfr = calloc(1, sizeof(Keyframe));
+    if (!last_keyfr)
+        APP_ERROR("Could not allocate memory.", error);
 
-    for (int q = 0; q < *servos_num; q++)
-    {
-        last_keyfr.servo_pos[q].easing = 0;
-        last_keyfr.servo_pos[q].start_pos = 0.0;
-        last_keyfr.servo_pos[q].end_pos = 0.0;
-        last_keyfr.servo_pos[q].begin_pad = 0.0;
-        last_keyfr.servo_pos[q].end_pad = 0.0;
-    }
+    last_servopos = calloc(*servos_num, sizeof(ServoPos));
+    if (!last_servopos)
+        APP_ERROR("Could not allocate memory.", error);
+
+    keyhandler_resey_keyfr(Keyframe *keyfr, size_t len);
+    last_keyfr->servo_pos = last_servo_pos;
 
     printf("-----ORIGINAL KEYFR-----\n");
-    keyhandler_print_keyfr(&last_keyfr, *servos_num);    
+    keyhandler_print_keyfr(last_keyfr, *servos_num);    
 
     running = true;
     error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
@@ -82,6 +81,14 @@ void keyhandler_halt()
 {
     running = false;
     pthread_join(keyhandler_thread, NULL);
+
+    if (last_keyfr->servo_pos)
+        free(last_keyfr->servo_pos);
+    last_keyfr->servo_pos = NULL;
+
+    if (last_keyfr)
+        free(last_keyfr);
+    last_keyfr = NULL;
 }
 
 void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool skip_transitions)
@@ -142,14 +149,14 @@ void keyhandler_add(unsigned short keyfr_type, void *data, bool reverse, bool sk
 
     // Remember, the transition should come before the keyframe...
     if (keyfr_type != KEYFR_DELAY && *transitions_enable && !skip_transitions)
-        keyhandler_add_transition(*servos_num, &last_keyfr, keyfr);
+        keyhandler_add_transition(*servos_num, last_keyfr, keyfr);
 
     list_push(&keyframes, (void *) keyfr);
 
     printf("-----ACTIVE KEYFR-----\n");
     keyhandler_print_keyfr(keyfr, *servos_num);
     
-    keyhandler_copy_keyfr(&last_keyfr, keyfr, *servos_num);
+    keyhandler_copy_keyfr(last_keyfr, keyfr, *servos_num);
 }
 
 void keyhandler_removeall()
@@ -385,6 +392,16 @@ void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
     {
         printf("keyfr->servo_pos: NULL\n");
     }
+}
+
+static void keyhandler_resey_keyfr(Keyframe *keyfr, size_t len)
+{
+    if (!keyfr)
+        return;
+
+    keyfr->duration = 0.0;
+    keyfr->is_delay = false; 
+    keyfr->servo_pos = NULL;
 }
 
 #endif
