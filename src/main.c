@@ -44,6 +44,8 @@ static void signal_handler(int signum);
 
 void app_exit(int retval)
 {
+    log_event("[MAIN] Shutting down. Bye!");
+
     http_halt();
     prompt_halt();
     event_halt();
@@ -51,7 +53,6 @@ void app_exit(int retval)
     robot_halt();
     usd_sensor_halt();
     config_destroy();
-    log_event("[MAIN] Shutting down. Bye!");
     log_close();
 
     exit_val = retval;
