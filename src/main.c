@@ -42,7 +42,7 @@ static void signal_handler(int signum);
 
 void app_exit(int retval)
 {
-    //http_halt();
+    http_halt();
     prompt_halt();
     event_halt();
     keyhandler_halt();
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
     keyhandler_init();
     event_init();
     prompt_init();
-    //http_init();
+    http_init();
 
     while (running) 
         sleep(1);
