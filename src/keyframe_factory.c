@@ -95,6 +95,7 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
         return false;
 
     static bool is_inverted = true;
+    double mod = (is_inverted ? -1.0 : 1.0) *(reverse ? -1.0 : 1.0);
 
     double *duration = (double *) data;
     keyfr->duration = *duration;
@@ -111,10 +112,6 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
     unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
     double knee_bottom = 0.8;
-
-    double mod = is_inverted ? -1.0 : 1.0;
-
-    mod *= reverse ? -1.0 : 1.0;
 
     for (unsigned short i = 0; i < len; i++)
     {
