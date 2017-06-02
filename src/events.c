@@ -38,6 +38,7 @@ static void *event_main(void *arg);
 static char *event_getname(unsigned short event_type);
 static void event_log_eventadd(Event *event);
 static void *event_get_data_cpy(unsigned short event_type, void *data);
+static void event_print_event(Event *event);
 
 void event_init()
 {
@@ -70,6 +71,9 @@ static void *event_main(void *arg)
         event = (Event *) list_pop(&events);
         if (!event)
             continue;
+
+        printf("-------EVENT TO BE ACTED UPON--------/n");
+        event_print_event(event)
 
         event_callback = NULL;
 
@@ -120,6 +124,9 @@ void event_add(unsigned short event_type, void *data)
 
     event->type = event_type;
     event->data = data_cpy;
+
+    printf("-------RAW EVENT--------/n");
+    event_print_event(event)
 
     list_push(&events, (void *) event);
     event_log_eventadd(event);
@@ -255,5 +262,70 @@ static void event_log_eventadd(Event *event)
     snprintf(log_msg, sizeof(log_msg), "[Event] Added event. (type: %s)", event_getname(event->type));
     log_event(log_msg);  
 }
+
+static void event_print_event(Event *event)
+{
+    if (!event)
+        return;
+
+    printf("---Event---\n");
+    printf("event->type: %d\n", event->type);
+    printf("event->data: %s\n", event->data == NULL ? "NULL" : "ISSET");
+
+    if (event->data == NULL)
+        return;
+
+    switch (event->type)
+    {
+        case EVENT_DELAY:
+            printf("\tduration: %f\n", *((double *) event->data));
+            break;
+        case EVENT_ELEVATE:
+            printf("\tEventElevateData [reverse]: %s\n", *((EventElevateData *) event->data)).reverse ? "true" : "false";
+            printf("\tEventElevateData [duration]: %f\n", *((EventElevateData *) event->data)).duration;
+            break;
+        case EVENT_EXTEND:
+            printf("\tEventExtendData [reverse]: %s\n", *((EventExtendData *) event->data)).reverse ? "true" : "false";
+            printf("\tEventExtendData [duration]: %f\n", *((EventExtendData *) event->data)).duration;
+            break;
+        case EVENT_WALK:
+            printf("\tEventWalkData [reverse]: %s\n", *((EventWalkData *) event->data)).reverse ? "true" : "false";
+            printf("\tEventWalkData [duration]: %f\n", *((EventWalkData *) event->data)).duration;
+            printf("\tEventWalkData [cycles]: %d\n", *((EventWalkData *) event->data)).cycles;
+            break;
+        case EVENT_TURN:
+            printf("\tEventTurnData [reverse]: %s\n", *((EventTurnData *) event->data)).reverse ? "true" : "false";
+            printf("\tEventTurnData [duration]: %f\n", *((EventTurnData *) event->data)).duration;
+            printf("\tEventTurnData [cycles]: %d\n", *((EventTurnData *) event->data)).cycles;
+            break;                               
+    }
+}
+
+// typedef struct Event {
+//     unsigned short type;
+//     void *data;
+// } Event;
+
+// typedef struct EventElevateData {
+//     bool reverse;
+//     double duration;
+// } EventElevateData;
+
+// typedef struct EventExtendData {
+//     bool reverse;
+//     double duration;
+// } EventExtendData;
+
+// typedef struct EventWalkData {
+//     unsigned short cycles;
+//     double duration;
+//     bool reverse;
+// } EventWalkData;
+
+// typedef struct EventTurnData {
+//     unsigned short cycles;
+//     double duration;
+//     bool reverse;
+// } EventTurnData;
 
 #endif

@@ -40,19 +40,12 @@ bool cntlevent_walk(MVCData *mvc_data)
     if (!reverse_jp || !cJSON_IsBool(reverse_jp))
         return false;    
     
-    EventWalkData *event_walk_data = calloc(1, sizeof(EventWalkData));
-    event_walk_data->cycles = (unsigned short) cycles_jp->valuedouble;
-    event_walk_data->duration = (double) duration_jp->valuedouble;
-    event_walk_data->reverse = (bool) cJSON_IsTrue(reverse_jp);
+    EventWalkData event_walk_data;
+    event_walk_data.cycles = (unsigned short) cycles_jp->valuedouble;
+    event_walk_data.duration = (double) duration_jp->valuedouble;
+    event_walk_data.reverse = (bool) cJSON_IsTrue(reverse_jp);
 
-    printf("EventWalkData event_walk_data:\n");
-    printf("event_walk_data.cycles: %d\n", event_walk_data->cycles);
-    printf("event_walk_data.duration: %f\n", event_walk_data->duration);
-    printf("event_walk_data.reverse: %s\n", event_walk_data->reverse ? "true" : "false");
-
-    event_add(EVENT_WALK, (void *) event_walk_data);
-
-    free(event_walk_data);
+    event_add(EVENT_WALK, (void *) &event_walk_data);
     return true;
 }
 
