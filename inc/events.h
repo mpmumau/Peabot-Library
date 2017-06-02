@@ -54,4 +54,7 @@ void event_halt();
 /* Add an event and to the event queue. */
 void event_add(unsigned short event_type, void *data);
 
+/* Prints an event's data to the console; for debugging. */
+void event_print_event(Event *event);
+
 #endif

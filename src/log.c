@@ -39,7 +39,6 @@ void log_init()
     snprintf(hdr_line, sizeof(hdr_line), "Peabot Server: %s", APP_VERSION);
 
     log_h(hdr_line);
-    log_event("Peabot server initialized.");
 }
 
 void log_write(char *line)

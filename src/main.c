@@ -95,6 +95,8 @@ int main(int argc, char *argv[])
     prompt_init();
     http_init();
 
+    log_event("[MAIN] Peabot server initialized.");
+
     while (running) 
         sleep(1);
 

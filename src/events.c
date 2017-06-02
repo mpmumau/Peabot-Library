@@ -263,11 +263,11 @@ static void event_log_eventadd(Event *event)
         return;
 
     char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "[Event] Added event. (type: %s)", event_getname(event->type));
+    snprintf(log_msg, sizeof(log_msg), "[EVNT] Added event. (type: %s)", event_getname(event->type));
     log_event(log_msg);  
 }
 
-static void event_print_event(Event *event)
+void event_print_event(Event *event)
 {
     if (!event)
         return;

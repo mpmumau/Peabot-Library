@@ -357,7 +357,7 @@ static void keyhandler_log_keyfr(Keyframe *keyfr)
         return;
 
     char msg[LOG_LINE_MAXLEN];
-    snprintf(msg, sizeof(msg), "[Keyfr] Completed keyframe. (duration: %f, is_delay: %s)", keyfr->duration, keyfr->is_delay ? "true" : "false");
+    snprintf(msg, sizeof(msg), "[KYFR] Completed keyframe. (duration: %f, is_delay: %s)", keyfr->duration, keyfr->is_delay ? "true" : "false");
     log_event(msg);
 }
 
