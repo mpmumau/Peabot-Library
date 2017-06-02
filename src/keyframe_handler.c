@@ -208,6 +208,8 @@ static void *keyhandler_main(void *arg)
 {
     prctl(PR_SET_NAME, "PEABOT_KEYFR\0", NULL, NULL, NULL);
 
+    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+
     struct timespec time;
     struct timespec last_time;
     double next = 0.0;
