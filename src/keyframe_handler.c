@@ -326,7 +326,7 @@ static void keyhandler_copy_keyfr(Keyframe *dest, Keyframe *src, size_t len)
     }
 
     for (unsigned short i = 0; i < len; i++)
-        dest->servo_pos[i] = src->servo_pos[i];   
+        dest->servo_pos[i] = (double) src->servo_pos[i];   
 }
 
 static void keyhandler_log_keyfr(Keyframe *keyfr)
@@ -350,11 +350,13 @@ void keyhandler_print_keyfr(Keyframe *keyfr, size_t len)
 
     if (keyfr->servo_pos)
     {
+        ServoPos *tmp_srv;
         printf("keyfr->servo_pos:\n");
         for (int i = 0; i < len; i++)
         {
-            printf("\t[%d] easing: %d, \tstart_pos: %6.6f, \t\tend_pos: %6.6f, \t\tbegin_pad: %6.6f, \t\tend_pad: %6.6f\n", 
-                i, keyfr->servo_pos[i].easing, keyfr->servo_pos[i].start_pos, keyfr->servo_pos[i].end_pos, keyfr->servo_pos[i].begin_pad, keyfr->servo_pos[i].end_pad);
+            tmp_srv = (ServoPos *) &(keyfr->servo_pos[i]);
+            printf("\t[%d] easing: %d, \tstart_pos: %f, \t\tend_pos: %f, \t\tbegin_pad: %f, \t\tend_pad: %f\n", 
+                i, (unsigned short) tmp_srv->easing, (double) tmp_srv->start_pos, (double) tmp_srv->end_pos, (double) tmp_srv->begin_pad, (double) tmp_srv->end_pad);
         }
     }   
     else
