@@ -69,6 +69,9 @@ void keyhandler_init()
         last_keyfr.servo_pos[q].end_pad = 0.0;
     }
 
+    printf("-----ORIGINAL KEYFR-----\n");
+    keyhandler_print_keyfr(last_keyfr, *servos_num);    
+
     running = true;
     error = pthread_create(&keyhandler_thread, NULL, keyhandler_main, NULL);
     if (error)
