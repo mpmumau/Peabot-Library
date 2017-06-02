@@ -54,8 +54,7 @@ bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
     if (!data)
         return false;
 
-    double *duration = (double *) data;
-    keyfr->duration = *duration;
+    keyfr->duration = 0.0;
 
     double mod = reverse ? -1.0 : 1.0;
 
@@ -66,7 +65,7 @@ bool keyfactory_elevate(Keyframe *keyfr, size_t len, void *data, bool reverse)
             i == SERVO_INDEX_FRONT_RIGHT_KNEE || 
             i == SERVO_INDEX_FRONT_LEFT_KNEE)
 
-            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
+            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, mod, mod, 0.0, 0.0 };
         else
             keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
     }
@@ -79,8 +78,7 @@ bool keyfactory_extend(Keyframe *keyfr, size_t len, void *data, bool reverse)
     if (!data)
         return false;
 
-    double *duration = (double *) data;
-    keyfr->duration = *duration;
+    keyfr->duration = 0.0;
     
     double mod = reverse ? -1.0 : 1.0;
 
@@ -91,7 +89,7 @@ bool keyfactory_extend(Keyframe *keyfr, size_t len, void *data, bool reverse)
             i == SERVO_INDEX_FRONT_RIGHT_HIP || 
             i == SERVO_INDEX_FRONT_LEFT_HIP)
 
-            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, -mod, mod, 0.0, 0.0 };
+            keyfr->servo_pos[i] = (ServoPos) { EASE_SINE_IN, mod, mod, 0.0, 0.0 };
         else
             keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
     }

@@ -309,31 +309,4 @@ static void event_print_event(Event *event)
     }
 }
 
-// typedef struct Event {
-//     unsigned short type;
-//     void *data;
-// } Event;
-
-// typedef struct EventElevateData {
-//     bool reverse;
-//     double duration;
-// } EventElevateData;
-
-// typedef struct EventExtendData {
-//     bool reverse;
-//     double duration;
-// } EventExtendData;
-
-// typedef struct EventWalkData {
-//     unsigned short cycles;
-//     double duration;
-//     bool reverse;
-// } EventWalkData;
-
-// typedef struct EventTurnData {
-//     unsigned short cycles;
-//     double duration;
-//     bool reverse;
-// } EventTurnData;
-
 #endif
