@@ -66,7 +66,7 @@ void keyhandler_init()
         APP_ERROR("Could not allocate memory.", error);
 
     keyhandler_resey_keyfr(last_keyfr, *servos_num);
-    last_keyfr->servo_pos = last_servo_pos;
+    last_keyfr->servo_pos = last_servopos;
 
     printf("-----ORIGINAL KEYFR-----\n");
     keyhandler_print_keyfr(last_keyfr, *servos_num);    
