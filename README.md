@@ -17,6 +17,8 @@ This software controls a custom-built quadruped robot. Namely, this guy (or anyo
 * Artificial intelligence.
 * Sensor data management and automatic motion stabilization.
 * Additional walk gates, and other movements.
+* Front-end control application.
+* Authentication and encryption of RESTful requests.
 
 ## Requirements.
 
@@ -453,3 +455,39 @@ when installing them onto your robot. Caution should be used such
 that these PWM values do not exceed the physical limitations of the
 robot.
 
+## RESTful Web Service
+
+Peabot provides a RESTful HTTP service on the port specified on the configuration file,
+if HTTP_ENABLED is set to true.
+
+The RESTful service may be used to send commands to the robot via HTTP, or to retrieve
+data from the robot.
+
+Typical RESTful requests made to Peabot are either general GET requests for retrieve
+information or POST requests with JSON data in the request body to specify command
+paramters. The format of specific RESTful requests is as follows:
+
+### POST /event/walk
+
+JSON
+`
+{
+    "cycles": 10,
+    "duration": 1.54,
+    "reverse": true
+}
+`
+
+### POST /event/turn
+
+### POST /event/elevate
+
+### POST /event/extend
+
+### POST /event/reset
+
+No data required.
+
+### POST /event/halt
+
+No data required.
