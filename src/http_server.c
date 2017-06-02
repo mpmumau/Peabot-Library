@@ -71,6 +71,7 @@ void http_init()
 void http_halt()
 {
     running = false;
+    close(http.socket);
 }
 
 static void *http_main(void *arg)
@@ -102,36 +103,15 @@ static void *http_main(void *arg)
         APP_ERROR("Could not bind socket to address.", errno);
 
     if (listen(http.socket, HTTP_SERVER_MAX_CONNS) < 0)    
-        APP_ERROR("Could not listen on socket.", errno);
-
-    fd_set socket_fd_set;
-    int socket_select_result;
-    struct timeval timeout;
-    int flags;   
+        APP_ERROR("Could not listen on socket.", errno);  
    
     while (running)
     {
-        timeout.tv_sec = 0;
-        timeout.tv_usec = 100000;  
-
-        FD_ZERO(&socket_fd_set);
-        FD_SET(http.socket, &socket_fd_set);    
-
-        socket_select_result = select(http.socket + 1, &socket_fd_set, NULL, NULL, &timeout);
-        if (socket_select_result >= 0)
-        {
-            if (!FD_ISSET(http.socket, &socket_fd_set)) 
-                continue;
-        }
-
-        flags = fcntl(http.socket, F_GETFL, 0);
-        fcntl(http.socket, F_SETFL, flags | O_NONBLOCK);
-
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
             continue;
 
-        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);        
+        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
