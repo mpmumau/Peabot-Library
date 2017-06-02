@@ -48,7 +48,7 @@ void *httprhnd_handle_request(void *data)
 {
     prctl(PR_SET_NAME, "PEABOT_HTREQ\0", NULL, NULL, NULL);
 
-    HTTPRequestThreadData *request_thread_data = (HTTPRequestThreadData *) data;
+    HTTPRequestData *request_thread_data = (HTTPRequestData *) data;
     
     int socket_fd               = request_thread_data->socket_fd;
     HTTPRequest *http_request   = request_thread_data->http_request;
