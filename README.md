@@ -461,7 +461,8 @@ Peabot provides a RESTful HTTP service on the port specified on the configuratio
 if HTTP_ENABLED is set to true.
 
 The RESTful service may be used to send commands to the robot via HTTP, or to retrieve
-data from the robot.
+data from the robot. This is useful for building a front-end web application to control
+the robot (think: mobile app!)
 
 Typical RESTful requests made to Peabot are either general GET requests for retrieve
 information or POST requests with JSON data in the request body to specify command
