@@ -72,8 +72,10 @@ static void *event_main(void *arg)
         if (!event)
             continue;
 
-        printf("-------EVENT TO BE ACTED UPON--------\n");
+        #ifdef PEABOT_DBG
+        printf("-------PROCESSING EVENT--------\n");
         event_print_event(event);
+        #endif
 
         event_callback = NULL;
 
@@ -125,8 +127,10 @@ void event_add(unsigned short event_type, void *data)
     event->type = event_type;
     event->data = data_cpy;
 
-    printf("-------RAW EVENT--------\n");
+    #ifdef PEABOT_DBG
+    printf("-------ADDING EVENT--------\n");
     event_print_event(event);
+    #endif
 
     list_push(&events, (void *) event);
     event_log_eventadd(event);
