@@ -19,9 +19,12 @@ int main(int argc, char *argv[])
     config_set(ARG1, 74621);
     config_set(ARG2, 25124);
 
+    int *arg1_p = config_get(ARG1);
+    int *arg2_p = config_get(ARG2);
+
     printf("---Config from function.---\n");
-    printf("config.val1: %d\n", config_get(ARG1));
-    printf("config.val2: %d\n", config_get(ARG2));
+    printf("config.val1: %d\n", *arg1_p);
+    printf("config.val2: %d\n", *arg2_p);
 
     printf("---Config from define.---\n");
     printf("config.val1: %d\n", ARG1TEST);
