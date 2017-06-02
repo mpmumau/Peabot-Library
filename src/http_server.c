@@ -127,11 +127,11 @@ static void *http_main(void *arg)
         flags = fcntl(http.socket, F_GETFL, 0);
         fcntl(http.socket, F_SETFL, flags | O_NONBLOCK);
 
-        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);
-
         last_socket = accept(http.socket, (struct sockaddr *) &(http.cli_addr), (socklen_t *) &client_length);
         if (last_socket < 0) 
             continue;
+
+        printf("-----[f: %s, l: %d]-----\n", __FILE__, __LINE__);        
 
         http_server_ipstr(ip_addr, sizeof(ip_addr));
         http_server_log_connect(ip_addr);
