@@ -105,6 +105,8 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
     double *knee_pad_a = (double *) config_get(CONF_WALK_KNEE_PAD_A);
     double *knee_pad_b = (double *) config_get(CONF_WALK_KNEE_PAD_B);
 
+    *hip_delta = *hip_delta * mod;
+
     unsigned short ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
     unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
@@ -115,10 +117,10 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
         keyfr->servo_pos[i] = (ServoPos) { -1, 0.0, 0.0, 0.0, 0.0 };
 
         if (i == SERVO_INDEX_BACK_LEFT_HIP || i == SERVO_INDEX_FRONT_LEFT_HIP)
-            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? ease_out : ease_in, *hip_delta * mod, -(*hip_delta) * mod, 0.0, 0.0 };
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_LEFT_HIP ? ease_out : ease_in, *hip_delta, -(*hip_delta), 0.0, 0.0 };
 
         if (i == SERVO_INDEX_BACK_RIGHT_HIP || i == SERVO_INDEX_FRONT_RIGHT_HIP)
-            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta) * mod, *hip_delta * mod, 0.0, 0.0 };
+            keyfr->servo_pos[i] = (ServoPos) { i == SERVO_INDEX_BACK_RIGHT_HIP ? ease_in : ease_out, -(*hip_delta), *hip_delta, 0.0, 0.0 };
 
         if (!is_inverted)
         {
