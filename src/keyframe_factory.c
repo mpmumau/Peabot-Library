@@ -105,6 +105,8 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
     double *knee_pad_a = (double *) config_get(CONF_WALK_KNEE_PAD_A);
     double *knee_pad_b = (double *) config_get(CONF_WALK_KNEE_PAD_B);
 
+    *knee_delta = *knee_delta * -1.0;
+
     unsigned short ease_in = is_inverted ? EASE_CIRC_IN : EASE_CIRC_OUT;
     unsigned short ease_out = is_inverted ? EASE_CIRC_OUT : EASE_CIRC_IN;
 
@@ -123,16 +125,16 @@ bool keyfactory_walk(Keyframe *keyfr, size_t len, void *data, bool reverse)
         if (!is_inverted)
         {
             if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, is_inverted ? *knee_pad_b : *knee_pad_a, 0.0 };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, *knee_delta, is_inverted ? *knee_pad_b : *knee_pad_a, 0.0 };
             if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, is_inverted ? *knee_pad_a : *knee_pad_b, 0.0 };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, *knee_delta, knee_bottom, is_inverted ? *knee_pad_a : *knee_pad_b, 0.0 };
         }
         else
         {
             if (i == SERVO_INDEX_BACK_LEFT_KNEE || i == SERVO_INDEX_FRONT_RIGHT_KNEE)
-                keyfr->servo_pos[i] = (ServoPos) { ease_out, -*knee_delta, knee_bottom, is_inverted ? *knee_pad_b : *knee_pad_a, 0.0 };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, *knee_delta, knee_bottom, is_inverted ? *knee_pad_b : *knee_pad_a, 0.0 };
             if (i == SERVO_INDEX_FRONT_LEFT_KNEE || i == SERVO_INDEX_BACK_RIGHT_KNEE)
-                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, -*knee_delta, is_inverted ? *knee_pad_a : *knee_pad_b, 0.0 };
+                keyfr->servo_pos[i] = (ServoPos) { ease_out, knee_bottom, *knee_delta, is_inverted ? *knee_pad_a : *knee_pad_b, 0.0 };
         }
     }
 
