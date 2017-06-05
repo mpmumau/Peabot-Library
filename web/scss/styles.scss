@@ -133,6 +133,8 @@ label {
     font-size: 15vw;
 }
 
+
+button,
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -143,8 +145,16 @@ textarea {
     -moz-appearance: none;
     -webkit-appearance: none;
     border: 1px solid #ddd;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 }
 
+button:focus
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
@@ -155,6 +165,13 @@ textarea:focus {
     border: 1px solid #ccc;
     box-shadow: none !important;
     outline: none !important;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
 }
 
 
