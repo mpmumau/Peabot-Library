@@ -1,6 +1,6 @@
 @import 'colors';
 
-$dpad-button-border-rad: 25px;
+$dpad-button-border-rad: 1.5vw;
 
 .gamepad-component {
     width: 100%;
@@ -34,10 +34,11 @@ $dpad-button-border-rad: 25px;
     padding: 0;
     margin: 0 auto;
     overflow: hidden;
+    border: $light-grey solid 2.5vw;
 
     .oi {
         color: $lighter-grey;
-        font-size: 600%;
+        font-size: 500%;
     }
 }
 
@@ -94,7 +95,7 @@ $dpad-button-border-rad: 25px;
     .distance {
         text-align: left;
         position: absolute;
-        top: 0;
+        top: 0.5vw;
         left: 0;
         width: 100%;
     }
@@ -103,7 +104,7 @@ $dpad-button-border-rad: 25px;
         width: 100%;
         text-align: left;
         position: absolute;
-        top: 14vw;
+        top: 15vw;
         right: 0;
     }
 
@@ -115,6 +116,7 @@ $dpad-button-border-rad: 25px;
 
         button {
             display: inline-block;
+            border: $light-grey solid 2.5vw;
         }
     }
 

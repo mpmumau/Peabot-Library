@@ -1,0 +1,46 @@
+@import 'colors';
+
+.settings-panel-component {
+    position: relative;
+    width: 100%;
+
+    .left-col, .right-col {
+        width: 47.5%;
+        position: absolute;
+    }
+
+    .left-col {
+        left: 0;
+        top: 0;
+        margin-right: 2.5%;
+    }
+
+    .right-col {
+        right: 0;
+        top: 0;
+        margin-left: 2.5%;
+    }
+
+    .settings-section {
+        background-color: $white;
+        padding: 1.5vw;
+        border-radius: 1.75vw;
+        margin-bottom:1vw;
+
+        ul {
+            list-style-type: none;
+
+            li {
+                list-style-type: none;
+            }
+
+            li::before {
+                content: "";
+            }
+        }
+    }
+}
+
+.log-settings {
+
+}

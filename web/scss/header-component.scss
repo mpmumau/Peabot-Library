@@ -1,7 +1,6 @@
 @import 'colors';
 
 header {
-    border-bottom: $light-grey solid 2px;
     position: relative;
     margin-bottom: 2vw;
 
@@ -14,7 +13,7 @@ header {
         text-align: right;
 
         li {
-            width: 23.5%;
+            width: 14vw;
             display: inline-block;
             font-size: 75%;
             font-family: Orbitron;
@@ -27,7 +26,14 @@ header {
             cursor: pointer;
             border: $light-grey solid 0.5vw;
             padding: 0.5vw;
-            margin-right: 1vw;
+            padding-top: 0.7vw;
+            margin-right: 0.9vw;
+            font-weight: bold;
+
+            .oi {
+                font-size:75%;
+                color: $light-grey;
+            }
         }
 
         li:before {
@@ -37,6 +43,10 @@ header {
         li:hover {
             background-color: $light-grey;
             color: $very-light-grey;
+
+            .oi {
+                color: $medium-grey;
+            }
         }
 
         li.last {

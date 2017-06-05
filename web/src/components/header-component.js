@@ -13,16 +13,19 @@ class HeaderComponent extends Component {
                 <h1>Peabot</h1>
                 <ul>
                     <li onClick={() => this.props.changePanelAction("d-pad")}>
-                        D-Pad
+                        <span className="oi" data-glyph="medical-cross"></span> D-Pad
                     </li>
                     <li onClick={() => this.props.changePanelAction("actions")}>
-                        Actions
+                        <span className="oi" data-glyph="command"></span> Actions
                     </li>
                     <li onClick={() => this.props.changePanelAction("settings")}>
-                        Settings
+                        <span className="oi" data-glyph="menu"></span> Settings
+                    </li>
+                    <li onClick={() => this.props.changePanelAction("mind")}>
+                        <span className="oi" data-glyph="heart"></span> Mind
                     </li>
                     <li className="last" onClick={() => this.props.changePanelAction("log")}>
-                        Log
+                        <span className="oi" data-glyph="list"></span> Log
                     </li>
                 </ul>
             </header>

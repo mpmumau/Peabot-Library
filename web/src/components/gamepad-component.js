@@ -48,8 +48,9 @@ class GamepadComponent extends Component {
                             <label>
                                 Distance
                             </label>
-
-                            123.51cm
+                            <div className="data-val">
+                                123.51cm
+                            </div>
                         </div>
 
                         <div className="speed">

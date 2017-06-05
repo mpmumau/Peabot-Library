@@ -4,7 +4,7 @@
 $one-third: 33.333333333%;
 
 * {
-    color: $black;
+    color: $light-grey;
     box-sizing: border-box;
     font-family: Orbitron;
     margin: 0;
@@ -112,12 +112,13 @@ section {
     margin-bottom: 15px;
     overflow: hidden;
     position: relative;
+    height: 42vw;
+    width: 100%;
 }
 
 label {
     display: block;
     font-weight: bold;
-    color: $black;
     margin-bottom: 2vw;
 }
 
@@ -157,6 +158,25 @@ textarea:focus {
     box-shadow: none !important;
     outline: none !important;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.data-val {
+    background-color: $dark-grey;
+    color: $very-light-grey;
+    border-radius: 1vw;
+    padding: 1vw;
+    text-align: right;
+    font-size: 75%;
+}
+
+fieldset {
+    border: $very-light-grey dotted 0.25vw;
+    padding: 0.75vw;
+}
+
+input[type="checkbox"] {
+    width: 1.6vw;
+    height: 1.6vw
 }
 
 
