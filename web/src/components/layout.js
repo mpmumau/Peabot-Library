@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import HeaderComponent from './header-component';
 import GamepadComponent from './gamepad-component';
 import ActionsPanelComponent from './actions-panel-component';
+import SettingsPanelComponent from './settings-panel-component';
 
 class Layout extends Component {
     render() {
@@ -17,11 +18,27 @@ class Layout extends Component {
                     </div>
                 );
                 break;
-            default:
+            case "actions":
                 return (
                     <div>
                         <HeaderComponent />
                         <ActionsPanelComponent />
+                    </div>
+                );
+                break;
+            case "settings":
+                return (
+                    <div>
+                        <HeaderComponent />
+                        <SettingsPanelComponent />
+                    </div>
+                );
+                break;
+            default:
+                return (
+                    <div>
+                        <HeaderComponent />
+                        <GamepadComponent />
                     </div>
                 );
                 break;

@@ -98,7 +98,7 @@ button {
     }
 }
 
-button:hover {
+button:hover, button:active {
     background-color: $light-grey;
     color: $very-light-grey;
 
