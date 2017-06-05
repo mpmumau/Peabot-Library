@@ -133,6 +133,29 @@ label {
     font-size: 15vw;
 }
 
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid #ddd;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus {
+    border: 1px solid #ccc;
+    box-shadow: none !important;
+    outline: none !important;
+}
 
 
 
