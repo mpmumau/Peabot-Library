@@ -133,7 +133,6 @@ label {
     font-size: 15vw;
 }
 
-
 button,
 input[type="text"],
 input[type="password"],
@@ -144,17 +143,10 @@ input[type="search"],
 textarea {
     -moz-appearance: none;
     -webkit-appearance: none;
-    border: 1px solid #ddd;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
-button:focus
+button:focus,
 input[type="text"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
@@ -162,16 +154,9 @@ input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="search"]:focus,
 textarea:focus {
-    border: 1px solid #ccc;
     box-shadow: none !important;
     outline: none !important;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
 
 
