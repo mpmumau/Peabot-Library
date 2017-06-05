@@ -1,0 +1,123 @@
+@import 'colors';
+
+$dpad-button-border-rad: 25px;
+
+.gamepad-component {
+    width: 100%;
+    position: relative;
+
+    .d-pad {
+        background-color: $white;
+        width: 40%;
+        border-radius: 75px;
+        display: inline-block;
+    }
+
+    .buttons-panel {
+        display: inline-block;
+        margin: 0 auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 55%;
+        height: 100%;
+    }
+}
+
+.d-pad button {
+    position: relative;
+    display: block;
+    background-color: $very-light-grey;
+    width: 33.333%;
+    height: 10vw;
+    vertical-align: center;
+    padding: 0;
+    margin: 0 auto;
+
+    .oi {
+        color: $lighter-grey;
+    }
+}
+
+.d-pad button:hover {
+    background-color: $light-grey;
+    color: $very-light-grey;
+
+    .oi {
+        color: $very-light-grey;
+    }            
+}
+
+.d-pad .up {
+    border-radius: $dpad-button-border-rad $dpad-button-border-rad 0 0;
+    border-bottom: 0;
+}
+
+.d-pad .down {
+    border-radius: 0 0 $dpad-button-border-rad $dpad-button-border-rad;
+    border-top: 0;   
+}
+
+.d-pad .left, .d-pad .right {
+    position: absolute;
+    top: 31.5%;
+}
+
+.d-pad .left {
+    border-radius: $dpad-button-border-rad 0 0 $dpad-button-border-rad;
+    border-right: 0;
+    left: 0;
+}
+
+.d-pad .right {
+    border-radius: 0 $dpad-button-border-rad $dpad-button-border-rad 0;
+    border-left: 0;
+    right: 0;
+}        
+
+.d-pad .stop {
+    border: 0;
+    border-radius: 0;
+}
+
+.buttons-panel {
+    .distance {
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    .speed {
+        width: 100%;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .rotate-buttons {
+        text-align: center;
+        width: 100%;
+        position: absolute;
+        bottom: 20px; 
+
+
+        button {
+            display: inline-block;
+        }
+    }
+
+    .left, .right {
+        width: 45%;
+    }
+
+    .left {
+        margin-right:5%;
+    }
+
+    .right {
+        margin-left: 5%;
+    }    
+}

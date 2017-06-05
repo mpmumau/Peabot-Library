@@ -1,0 +1,15 @@
+@import 'colors';
+
+.single-action {
+    width: 20%;
+    text-align: center;
+    display: inline-block;
+
+    button {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 250%;
+    }
+}

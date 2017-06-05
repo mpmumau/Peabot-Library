@@ -1,0 +1,140 @@
+@import 'colors';
+
+
+$one-third: 33.333333333%;
+
+* {
+    color: $black;
+    box-sizing: border-box;
+    font-family: Orbitron;
+    margin: 0;
+    padding: 0;
+    font-size: 2vw;
+    position: relative;
+    width: auto;
+    height: auto;
+}
+
+body {
+    background-color: $very-light-grey;
+    position: relative;
+    padding-top: 1.5vw;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+h1 {
+    position: relative;
+    color: $light-grey;
+    font-size: 140%;
+    font-weight: bold;
+    font-family: Orbitron;
+    padding-bottom: 1.5vw;
+}
+
+h1::first-letter { 
+}
+
+h2 {
+    font-size: 115%;
+    font-weight: bold;
+}
+
+h3 {
+    font-size:105%;
+    font-weight: bold;
+    color: $light-grey;
+}
+
+p {
+    margin-bottom: 30px;
+}
+
+a {
+    color: $red;
+}
+
+a:hover {
+    color: $bright-red;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 15px;
+}
+
+li:before {
+    content: "•";
+    font-size: 50px;
+    position: absolute;
+    top: -15px;
+    left:-10px;
+    color: $red;
+}
+
+button {
+    background-color: $white;
+    color: $light-grey;
+    border: $light-grey solid 1vw;
+    border-radius: 25px;
+    font-weight: bold;
+    padding: 0 25px;
+
+    cursor: pointer;
+    min-width: 75px;
+    font-family: Orbitron;
+
+    * {
+        color: $light-grey;
+    }
+
+    .oi {
+        position: relative;
+        top: 12px;
+    }
+}
+
+button:hover {
+    background-color: $light-grey;
+    color: $very-light-grey;
+
+    * {
+        color: $very-light-grey;
+    }
+}
+
+section {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    color: $black;
+}
+
+.oi.large {
+    font-size: 5vw;
+}
+
+.oi.mega {
+    font-size: 7.5vw;
+}
+
+.oi.ultra {
+    font-size: 15vw;
+}
+
+
+
+
+
+
+
+
+

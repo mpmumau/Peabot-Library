@@ -1,0 +1,47 @@
+@import 'colors';
+
+header {
+    border-bottom: $light-grey solid 2px;
+    position: relative;
+    margin-bottom: 2vw;
+
+    ul {
+        display: inline;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width:80%;
+        text-align: right;
+
+        li {
+            width: 20%;
+            display: inline-block;
+            font-size: 75%;
+            font-family: Orbitron;
+            vertical-align: center;
+            border-radius: 1vw;
+            background-color: $very-light-grey;
+            text-transform: uppercase;
+            color: $light-grey;
+            text-align: center;
+            cursor: pointer;
+            border: $light-grey solid 0.5vw;
+            padding: 0.5vw;
+            margin-right: 1vw;
+        }
+
+        li:before {
+            content: "";
+        }
+
+        li:hover {
+            background-color: $light-grey;
+            color: $very-light-grey;
+        }
+
+        li.last {
+            margin-right: 0;
+        }
+
+    }
+}

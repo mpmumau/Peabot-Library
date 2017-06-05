@@ -5,3 +5,5 @@ obj/*
 etc/*
 !etc/.empty
 !etc/peabot.conf.orig
+web/node_modules
+web/node_modules/*
