@@ -46,7 +46,7 @@ class GamepadComponent extends Component {
                     <div className="buttons-panel">
                         <div className="distance">
                             <label>
-                                Distance: 
+                                Distance
                             </label>
 
                             123.51cm

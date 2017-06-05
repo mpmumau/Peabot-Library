@@ -1,15 +1,29 @@
 @import 'colors';
 
+.actions-panel-component {
+    margin-top: 6.5vw;
+}
+
+.actions-panel-wrapper {
+    position: relative;
+    width:99999px;
+}
+
 .single-action {
-    width: 20%;
+    width: 32.5vw;
     text-align: center;
     display: inline-block;
+    position: relative;
 
     button {
-        margin-bottom: 15px;
+        margin-bottom: 3vw;
+
+        .oi {
+            font-size:20vw;
+        }
     }
 
     label {
-        font-size: 250%;
+        font-size: 225%;
     }
 }

@@ -80,12 +80,12 @@ button {
     background-color: $white;
     color: $light-grey;
     border: $light-grey solid 1vw;
-    border-radius: 25px;
+    border-radius: 2.5vw;
     font-weight: bold;
-    padding: 0 25px;
+    padding: 0 2vw;
+    text-align: center;
 
     cursor: pointer;
-    min-width: 75px;
     font-family: Orbitron;
 
     * {
@@ -94,7 +94,7 @@ button {
 
     .oi {
         position: relative;
-        top: 12px;
+        top: 1vw;
     }
 }
 
@@ -109,6 +109,8 @@ button:hover {
 
 section {
     margin-bottom: 15px;
+    overflow: hidden;
+    position: relative;
 }
 
 label {

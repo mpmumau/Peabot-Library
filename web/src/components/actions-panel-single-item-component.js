@@ -5,7 +5,7 @@ class ActionsPanelSingleItemComponent extends Component {
         return (
             <div className='single-action'>
                 <button>
-                    <span className="oi ultra" data-glyph={this.props.iconType}></span>
+                    <span className="oi" data-glyph={this.props.iconType}></span>
                 </button>
 
                 <label>
