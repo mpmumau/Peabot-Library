@@ -41,14 +41,10 @@ class GamepadComponent extends Component {
                         <button className='left' onClick={() => this.props.testAction("left")}>
                             <span className="oi mega" data-glyph="arrow-thick-left"></span>
                         </button>
-
-                        <div>
-                            Direction: {this.props.first_obj}
-                        </div>
                     </div>
 
                     <div className="buttons-panel">
-                        <div className="distance left">
+                        <div className="distance">
                             <label>
                                 Distance: 
                             </label>
@@ -56,7 +52,7 @@ class GamepadComponent extends Component {
                             123.51cm
                         </div>
 
-                        <div className="speed right">
+                        <div className="speed">
                             <label>
                                 Speed
                             </label>

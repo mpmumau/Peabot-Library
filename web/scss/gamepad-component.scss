@@ -8,8 +8,8 @@ $dpad-button-border-rad: 25px;
 
     .d-pad {
         background-color: $white;
-        width: 40%;
-        border-radius: 75px;
+        width: 50%;
+        border-radius: 5vw;
         display: inline-block;
     }
 
@@ -19,8 +19,8 @@ $dpad-button-border-rad: 25px;
         position: absolute;
         right: 0;
         top: 0;
-        width: 55%;
-        height: 100%;
+        width: 45%;
+        height: 43vw;
     }
 }
 
@@ -29,7 +29,7 @@ $dpad-button-border-rad: 25px;
     display: block;
     background-color: $very-light-grey;
     width: 33.333%;
-    height: 10vw;
+    height: 14vw;
     vertical-align: center;
     padding: 0;
     margin: 0 auto;
@@ -60,7 +60,7 @@ $dpad-button-border-rad: 25px;
 
 .d-pad .left, .d-pad .right {
     position: absolute;
-    top: 31.5%;
+    top: 33.3333333%;
 }
 
 .d-pad .left {
@@ -81,19 +81,23 @@ $dpad-button-border-rad: 25px;
 }
 
 .buttons-panel {
+    * {
+        font-size: 135%;
+    }   
+
     .distance {
-        text-align: center;
+        text-align: left;
         position: absolute;
         top: 0;
         left: 0;
-
+        width: 100%;
     }
 
     .speed {
         width: 100%;
-        text-align: center;
+        text-align: left;
         position: absolute;
-        top: 0;
+        top: 12vw;
         right: 0;
     }
 
@@ -102,7 +106,6 @@ $dpad-button-border-rad: 25px;
         width: 100%;
         position: absolute;
         bottom: 20px; 
-
 
         button {
             display: inline-block;

@@ -26,10 +26,9 @@ body {
 h1 {
     position: relative;
     color: $light-grey;
-    font-size: 140%;
+    font-size: 180%;
     font-weight: bold;
     font-family: Orbitron;
-    padding-bottom: 1.5vw;
 }
 
 h1::first-letter { 
@@ -116,6 +115,7 @@ label {
     display: block;
     font-weight: bold;
     color: $black;
+    margin-bottom: 2vw;
 }
 
 .oi.large {
