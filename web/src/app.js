@@ -18,4 +18,6 @@ ReactDOM.render(
     document.getElementById('react-wrapper')
 );
 
+document.addEventListener("touchstart", function(){}, true);
+
 //setInterval(function() { console.log("testeroo") }, 1000);
