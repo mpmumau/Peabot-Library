@@ -13,6 +13,7 @@ $one-third: 33.333333333%;
     position: relative;
     width: auto;
     height: auto;
+    outline: none;
 }
 
 body {
@@ -98,7 +99,7 @@ button {
     }
 }
 
-button:hover, button:active {
+button:hover {
     background-color: $light-grey;
     color: $very-light-grey;
 
