@@ -51,7 +51,7 @@ class GamepadComponent extends Component {
             obj.mvmt_name = "turn";
         }
 
-        if (mvmt_type == "up" || mvmt_type == "left" || mvmt_type == "turn_left")
+        if (mvmt_type == "up" || mvmt_type == "left" || mvmt_type == "turn_right")
         {
             obj.reverse = false;
         }
