@@ -70,7 +70,7 @@ class GamepadComponent extends Component {
         {
             obj.cycles = 1;
             obj.duration = 1.0;
-            obj.delay = obj.duration * 2;
+            obj.delay = obj.duration;
         }
 
         return obj;
