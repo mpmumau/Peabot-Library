@@ -155,6 +155,11 @@ void eventcb_strafe(void *arg)
 void eventcb_halt(void *arg)
 {
     keyhandler_removeall();
+
+    for (int i = 0; i < 999999; i++) {
+        //
+    }
+
     keyhandler_add(KEYFR_RESET, (void *) NULL, false, false);
     eventcb_logcb("Cleared all keyframes.");
 }
