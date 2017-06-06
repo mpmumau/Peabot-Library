@@ -33,16 +33,28 @@ class GamepadComponent extends Component {
             return obj;
 
         if (mvmt_type == "up" || mvmt_type == "down")
+        {
             obj.mvmt_name = "walk";
-        else if (mvmt_type == "left" || mvmt_type == "right")
-            obj.mvmt_name = "strafe";
-        else
-            obj.mvmt_name = "turn";
+        }
 
-        if (mvmt_type == "up" || mvmt_type == "left" || mvmt_type = "turn_left")
+        if (mvmt_type == "left" || mvmt_type == "right")
+        {
+            obj.mvmt_name = "strafe";
+        }
+
+        if (mvmt_type == "turn_left" || mvmt_type == "turn_right")
+        {
+            obj.mvmt_name = "turn";
+        }
+
+        if (mvmt_type == "up" || mvmt_type == "left" || mvmt_type == "turn_left")
+        {
             obj.reverse = false;
+        }
         else
+        {
             obj.reverse = true;
+        }
 
         return obj;
     }
