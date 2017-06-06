@@ -148,7 +148,7 @@ void eventcb_strafe(void *arg)
         keyhandler_add(KEYFR_STRAFE, (void *) duration_p, reverse, i > 0);
     }
 
-    keyhandler_add(KEYFR_RESET, (void *) NULL, false, false);
+    keyhandler_add(KEYFR_ELEVATE, (void *) NULL, false, false);
     eventcb_logcb("Added KEYFR_STRAFE keyframes.");
 }
 
@@ -156,11 +156,6 @@ void eventcb_halt(void *arg)
 {
     keyhandler_removeall();
 
-    for (int i = 0; i < 999999; i++) {
-        //
-    }
-
-    keyhandler_add(KEYFR_RESET, (void *) NULL, false, false);
     eventcb_logcb("Cleared all keyframes.");
 }
 
