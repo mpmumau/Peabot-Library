@@ -15,28 +15,31 @@ class GamepadComponent extends Component {
         this.timeout_milli = 1000;
         this.robot_url = "http://ML_DEVNET_PIBOT:9976/";
 
-        this.getMvmtVals = this.getMvmtVals.bind(this);
+        this.getMvmtData = this.getMvmtData.bind(this);
         this.sendMvmtReq = this.sendMvmtReq.bind(this);
         this.moveRobot = this.moveRobot.bind(this);
         this.stopMoving = this.stopMoving.bind(this);
         this.haltRobot = this.haltRobot.bind(this);
     }
 
-    getMvmtVals(mvmt_type) {
+    getMvmtData(mvmt_type) {
         var obj = null;
 
         if (mvmt_type == "up" || mvmt_type == "down" || 
-            mvmt_type == "left" || mvmt_type == "right")
+            mvmt_type == "left" || mvmt_type == "right" ||
+            mvmt_type == "turn_left" || mvmt_type == "turn_right")
             obj = {};
         else
             return obj;
 
         if (mvmt_type == "up" || mvmt_type == "down")
             obj.mvmt_name = "walk";
-        else
+        else if (mvmt_type == "left" || mvmt_type == "right")
             obj.mvmt_name = "strafe";
+        else
+            obj.mvmt_name = "turn";
 
-        if (mvmt_type == "up" || mvmt_type == "left")
+        if (mvmt_type == "up" || mvmt_type == "left" || mvmt_type = "turn_left")
             obj.reverse = false;
         else
             obj.reverse = true;
@@ -45,7 +48,7 @@ class GamepadComponent extends Component {
     }
 
     sendMvmtReq(mvmt_type) {
-        var mvmt_data = this.getMvmtVals(mvmt_type);
+        var mvmt_data = this.getMvmtData(mvmt_type);
 
         console.log(mvmt_data);
 
@@ -140,11 +143,17 @@ class GamepadComponent extends Component {
                         </div>                           
 
                         <div className="rotate-buttons">
-                            <button className="left">
+                            <button className='left' 
+                                onMouseEnter={() => this.moveRobot("turn_left")} 
+                                onMouseLeave={() => this.stopMoving()}
+                            >
                                 <span className="oi mega" data-glyph="action-undo"></span>
                             </button>
 
-                            <button className="right">
+                            <button className='turn_right' 
+                                onMouseEnter={() => this.moveRobot("turn_left")} 
+                                onMouseLeave={() => this.stopMoving()}
+                            >
                                 <span className="oi mega" data-glyph="action-redo"></span>
                             </button>                            
                         </div>
