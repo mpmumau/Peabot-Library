@@ -79,6 +79,15 @@ class SettingsPanelComponent extends Component {
 
                         </fieldset>
                     </div>
+
+                    <div className"submit-buttons settings-section">
+                        <button>
+                            Apply
+                        </button>
+                        <button>
+                            Save
+                        </button>
+                    </div>
                 </div>
 
             </section>
