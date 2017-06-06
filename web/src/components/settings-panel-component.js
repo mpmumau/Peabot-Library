@@ -80,7 +80,7 @@ class SettingsPanelComponent extends Component {
                         </fieldset>
                     </div>
 
-                    <div className"submit-buttons settings-section">
+                    <div className="submit-buttons settings-section">
                         <button>
                             Apply
                         </button>

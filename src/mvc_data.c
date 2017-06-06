@@ -77,6 +77,8 @@ const char *mvcdata_get_controllerstr(MVCData *mvc_data)
             return "GET";
         case CONTROLLER_HALT:
             return "HALT";
+        case CONTROLLER_STRAFE:
+            return "STRAFE";
     }
 
     return "INVALID";
@@ -118,6 +120,9 @@ static int mvcdata_get_controller(char *controller_str)
 
     if (strcmp(controller_str, "halt") == 0)
         return CONTROLLER_HALT;
+
+    if (strcmp(controller_str, "strafe") == 0)
+        return CONTROLLER_STRAFE;
 
     return CONTROLLER_NONE;
 }

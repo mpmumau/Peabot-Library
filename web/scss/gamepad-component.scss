@@ -106,6 +106,10 @@ $dpad-button-border-rad: 1.5vw;
         position: absolute;
         top: 15vw;
         right: 0;
+
+        input[type=range] {
+            width: 98%;
+        }
     }
 
     .rotate-buttons {

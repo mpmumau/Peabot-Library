@@ -6,6 +6,7 @@ import HeaderComponent from './header-component';
 import GamepadComponent from './gamepad-component';
 import ActionsPanelComponent from './actions-panel-component';
 import SettingsPanelComponent from './settings-panel-component';
+import LogComponent from './log-component';
 
 class Layout extends Component {
     render() {
@@ -34,6 +35,13 @@ class Layout extends Component {
                     </div>
                 );
                 break;
+            case "log":
+                return (
+                    <div>
+                        <HeaderComponent />
+                        <LogComponent />
+                    </div>
+                );
             default:
                 return (
                     <div>

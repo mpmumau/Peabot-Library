@@ -167,6 +167,8 @@ static void httprhnd_handle_post(MVCData *mvc_data)
                 post_cb = cntlevent_reset;  
             if (mvc_data->controller == CONTROLLER_HALT)
                 post_cb = cntlevent_halt;  
+            if (mvc_data->controller == CONTROLLER_STRAFE)
+                post_cb = cntlevent_strafe;
             break;
         default:
             mvc_data->http_response->code = HTTP_RC_BAD_REQUEST;

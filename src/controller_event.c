@@ -49,6 +49,29 @@ bool cntlevent_walk(MVCData *mvc_data)
     return true;
 }
 
+bool cntlevent_strafe(MVCData *mvc_data)
+{
+    cJSON *cycles_jp = cJSON_GetObjectItem(mvc_data->request_json, "cycles");
+    if (!cycles_jp || !cJSON_IsNumber(cycles_jp))
+        return false;
+    
+    cJSON *duration_jp = cJSON_GetObjectItem(mvc_data->request_json, "duration");
+    if (!duration_jp || !cJSON_IsNumber(duration_jp))
+        return false;
+
+    cJSON *reverse_jp = cJSON_GetObjectItem(mvc_data->request_json, "reverse");
+    if (!reverse_jp || !cJSON_IsBool(reverse_jp))
+        return false;    
+    
+    EventStrafeData event_strafe_data;
+    event_strafe_data.cycles = (unsigned short) cycles_jp->valuedouble;
+    event_strafe_data.duration = (double) duration_jp->valuedouble;
+    event_strafe_data.reverse = (bool) cJSON_IsTrue(reverse_jp);
+
+    event_add(EVENT_STRAFE, (void *) &event_strafe_data);
+    return true;
+}
+
 bool cntlevent_turn(MVCData *mvc_data)
 {    
     cJSON *cycles_jp = cJSON_GetObjectItem(mvc_data->request_json, "cycles");
