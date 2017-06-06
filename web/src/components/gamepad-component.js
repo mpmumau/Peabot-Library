@@ -28,9 +28,13 @@ class GamepadComponent extends Component {
         if (mvmt_type == "up" || mvmt_type == "down" || 
             mvmt_type == "left" || mvmt_type == "right" ||
             mvmt_type == "turn_left" || mvmt_type == "turn_right")
+        {
             obj = {};
+        }
         else
+        {
             return obj;
+        }
 
         if (mvmt_type == "up" || mvmt_type == "down")
         {
@@ -56,17 +60,27 @@ class GamepadComponent extends Component {
             obj.reverse = true;
         }
 
+        if (mvmt_type == "turn_left" || mvmt_type == "turn_right")
+        {
+            obj.cycles = 5;
+            obj.duration = 0.35;
+            obj.delay = obj.duration * 5;
+        }
+        else
+        {
+            obj.cycles = 1;
+            obj.duration = 1.0;
+            obj.delay = obj.duration * 2;
+        }
+
         return obj;
     }
 
     sendMvmtReq(mvmt_type) {
         var mvmt_data = this.getMvmtData(mvmt_type);
-
         console.log(mvmt_data);
 
         var url = this.robot_url + "event/" + mvmt_data.mvmt_name;
-
-        console.log(url);
 
         fetch(url, {
             method: 'POST',
@@ -75,17 +89,19 @@ class GamepadComponent extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                cycles: 1,
-                duration: (this.timeout_milli / 1000),
+                cycles: mvmt_data.cycles,
+                duration: mvmt_data.duration,
                 reverse: mvmt_data.reverse
             })
         });
+
+        return mvmt_data.delay * 1000;
     }
 
     moveRobot(mvmt_type) {
-        var mvmt_vals = this.getMvmtVals(mvmt_type);
-        this.sendMvmtReq(mvmt_type);
-        this.timeout_obj = setTimeout(() => this.moveRobot(mvmt_type), this.timeout_milli);
+        var delay;
+        delay = this.sendMvmtReq(mvmt_type);
+        this.timeout_obj = setTimeout(() => this.moveRobot(mvmt_type), delay);
     }
 
     stopMoving() {
@@ -162,8 +178,8 @@ class GamepadComponent extends Component {
                                 <span className="oi mega" data-glyph="action-undo"></span>
                             </button>
 
-                            <button className='turn_right' 
-                                onMouseEnter={() => this.moveRobot("turn_left")} 
+                            <button className='right' 
+                                onMouseEnter={() => this.moveRobot("turn_right")} 
                                 onMouseLeave={() => this.stopMoving()}
                             >
                                 <span className="oi mega" data-glyph="action-redo"></span>
