@@ -98,16 +98,14 @@ class GamepadComponent extends Component {
             obj.delay = obj.duration;
         }
 
-        console.log("duration: " + obj.duration);
-
         return obj;
     }
 
     sendMvmtReq(mvmt_type) {
         var mvmt_data = this.getMvmtData(mvmt_type);
-        console.log(mvmt_data);
-
         var url = this.robot_url + "event/" + mvmt_data.mvmt_name;
+
+        console.log(mvmt_data);
 
         fetch(url, {
             method: 'POST',
@@ -148,7 +146,17 @@ class GamepadComponent extends Component {
         this.props.changeSpeed(speed_val / 100);
     }
 
+    setDistance() {
+
+    }
+
     render() {
+        var speed_str;
+        switch(this.props.speed)
+        {
+
+        }
+
         return (
                 <section className="gamepad-component">
                     <div className="d-pad">
@@ -201,7 +209,7 @@ class GamepadComponent extends Component {
                             <label>
                                 Speed: {this.props.speed}
                             </label>
-                            <input type="range" name="speed" onChange={() => this.setSpeed() }/>
+                            <input type="range" name="speed" value={this.props.speed * 100} onChange={() => this.setSpeed() }/>
                         </div>                           
 
                         <div className="rotate-buttons">
@@ -226,17 +234,14 @@ class GamepadComponent extends Component {
 }
 
 function mapStateToProps(state) {
+    var new_props = {};
+
     if (state.appState && state.appState.speed)
     {
-        return {
-            speed: state.appState.speed
-        }
+        new_props.speed = state.appState.speed;
     }
 
-    if (!state.testReducer || !state.testReducer.first_obj) return {};
-    return {
-        first_obj: state.testReducer.first_obj
-    }
+    return new_props;
 }
 
 function matchDispatchToProps(dispatch) {

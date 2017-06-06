@@ -1,15 +1,22 @@
-export default function(state={panel: "d-pad"}, action) {
+var default_state = {
+    panel: "d-pad",
+    speed: 0.5
+};
+
+export default function(state, action) {
+    if (typeof state === 'undefined')
+    {
+        return default_state;
+    }
+
     switch (action.type) {
         case "CHANGE_PANEL":
-            return {
-                panel: action.payload
-            };
+            state.panel = action.payload;
             break;
         case "CHANGE_SPEED":
-            return {
-                speed: action.payload
-            };
+            state.speed = action.payload;
             break;
     }
+
     return state;
 }
