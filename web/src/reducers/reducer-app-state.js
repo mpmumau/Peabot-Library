@@ -4,6 +4,12 @@ export default function(state={panel: "d-pad"}, action) {
             return {
                 panel: action.payload
             };
+            break;
+        case "CHANGE_SPEED":
+            return {
+                speed: action.payload
+            };
+            break;
     }
     return state;
 }

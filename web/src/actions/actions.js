@@ -11,3 +11,11 @@ export const changePanelAction = (panel_name) => {
         payload: panel_name
     }
 }
+
+export const changeSpeed = (speed) => {
+    console.log("speed: " + speed);
+    return {
+        type: "CHANGE_SPEED",
+        payload: speed
+    }
+}

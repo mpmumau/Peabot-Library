@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {testAction} from '../actions/actions';
+import {testAction, changeSpeed} from '../actions/actions';
 
 import '../../scss/gamepad-component.scss'
 
@@ -20,6 +20,13 @@ class GamepadComponent extends Component {
         this.moveRobot = this.moveRobot.bind(this);
         this.stopMoving = this.stopMoving.bind(this);
         this.haltRobot = this.haltRobot.bind(this);
+        this.setSpeed = this.setSpeed.bind(this);
+
+        this.turn_low = 0.2;
+        this.turn_high = 1.0;
+
+        this.walk_low = 0.3;
+        this.walk_high = 2.0;
     }
 
     getMvmtData(mvmt_type) {
@@ -60,18 +67,38 @@ class GamepadComponent extends Component {
             obj.reverse = true;
         }
 
+        var speed_actual;
+        if (this.props.speed <= 0)
+        {
+            speed_actual = 0.01;
+        }
+        else
+        {
+            speed_actual = this.props.speed;
+        }
+
         if (mvmt_type == "turn_left" || mvmt_type == "turn_right")
         {
             obj.cycles = 5;
-            obj.duration = 0.35;
+
+            var turn_len = this.turn_high - this.turn_low;
+            var turn_diff = turn_len * speed_actual;
+            obj.duration = this.turn_high - turn_diff;
+
             obj.delay = obj.duration * 5;
         }
         else
         {
             obj.cycles = 1;
-            obj.duration = 1.0;
+
+            var walk_len = this.walk_high - this.walk_low;
+            var walk_diff = walk_len * speed_actual;
+            obj.duration = this.walk_high - walk_diff;
+
             obj.delay = obj.duration;
         }
+
+        console.log("duration: " + obj.duration);
 
         return obj;
     }
@@ -112,6 +139,13 @@ class GamepadComponent extends Component {
         fetch('http://ML_DEVNET_PIBOT:9976/event/halt', {
             method: 'POST'
         });
+    }
+
+    setSpeed() {
+        var speed_el = document.querySelector('input[name="speed"]');
+
+        var speed_val = speed_el.value <= 0 ? 1 : speed_el.value;
+        this.props.changeSpeed(speed_val / 100);
     }
 
     render() {
@@ -165,9 +199,9 @@ class GamepadComponent extends Component {
 
                         <div className="speed">
                             <label>
-                                Speed
+                                Speed: {this.props.speed}
                             </label>
-                            <input type="range" name="speed" />
+                            <input type="range" name="speed" onChange={() => this.setSpeed() }/>
                         </div>                           
 
                         <div className="rotate-buttons">
@@ -192,6 +226,13 @@ class GamepadComponent extends Component {
 }
 
 function mapStateToProps(state) {
+    if (state.appState && state.appState.speed)
+    {
+        return {
+            speed: state.appState.speed
+        }
+    }
+
     if (!state.testReducer || !state.testReducer.first_obj) return {};
     return {
         first_obj: state.testReducer.first_obj
@@ -200,7 +241,8 @@ function mapStateToProps(state) {
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        testAction: testAction
+        testAction: testAction,
+        changeSpeed: changeSpeed
     }, dispatch);
 }
 
