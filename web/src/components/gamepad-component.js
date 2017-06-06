@@ -39,7 +39,7 @@ class GamepadComponent extends Component {
         if (mvmt_type == "up" || mvmt_type == "left")
             obj.reverse = false;
         else
-            obj.revrese = true;
+            obj.reverse = true;
 
         return obj;
     }
@@ -50,6 +50,8 @@ class GamepadComponent extends Component {
         console.log(mvmt_data);
 
         var url = this.robot_url + "event/" + mvmt_data.mvmt_name;
+
+        console.log(url);
 
         fetch(url, {
             method: 'POST',
