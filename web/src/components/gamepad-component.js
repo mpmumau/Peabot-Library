@@ -43,7 +43,7 @@ class GamepadComponent extends Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                cycles: 1,
+                cycles: 5,
                 duration: 0.75,
                 reverse: reverse
             })
@@ -64,7 +64,7 @@ class GamepadComponent extends Component {
                             <span className="oi mega" data-glyph="arrow-thick-top"></span>
                         </button>
 
-                        <button className='stop' onClick={() => this.haltRobot}>
+                        <button className='stop' onClick={() => this.haltRobot()}>
                             <span className="oi mega" data-glyph="target"></span>
                         </button>
 
