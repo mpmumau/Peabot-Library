@@ -29,9 +29,10 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
-    "react-swipeable-views": "^0.12.3",
+    "react-swipe": "^5.0.8",
     "redux": "^3.6.0",
     "sass-loader": "^6.0.5",
+    "swipe-js-iso": "^2.0.3",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.4.5"
   }

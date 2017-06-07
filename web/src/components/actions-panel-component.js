@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ActionsPanelSingleItemComponent from './actions-panel-single-item-component';
-import SwipeableViews from 'react-swipeable-views'
+import ReactDOM from 'react-dom';
+import ReactSwipe from 'react-swipe';
 
 import '../../scss/actions-panel-component.scss'
 
@@ -20,7 +21,7 @@ class ActionsPanelComponent extends Component {
     render() {
         return (
             <section className="actions-panel-component">
-                <SwipeableViews>
+                <ReactSwipe className="carousel" swipeOptions={{continuous: false}}>
                     <div>
                         <ActionsPanelSingleItemComponent iconType="heart" actionLabel="Love" actionName=""/>
                         <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate +" actionName="elevate_in"/>
@@ -36,7 +37,7 @@ class ActionsPanelComponent extends Component {
                     <div>
                         <ActionsPanelSingleItemComponent iconType="beaker" actionLabel="Learn"/>
                     </div>
-                </SwipeableViews>
+                </ReactSwipe>
             </section>
         );
     }
