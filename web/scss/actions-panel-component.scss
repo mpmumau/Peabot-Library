@@ -10,16 +10,17 @@
 }
 
 .single-action {
-    width: 32.5vw;
+
     text-align: center;
     display: inline-block;
     position: relative;
 
     button {
         margin-bottom: 3vw;
+        margin-right: 2vw;
 
         .oi {
-            font-size:20vw;
+            font-size: 27vw;
         }
     }
 

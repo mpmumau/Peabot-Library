@@ -29,7 +29,7 @@ class GamepadComponent extends Component {
         this.walk_low = 0.3;
         this.walk_high = 2.0;
 
-        setInterval(this.setDistance, 250);
+        setInterval(this.setDistance, 1000);
     }
 
     getMvmtData(mvmt_type) {
@@ -155,19 +155,13 @@ class GamepadComponent extends Component {
         .then((responseJson) => {
             this.props.changeDistance(responseJson.distance);
         })
-
-        console.log(obj);
     }
 
     render() {
-        var speed_str;
-        switch(this.props.speed)
-        {
-
-        }
-
         return (
+
                 <section className="gamepad-component">
+
                     <div className="d-pad">
                         <button className='up' 
                             onMouseEnter={() => this.moveRobot("up")} 
@@ -209,8 +203,9 @@ class GamepadComponent extends Component {
                             <label>
                                 Distance
                             </label>
+
                             <div className="data-val">
-                                {this.props.distance.toFixed(2)}
+                                {this.props.distance.toFixed(2)}cm
                             </div>
                         </div>
 

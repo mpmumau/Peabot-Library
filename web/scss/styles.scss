@@ -172,6 +172,8 @@ textarea:focus {
 fieldset {
     border: $very-light-grey dotted 0.25vw;
     padding: 0.75vw;
+    border-radius: 3vw;
+    padding: 2vw;
 }
 
 input[type="checkbox"] {
