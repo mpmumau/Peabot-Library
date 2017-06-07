@@ -19,24 +19,24 @@ class ActionsPanelComponent extends Component {
 
     render() {
         return (
-            <section className="actions-panel-component" onClick={(e, v) => this.captureMouse(e, v)}>
-                <div className="actions-panel-wrapper">
-                    <SwipeableViews>
+            <section className="actions-panel-component">
+                <SwipeableViews>
+                    <div>
                         <ActionsPanelSingleItemComponent iconType="heart" actionLabel="Love" actionName=""/>
                         <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate +" actionName="elevate_in"/>
                         <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate -" actionName="elevate_out"/>
-                    </SwipeableViews>
+                    </div>
 
-                    <SwipeableViews>
+                    <div>
                         <ActionsPanelSingleItemComponent iconType="resize-width" actionLabel="Extend +" actionName="extend_out"/>
                         <ActionsPanelSingleItemComponent iconType="resize-width" actionLabel="Extend -" actionName="extend_in"/>
                         <ActionsPanelSingleItemComponent iconType="musical-note" actionLabel="Sing"/>
-                    </SwipeableViews>
+                    </div>
 
-                    <SwipeableViews>
+                    <div>
                         <ActionsPanelSingleItemComponent iconType="beaker" actionLabel="Learn"/>
-                    </SwipeableViews>
-                </div>
+                    </div>
+                </SwipeableViews>
             </section>
         );
     }
