@@ -1,6 +1,7 @@
 var default_state = {
     panel: "d-pad",
-    speed: 0.5
+    speed: 0.5,
+    distance: 1
 };
 
 export default function(state, action) {
@@ -15,6 +16,9 @@ export default function(state, action) {
             break;
         case "CHANGE_SPEED":
             state.speed = action.payload;
+            break;
+        case "CHANGE_DISTANCE":
+            state.distance = action.payload;
             break;
     }
 

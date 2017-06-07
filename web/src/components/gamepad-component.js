@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {testAction, changeSpeed} from '../actions/actions';
+import {changeSpeed, changeDistance} from '../actions/actions';
 
 import '../../scss/gamepad-component.scss'
 
@@ -21,12 +21,15 @@ class GamepadComponent extends Component {
         this.stopMoving = this.stopMoving.bind(this);
         this.haltRobot = this.haltRobot.bind(this);
         this.setSpeed = this.setSpeed.bind(this);
+        this.setDistance = this.setDistance.bind(this);
 
         this.turn_low = 0.2;
         this.turn_high = 1.0;
 
         this.walk_low = 0.3;
         this.walk_high = 2.0;
+
+        setInterval(this.setDistance, 250);
     }
 
     getMvmtData(mvmt_type) {
@@ -105,8 +108,6 @@ class GamepadComponent extends Component {
         var mvmt_data = this.getMvmtData(mvmt_type);
         var url = this.robot_url + "event/" + mvmt_data.mvmt_name;
 
-        console.log(mvmt_data);
-
         fetch(url, {
             method: 'POST',
             headers: {
@@ -147,7 +148,15 @@ class GamepadComponent extends Component {
     }
 
     setDistance() {
+        fetch('http://ML_DEVNET_PIBOT:9976/usd/get', {
+            method: 'GET'
+        })
+        .then((response) => response.json())
+        .then((responseJson) => {
+            this.props.changeDistance(responseJson.distance);
+        })
 
+        console.log(obj);
     }
 
     render() {
@@ -201,7 +210,7 @@ class GamepadComponent extends Component {
                                 Distance
                             </label>
                             <div className="data-val">
-                                123.51cm
+                                {this.props.distance.toFixed(2)}
                             </div>
                         </div>
 
@@ -241,13 +250,18 @@ function mapStateToProps(state) {
         new_props.speed = state.appState.speed;
     }
 
+    if (state.appState && state.appState.distance)
+    {
+        new_props.distance = state.appState.distance;
+    }
+
     return new_props;
 }
 
 function matchDispatchToProps(dispatch) {
     return bindActionCreators({
-        testAction: testAction,
-        changeSpeed: changeSpeed
+        changeSpeed: changeSpeed,
+        changeDistance: changeDistance
     }, dispatch);
 }
 

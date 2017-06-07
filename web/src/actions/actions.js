@@ -11,3 +11,10 @@ export const changeSpeed = (speed) => {
         payload: speed
     }
 }
+
+export const changeDistance = (distance) => {
+    return {
+        type: "CHANGE_DISTANCE",
+        payload: distance
+    }
+}
