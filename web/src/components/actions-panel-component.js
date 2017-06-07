@@ -25,7 +25,7 @@ class ActionsPanelComponent extends Component {
                     <div>
                         <ActionsPanelSingleItemComponent iconType="heart" actionLabel="Love" actionName=""/>
                         <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate +" actionName="elevate_in"/>
-                        <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate -" actionName="elevate_out"/>
+                        <ActionsPanelSingleItemComponent iconType="resize-height" actionLabel="Elevate -" actionName="elevate_out" />
                     </div>
 
                     <div>
