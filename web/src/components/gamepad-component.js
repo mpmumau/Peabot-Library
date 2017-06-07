@@ -207,7 +207,7 @@ class GamepadComponent extends Component {
 
                         <div className="speed">
                             <label>
-                                Speed: {this.props.speed}
+                                Speed: {Math.round(this.props.speed * 100)}%
                             </label>
                             <input type="range" name="speed" value={this.props.speed * 100} onChange={() => this.setSpeed() }/>
                         </div>                           
