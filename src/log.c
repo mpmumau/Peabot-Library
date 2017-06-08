@@ -123,7 +123,11 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
 
     is_active = true;
 
+    printf("Cursor before: %d\n", ftell(logfile));
+
     fseek(logfile, 0, SEEK_SET);
+
+    printf("Cursor after: %d\n", ftell(logfile));
 
     printf("patrollin'...");
 
@@ -136,7 +140,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     for (int skip = 0; skip < begin; skip++)
     {
         last_str = fgets(log_line, sizeof(log_line), logfile);
-        printf("last_str: %s\n", last_str);
+        printf("last_str: %d\n", last_str);
         printf("log_line: %s\n", log_line);
         if (last_str == NULL)
             return 0;
@@ -158,7 +162,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     fseek(logfile, 0, SEEK_END);
     is_active = false;
 
-    return count + 1;
+    return count;
 }
 
 #endif
