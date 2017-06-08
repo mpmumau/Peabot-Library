@@ -9,6 +9,7 @@
  */
 
 #define LOG_LINE_LEN 512
+typedef char LogLine[LOG_LINE_LEN];
 
 /* Open the given log file for appending. */
 void log_init();
@@ -35,6 +36,6 @@ void log_error(const char *msg, int error_code);
  * Fills given string array with lines from the log, starting at line 'begin'
  * until line 'end'. Returns the number of lines set.
  */
-int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len);
+int log_getlines(int begin, LogLine *lines, size_t lines_len, size_t line_len);
 
 #endif
