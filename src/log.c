@@ -30,7 +30,7 @@ static void log_cache_line(char *line);
 static FILE *logfile = NULL;
 bool is_active;
 
-static LogLine log_cache[LOG_CACHE_SIZE];
+static char *log_cache[LOG_CACHE_SIZE][LOG_LINE_LEN];
 static short log_cache_index;
 
 void log_init()
@@ -170,7 +170,7 @@ static void log_cache_line(char *line)
     printf("Log cache updated...\n");
     for (int i = 0; i < log_cache_index; i++) 
     {
-        printf("[LC] %s\n", (char *) log_cache[log_cache_index]);
+        printf("[LC] %s\n", log_cache[i]);
     }
 }
 
