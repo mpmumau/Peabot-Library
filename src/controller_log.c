@@ -8,6 +8,10 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdio.h>
+#include <stdlib.h>
+
 /* Application includes */
 #include "log.h"
 
