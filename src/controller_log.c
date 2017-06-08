@@ -25,7 +25,7 @@ bool cntllog_getall(MVCData *mvc_data)
 {
     LogLine log_lines[LOG_LINES_BATCH_LEN];
 
-    int lines_num = log_getlines(0, (char *[]) log_lines, sizeof(log_lines), sizeof(LogLine));
+    int lines_num = log_getlines(0, (char *) log_lines, sizeof(log_lines), sizeof(LogLine));
 
     for (int i = 0; i < lines_num; i++)
     {
