@@ -23,7 +23,7 @@ bool cntllog_getall(MVCData *mvc_data)
 {
     LogLine log_lines[LOG_LINES_BATCH_LEN];
 
-    int lines_num = log_getlines(0, log_lines, sizeof(log_lines));
+    int lines_num = log_getlines(3, log_lines, sizeof(log_lines));
 
     printf("Printing log lines...\n");
     printf("Lines num : %d\n", lines_num);
