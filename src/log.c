@@ -24,8 +24,14 @@
 /* Header */
 #include "log.h"
 
+/* Forward decs */
+static void log_cache_line(char *line);
+
 static FILE *logfile = NULL;
 bool is_active;
+
+static LogLine log_cache[LOG_CACHE_SIZE];
+static short log_cache_index;
 
 void log_init()
 {
@@ -36,6 +42,8 @@ void log_init()
     logfile = fopen(filename, "w");
     if (!logfile)
         APP_ERROR("Could not open log file.", 1);
+
+    log_cache_index = 0;
 
     char hdr_line[LOG_LINE_LEN];
     snprintf(hdr_line, sizeof(hdr_line), "Peabot Server: %s", APP_VERSION);
@@ -54,6 +62,8 @@ void log_write(char *line)
 
     char line_cpy[LOG_LINE_LEN];
     str_clearcopy(line_cpy, line, sizeof(line_cpy));
+
+    log_cache_line(line);
 
     fprintf(logfile, "%s\n", line_cpy);
     fflush (logfile);
@@ -150,6 +160,17 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     is_active = false;
 
     return count;
+}
+
+static void log_cache_line(char *line)
+{
+    str_clearcopy(log_cache[log_cache_index], line, sizeof(log_cache[log_cache_index]));
+    log_cache_index++;
+
+    for (int i = 0; i < log_cache_index; i++) 
+    {
+        printf("[LC] %s\n", log_cache[log_cache_index]);
+    }
 }
 
 #endif
