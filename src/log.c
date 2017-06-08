@@ -136,7 +136,7 @@ int log_get_cache(char *dest[], size_t len, size_t item_len)
         if (i >= log_cache_index)
             break;
 
-        printf("[LC Line %d] %s\n", i, log_cache[i]);
+        printf("[LC Line %d] %s\n", i, *log_cache[i]);
     }
 }
 
