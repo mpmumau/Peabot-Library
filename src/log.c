@@ -115,7 +115,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     if (logfile == NULL)
         return 0;
 
-    printf("you see me rollin...\n");
+    printf("they see me rollin...\n");
 
     while (is_active) {} // block while being written to
 
@@ -123,25 +123,24 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
 
     is_active = true;
 
-    printf("Cursor before: %d\n", ftell(logfile));
+    printf("Cursor before: %ld\n", ftell(logfile));
 
     fseek(logfile, 0, SEEK_SET);
 
     printf("Cursor after: %d\n", ftell(logfile));
 
-    printf("patrollin'...");
+    printf("patrollin'...\n");
 
-    LogLine log_line;
-    char *last_str;
+    char buffer[LOG_LINE_LEN];
+    char *last_str_p;
     int count = 0;
 
     printf("These are the [SKIPPED] lines...\n");
 
     for (int skip = 0; skip < begin; skip++)
     {
-        last_str = fgets(log_line, sizeof(log_line), logfile);
-        printf("last_str: %d\n", last_str);
-        printf("log_line: %s\n", log_line);
+        last_str_p = fgets(buffer, sizeof(buffer), logfile);
+        printf("log_line: %s\n", buffer);
         if (last_str == NULL)
             return 0;
     }
