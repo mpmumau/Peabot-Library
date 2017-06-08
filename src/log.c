@@ -123,8 +123,10 @@ void log_error(const char *msg, int error_code)
 static void log_cache_line(char *line)
 {
     char *tmp = (char *) log_cache[log_cache_index];
-    str_clearcopy(log_cache, line, LOG_LINE_LEN);
+    str_clearcopy(tmp, line, LOG_LINE_LEN);
     log_cache_index++;
+
+    printf("sizeof(log_cache): %d\n", sizeof(log_cache));
 
     if (log_cache_index >= sizeof(log_cache))
         log_cache_index = 0;
