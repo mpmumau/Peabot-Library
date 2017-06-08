@@ -127,27 +127,32 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
 
     printf("patrollin'...");
 
-    char buffer[line_len];
+    LogLine log_line;
     char *last_str;
+    int count = 0;
 
-    for (int p = 0; p < begin; p++)
+    printf("These are the [SKIPPED] lines...\n");
+
+    for (int skip = 0; skip < begin; skip++)
     {
-        last_str = fgets(buffer, sizeof(buffer), logfile);
+        last_str = fgets(log_line, sizeof(log_line), logfile);
         printf("last_str: %s\n", last_str);
+        printf("log_line: %s\n", log_line);
         if (last_str == NULL)
             return 0;
     }
 
-    int count = 0;
+    printf("These are the [ACTUAL] lines...\n");
+    
     for ( ; count < lines_len; count++) 
     {
-        memset(buffer, '\0', sizeof(buffer));
-        last_str = fgets(buffer, sizeof(buffer), logfile);
+        memset(log_line, '\0', sizeof(log_line));
+        last_str = fgets(log_line, sizeof(log_line), logfile);
         if (last_str == NULL)
             break;
 
-        str_removenl(buffer);
-        str_clearcopy(lines[count], buffer, sizeof(buffer));
+        str_removenl(log_line);
+        str_clearcopy(lines[count], log_line, sizeof(log_lines));
     }
 
     fseek(logfile, 0, SEEK_END);
