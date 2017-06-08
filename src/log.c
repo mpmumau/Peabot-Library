@@ -113,7 +113,7 @@ void log_error(const char *msg, int error_code)
 int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len) 
 {
     if (logfile == NULL)
-        return;
+        return 0;
 
     while (is_active) {} // block while being written to
 

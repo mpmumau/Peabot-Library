@@ -26,6 +26,8 @@ bool cntllog_getall(MVCData *mvc_data)
     {
         printf("[%d] %s\n", i, log_lines[i]);
     } 
+
+    return true;
 }
 
 #endif
