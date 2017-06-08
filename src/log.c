@@ -129,7 +129,7 @@ static void log_cache_line(char *line)
         log_cache_index = 0;
 }
 
-int log_get_cache(char *dest[], size_t len, size_t item_len) 
+int log_get_cache(char dest[][LOG_LINE_LEN], size_t len, size_t item_len) 
 {
     for (int i = 0; i < len; i++)
     {
