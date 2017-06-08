@@ -141,7 +141,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     {
         last_str_p = fgets(buffer, sizeof(buffer), logfile);
         printf("log_line: %s\n", buffer);
-        if (last_str == NULL)
+        if (last_str_p == NULL)
             return 0;
     }
 
@@ -150,8 +150,8 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     for ( ; count < lines_len; count++) 
     {
         memset(log_line, '\0', sizeof(log_line));
-        last_str = fgets(log_line, sizeof(log_line), logfile);
-        if (last_str == NULL)
+        last_str_p = fgets(log_line, sizeof(log_line), logfile);
+        if (last_str_p == NULL)
             break;
 
         str_removenl(log_line);
