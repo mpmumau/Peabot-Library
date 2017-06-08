@@ -152,7 +152,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
             break;
 
         str_removenl(log_line);
-        str_clearcopy(lines[count], log_line, sizeof(log_lines));
+        str_clearcopy(lines[count], log_line, sizeof(log_line));
     }
 
     fseek(logfile, 0, SEEK_END);
