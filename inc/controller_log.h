@@ -8,6 +8,9 @@
  Author:        Matt Mumau
  */
 
+/* System includes */
+#include <stdbool.h>
+
 #define LOG_LINES_BATCH_LEN 256
 
 bool cntllog_getall(MVCData *mvc_data);
