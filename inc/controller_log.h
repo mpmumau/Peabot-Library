@@ -1,0 +1,15 @@
+#ifndef CONTROLLER_LOG_H_DEF
+#define CONTROLLER_LOG_H_DEF
+
+/*
+ File:          controller_log.h
+ Description:   Declarations of functions for the log controller.
+ Created:       June 7, 2017
+ Author:        Matt Mumau
+ */
+
+#define LOG_LINES_BATCH_LEN 256
+
+bool cntllog_getall(MVCData *mvc_data);
+
+#endif

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdbool.h>
 
 /* Application includes */
 #include "config_defaults.h"
@@ -24,6 +25,7 @@
 #include "log.h"
 
 static FILE *logfile = NULL;
+bool is_active;
 
 void log_init()
 {
@@ -46,11 +48,17 @@ void log_write(char *line)
     if (!logfile || !line)
         return;
 
+    while (is_active) {} // block while being read from
+
+    is_active = true;
+
     char line_cpy[LOG_LINE_LEN];
     str_clearcopy(line_cpy, line, sizeof(line_cpy));
 
     fprintf(logfile, "%s\n", line_cpy);
     fflush (logfile);
+
+    is_active = false;
 }
 
 void log_close()
@@ -100,6 +108,44 @@ void log_error(const char *msg, int error_code)
     snprintf(log_msg, sizeof(log_msg), "[ERROR] %s [e:%d]", msg, error_code);
 
     log_event(log_msg);
+}
+
+int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len) 
+{
+    if (logfile == NULL)
+        return;
+
+    while (is_active) {} // block while being written to
+
+    is_active = true;
+
+    fseek(logfile, 0, SEEK_SET);
+
+    char buffer[line_len];
+    char *last_str;
+
+    for (int p = 0; p < begin; p++)
+    {
+        last_str = fgets(buffer, sizeof(buffer), logfile);
+        if (last_str == NULL)
+            return 0;
+    }
+
+    for (int i = 0; i < lines_len; i++) 
+    {
+        memset(buffer, '\0', sizeof(buffer));
+        last_str = fgets(buffer, sizeof(buffer), logfile);
+        if (last_str == NULL)
+            break;
+
+        str_removenl(buffer);
+        str_clearcopy(lines[i], buffer, sizeof(buffer));
+    }
+
+    fseek(logfile, 0, SEEK_END);
+    is_active = false;
+
+    return i + 1;
 }
 
 #endif

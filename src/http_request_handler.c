@@ -29,6 +29,7 @@
 #include "mvc_data.h"
 #include "log.h"
 #include "controller_usd.h"
+#include "controller_log.h"
 
 /* Header */
 #include "http_request_handler.h"
@@ -200,6 +201,10 @@ static void httprhnd_handle_get(MVCData *mvc_data)
         case MODEL_USD:
             if (mvc_data->controller == CONTROLLER_GET)
                 get_cb = cntlusd_getval;
+            break;
+        case MODEL_LOG:
+            if (mvc_data->controller == CONTROLLER_GET)
+                get_cb = cntllog_getall;
             break;
     }
 

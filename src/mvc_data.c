@@ -54,6 +54,8 @@ const char *mvcdata_get_modelstr(MVCData *mvc_data)
             return "USD";
         case MODEL_POSITION:
             return "POSITION";
+        case MODEL_LOG:
+            return "LOG";
     }
 
     return "INVALID";
@@ -94,6 +96,9 @@ static int mvcdata_get_model(char *model_str)
 
     if (strcmp(model_str, "position") == 0)
         return MODEL_POSITION;
+
+    if (strcmp(model_str, "log") == 0)
+        return MODEL_LOG;
 
     return MODEL_NONE;
 }

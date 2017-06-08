@@ -12,6 +12,7 @@
 #define MODEL_EVENT 1
 #define MODEL_USD 2
 #define MODEL_POSITION 3
+#define MODEL_LOG 4
 
 #define CONTROLLER_NONE 0
 #define CONTROLLER_WALK 1

@@ -31,4 +31,10 @@ void log_event(const char *msg);
 /* Log the message and tag it as an error in the log file. */
 void log_error(const char *msg, int error_code);
 
+/* 
+ * Fills given string array with lines from the log, starting at line 'begin'
+ * until line 'end'. Returns the number of lines set.
+ */
+int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len);
+
 #endif
