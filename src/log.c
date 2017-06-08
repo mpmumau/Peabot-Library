@@ -169,7 +169,8 @@ static void log_cache_line(char *line)
 
     for (int i = 0; i < log_cache_index; i++) 
     {
-        printf("[LC] %s\n", log_cache[log_cache_index]);
+        printf("Log cache updated...\n")
+        printf("[LC] %s\n", (char *) log_cache[log_cache_index]);
     }
 }
 
