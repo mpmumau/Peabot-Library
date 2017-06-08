@@ -25,6 +25,9 @@
 #define CONTROLLER_HALT 8
 #define CONTROLLER_STRAFE 9
 
+/* Libraries */
+#include "cJSON.h"
+
 /* Application includes */
 #include "http_request.h"
 #include "http_response.h"
