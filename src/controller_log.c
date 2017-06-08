@@ -14,6 +14,7 @@
 
 /* Application includes */
 #include "log.h"
+#include "mvc_data.h"
 
 /* Header */
 #include "controller_log.h"
