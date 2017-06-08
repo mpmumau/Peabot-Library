@@ -145,18 +145,18 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
             return 0;
     }
 
-    printf("These are the [ACTUAL] lines...\n");
+    // printf("These are the [ACTUAL] lines...\n");
     
-    for ( ; count < lines_len; count++) 
-    {
-        memset(log_line, '\0', sizeof(log_line));
-        last_str_p = fgets(log_line, sizeof(log_line), logfile);
-        if (last_str_p == NULL)
-            break;
+    // for ( ; count < lines_len; count++) 
+    // {
+    //     memset(log_line, '\0', sizeof(log_line));
+    //     last_str_p = fgets(log_line, sizeof(log_line), logfile);
+    //     if (last_str_p == NULL)
+    //         break;
 
-        str_removenl(log_line);
-        str_clearcopy(lines[count], log_line, sizeof(log_line));
-    }
+    //     str_removenl(log_line);
+    //     str_clearcopy(lines[count], log_line, sizeof(log_line));
+    // }
 
     fseek(logfile, 0, SEEK_END);
     is_active = false;
