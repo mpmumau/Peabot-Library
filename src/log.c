@@ -110,7 +110,7 @@ void log_error(const char *msg, int error_code)
     log_event(log_msg);
 }
 
-int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len) 
+int log_getlines(int begin, LogLine *lines, size_t lines_len, size_t line_len) 
 {
     if (logfile == NULL)
         return 0;
