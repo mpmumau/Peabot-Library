@@ -25,6 +25,9 @@ bool cntllog_getall(MVCData *mvc_data)
 
     int lines_num = log_getlines(0, log_lines, sizeof(log_lines), sizeof(LogLine));
 
+    printf("Printing log lines...\n");
+    printf("Lines num : %d\n", lines_num);
+
     for (int i = 0; i < lines_num; i++)
     {
         printf("[%d] %s\n", i, log_lines[i]);
