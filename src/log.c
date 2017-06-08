@@ -115,6 +115,8 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     if (logfile == NULL)
         return 0;
 
+    printf("BEGIN: %d\n", begin);
+
     printf("they see me rollin...\n");
 
     while (is_active) {} // block while being written to
