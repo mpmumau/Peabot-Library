@@ -19,7 +19,7 @@
 /* Header */
 #include "controller_log.h"
 
-typedef LogLine char[LOG_LINE_LEN];
+typedef char[LOG_LINE_LEN] LogLine;
 
 bool cntllog_getall(MVCData *mvc_data)
 {
