@@ -119,9 +119,13 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
 
     while (is_active) {} // block while being written to
 
+    printf("they hatin'...\n");
+
     is_active = true;
 
     fseek(logfile, 0, SEEK_SET);
+
+    printf("patrollin'...");
 
     char buffer[line_len];
     char *last_str;
@@ -129,6 +133,7 @@ int log_getlines(int begin, LogLine *lines, size_t lines_len)
     for (int p = 0; p < begin; p++)
     {
         last_str = fgets(buffer, sizeof(buffer), logfile);
+        printf("last_str: %s\n", last_str);
         if (last_str == NULL)
             return 0;
     }
