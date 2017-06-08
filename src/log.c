@@ -31,7 +31,7 @@ static FILE *logfile = NULL;
 bool is_active;
 
 static char *log_cache[LOG_CACHE_SIZE][LOG_LINE_LEN];
-static short log_cache_index;
+static short log_cache_index = 0;
 
 void log_init()
 {
@@ -120,57 +120,23 @@ void log_error(const char *msg, int error_code)
     log_event(log_msg);
 }
 
-int log_getlines(int begin, LogLine *lines, size_t lines_len) 
-{
-    if (logfile == NULL)
-        return 0;
-
-    while (is_active) {} // block while being written to
-
-    is_active = true;
-
-    char buffer[LOG_LINE_LEN];
-    char *last_str_p;
-    int count = 0;
-
-    printf("These are the [SKIPPED] lines...\n");
-
-    for (int skip = 0; skip < begin; skip++)
-    {
-        last_str_p = fgets(buffer, sizeof(buffer), logfile);
-        printf("log_line: %s\n", buffer);
-        if (last_str_p == NULL)
-            return 0;
-    }
-
-    // printf("These are the [ACTUAL] lines...\n");
-    
-    // for ( ; count < lines_len; count++) 
-    // {
-    //     memset(log_line, '\0', sizeof(log_line));
-    //     last_str_p = fgets(log_line, sizeof(log_line), logfile);
-    //     if (last_str_p == NULL)
-    //         break;
-
-    //     str_removenl(log_line);
-    //     str_clearcopy(lines[count], log_line, sizeof(log_line));
-    // }
-
-    fseek(logfile, 0, SEEK_END);
-    is_active = false;
-
-    return count;
-}
-
 static void log_cache_line(char *line)
 {
     str_clearcopy(log_cache[log_cache_index], line, sizeof(log_cache[log_cache_index]));
     log_cache_index++;
 
-    printf("Log cache updated...\n");
-    for (int i = 0; i < log_cache_index; i++) 
+    if (log_cache_index >= sizeof(log_cache))
+        log_cache_index = 0;
+}
+
+int log_get_cache(char *dest[], size_t len, size_t item_len) 
+{
+    for (int i = 0; i < len; i++)
     {
-        printf("[LC] %s\n", log_cache[i]);
+        if (i >= log_cache_index)
+            break;
+
+        printf("[LC Line %d] %s\n", i, log_cache[i]);
     }
 }
 
