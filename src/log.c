@@ -131,7 +131,8 @@ int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len)
             return 0;
     }
 
-    for (int i = 0; i < lines_len; i++) 
+    int count = 0;
+    for ( ; count < lines_len; count++) 
     {
         memset(buffer, '\0', sizeof(buffer));
         last_str = fgets(buffer, sizeof(buffer), logfile);
@@ -139,13 +140,13 @@ int log_getlines(int begin, char *lines[], size_t lines_len, size_t line_len)
             break;
 
         str_removenl(buffer);
-        str_clearcopy(lines[i], buffer, sizeof(buffer));
+        str_clearcopy(lines[count], buffer, sizeof(buffer));
     }
 
     fseek(logfile, 0, SEEK_END);
     is_active = false;
 
-    return i + 1;
+    return count + 1;
 }
 
 #endif
