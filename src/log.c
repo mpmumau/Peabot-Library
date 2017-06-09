@@ -30,7 +30,7 @@ static void log_cache_line(char *line);
 static FILE *logfile = NULL;
 bool is_active;
 
-static char *log_cache[LOG_CACHE_SIZE];
+static LogLine log_cache[LOG_CACHE_SIZE];
 static short log_cache_index = 0;
 
 void log_init()
@@ -122,19 +122,18 @@ void log_error(const char *msg, int error_code)
 
 static void log_cache_line(char *line)
 {
-    char *tmp = *log_cache[log_cache_index];
-    str_clearcopy(tmp, line, LOG_LINE_LEN);
+    str_clearcopy((char *) log_cache[log_cache_index], line, LOG_LINE_LEN);
     log_cache_index++;
 
-    printf("last log line: %s\n", tmp);
+    printf("last log line: %s\n", (char *) log_cache[log_cache_index]);
 
-    if (log_cache_index >= sizeof(log_cache))
-        log_cache_index = 0;
+    // if (log_cache_index >= sizeof(log_cache))
+    //     log_cache_index = 0;
 
-    printf("current log cache...\n");
-    for (int i = 0; i < log_cache_index; i++) {
-        printf("[LC STORED %d] %s", i, log_cache[i]);
-    }
+    // printf("current log cache...\n");
+    // for (int i = 0; i < log_cache_index; i++) {
+    //     printf("[LC STORED %d] %s", i, log_cache[i]);
+    // }
 }
 
 // int log_get_cache(char *lines[], size_t len, size_t item_len) 
