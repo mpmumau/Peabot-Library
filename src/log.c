@@ -125,7 +125,7 @@ static void log_cache_line(char *line)
     str_clearcopy((char *) *log_cache[log_cache_index], line, LOG_LINE_LEN);
     log_cache_index++;
 
-    printf("last log line: %s\n", (char *) log_cache[log_cache_index]);
+    printf("last log line: %s\n", (char *) *log_cache[log_cache_index]);
 
     // if (log_cache_index >= sizeof(log_cache))
     //     log_cache_index = 0;
