@@ -127,7 +127,7 @@ static void log_cache_line(char *line)
     log_cache_index++;
 }
 
-int log_get_cache(char **lines, size_t len, size_t item_len) 
+int log_get_cache(char (*lines)[LOG_LINE_LEN], size_t len, size_t item_len) 
 {
     char *tmp;
     char *lines_p;
