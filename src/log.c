@@ -138,7 +138,7 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], int start)
     int i = 0;
     for ( ; i + start < LOG_CACHE_SIZE; i++)
     {
-        if (i >= log_cache_index)
+        if (i + start >= log_cache_index)
         {
             log_cache_index = 0;
             return i;
