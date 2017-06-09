@@ -44,6 +44,7 @@ static bool         running = true;
 static int          error;
 static int          pca_9685_fd;
 static double       *servo;
+static bool         loop_exited = false;
 
 void robot_init()
 {
@@ -67,10 +68,14 @@ void robot_init()
 
 void robot_halt()
 {   
+    
     robot_reset();
+    running = false;
+
+    while (!loop_exited) {}
+
     robot_destroy();
     pca9685PWMReset(pca_9685_fd);
-    running = false;
 
     error = pthread_join(robot_thread, NULL);
     if (error)
@@ -128,6 +133,7 @@ static void *robot_main(void *arg)
             robot_mvjoint(i, servo[i]); 
     }
 
+    loop_exited = true;
     return (void *) NULL;
 }
 

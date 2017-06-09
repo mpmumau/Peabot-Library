@@ -46,7 +46,7 @@ void app_exit(int retval)
 {
     log_event("[MAIN] Shutting down. Bye!");
 
-    robot_halt();
+    
     http_halt();
     prompt_halt();
     event_halt();
@@ -54,7 +54,7 @@ void app_exit(int retval)
     usd_sensor_halt();
     config_destroy();
     log_close();
-
+    robot_halt();
     exit_val = retval;
     running = false;  
 }
