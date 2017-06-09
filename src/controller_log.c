@@ -31,16 +31,18 @@ bool cntllog_getall(MVCData *mvc_data)
     if (!lines_array)
         return false;
 
-    cJSON *tmp;
-    char *tmp_str;
+    cJSON *tmp_line;
 
     char log_lines[LOG_CACHE_SIZE][LOG_LINE_LEN];
     int len = log_get_cache(log_lines, 4);
 
     for (int i = 0; i < len; i++)
     {
-        tmp_str = &log_lines[i][0];
-        printf("log line %d: %s\n", i, tmp_str);
+        tmp_line = cJSON_CreateString(&log_lines[i][0]);
+        if (!tmp_line)
+            return false;
+
+        cJSON_AddItemToArray(lines_array, tmp_line);
     }
 
     cJSON_AddItemToObject(mvc_data->response_json, "log_lines", lines_array);
