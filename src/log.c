@@ -135,15 +135,15 @@ static void log_cache_line(char *line)
     }
 }
 
-int log_get_cache(char *lines[], size_t len, size_t item_len) 
-{
-    for (int i = 0; i < len; i++)
-    {
-        if (i >= log_cache_index)
-            break;
+// int log_get_cache(char *lines[], size_t len, size_t item_len) 
+// {
+//     for (int i = 0; i < len; i++)
+//     {
+//         if (i >= log_cache_index)
+//             break;
 
-        printf("[LC Line %d] %s\n", i, log_cache[i]);
-    }
-}
+//         printf("[LC Line %d] %s\n", i, log_cache[i]);
+//     }
+// }
 
 #endif
