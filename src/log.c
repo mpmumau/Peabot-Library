@@ -125,36 +125,24 @@ static void log_cache_line(char *line)
     char *tmp = &log_cache[log_cache_index][0];
     str_clearcopy(tmp, line, LOG_LINE_LEN);
     log_cache_index++;
-
-    printf("last log line: %s\n", tmp);
-
-    printf("all log lines: \n");
-
-    char *tmp2;
-    for (int i = 0; i < log_cache_index; i++)
-    {
-        tmp2 = &log_cache[i][0];
-        printf("[LC %d] %s\n", i, tmp2);
-    }
-
-    // if (log_cache_index >= sizeof(log_cache))
-    //     log_cache_index = 0;
-
-    // printf("current log cache...\n");
-    // for (int i = 0; i < log_cache_index; i++) {
-    //     printf("[LC STORED %d] %s", i, log_cache[i]);
-    // }
 }
 
-// int log_get_cache(char *lines[], size_t len, size_t item_len) 
-// {
-//     for (int i = 0; i < len; i++)
-//     {
-//         if (i >= log_cache_index)
-//             break;
+int log_get_cache(char **lines, size_t len, size_t item_len) 
+{
+    char *tmp;
+    char *lines_p;
+    for (int i = 0; i < len; i++)
+    {
+        if (i >= log_cache_index)
+            return i;
 
-//         printf("[LC Line %d] %s\n", i, log_cache[i]);
-//     }
-// }
+        tmp = &log_cache[i][0];
+        lines_p = lines[i][0];
+
+        str_clearcopy(lines_p, tmp, item_len);
+
+        printf("just added: %s\n", lines[i][0]);
+    }
+}
 
 #endif

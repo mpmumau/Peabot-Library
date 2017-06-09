@@ -11,8 +11,6 @@
 #define LOG_LINE_LEN 512
 #define LOG_CACHE_SIZE 1024
 
-typedef char LogLine[LOG_LINE_LEN];
-
 /* Open the given log file for appending. */
 void log_init();
 
