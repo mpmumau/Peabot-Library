@@ -69,13 +69,12 @@ void robot_halt()
 {   
     robot_reset();
     robot_destroy();
+    pca9685PWMReset(pca_9685_fd);
     running = false;
 
     error = pthread_join(robot_thread, NULL);
     if (error)
         log_error("Could not rejoin from robot thread.", error);
-
-    pca9685PWMReset(pca_9685_fd);
 }
 
 void robot_reset()
