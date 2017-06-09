@@ -128,6 +128,15 @@ static void log_cache_line(char *line)
 
     printf("last log line: %s\n", tmp);
 
+    printf("all log lines: \n");
+
+    char *tmp2;
+    for (int i = 0; i < log_cache_index; i++)
+    {
+        tmp2 = &log_cache[i][0];
+        printf("[LC %d] %s\n", i, tmp2);
+    }
+
     // if (log_cache_index >= sizeof(log_cache))
     //     log_cache_index = 0;
 
