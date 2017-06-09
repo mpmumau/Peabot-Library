@@ -21,7 +21,7 @@ class HeaderComponent extends Component {
                     <li onClick={() => this.props.changePanelAction("settings")}>
                         <span className="oi" data-glyph="menu"></span> Settings
                     </li>
-                    <li className="last" onClick={() => this.props.changePanelAction("log")}>
+                    <li className="last" onClick={() => { this.props.changePanelAction("log"); }}>
                         <span className="oi" data-glyph="list"></span> Log
                     </li>
                 </ul>

@@ -13,6 +13,7 @@
 
 #define LOG_LINES_BATCH_LEN 256
 
+/* Handle a GET request to retrieve all log items. */
 bool cntllog_getall(MVCData *mvc_data);
 
 #endif

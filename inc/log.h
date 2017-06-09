@@ -32,6 +32,7 @@ void log_event(const char *msg);
 /* Log the message and tag it as an error in the log file. */
 void log_error(const char *msg, int error_code);
 
+/* Get the log messages in the log cache, and reset the cache. */
 int log_get_cache(char (*lines)[LOG_LINE_LEN], int start);
 
 #endif

@@ -7,8 +7,19 @@ import GamepadComponent from './gamepad-component';
 import ActionsPanelComponent from './actions-panel-component';
 import SettingsPanelComponent from './settings-panel-component';
 import LogComponent from './log-component';
+import {refreshLog} from '../actions/actions';
 
 class Layout extends Component {
+    constructor(props) {
+        super(props);
+
+        if (!this.log_loop_init) {
+            this.log_loop_init = true;
+            setInterval(() => this.props.refreshLog(), 1000 );
+        }
+    
+    }
+
     render() {
         switch (this.props.panel) {
             case "d-pad":
@@ -61,4 +72,10 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Layout);
+function matchDispatchToProps(dispatch) {
+    return bindActionCreators({
+        refreshLog: refreshLog
+    }, dispatch);
+}
+
+export default connect(mapStateToProps, matchDispatchToProps)(Layout);

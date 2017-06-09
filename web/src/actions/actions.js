@@ -18,3 +18,10 @@ export const changeDistance = (distance) => {
         payload: distance
     }
 }
+
+export const refreshLog = () => {
+    return {
+        type: "REFRESH_LOG",
+        payload: null
+    }
+}
