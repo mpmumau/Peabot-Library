@@ -129,6 +129,7 @@ static void log_cache_line(char *line)
     if (log_cache_index >= sizeof(log_cache))
         log_cache_index = 0;
 
+    printf("current log cache...\n");
     for (int i = 0; i < log_cache_index; i++) {
         printf("[LC STORED %d] %s", i, log_cache[i]);
     }
