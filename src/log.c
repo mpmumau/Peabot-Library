@@ -122,7 +122,7 @@ void log_error(const char *msg, int error_code)
 
 static void log_cache_line(char *line)
 {
-    str_clearcopy((char *) log_cache[log_cache_index], line, LOG_LINE_LEN);
+    str_clearcopy((char *) *log_cache[log_cache_index], line, LOG_LINE_LEN);
     log_cache_index++;
 
     printf("last log line: %s\n", (char *) log_cache[log_cache_index]);
