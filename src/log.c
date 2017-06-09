@@ -126,20 +126,22 @@ static void log_cache_line(char *line)
     str_clearcopy(tmp, line, LOG_LINE_LEN);
     log_cache_index++;
 
-    printf("sizeof(log_cache): %d\n", sizeof(log_cache));
-
     if (log_cache_index >= sizeof(log_cache))
         log_cache_index = 0;
+
+    for (int i = 0; i < log_cache_index; i++) {
+        printf("[LC STORED %d] %s", i, log_cache[i]);
+    }
 }
 
-int log_get_cache(char dest[][LOG_LINE_LEN], size_t len, size_t item_len) 
+int log_get_cache(char *lines[], size_t len, size_t item_len) 
 {
     for (int i = 0; i < len; i++)
     {
         if (i >= log_cache_index)
             break;
 
-        printf("[LC Line %d] %s\n", i, *log_cache[i]);
+        printf("[LC Line %d] %s\n", i, log_cache[i]);
     }
 }
 
