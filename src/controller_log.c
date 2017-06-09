@@ -21,21 +21,13 @@
 
 bool cntllog_getall(MVCData *mvc_data)
 {
-    // LogLine log_lines[LOG_LINES_BATCH_LEN];
-
-    // int lines_num = log_getlines(3, log_lines, sizeof(log_lines));
-
-    // printf("Printing log lines...\n");
-    // printf("Lines num : %d\n", lines_num);
-
-    // for (int i = 0; i < lines_num; i++)
-    // {
-    //     printf("[%d] %s\n", i, log_lines[i]);
-    // } 
-
     char log_lines[LOG_CACHE_SIZE][LOG_LINE_LEN];
+    int len = log_get_cache(log_lines, LOG_CACHE_SIZE, LOG_LINE_LEN);
 
-    log_get_cache(log_lines, LOG_CACHE_SIZE, LOG_LINE_LEN);
+    for (int i = 0; i < len; i++)
+    {
+        printf("log line %d: %s\n", i, &log_lines[i][0]);
+    }
 
     return true;
 }

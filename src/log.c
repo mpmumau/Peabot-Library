@@ -142,8 +142,6 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], size_t len, size_t item_len)
         lines_p = &lines[i][0];
 
         str_clearcopy(lines_p, tmp, item_len);
-
-        printf("just added: %s\n", &lines[i][0]);
     }
 
     return i;
