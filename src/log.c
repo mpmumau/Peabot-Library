@@ -125,9 +125,12 @@ static void log_cache_line(char *line)
     char *tmp = &log_cache[log_cache_index][0];
     str_clearcopy(tmp, line, LOG_LINE_LEN);
     log_cache_index++;
+
+    if (log_cache_index >= LOG_CACHE_SIZE)
+        log_cache_index = 0;
 }
 
-int log_get_cache(char (*lines)[LOG_LINE_LEN], size_t len, size_t item_len) 
+int log_get_cache(char (*lines)[LOG_LINE_LEN], int start) 
 {
     char *tmp;
     char *lines_p;
@@ -136,15 +139,19 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], size_t len, size_t item_len)
     for ( ; i < LOG_CACHE_SIZE; i++)
     {
         if (i >= log_cache_index)
-            return i;
+        {
+            log_cache_index = 0;
+            return i - start;
+        }
 
         tmp = &log_cache[i][0];
         lines_p = &lines[i][0];
 
         str_clearcopy(lines_p, tmp, item_len);
     }
-
-    return i;
+    
+    log_cache_index = 0;
+    return i - start;
 }
 
 #endif

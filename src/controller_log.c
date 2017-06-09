@@ -12,6 +12,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/* Libraries */
+#include <cJSON.h>
+
 /* Application includes */
 #include "log.h"
 #include "mvc_data.h"
@@ -21,14 +24,26 @@
 
 bool cntllog_getall(MVCData *mvc_data)
 {
+    if (!mvc_data->response_json)
+        return;
+
+    cJSON *lines_array = cJSON_CreateArray();
+    if (!lines_array)
+        return;
+
+    cJSON *tmp;
+    char *tmp_str;
+
     char log_lines[LOG_CACHE_SIZE][LOG_LINE_LEN];
     int len = log_get_cache(log_lines, LOG_CACHE_SIZE, LOG_LINE_LEN);
 
     for (int i = 0; i < len; i++)
     {
-        printf("log line %d: %s\n", i, &log_lines[i][0]);
+        tmp_str = &log_lines[i][0];
+        printf("log line %d: %s\n", i, tmp_str);
     }
 
+    cJSON_AddItemToObject(mvc_data->response_json, "log_lines", lines_array);
     return true;
 }
 
