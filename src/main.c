@@ -46,11 +46,11 @@ void app_exit(int retval)
 {
     log_event("[MAIN] Shutting down. Bye!");
 
+    robot_halt();
     http_halt();
     prompt_halt();
     event_halt();
     keyhandler_halt();
-    robot_halt();
     usd_sensor_halt();
     config_destroy();
     log_close();
