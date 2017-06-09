@@ -147,7 +147,7 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], int start)
         tmp = &log_cache[i][0];
         lines_p = &lines[i][0];
 
-        str_clearcopy(lines_p, tmp, item_len);
+        str_clearcopy(lines_p, tmp, LOG_LINE_LEN);
     }
     
     log_cache_index = 0;
