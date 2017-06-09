@@ -25,17 +25,17 @@
 bool cntllog_getall(MVCData *mvc_data)
 {
     if (!mvc_data->response_json)
-        return;
+        return false;
 
     cJSON *lines_array = cJSON_CreateArray();
     if (!lines_array)
-        return;
+        return false;
 
     cJSON *tmp;
     char *tmp_str;
 
     char log_lines[LOG_CACHE_SIZE][LOG_LINE_LEN];
-    int len = log_get_cache(log_lines, LOG_CACHE_SIZE, LOG_LINE_LEN);
+    int len = log_get_cache(log_lines, 2);
 
     for (int i = 0; i < len; i++)
     {
