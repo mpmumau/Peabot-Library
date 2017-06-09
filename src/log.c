@@ -135,23 +135,23 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], int start)
     char *tmp;
     char *lines_p;
 
-    int i = start;
-    for ( ; i < LOG_CACHE_SIZE; i++)
+    int i = 0;
+    for ( ; i + start < LOG_CACHE_SIZE; i++)
     {
         if (i >= log_cache_index)
         {
             log_cache_index = 0;
-            return i - start;
+            return i;
         }
 
         tmp = &log_cache[i][0];
-        lines_p = &lines[i][0];
+        lines_p = &lines[i + start][0];
 
         str_clearcopy(lines_p, tmp, LOG_LINE_LEN);
     }
     
     log_cache_index = 0;
-    return i - start;
+    return i;
 }
 
 #endif

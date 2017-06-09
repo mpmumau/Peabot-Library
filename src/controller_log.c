@@ -35,7 +35,7 @@ bool cntllog_getall(MVCData *mvc_data)
     char *tmp_str;
 
     char log_lines[LOG_CACHE_SIZE][LOG_LINE_LEN];
-    int len = log_get_cache(log_lines, 2);
+    int len = log_get_cache(log_lines, 4);
 
     for (int i = 0; i < len; i++)
     {
