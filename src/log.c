@@ -143,6 +143,8 @@ int log_get_cache(char **lines, size_t len, size_t item_len)
 
         printf("just added: %s\n", &lines[i][0]);
     }
+
+    return i;
 }
 
 #endif
