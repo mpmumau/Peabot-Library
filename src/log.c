@@ -133,7 +133,7 @@ int log_get_cache(char (*lines)[LOG_LINE_LEN], size_t len, size_t item_len)
     char *lines_p;
 
     int i = 0;
-    for ( ; i < len; i++)
+    for ( ; i < LOG_CACHE_SIZE; i++)
     {
         if (i >= log_cache_index)
             return i;
