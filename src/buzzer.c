@@ -80,7 +80,7 @@ void *buzzer_main(void *arg) {
             continue;
 
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
-        digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
+        // digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
 
         tick = 0.0;
         flipped = !flipped;
