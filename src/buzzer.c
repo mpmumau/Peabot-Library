@@ -76,7 +76,7 @@ void *buzzer_main(void *arg) {
         //     continue;
 
         delay = (1000000 * (1 / freq));
-        printf("delay: %d\r", delay);
+        printf("delay: %32d\r", delay);
         delayMicroseconds(delay);
 
         tick = 0.0;
