@@ -81,12 +81,11 @@ void *buzzer_main(void *arg) {
                 note_freq = 1000;
 
             sequence_time = 0;
+            tick = 0;
             continue;
         }
         
         tick += diff;
-
-        printf("tick: %f\n", tick);
 
         if (tick < (1 / note_freq))
             continue;
