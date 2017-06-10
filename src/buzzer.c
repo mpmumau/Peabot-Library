@@ -86,7 +86,12 @@ void *buzzer_main(void *arg) {
         
         tick += diff;
         if (tick < (1 / note_freq))
+        {
+            printf("not flipped\n");
             continue;
+        }
+
+        printf("flipped\n");
 
         tick = 0.0;
         flipped = !flipped;
