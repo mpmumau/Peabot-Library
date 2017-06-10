@@ -66,6 +66,8 @@ void *buzzer_main(void *arg) {
     double tick = 0.0;
     double diff = 0.0;
 
+    double swap_time = (1 / (note_freq * 2));
+
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
     while (running)
@@ -76,22 +78,14 @@ void *buzzer_main(void *arg) {
 
         tick += diff;
 
-        if (tick < (1 / note_freq))
+        if (tick < swap_time)
             continue;
 
-        if (flipped)
-        {
-            digitalWrite(buzzer_pin_a, HIGH);
-            digitalWrite(buzzer_pin_b, LOW);
-        }
-        else
-        {
-            digitalWrite(buzzer_pin_a, LOW);
-            digitalWrite(buzzer_pin_b, HIGH);
-        }
+        digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
+        digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
 
         tick = 0.0;
-        flipped = !flipped;
+        flipped = flipped ? false : true;
     }
 
     digitalWrite(buzzer_pin_a, LOW);
