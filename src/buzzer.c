@@ -76,7 +76,7 @@ void *buzzer_main(void *arg) {
 
         if (sequence_time > 1)
         {
-            freq = freq + ((((freq * 2) - freq) / 12) * 4);
+            freq += 83.33333;
             if (freq > 4000)
                 freq = 1000;
 
