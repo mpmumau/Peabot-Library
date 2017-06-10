@@ -53,7 +53,6 @@ void *buzzer_main(void *arg) {
     unsigned short buzzer_pin_b = 4;
 
     bool flipped = false;
-    bool stop = false;
 
     pinMode(buzzer_pin_a, OUTPUT);
     pinMode(buzzer_pin_b, OUTPUT);
@@ -69,10 +68,6 @@ void *buzzer_main(void *arg) {
 
     while (running)
     {
-        if (stop)
-        {
-            continue;
-        }
 
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
@@ -95,7 +90,6 @@ void *buzzer_main(void *arg) {
 
         if (sequence_time > 2)
         {
-            stop = true;
             note_freq = note_freq + (83.33333333333333333333 * 4.0);
             if (note_freq >= 10000)
                 note_freq = 1000;
