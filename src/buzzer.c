@@ -30,7 +30,7 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-double freq = 2000;
+double freq = 1000;
 bool flipped = false;
 
 void buzzer_init() {
@@ -79,6 +79,9 @@ void *buzzer_main(void *arg) {
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
     }
+
+    digitalWrite(buzzer_pin_a, LOW);
+    digitalWrite(buzzer_pin_b, LOW);
 
     return (void *) NULL;
 }
