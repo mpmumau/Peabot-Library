@@ -70,16 +70,16 @@ void *buzzer_main(void *arg) {
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
 
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        diff = utils_timediff(time, last_time);
-        last_time = time;
+        // clock_gettime(CLOCK_MONOTONIC, &time);
+        // diff = utils_timediff(time, last_time);
+        // last_time = time;
 
-        tick += diff;
+        // tick += diff;
 
-        if (tick < (1 / note_freq))
-            continue;
+        // if (tick < (1 / note_freq))
+        //     continue;
 
-        tick = 0.0;
+        // tick = 0.0;
         flipped = !flipped;
     }
 
