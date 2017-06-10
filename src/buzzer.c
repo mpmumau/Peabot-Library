@@ -13,6 +13,7 @@
 /* System includes */
 #include <pthread.h>
 #include <time.h>
+#include <stdbool.h>
 
 /* Raspberry Pi libraries */
 #include <wiringPi.h>
