@@ -74,6 +74,13 @@ void *buzzer_main(void *arg) {
 
         sequence_time += diff;
 
+
+        
+        tick += diff;
+
+        if (tick < (1 / note_freq))
+            continue;
+
         if (sequence_time > 2)
         {
             note_freq = note_freq + (83.33333333333333333333 * 4.0);
@@ -84,11 +91,6 @@ void *buzzer_main(void *arg) {
             tick = 0;
             continue;
         }
-        
-        tick += diff;
-
-        if (tick < (1 / note_freq))
-            continue;
 
         tick = 0.0;
         flipped = !flipped;
