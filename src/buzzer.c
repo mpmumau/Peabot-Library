@@ -61,6 +61,8 @@ void *buzzer_main(void *arg) {
     double tick = 0.0;
     double diff;
 
+    unsigned int delay;
+
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
     while (running)
@@ -73,7 +75,9 @@ void *buzzer_main(void *arg) {
         // if (tick < (1 / freq))
         //     continue;
 
-        delayMicroseconds(1000000 * (1 / freq));
+        delay = (1000000 * (1 / freq));
+        printf("delay: %d\r", delay);
+        delayMicroseconds(delay);
 
         tick = 0.0;
         flipped = !flipped;
