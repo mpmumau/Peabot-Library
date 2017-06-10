@@ -67,17 +67,17 @@ void *buzzer_main(void *arg) {
 
     while (running)
     {
-        // clock_gettime(CLOCK_MONOTONIC, &time);
-        // diff = utils_timediff(time, last_time);
-        // last_time = time;
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
         
-        // tick += diff;
-        // if (tick < (1 / freq))
-        //     continue;
+        tick += diff;
+        if (tick < (1 / freq))
+            continue;
 
-        delay = (1000000 * (1 / freq));
-        printf("delay: %32d\r", delay);
-        delayMicroseconds(delay);
+        // delay = (1000000 * (1 / freq));
+        // printf("delay: %32d\r", delay);
+        // delayMicroseconds(delay);
 
         tick = 0.0;
         flipped = !flipped;
