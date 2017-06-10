@@ -57,6 +57,9 @@ void *buzzer_main(void *arg) {
     pinMode(buzzer_pin_a, OUTPUT);
     pinMode(buzzer_pin_b, OUTPUT);
 
+    digitalWrite(buzzer_pin_a, LOW);
+    digitalWrite(buzzer_pin_b, LOW);
+
     struct timespec time;
     struct timespec last_time;
 
@@ -67,19 +70,19 @@ void *buzzer_main(void *arg) {
 
     while (running)
     {
+        clock_gettime(CLOCK_MONOTONIC, &time);
+        diff = utils_timediff(time, last_time);
+        last_time = time;
+
+        tick += diff;
+
+        if (tick < 0.001)
+            continue;
+
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
 
-        // clock_gettime(CLOCK_MONOTONIC, &time);
-        // diff = utils_timediff(time, last_time);
-        // last_time = time;
-
-        // tick += diff;
-
-        // if (tick < (1 / note_freq))
-        //     continue;
-
-        // tick = 0.0;
+        tick = 0.0;
         flipped = !flipped;
     }
 
