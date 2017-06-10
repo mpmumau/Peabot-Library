@@ -78,8 +78,16 @@ void *buzzer_main(void *arg) {
         if (tick < (1 / note_freq))
             continue;
 
-        digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
-        // digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
+        if (flipped)
+        {
+            digitalWrite(buzzer_pin_a, HIGH);
+            digitalWrite(buzzer_pin_b, LOW);
+        }
+        else
+        {
+            digitalWrite(buzzer_pin_a, LOW);
+            digitalWrite(buzzer_pin_b, HIGH);
+        }
 
         tick = 0.0;
         flipped = !flipped;
