@@ -70,10 +70,15 @@ void *buzzer_main(void *arg) {
     while (running)
     {
         if (stop)
+        {
             continue;
-        
+        }
+
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
+
+        digitalWrite(buzzer_pin_a, LOW);
+        digitalWrite(buzzer_pin_b, LOW);
 
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
