@@ -31,9 +31,7 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-double freq = 1000;
-double sequence_time = 0;
-bool flipped = false;
+static double note_freq = 1000;
 
 void buzzer_init() {
     error = pthread_create(&buzzer_thread, NULL, buzzer_main, NULL);
@@ -54,6 +52,8 @@ void *buzzer_main(void *arg) {
     unsigned short buzzer_pin_a = 3;
     unsigned short buzzer_pin_b = 4;
 
+    bool flipped = false;
+
     pinMode(buzzer_pin_a, OUTPUT);
     pinMode(buzzer_pin_b, OUTPUT);
 
@@ -61,7 +61,8 @@ void *buzzer_main(void *arg) {
     struct timespec last_time;
 
     double tick = 0.0;
-    double diff;
+    double diff = 0.0;
+    double sequence_time = 0.0;
 
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
@@ -75,23 +76,23 @@ void *buzzer_main(void *arg) {
 
         if (sequence_time > 2)
         {
-            printf("changing note\n");
-            freq += 83.33333333333333333333 * 4.0;
-            if (freq >= 2000)
-                freq = 1000;
+            note_freq = note_freq + (83.33333333333333333333 * 4.0);
+            if (note_freq >= 2000)
+                note_freq = 1000;
 
-            printf("freq: %f\n", freq);
             sequence_time = 0;
             continue;
         }
         
         tick += diff;
-        if (tick < (1 / freq))
+        if (tick < (1 / note_freq))
             continue;
 
         tick = 0.0;
         flipped = !flipped;
-        printf("flipped\n");
+
+        pinMode(buzzer_pin_a, flipped ? OUTPUT : INPUT);
+        pinMode(buzzer_pin_b, flipped ? INPUT : OUTPUT);
 
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
