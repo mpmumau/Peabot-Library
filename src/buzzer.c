@@ -30,7 +30,8 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-double freq = 3000;
+double freq = 1000;
+double sequence_time = 0;
 bool flipped = false;
 
 void buzzer_init() {
@@ -70,14 +71,21 @@ void *buzzer_main(void *arg) {
         clock_gettime(CLOCK_MONOTONIC, &time);
         diff = utils_timediff(time, last_time);
         last_time = time;
+
+        sequence_time += diff;
+
+        if (sequence_time > 1)
+        {
+            frequency = frequency + ((((frequency * 2) - frequency) / 12) * 4);
+            if (frequency > 4000)
+                frequency = 1000;
+
+            sequence_time = 0;
+        }
         
         tick += diff;
         if (tick < (1 / freq))
             continue;
-
-        // delay = (1000000 * (1 / freq));
-        // printf("delay: %32d\r", delay);
-        // delayMicroseconds(delay);
 
         tick = 0.0;
         flipped = !flipped;
