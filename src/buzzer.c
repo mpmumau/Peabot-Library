@@ -76,7 +76,7 @@ void *buzzer_main(void *arg) {
 
         tick += diff;
 
-        if (tick < 0.001)
+        if (tick < 0.00001)
             continue;
 
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
