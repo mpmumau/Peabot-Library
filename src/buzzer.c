@@ -30,7 +30,7 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-double freq = 3300;
+double freq = 2000;
 bool flipped = false;
 
 void buzzer_init() {
