@@ -55,10 +55,9 @@ void *buzzer_main(void *arg) {
     bool flipped = false;
 
     pinMode(buzzer_pin_a, OUTPUT);
-    pinMode(buzzer_pin_b, OUTPUT);
+    pinMode(buzzer_pin_b, INPUT);
 
     digitalWrite(buzzer_pin_a, LOW);
-    digitalWrite(buzzer_pin_b, LOW);
 
     struct timespec time;
     struct timespec last_time;
