@@ -31,7 +31,7 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-static double note_freq = 1333;
+static double note_freq = 3000;
 
 void buzzer_init() {
     error = pthread_create(&buzzer_thread, NULL, buzzer_main, NULL);
