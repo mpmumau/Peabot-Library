@@ -79,6 +79,8 @@ void *buzzer_main(void *arg) {
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
     }
+
+    return (void *) NULL;
 }
 
 
