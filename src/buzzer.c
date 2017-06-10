@@ -21,6 +21,7 @@
 /* Application includes */
 #include "main.h"
 #include "log.h"
+#include "utils.h"
 
 /* Header */
 #include "buzzer.h"
