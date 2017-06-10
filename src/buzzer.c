@@ -77,10 +77,11 @@ void *buzzer_main(void *arg) {
         if (sequence_time > 2)
         {
             printf("changing note\n");
-            freq += 83.333333333333;
+            freq += 83.33333333333333333333;
             if (freq >= 2000)
                 freq = 1000;
 
+            printf("freq: %f\n", freq);
             sequence_time = 0;
             continue;
         }
