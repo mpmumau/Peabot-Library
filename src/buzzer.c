@@ -21,7 +21,7 @@
 #include "main.h"
 
 /* Header */
-#include "buzzer.h."
+#include "buzzer.h"
 
 bool running = true;
 pthread_t buzzer_thread;
