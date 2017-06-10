@@ -62,13 +62,11 @@ void *buzzer_main(void *arg) {
 
     double tick = 0.0;
     double diff = 0.0;
-    double sequence_time = 0.0;
 
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
     while (running)
     {
-
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
 
@@ -76,17 +74,7 @@ void *buzzer_main(void *arg) {
         diff = utils_timediff(time, last_time);
         last_time = time;
 
-        sequence_time += diff;
         tick += diff;
-
-        if (sequence_time > 2)
-        {
-            note_freq = note_freq + 83.33333333333333333333;
-            if (note_freq >= 10000)
-                note_freq = 1000;
-
-            sequence_time = 0;
-        }
 
         if (tick < (1 / note_freq))
             continue;
