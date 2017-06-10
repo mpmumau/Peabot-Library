@@ -32,6 +32,7 @@
 #include "robot.h"
 #include "http_server.h"
 #include "usd_sensor.h"
+#include "buzzer.h"
 
 /* Header */
 #include "main.h"
@@ -55,6 +56,7 @@ void app_exit(int retval)
     config_destroy();
     log_close();
     robot_halt();
+    buzzer_halt();
     exit_val = retval;
     running = false;  
 }
@@ -89,6 +91,7 @@ int main(int argc, char *argv[])
     console_h("Peabot Server: " APP_VERSION); 
     wiringPiSetup();
 
+    buzzer_init();
     usd_sensor_init();
     robot_init();
     keyhandler_init();
