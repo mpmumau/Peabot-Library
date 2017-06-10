@@ -14,6 +14,7 @@
 #include <pthread.h>
 #include <time.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 /* Raspberry Pi libraries */
 #include <wiringPi.h>
@@ -61,8 +62,6 @@ void *buzzer_main(void *arg) {
 
     double tick = 0.0;
     double diff;
-
-    unsigned int delay;
 
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
