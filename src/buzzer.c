@@ -20,6 +20,7 @@
 
 /* Application includes */
 #include "main.h"
+#include "log.h"
 
 /* Header */
 #include "buzzer.h"
