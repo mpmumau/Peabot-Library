@@ -91,9 +91,6 @@ void *buzzer_main(void *arg) {
         tick = 0.0;
         flipped = !flipped;
 
-        pinMode(buzzer_pin_a, flipped ? INPUT : OUTPUT);
-        pinMode(buzzer_pin_b, flipped ? OUTPUT : INPUT);
-
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
         digitalWrite(buzzer_pin_b, flipped ? LOW : HIGH);
     }
