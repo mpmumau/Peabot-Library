@@ -31,7 +31,7 @@ bool running = true;
 pthread_t buzzer_thread;
 int error;
 
-static double note_freq = 3000;
+static double note_freq = 1654;
 
 void buzzer_init() {
     error = pthread_create(&buzzer_thread, NULL, buzzer_main, NULL);
@@ -76,7 +76,7 @@ void *buzzer_main(void *arg) {
 
         tick += diff;
 
-        if (tick < 0.0001)
+        if (tick < (1 / note_freq))
             continue;
 
         digitalWrite(buzzer_pin_a, flipped ? HIGH : LOW);
