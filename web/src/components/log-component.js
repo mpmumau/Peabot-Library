@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import ReactSwipe from 'react-swipe';
 
 
 import '../../scss/log-component.scss';
@@ -14,11 +15,15 @@ class LogComponent extends Component {
         this.props.log_lines.reverse();
         return (
             <section className="log-component">
-                <ul>
-                    {this.props.log_lines.map(function(log_line, index){
-                        return <li key={index}> {log_line} </li>;
-                    })}
-                </ul>
+                <ReactSwipe className="carousel" swipeOptions={{continuous: false}}>
+                    <ul>
+                        {
+                            this.props.log_lines.map(function(log_line, index) {
+                                return <li key={index}> {log_line} </li>;
+                            })
+                        }
+                    </ul>
+                </ReactSwipe>
             </section>
         );
     }
