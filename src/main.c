@@ -1,6 +1,6 @@
 /*
  File:          main.c
- Description:   Main object for the Peabot application.
+ Description:   Main object and entrypoint for the Peabot application.
  */
 
 #ifndef MAIN_DEF
@@ -52,7 +52,7 @@ void app_exit(int retval)
     log_close();
 
     exit_val = retval;
-    running = false;  
+    running = false;
 }
 
 void app_error(const char *file, unsigned int lineno, const char *msg, unsigned short error_code)

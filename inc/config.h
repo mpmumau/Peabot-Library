@@ -1,12 +1,10 @@
-#ifndef CONFIG_H_DEF
-#define CONFIG_H_DEF
-
 /*
  File:          config.h
  Description:   Peabot application-level configuration.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONFIG_H_DEF
+#define CONFIG_H_DEF
 
 #include <stdbool.h>
 #include "robot.h"
