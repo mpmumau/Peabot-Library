@@ -1,12 +1,10 @@
-#ifndef PROMPT_COMMANDS_H_DEF
-#define PROMPT_COMMANDS_H_DEF
-
 /*
  File:          prompt_commands.h
  Description:   A listing of functions to be used as callbacks for prompt commands.
- Created:       May 9, 2017
- Author:        Matt Mumau
  */
+
+#ifndef PROMPT_COMMANDS_H_DEF
+#define PROMPT_COMMANDS_H_DEF
 
 /* Callback for quitting the Peabot application */
 void promptcmd_quit(char *args[], int arg_num);

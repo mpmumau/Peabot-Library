@@ -1,12 +1,10 @@
-#ifndef STRING_UTILS_DEF
-#define STRING_UTILS_DEF
-
 /*
  File:          string_utils.c
  Description:   Various utility functions defs for dealing with strings.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef STRING_UTILS_DEF
+#define STRING_UTILS_DEF
 
 /* System includes */
 #include <string.h>

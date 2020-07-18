@@ -1,12 +1,10 @@
-#ifndef LOG_DEF
-#define LOG_DEF
-
 /*
  File:          log.c
  Description:   Implementation of file logging.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef LOG_DEF
+#define LOG_DEF
 
 /* System includes */ 
 #include <stdlib.h>

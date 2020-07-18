@@ -1,12 +1,10 @@
-#ifndef PROMPT_DEF
-#define PROMPT_DEF
-
 /*
  File:          prompt.c
  Description:   Implementation of functions related to the command prompt.
- Created:       May 8, 2017
- Author:        Matt Mumau
  */
+
+#ifndef PROMPT_DEF
+#define PROMPT_DEF
 
 /* System includes */
 #include <sys/prctl.h>
@@ -112,7 +110,7 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
         cmd_callback = promptcmd_reset;
 
     if (str_equals(cmd, "delay"))
-        cmd_callback = promptcmd_delay;      
+        cmd_callback = promptcmd_delay;
 
     if (str_equals(cmd, "elevate"))
         cmd_callback = promptcmd_elevate;
@@ -130,7 +128,7 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
         cmd_callback = promptcmd_turn;
 
     if (str_equals(cmd, "halt"))
-        cmd_callback = promptcmd_halt;    
+        cmd_callback = promptcmd_halt;
 
     if (str_equals(cmd, "strafe"))
         cmd_callback = promptcmd_strafe;

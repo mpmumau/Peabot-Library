@@ -1,12 +1,10 @@
-#ifndef LOG_H_DEF
-#define LOG_H_DEF
-
 /*
  File:          log.h
  Description:   Utility functions used for dealing with a log file.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef LOG_H_DEF
+#define LOG_H_DEF
 
 #define LOG_LINE_LEN 512
 

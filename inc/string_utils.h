@@ -1,12 +1,10 @@
-#ifndef STRING_UTILS_H_DEF
-#define STRING_UTILS_H_DEF
-
 /*
  File:          string_utils.h
  Description:   A set of utility functions for dealing with strings.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef STRING_UTILS_H_DEF
+#define STRING_UTILS_H_DEF
 
 #include <stdbool.h>
 

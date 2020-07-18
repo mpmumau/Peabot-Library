@@ -1,12 +1,10 @@
-#ifndef LIST_H_DEF
-#define LIST_H_DEF
-
 /*
  File:          list.h
  Description:   Linked list library definition
- Created:       March 21, 2017
- Author:        Matt Mumau
  */
+
+#ifndef LIST_H_DEF
+#define LIST_H_DEF
 
 typedef struct List
 {

@@ -1,12 +1,10 @@
-#ifndef MAIN_H_DEF
-#define MAIN_H_DEF
-
 /*
  File:          main.h
  Description:   Application flow management for the main Peabot application.
- Created:       May 6, 2017
- Author:        Matt Mumau
  */
+
+#ifndef MAIN_H_DEF
+#define MAIN_H_DEF
 
 #define APP_VERSION "v0.1 alpha"
 

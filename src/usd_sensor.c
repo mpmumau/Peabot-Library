@@ -1,12 +1,10 @@
-#ifndef USD_SENSOR_DEF
-#define USD_SENSOR_DEF
-
 /*
  File:          usd_sensor.c
  Description:   Handler for the ultra-sonic distance sensor.
- Created:       May 24, 2017
- Author:        Matt Mumau
  */
+
+#ifndef USD_SENSOR_DEF
+#define USD_SENSOR_DEF
 
 #define _POSIX_C_SOURCE 199309L
 
@@ -47,7 +45,7 @@ void usd_sensor_init()
         APP_ERROR("Could not initialize USD sensor thread.", error);
 
     pinMode(DEFAULT_HRC_SR04_TRIGGER_PIN, OUTPUT);
-    pinMode(DEFAULT_HRC_SR04_ECHO_PIN, INPUT);    
+    pinMode(DEFAULT_HRC_SR04_ECHO_PIN, INPUT);
 
     digitalWrite(DEFAULT_HRC_SR04_TRIGGER_PIN, LOW);
 }
@@ -112,8 +110,6 @@ static void *usd_sensor_main(void *arg)
                 distance = new_distance;
             }
         }
-
-        //printf("Distance: %f\n", distance);
 
         delayMicroseconds(100000);
     }

@@ -1,13 +1,11 @@
-#ifndef CONSOLE_H_DEF
-#define CONSOLE_H_DEF
-
 /*
  File:          console.h
  Description:   A variety of utility functions for printing to standard output;
                 In other words the console.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONSOLE_H_DEF
+#define CONSOLE_H_DEF
 
 #define CONSOLE_LINE_LEN 128
 #define TIMESTAMP_MAXLEN 20

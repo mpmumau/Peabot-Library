@@ -1,13 +1,10 @@
-#ifndef CONFIG_DEFAULTS_H_DEF
-#define CONFIG_DEFAULTS_H_DEF
-
 /*
  File:          config_defaults.h
  Description:   Default values for configuration variables.
- Created:       May 15, 2017
- Author:        Matt Mumau
  */
 
+#ifndef CONFIG_DEFAULTS_H_DEF
+#define CONFIG_DEFAULTS_H_DEF
 
 /* Application settings */
 #define LOG_LINE_MAXLEN 128

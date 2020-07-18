@@ -1,12 +1,10 @@
-#ifndef CONFIG_STDIN_DEF
-#define CONFIG_STDIN_DEF
-
 /*
  File:          config_stdin.c
  Description:   Manage standard-in (piped-in) configuration variables.
- Created:       May 19, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONFIG_STDIN_DEF
+#define CONFIG_STDIN_DEF
 
 /* System includes */
 #include <stdio.h>

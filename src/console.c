@@ -1,12 +1,10 @@
-#ifndef CONSOLE_DEF
-#define CONSOLE_DEF
-
 /*
  File:          console.c
  Description:   Implementations of console related functions.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONSOLE_DEF
+#define CONSOLE_DEF
 
 /* System includes */
 #include <stdlib.h>

@@ -1,12 +1,10 @@
-#ifndef CONFIGSET_CALLBACKS_DEF
-#define CONFIGSET_CALLBACKS_DEF
-
 /*
  File:          config_callbacks.c
  Description:   Implementation of configuration variable set functions.
- Created:       May 15, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONFIGSET_CALLBACKS_DEF
+#define CONFIGSET_CALLBACKS_DEF
 
 /* System includes */
 #include <stdbool.h>

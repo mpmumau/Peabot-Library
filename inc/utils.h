@@ -1,12 +1,10 @@
-#ifndef UTILS_H
-#define UTILS_H
-
 /*
  File:          utils.h
  Description:   Various system-level utility functions.
- Created:       May 6, 2017
- Author:        Matt Mumau
  */
+
+#ifndef UTILS_H
+#define UTILS_H
 
 #ifndef UTILS_DATETIME_MAXLEN
 #define UTILS_DATETIME_MAXLEN 23

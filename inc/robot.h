@@ -1,12 +1,10 @@
-#ifndef ROBOT_H_DEF
-#define ROBOT_H_DEF
-
 /*
  File:          robot.h
  Description:   Peabot robot control functions declarations.
- Created:       May 7, 2017
- Author:        Matt Mumau
  */
+
+#ifndef ROBOT_H_DEF
+#define ROBOT_H_DEF
 
 typedef struct ServoLimit {
     unsigned short min;

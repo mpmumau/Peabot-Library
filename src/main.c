@@ -25,8 +25,6 @@
 #include "log.h"
 #include "console.h"
 #include "prompt.h"
-#include "events.h"
-#include "keyframe_handler.h"
 #include "robot.h"
 #include "usd_sensor.h"
 
@@ -44,8 +42,6 @@ void app_exit(int retval)
     log_event("[MAIN] Shutting down. Bye!");
 
     prompt_halt();
-    event_halt();
-    keyhandler_halt();
     robot_halt();
     usd_sensor_halt();
     config_destroy();
@@ -59,7 +55,7 @@ void app_error(const char *file, unsigned int lineno, const char *msg, unsigned 
 {
     char err_msg[256];
     snprintf(err_msg, sizeof(err_msg), "[ERROR!] %s [f:%s,l:%d,e:%d]", msg, file, lineno, error_code);
-    log_event(err_msg);   
+    log_event(err_msg);
     app_exit(error_code);
 }
 
@@ -79,16 +75,14 @@ static void signal_handler(int signum)
 int main(int argc, char *argv[])
 {
     prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
+
     config_init(argc, argv);
     log_init();
     signal(SIGINT, signal_handler);
-    console_h("Peabot Server: " APP_VERSION); 
     wiringPiSetup();
 
     usd_sensor_init();
     robot_init();
-    keyhandler_init();
-    event_init();
     prompt_init();
 
     log_event("[MAIN] Peabot server initialized.");

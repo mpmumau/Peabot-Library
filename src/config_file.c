@@ -1,12 +1,10 @@
-#ifndef CONFIG_FILE_DEF
-#define CONFIG_FILE_DEF
-
 /*
  File:          config_file.c
  Description:   Implementation of config file functionality.
- Created:       May 19, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONFIG_FILE_DEF
+#define CONFIG_FILE_DEF
 
 /* System libraries */
 #include <stdio.h>

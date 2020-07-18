@@ -1,12 +1,10 @@
-#ifndef UTILS_DEF
-#define UTILS_DEF
-
 /*
  File:          utils.c
  Description:   Implementation of a variety of system utility functions.
- Created:       May 6, 2017
- Author:        Matt Mumau
  */
+
+#ifndef UTILS_DEF
+#define UTILS_DEF
 
 #define _POSIX_C_SOURCE 199309L
 

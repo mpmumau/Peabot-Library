@@ -1,12 +1,10 @@
-#ifndef CONFIGSET_CALLBACKS_H_DEF
-#define CONFIGSET_CALLBACKS_H_DEF
-
 /*
  File:          config_callbacks.h
  Description:   Functions for setting configuration variables from abstract data objects.
- Created:       May 15, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONFIGSET_CALLBACKS_H_DEF
+#define CONFIGSET_CALLBACKS_H_DEF
 
 #include "config.h"
 

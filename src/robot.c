@@ -1,12 +1,10 @@
-#ifndef ROBOT_DEF
-#define ROBOT_DEF
-
 /*
  File:          robot.c
  Description:   Implementations of Peabot robot functions.
- Created:       May 7, 2017
- Author:        Matt Mumau
  */
+
+#ifndef ROBOT_DEF
+#define ROBOT_DEF
 
 #define _POSIX_C_SOURCE 199309L
 

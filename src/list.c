@@ -1,12 +1,10 @@
-#ifndef LIST_DEF
-#define LIST_DEF
-
 /*
  File:          list.c
  Description:   Implementation of linked list object functionality.
- Created:       March 21, 2017
- Author:        Matt Mumau
  */
+
+#ifndef LIST_DEF
+#define LIST_DEF
 
 // System dependencies
 #include <stdlib.h>

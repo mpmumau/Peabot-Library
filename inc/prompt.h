@@ -1,12 +1,10 @@
-#ifndef PROMPT_H_DEF
-#define PROMPT_H_DEF
-
 /*
  File:          prompt.h
  Description:   Functions for dealing with input from the stdin prompt.
- Created:       May 8, 2017
- Author:        Matt Mumau
  */
+
+#ifndef PROMPT_H_DEF
+#define PROMPT_H_DEF
 
 #define STDIN_BUFFER_LEN 256
 #define STDIN_BUFFER_LOG_LEN 128
