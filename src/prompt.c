@@ -106,6 +106,9 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
     if (str_equals(cmd, "quit"))
         cmd_callback = promptcmd_quit;
 
+    if (str_equals(cmd, "cfg_get"))
+        cmd_callback = promptcmd_cfg_get;
+
     if (cmd_callback == NULL)
     {
         console_error("Unknown command.");
