@@ -1,8 +1,6 @@
 /*
  File:          main.c
  Description:   Main object for the Peabot application.
- Created:       May 5, 2017
- Author:        Matt Mumau
  */
 
 #ifndef MAIN_DEF
@@ -45,7 +43,6 @@ void app_exit(int retval)
 {
     log_event("[MAIN] Shutting down. Bye!");
 
-    http_halt();
     prompt_halt();
     event_halt();
     keyhandler_halt();

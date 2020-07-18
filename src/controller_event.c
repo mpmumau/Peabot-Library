@@ -1,12 +1,10 @@
-#ifndef CONTROLLER_EVENT_DEF
-#define CONTROLLER_EVENT_DEF
-
 /*
  File:          controller_event.c
  Description:   Controller functions for handling event objects
- Created:       May 28, 2017
- Author:        Matt Mumau
  */
+
+#ifndef CONTROLLER_EVENT_DEF
+#define CONTROLLER_EVENT_DEF
 
 /* System includes */
 #include <stdio.h>
@@ -18,9 +16,7 @@
 
 /* Application includes */
 #include "main.h"
-#include "http_request.h"
 #include "events.h"
-#include "http_response.h"
 #include "mvc_data.h"
 
 /* Header */
