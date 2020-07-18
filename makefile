@@ -45,10 +45,7 @@ _DEPS = main.h \
 	math_defs.h \
 	event_callbacks.h \
 	usd_sensor.h \
-	controller_event.h \
-	cJSON.h \
-	mvc_data.h \
-	controller_usd.h
+	cJSON.h
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
@@ -72,10 +69,7 @@ _OBJ = main.o \
 	event_callbacks.o \
 	easing_utils.o \
 	usd_sensor.o \
-	controller_event.o \
-	cJSON.o \
-	mvc_data.o \
-	controller_usd.o
+	cJSON.o
 OBJ = $(patsubst %,$(OBJ_DIR)/%,$(_OBJ))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(DEPS)
