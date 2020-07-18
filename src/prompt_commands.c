@@ -16,7 +16,6 @@
 #include "config.h"
 #include "log.h"
 #include "console.h"
-#include "events.h"
 #include "string_utils.h"
 
 /* Header */
