@@ -44,10 +44,6 @@ _DEPS = main.h \
 	easing_utils.h \
 	math_defs.h \
 	event_callbacks.h \
-	http_server.h \
-	http_request.h \
-	http_response.h \
-	http_request_handler.h \
 	usd_sensor.h \
 	controller_event.h \
 	cJSON.h \
@@ -75,10 +71,6 @@ _OBJ = main.o \
 	easing.o \
 	event_callbacks.o \
 	easing_utils.o \
-	http_server.o \
-	http_request.o \
-	http_response.o \
-	http_request_handler.o \
 	usd_sensor.o \
 	controller_event.o \
 	cJSON.o \

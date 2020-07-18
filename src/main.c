@@ -1,12 +1,12 @@
-#ifndef MAIN_DEF
-#define MAIN_DEF
-
 /*
  File:          main.c
  Description:   Main object for the Peabot application.
  Created:       May 5, 2017
  Author:        Matt Mumau
  */
+
+#ifndef MAIN_DEF
+#define MAIN_DEF
 
 //#define PEABOT_DBG
 
@@ -30,7 +30,6 @@
 #include "events.h"
 #include "keyframe_handler.h"
 #include "robot.h"
-#include "http_server.h"
 #include "usd_sensor.h"
 
 /* Header */
@@ -94,7 +93,6 @@ int main(int argc, char *argv[])
     keyhandler_init();
     event_init();
     prompt_init();
-    http_init();
 
     log_event("[MAIN] Peabot server initialized.");
 
