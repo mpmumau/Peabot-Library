@@ -223,7 +223,7 @@ void promptcmd_cfg_get(char *args[], int arg_num)
 
     if (str_equals(var_name, "servo_limit"))
     {
-        if (arg_num < 2)
+        if (arg_num < 1)
         {
             console_print("[ERROR] Incorrect number of params. Usage: cfg_get servo_limit [index]]");
             return;
@@ -240,7 +240,7 @@ void promptcmd_cfg_get(char *args[], int arg_num)
 
         ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
-        printf("[Config] servo_limit@%d: %d-%d\n", index, servo_limits[index].min, servo_limits[index].max);
+        printf("[Config] servo_limit@%d: [min] %d [max]%d\n", index, servo_limits[index].min, servo_limits[index].max);
         return;
     }
 
