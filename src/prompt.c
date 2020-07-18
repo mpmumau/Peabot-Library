@@ -106,33 +106,6 @@ static void prompt_handle_cmd(const char *stdin_str, size_t len)
     if (str_equals(cmd, "quit"))
         cmd_callback = promptcmd_quit;
 
-    if (str_equals(cmd, "reset"))
-        cmd_callback = promptcmd_reset;
-
-    if (str_equals(cmd, "delay"))
-        cmd_callback = promptcmd_delay;
-
-    if (str_equals(cmd, "elevate"))
-        cmd_callback = promptcmd_elevate;
-
-    if (str_equals(cmd, "extend"))
-        cmd_callback = promptcmd_extend;
-
-    if (str_equals(cmd, "walk"))
-        cmd_callback = promptcmd_walk;
-
-    if (str_equals(cmd, "cfg_get"))
-        cmd_callback = promptcmd_cfg_get;
-
-    if (str_equals(cmd, "turn"))
-        cmd_callback = promptcmd_turn;
-
-    if (str_equals(cmd, "halt"))
-        cmd_callback = promptcmd_halt;
-
-    if (str_equals(cmd, "strafe"))
-        cmd_callback = promptcmd_strafe;
-
     if (cmd_callback == NULL)
     {
         console_error("Unknown command.");

@@ -9,31 +9,7 @@
 /* Callback for quitting the Peabot application */
 void promptcmd_quit(char *args[], int arg_num);
 
-/* Callback for resetting the robot. */
-void promptcmd_reset(char *args[], int arg_num);
-
-/* Callback for delaying the event queue. */
-void promptcmd_delay(char *args[], int arg_num);
-
-/* Callback for the robot's "up" operation */
-void promptcmd_elevate(char *args[], int arg_num);
-
-/* Callback for the robot's "extend" operation. */
-void promptcmd_extend(char *args[], int arg_num);
-
-/* Callback to sequence the robot for walking */
-void promptcmd_walk(char *args[], int arg_num);
-
 /* Callback for printing a config variable's value to the console. */
 void promptcmd_cfg_get(char *args[], int arg_num);
-
-/* Callback for doing the robot's turn animation. */
-void promptcmd_turn(char *args[], int arg_num);
-
-/* Callback for removing all keyframes, effectively halting the robot. */
-void promptcmd_halt(char *args[], int arg_num);
-
-/* Callback to move the robot laterally. */
-void promptcmd_strafe(char *args[], int arg_num);
 
 #endif

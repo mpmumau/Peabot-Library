@@ -24,109 +24,6 @@
 static void promptcmd_log_cmd(const char *msg);
 static bool promptcmd_check_args(const char *usage_str, unsigned short args_req, unsigned short args_num);
 
-void promptcmd_quit(char *args[], int arg_num)
-{
-    app_exit(0);
-}
-
-void promptcmd_reset(char *args[], int arg_num)
-{
-    promptcmd_log_cmd("Added reset event.");
-}
-
-void promptcmd_halt(char *args[], int arg_num)
-{
-    promptcmd_log_cmd("Added halt event,");
-}
-
-void promptcmd_delay(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("delay [duration]", 1, arg_num);
-    if (!valid)
-        return;
-
-    const char *seconds_string = args[0];
-
-    double seconds = (double) atof(seconds_string);
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added delay event. (duration: %f)", seconds);
-    promptcmd_log_cmd(log_msg);
-}
-
-void promptcmd_elevate(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("elevate [duration] [reverse]", 2, arg_num);
-    if (!valid)
-        return;
-
-    const char *seconds_string = args[0];
-    const char *reverse_string = args[1];
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added elevate event. (duration: %f, reverse %s)", elevate_data.duration, elevate_data.reverse ? "true" : "false");
-    promptcmd_log_cmd(log_msg);
-}
-
-void promptcmd_extend(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("extend [duration] [reverse]", 2, arg_num);
-    if (!valid)
-        return;
-
-    const char *seconds_string = args[0];
-    const char *reverse_string = args[1];
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added extend event. (duration: %f, reverse %s)", extend_data.duration, extend_data.reverse ? "true" : "false");
-    promptcmd_log_cmd(log_msg);
-}
-
-void promptcmd_walk(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("walk [cycles] [duration] [reverse]", 3, arg_num);
-    if (!valid)
-        return;
-
-    const char *cycles_string = args[0];
-    const char *seconds_string = args[1];
-    const char *reverse_string = args[2];
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added walk event. (duration: %f, cycles %d, reverse: %s)", walk_data.duration, walk_data.cycles, walk_data.reverse ? "true" : "false");
-    promptcmd_log_cmd(log_msg);
-}
-
-void promptcmd_turn(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("turn [cycles] [duration] [reverse]", 3, arg_num);
-    if (!valid)
-        return;
-
-    const char *cycles_string = args[0];
-    const char *seconds_string = args[1];
-    const char *reverse_string = args[2];
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added turn event. (duration: %f, cycles %d, reverse: %s)", turn_data.duration, turn_data.cycles, turn_data.reverse ? "true" : "false");
-    promptcmd_log_cmd(log_msg);       
-}
-
-void promptcmd_strafe(char *args[], int arg_num)
-{
-    bool valid = promptcmd_check_args("strafe [cycles] [duration] [reverse]", 3, arg_num);
-    if (!valid)
-        return;
-
-    const char *cycles_string = args[0];
-    const char *seconds_string = args[1];
-    const char *reverse_string = args[2];
-
-    char log_msg[LOG_LINE_MAXLEN];
-    snprintf(log_msg, sizeof(log_msg), "Added strafe event. (duration: %f, cycles %d, reverse: %s)", strafe_data.duration, strafe_data.cycles, strafe_data.reverse ? "true" : "false");
-    promptcmd_log_cmd(log_msg);
-}
-
 static void promptcmd_log_cmd(const char *msg)
 {
     bool *log_prompt_commands = (bool *) config_get(CONF_LOG_PROMPT_COMMANDS);
@@ -149,6 +46,11 @@ static bool promptcmd_check_args(const char *usage_str, unsigned short args_req,
     }
 
     return true;
+}
+
+void promptcmd_quit(char *args[], int arg_num)
+{
+    app_exit(0);
 }
 
 void promptcmd_cfg_get(char *args[], int arg_num)
