@@ -31,7 +31,6 @@ static unsigned short exit_val = 1;
 void app_exit(int retval)
 {
     robot_halt();
-    usd_sensor_halt();
 
     exit_val = retval;
 }
