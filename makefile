@@ -23,7 +23,8 @@ CFLAGS=-Wall -I$(INC_DIR) -std=c11
 LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread -lm
 
 # Project DEPS
-_DEPS = main.h \
+_DEPS = arg_parser.h \
+	main.h \
 	robot.h \
 	string_utils.h \
 	usd_sensor.h \
@@ -31,7 +32,8 @@ _DEPS = main.h \
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = main.o \
+_OBJ = arg_parser.c \
+	main.o \
 	robot.o \
 	string_utils.o \
 	usd_sensor.o \
