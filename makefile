@@ -32,7 +32,7 @@ _DEPS = arg_parser.h \
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = arg_parser.c \
+_OBJ = arg_parser.o \
 	main.o \
 	robot.o \
 	string_utils.o \
