@@ -21,10 +21,7 @@
 #include <pca9685.h>
 
 /* Application includes */
-#include "config_defaults.h"
 #include "main.h"
-#include "config.h"
-#include "log.h"
 #include "utils.h"
 
 /* Header */
@@ -70,8 +67,8 @@ void robot_halt()
     running = false;
 
     error = pthread_join(robot_thread, NULL);
-    if (error)
-        log_error("Could not rejoin from robot thread.", error);
+    //if (error)
+        //log_error("Could not rejoin from robot thread.", error);
 
     pca9685PWMReset(pca_9685_fd);
 }

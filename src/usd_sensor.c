@@ -22,10 +22,8 @@
 
 /* Application includes */
 #include "main.h"
-#include "config_defaults.h"
 #include "utils.h"
 #include "main.h"
-#include "log.h"
 
 /* Header */
 #include "usd_sensor.h"
@@ -54,8 +52,8 @@ void usd_sensor_halt()
 {
     running = false;
     error = pthread_join(usd_thread, NULL);
-    if (error)
-        log_error("Could not rejoin from USD sensor thread.", error);
+    //if (error)
+        //log_error("Could not rejoin from USD sensor thread.", error);
 }
 
 double usd_sensor_getdist()

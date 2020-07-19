@@ -23,18 +23,7 @@ CFLAGS=-Wall -I$(INC_DIR) -std=c11
 LIBS=-lwiringPi -lwiringPiPca9685 -lrt -lpthread -lm
 
 # Project DEPS
-_DEPS = config.h \
-	config_defaults.h \
-	config_file.h \
-	config_stdin.h \
-	configset_callbacks.h \
-	console.h \
-	list.h \
-	log.h \
-	main.h \
-	math_defs.h \
-	prompt.h \
-	prompt_commands.h \
+_DEPS = main.h \
 	robot.h \
 	string_utils.h \
 	usd_sensor.h \
@@ -42,16 +31,7 @@ _DEPS = config.h \
 DEPS = $(patsubst %,$(INC_DIR)/%,$(_DEPS))
 
 # Server Objects
-_OBJ = config.o \
-	config_file.o \
-	config_stdin.o \
-	configset_callbacks.o \
-	console.o \
-	list.o \
-	log.o \
-	main.o \
-	prompt.o \
-	prompt_commands.o \
+_OBJ = main.o \
 	robot.o \
 	string_utils.o \
 	usd_sensor.o \
