@@ -55,7 +55,6 @@ void robot_halt()
 {   
     robot_reset();
     robot_destroy();
-    running = false;
 
     pca9685PWMReset(pca_9685_fd);
 }
