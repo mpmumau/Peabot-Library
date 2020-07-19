@@ -42,16 +42,16 @@ static double       *servo;
 
 void robot_init()
 {
-    unsigned int *pca_9685_pin_base = (unsigned int *) config_get(CONF_PCA_9685_PIN_BASE);
-    unsigned int *pca_9685_hertz = (unsigned int *) config_get(CONF_PCA_9685_HERTZ);
-    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+    unsigned int pca_9685_pin_base = DEFAULT_PCA_9685_PIN_BASE;
+    unsigned int pca_9685_hertz = DEFAULT_PCA_9685_HERTZ;
+    unsigned short servos_num = DEFAULT_SERVOS_NUM;
 
-    pca_9685_fd = pca9685Setup(*pca_9685_pin_base, 0x40, *pca_9685_hertz);
+    pca_9685_fd = pca9685Setup(pca_9685_pin_base, 0x40, pca_9685_hertz);
     if (pca_9685_fd < 0)
         APP_ERROR("Could not get PCA-9685 file descriptor.", 1);
     pca9685PWMReset(pca_9685_fd);
 
-    servo = calloc(*servos_num, sizeof(double));
+    servo = calloc(servos_num, sizeof(double));
     if (!servo)
         APP_ERROR("Could not allocate memory.", 1);
 
@@ -78,9 +78,9 @@ void robot_reset()
     if (!servo)
         return;
 
-    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
-    for (unsigned short i = 0; i < *servos_num; i++)
-        servo[i] = 0.0; 
+    unsigned short servos_num = DEFAULT_SERVOS_NUM;
+    for (unsigned short i = 0; i < servos_num; i++)
+        servo[i] = 0.0;
 }
 
 void robot_setservo(unsigned short pin, double val)
@@ -103,8 +103,8 @@ static void *robot_main(void *arg)
     double tick = 0.0;
     double diff;
     
-    double *robot_tick = (double *) config_get(CONF_ROBOT_TICK);
-    unsigned short *servos_num = (unsigned short *) config_get(CONF_SERVOS_NUM);
+    double robot_tick = DEFAULT_ROBOT_TICK;
+    unsigned short servos_num = DEFAULT_SERVOS_NUM;
 
     clock_gettime(CLOCK_MONOTONIC, &last_time);
 
@@ -115,12 +115,12 @@ static void *robot_main(void *arg)
         last_time = time;
         
         tick += diff;
-        if (tick < *robot_tick)
+        if (tick < robot_tick)
             continue;
 
         tick = 0.0;
 
-        for (unsigned short i = 0; i < *servos_num; i++)
+        for (unsigned short i = 0; i < servos_num; i++)
             robot_mvjoint(i, servo[i]); 
     }
 
@@ -129,19 +129,21 @@ static void *robot_main(void *arg)
 
 static void robot_mvjoint(unsigned short joint, double val)
 {
-    val = robot_jointinv(joint) ? -val : val;
+    // TODO: Rewrite this.
 
-    unsigned short *pin_data = (unsigned short *) config_get(CONF_SERVO_PINS);
-    unsigned short pin = pin_data[joint];
+    // val = robot_jointinv(joint) ? -val : val;
 
-    ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
+    // unsigned short pin_data = (unsigned short *) config_get(CONF_SERVO_PINS);
+    // unsigned short pin = pin_data[joint];
 
-    unsigned short mapped_val = robot_mapsrv(val, &(servo_limits[joint]));
+    // ServoLimit *servo_limits = (ServoLimit *) config_get(CONF_SERVO_LIMITS);
 
-    unsigned int *pca_9685_pin_base = (unsigned int *) config_get(CONF_PCA_9685_PIN_BASE);
-    pin += *pca_9685_pin_base;
+    // unsigned short mapped_val = robot_mapsrv(val, &(servo_limits[joint]));
 
-    pwmWrite(pin, mapped_val);
+    // unsigned int *pca_9685_pin_base = (unsigned int *) config_get(CONF_PCA_9685_PIN_BASE);
+    // pin += *pca_9685_pin_base;
+
+    // pwmWrite(pin, mapped_val);
 }
 
 static bool robot_jointinv(unsigned short joint)
