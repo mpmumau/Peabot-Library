@@ -6,11 +6,6 @@
 #ifndef ROBOT_H_DEF
 #define ROBOT_H_DEF
 
-typedef struct ServoLimit {
-    unsigned short min;
-    unsigned short max;
-} ServoLimit;
-
 #define DEFAULT_PCA_9685_PIN_BASE 300
 #define DEFAULT_PCA_9685_MAX_PWM 4096
 #define DEFAULT_PCA_9685_HERTZ 50
@@ -37,6 +32,11 @@ typedef struct ServoLimit {
 #define SERVO_INDEX_BACK_RIGHT_HIP 5
 #define SERVO_INDEX_FRONT_RIGHT_KNEE 6
 #define SERVO_INDEX_FRONT_RIGHT_HIP 7
+
+typedef struct ServoLimit {
+    unsigned short min;
+    unsigned short max;
+} ServoLimit;
 
 /* Initialize the robot device and its resources, and begin its loop. */
 void robot_init();
