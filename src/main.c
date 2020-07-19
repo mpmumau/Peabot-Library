@@ -34,7 +34,6 @@ void app_exit(int retval)
     usd_sensor_halt();
 
     exit_val = retval;
-    running = false;
 }
 
 void app_error(const char *file, unsigned int lineno, const char *msg, unsigned short error_code)
