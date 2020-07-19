@@ -20,6 +20,7 @@
 #include <wiringPi.h>
 
 /* Application includes */
+#include "arg_parser.h"
 #include "robot.h"
 #include "usd_sensor.h"
 
@@ -49,6 +50,8 @@ int main(int argc, char *argv[])
 
     robot_init();
     usd_sensor_init();
+
+    argparser_parse(argc, argv);
 
     exit(exit_val);
     return exit_val;

@@ -3,6 +3,9 @@
  Description:   Implementation of argument parsing functions.
  */
 
+/* Standard library includes */
+#include <stdio.h>
+
 /* Header */
 #include "arg_parser.h"
 
