@@ -9,7 +9,6 @@
 //#define PEABOT_DBG
 
 /* System dependencies */
-#include <sys/prctl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,11 +26,7 @@
 /* Header */
 #include "main.h"
 
-static bool running = true;
 static unsigned short exit_val = 1;
-
-/* Forward decs */
-static void signal_handler(int signum);
 
 void app_exit(int retval)
 {
@@ -49,29 +44,13 @@ void app_error(const char *file, unsigned int lineno, const char *msg, unsigned 
     app_exit(error_code);
 }
 
-/*
- Handles all posix signals.
- */
-static void signal_handler(int signum)
-{
-    if (signum == SIGINT)
-    {
-        app_exit(0);
-    }
-}
-
 /* Application main */
 int main(int argc, char *argv[])
 {
-    prctl(PR_SET_NAME, "PEABOT_MAIN\0", NULL, NULL, NULL);
-    signal(SIGINT, signal_handler);
     wiringPiSetup();
 
-    usd_sensor_init();
     robot_init();
-
-    while (running)
-        sleep(1);
+    usd_sensor_init();
 
     exit(exit_val);
     return exit_val;

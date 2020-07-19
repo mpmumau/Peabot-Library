@@ -12,8 +12,6 @@
 
 void usd_sensor_init();
 
-void usd_sensor_halt();
-
 double usd_sensor_getdist();
 
 #endif

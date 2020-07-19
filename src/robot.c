@@ -9,12 +9,9 @@
 #define _POSIX_C_SOURCE 199309L
 
 /* System includes */
-#include <sys/prctl.h>
 #include <stdlib.h>
-#include <time.h>
 #include <math.h>
 #include <stdbool.h>
-#include <pthread.h>
 
 /* Raspberry Pi libraries */
 #include <wiringPi.h>
@@ -34,8 +31,6 @@ static bool robot_jointinv(unsigned short joint);
 static unsigned short robot_mapsrv(double val, ServoLimit *servo_limit);
 static void robot_destroy();
 
-static pthread_t    robot_thread;
-static bool         running = true;
 static int          error;
 static int          pca_9685_fd;
 static double       *servo;
@@ -54,10 +49,6 @@ void robot_init()
     servo = calloc(servos_num, sizeof(double));
     if (!servo)
         APP_ERROR("Could not allocate memory.", 1);
-
-    error = pthread_create(&robot_thread, NULL, robot_main, NULL);
-    if (error)
-        APP_ERROR("Could not initialize robot thread.", error);
 }
 
 void robot_halt()
@@ -65,10 +56,6 @@ void robot_halt()
     robot_reset();
     robot_destroy();
     running = false;
-
-    error = pthread_join(robot_thread, NULL);
-    //if (error)
-        //log_error("Could not rejoin from robot thread.", error);
 
     pca9685PWMReset(pca_9685_fd);
 }
@@ -95,34 +82,32 @@ double robot_getservo(unsigned short pin)
 
 static void *robot_main(void *arg)
 {
-    prctl(PR_SET_NAME, "PEABOT_ROBOT\0", NULL, NULL, NULL);
+    // struct timespec time;
+    // struct timespec last_time;
 
-    struct timespec time;
-    struct timespec last_time;
-
-    double tick = 0.0;
-    double diff;
+    // double tick = 0.0;
+    // double diff;
     
-    double robot_tick = DEFAULT_ROBOT_TICK;
-    unsigned short servos_num = DEFAULT_SERVOS_NUM;
+    // double robot_tick = DEFAULT_ROBOT_TICK;
+    // unsigned short servos_num = DEFAULT_SERVOS_NUM;
 
-    clock_gettime(CLOCK_MONOTONIC, &last_time);
+    // clock_gettime(CLOCK_MONOTONIC, &last_time);
 
-    while (running)
-    {
-        clock_gettime(CLOCK_MONOTONIC, &time);
-        diff = utils_timediff(time, last_time);
-        last_time = time;
+    // while (running)
+    // {
+    //     clock_gettime(CLOCK_MONOTONIC, &time);
+    //     diff = utils_timediff(time, last_time);
+    //     last_time = time;
         
-        tick += diff;
-        if (tick < robot_tick)
-            continue;
+    //     tick += diff;
+    //     if (tick < robot_tick)
+    //         continue;
 
-        tick = 0.0;
+    //     tick = 0.0;
 
-        for (unsigned short i = 0; i < servos_num; i++)
-            robot_mvjoint(i, servo[i]); 
-    }
+    //     for (unsigned short i = 0; i < servos_num; i++)
+    //         robot_mvjoint(i, servo[i]); 
+    // }
 
     return (void *) NULL;
 }
