@@ -20,6 +20,6 @@ void argparser_parse(int argc, char *argv[])
 
     int val = getopt_long(argc, argv, shorts, longs, index);
 
-    snprintf("Returned this: %d\n", val);
+    printf("Returned this: %d\n", val);
 
 }
