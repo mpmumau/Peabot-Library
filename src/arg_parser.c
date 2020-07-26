@@ -20,7 +20,7 @@ void argparser_parse(int argc, char *argv[])
         static struct option long_options[] = 
         {
             {"mumau", no_argument, &test_flag, 1}
-        }
+        };
 
         int option_index = 0;
 
