@@ -6,11 +6,8 @@
 /* Standard library includes */
 #include <stdio.h>
 #include <getopt.h>
-<<<<<<< HEAD
 
 static int test_flag;
-=======
->>>>>>> d83184e1fd30d79372603ab23c99377ea0eaa533
 
 /* Header */
 #include "arg_parser.h"
